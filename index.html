@@ -116,6 +116,32 @@
   .exporting .items{column-width:auto;column-count:1}
   .exporting .item.lead{column-span:none}
 
+  /* ---------- Weer (7-daagse) ---------- */
+  #weer:empty{display:none}
+  .wx{display:flex;gap:2mm}
+  .wx-day{
+    flex:1 1 0;min-width:0;text-align:center;
+    border:1px solid var(--hair);background:#fff;padding:3mm 1mm 2.5mm;
+  }
+  .wx-day.today{border:1.5px solid var(--spot)}
+  .wx-day .wd{
+    font-family:"Archivo",sans-serif;font-size:9.5px;font-weight:600;
+    text-transform:uppercase;letter-spacing:.05em;color:var(--muted);
+  }
+  .wx-day.today .wd{color:var(--spot)}
+  .wx-day .ic{font-size:21px;line-height:1.25;margin:3px 0}
+  .wx-day .tmax{font-family:"Fraunces",serif;font-weight:560;font-size:14px}
+  .wx-day .tmin{font-family:"Fraunces",serif;font-size:11.5px;color:var(--muted);margin-left:2px}
+  .wx-day .pp{font-family:"Archivo",sans-serif;font-size:8.5px;color:var(--spot);margin-top:1px}
+  .wx-cap{
+    font-family:"Archivo",sans-serif;font-size:8.5px;color:var(--muted);
+    text-align:right;margin-top:1.5mm;text-transform:uppercase;letter-spacing:.05em;
+  }
+  @media (max-width:520px){
+    .wx{flex-wrap:wrap}
+    .wx-day{flex:1 1 21%}
+  }
+
   .empty{font-family:"Newsreader",serif;font-style:italic;color:var(--muted);font-size:12.5px}
   .hint{
     text-align:center;color:var(--muted);font-style:italic;font-size:13px;
@@ -162,6 +188,7 @@
       <span id="date">—</span>
     </div>
   </header>
+  <div id="weer"></div>
   <div id="sections">
     <p class="hint">Klik op <strong>Genereer krant</strong> om het goede nieuws van vandaag op te halen.</p>
   </div>
@@ -198,9 +225,9 @@
       { kop:"Vrijwilliger Vincent Veltmaat krijgt Zilveren Draagspeld voor reddingsboei Bergharen",
         bron:"wijchen.nl", datum:"2026-06-25",
         samenvatting:"Tijdens de officiële opening van Buurtmarkt Blije Bikkels in Bergharen heeft burgemeester Renske Helmer-Englebert de Zilveren Draagspeld van de gemeente Wijchen uitgereikt aan Vincent Veltmaat. Hij ontving deze gemeentelijke onderscheiding als blijk van grote waardering voor zijn uitzonderlijke inzet voor de leefbaarheid van Bergharen. Na het sluiten van de supermarkt in 2020 en het verdwijnen van de laatste winkel in 2022 kwam de leefbaarheid van Bergharen onder druk te staan, maar het leegstaande pand bood kansen. Dankzij de inzet van vele vrijwilligers en betrokken inwoners is Buurtmarkt Blije Bikkels nu een nieuwe ontmoetingsplek voor Bergharen, Hernen en Leur. In het voormalige winkelpand werd uiteindelijk Buurtmarkt Blije Bikkels gerealiseerd, die inmiddels fungeert als winkel én ontmoetingsplek voor inwoners van de drie dorpen. Vincent Veltmaat speelde een centrale rol bij het tot stand komen van de buurtmarkt; als vrijwilliger en projectleider zette hij zich de afgelopen zes jaar vrijwel dagelijks in voor het project. De onderscheiding is een mooie bekroning voor jaren van doorzetten en samenwerken. Bergharen heeft met de buurtmarkt een bruisend hart teruggekregen, en de gemeente laat met deze eerbewijzing zien hoe ze lokale betrokkenheid en gemeenschapszin waardeert." },
-      { kop:"Drie vaste gezichten in de wijk: gemeente Wijchen pakt door met gebiedscoördinatoren",
-        bron:"wijchen.nieuws.nl", datum:"2026-06-24",
-        samenvatting:"Gemeente Wijchen heeft drie gebiedscoördinatoren aangesteld die het vaste aanspreekpunt zijn voor inwoners, leefbaarheidsgroepen en organisaties in de wijken en kernen. Zij luisteren naar wat er speelt, verbinden mensen en initiatieven en zorgen ervoor dat ideeën uit de wijk een plek krijgen binnen de gemeente. Met deze aanpak wil gemeente Wijchen de samenwerking met de samenleving versterken en werken aan prettige en toekomstbestendige wijken en kernen. Wouter Keijzer is het aanspreekpunt voor Noord Wijchen, Bergharen, Hernen en Leur; Marlies Taal richt zich op Wijchen-Centrum, Huurlingsedam, Alverna en de bedrijventerreinen; en Ariel Daniëls werkt voor Wijchen-Zuid, Balgoij, Batenburg en Niftrik. Wethouder Twan van Bronkhorst is blij met de komst van de coördinatoren en ziet hoe ze de afgelopen tijd enthousiast de wijken en kernen zijn ingegaan en zichtbaar aanwezig zijn. Samen met de samenleving stellen de gebiedscoördinatoren wijk- en kernaanpakken op, waarin per wijk of kern de belangrijkste doelen en acties voor een fijne leefomgeving staan. Inwoners met een idee of initiatief kunnen hun gebiedscoördinator rechtstreeks benaderen via de gemeentelijke website." },
+      { kop:"Wijchense Berg in Alverna krijgt een frisse toekomst als recreatiegebied voor iedereen",
+        bron:"weekblad-wegwijs.nl / gemeente Wijchen", datum:"2026-06-24",
+        samenvatting:"De Wijchense Berg in Alverna, ooit een gesloten stortplaats, staat aan de vooravond van een nieuwe toekomst als openbaar recreatiegebied. De gemeente Wijchen heeft gekozen voor een uitgebreide aanpak waarbij de voormalige stortplaats niet alleen veiliger wordt gemaakt, maar ook geschikt blijft voor wandelaars en mountainbikers. Het college koos daarbij voor het meest ambitieuze van drie onderzochte scenario's. Zodra de werkzaamheden zijn afgerond, kan iedereen er weer veilig terecht. Wandelaars kunnen dan boven op de berg genieten van het uitzicht over de omgeving, terwijl mountainbikers optimaal gebruik kunnen maken van de hoogteverschillen. De gemeente benadrukt dat veiligheid en gezondheid daarbij altijd vooropstaan: er wordt zorgvuldig gemeten en onderzocht voor er ook maar iets gebeurt. Een plek die jarenlang gesloten was, wordt zo omgetoverd tot een uitnodigende groene long die mensen samenbrengt. De aanpak past in de bredere ambitie van Wijchen om de openbare ruimte levendig, veilig en toegankelijk te houden voor alle inwoners." },
       { kop:"Veertig jaar muziek en feest: Vierdaagse Orkest speelt jubileumconcert op Wijchense Markt",
         bron:"wijchensnieuws.nl", datum:"2026-06-27",
         samenvatting:"Het Vierdaagse Orkest viert dit jaar zijn 40-jarig bestaan en blikt in muzikale zin op bijzondere wijze terug, met een uitgebreid concertprogramma dat de tijd ingaat met muziek die in de loop van de jaren op de lessenaar heeft gelegen. Het orkest viert dat met een feestelijke concerttour en doet op dinsdag 21 juli ook Wijchen aan voor een bijzonder jubileumconcert op de Markt. Tijdens de show neemt het orkest bezoekers mee langs veertig jaar muziekgeschiedenis, met een afwisselend programma met bekende nummers uit pop, rock en filmmuziek. Het Vierdaagse Orkest bestaat uit ruim 70 muzikale talenten uit de regio, waarvan de helft tussen de 15 en 35 jaar oud is. Wat in 1986 begon als een muzikaal initiatief rond de Nijmeegse Vierdaagse is uitgegroeid tot een begrip in de regio; veertig jaar later staat nog altijd hetzelfde doel centraal: mensen verbinden door muziek. In het jubileumjaar staat het orkest met 70 muzikanten en zangers op het podium. Het concert op de Wijchense Markt begint om 19.30 uur en is gratis toegankelijk — de perfecte zomeravond voor jong en oud." }
@@ -236,6 +263,71 @@
         samenvatting:"Het aantal bloeddonaties wereldwijd is in tien jaar tijd met bijna een vijfde gestegen, zo blijkt uit nieuwe cijfers van de Wereldgezondheidsorganisatie (WHO). Uit data verzameld in 132 landen blijkt dat de mondiale bloedafname tussen 2013 en 2023 met bijna 19 procent toenam. Meer dan 85 procent van de geschatte 120 miljoen donaties in 2023 was afkomstig van onbetaalde vrijwilligers. WHO-directeur-generaal Tedros Adhanom Ghebreyesus noemde de cijfers “bemoedigende vooruitgang”. De stijging is een rechtstreeks gevolg van groeiende bewustwording en succesvolle campagnes om burgers aan te sporen bloed te doneren. Steeds meer landen slagen erin een betrouwbaar netwerk van vrijwillige donoren op te bouwen. Bloed is een onmisbaar onderdeel van de gezondheidszorg, van operaties tot de behandeling van bloedarmoede en kanker. De groei laat zien dat solidariteit wereldwijd leeft en dat mensen bereid zijn anderen te helpen, zonder daar iets voor terug te verwachten." }
     ]
   };
+
+  /* ====== Weer — 7-daagse voorspelling (Open-Meteo, geen sleutel nodig) ====== */
+  const WEER = { lat:51.8126, lon:5.7292, plaats:"Wijchen" };
+  // WMO-weercodes → pictogram + Nederlandse omschrijving.
+  function wmo(code){
+    const m = {
+      0:["☀️","Onbewolkt"], 1:["🌤️","Overwegend zonnig"], 2:["⛅","Half bewolkt"], 3:["☁️","Bewolkt"],
+      45:["🌫️","Mist"], 48:["🌫️","Aanvriezende mist"],
+      51:["🌦️","Lichte motregen"], 53:["🌦️","Motregen"], 55:["🌦️","Dichte motregen"],
+      56:["🌧️","Lichte ijzel"], 57:["🌧️","IJzel"],
+      61:["🌧️","Lichte regen"], 63:["🌧️","Regen"], 65:["🌧️","Zware regen"],
+      66:["🌧️","Lichte ijzel"], 67:["🌧️","IJzel"],
+      71:["🌨️","Lichte sneeuw"], 73:["🌨️","Sneeuw"], 75:["🌨️","Zware sneeuw"], 77:["🌨️","Sneeuwkorrels"],
+      80:["🌦️","Lichte buien"], 81:["🌦️","Buien"], 82:["⛈️","Zware buien"],
+      85:["🌨️","Sneeuwbuien"], 86:["🌨️","Sneeuwbuien"],
+      95:["⛈️","Onweer"], 96:["⛈️","Onweer met hagel"], 99:["⛈️","Zwaar onweer"]
+    };
+    return m[code] || ["•",""];
+  }
+  async function laadWeer(){
+    const el = document.getElementById("weer");
+    if(!el) return;
+    try{
+      const u = "https://api.open-meteo.com/v1/forecast?latitude="+WEER.lat+"&longitude="+WEER.lon+
+        "&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_probability_max"+
+        "&timezone=Europe%2FAmsterdam&forecast_days=7";
+      const r = await fetch(u);
+      if(!r.ok) throw new Error("HTTP "+r.status);
+      tekenWeer((await r.json()).daily);
+    }catch(e){
+      console.error("weer", e);
+      el.className = ""; el.innerHTML = "";          // stil falen: geen weerbalk
+    }
+  }
+  function tekenWeer(day){
+    const el = document.getElementById("weer");
+    if(!el || !day) return;
+    {
+      let cards = "";
+      for(let i=0; i<day.time.length; i++){
+        const t  = new Date(day.time[i]);           // YYYY-MM-DD → UTC; weekdag in UTC
+        const wd = i===0 ? "Vandaag"
+                         : t.toLocaleDateString("nl-NL",{weekday:"short",timeZone:"UTC"});
+        const [ic,lbl] = wmo(day.weathercode[i]);
+        const mx = Math.round(day.temperature_2m_max[i]);
+        const mn = Math.round(day.temperature_2m_min[i]);
+        const pp = day.precipitation_probability_max[i];
+        cards += '<div class="wx-day'+(i===0?' today':'')+'" title="'+esc(lbl)+'">'+
+                   '<div class="wd">'+esc(wd)+'</div>'+
+                   '<div class="ic">'+ic+'</div>'+
+                   '<div><span class="tmax">'+mx+'°</span><span class="tmin">'+mn+'°</span></div>'+
+                   (pp!=null ? '<div class="pp">'+pp+'%</div>' : '')+
+                 '</div>';
+      }
+      el.className = "sec";
+      el.innerHTML =
+        '<div class="kicker">'+
+          '<span class="k-label">Weer</span>'+
+          '<span class="k-sub">'+esc(WEER.plaats)+' — vandaag en de komende 6 dagen</span>'+
+          '<span class="k-rule"></span>'+
+        '</div>'+
+        '<div class="wx">'+cards+'</div>'+
+        '<div class="wx-cap">Max./min. temperatuur · neerslagkans · bron Open-Meteo</div>';
+    }
+  }
 
   /* ====== UI helpers ====== */
   const $ = id => document.getElementById(id);
@@ -537,6 +629,7 @@ Zoek en geef ${s.count} positieve berichten van de afgelopen 7 dagen in het afge
   laatste = PRELOAD;
   render(PRELOAD, PRELOAD_DATE);
   setStatus("Editie "+longNL(PRELOAD_DATE), false);
+  laadWeer();                       // live 7-daagse weersverwachting ophalen
 </script>
 </body>
 </html>
