@@ -117,6 +117,17 @@
   .item.lead h2{font-size:clamp(19px,2.4vw,24px);line-height:1.12;font-weight:640;margin-bottom:3px}
   .item.lead p{font-size:13.5px;line-height:1.42;text-align:justify}
 
+  /* Drop cap op de voorpagina-kop (alleen het topverhaal). */
+  .item.lead.span > p::first-letter{
+    font-family:"Fraunces",serif;font-weight:700;
+    float:left;font-size:3.05em;line-height:.78;
+    padding:2px 6px 0 0;color:var(--ink);
+  }
+
+  /* Slotteken: kleine zonnebloem aan het eind van het topverhaal. */
+  .dingbat{margin:5px 0 0;text-align:center;line-height:0}
+  .dingbat svg{width:15px;height:15px;color:var(--ink);opacity:.85}
+
   /* Clean single column while exporting to PDF (html2canvas handles multicol poorly) */
   .exporting #paper{box-shadow:none}
   .exporting .items{column-width:auto;column-count:1}
@@ -243,6 +254,20 @@
   const TAGLINE = "Alleen goed nieuws";
   const PLACE   = "Wijchen";
   const COUNT = 3;   // berichten per sectie — hoger = meer pagina's
+
+  /* Compacte zonnebloem (zelfde tekening als de kop) voor o.a. het slotteken. */
+  const SUNFLOWER_SVG = (() => {
+    let petals = "";
+    for(let a = 0; a < 360; a += 30){
+      petals += '<ellipse cx="50" cy="17" rx="6.4" ry="15" transform="rotate('+a+' 50 50)"/>';
+    }
+    return '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">'+
+             '<g fill="currentColor">'+petals+'<circle cx="50" cy="50" r="17"/></g>'+
+             '<g fill="none" stroke="var(--paper)" stroke-width="2" stroke-linecap="round">'+
+               '<line x1="50" y1="41" x2="50" y2="59"/><line x1="41" y1="50" x2="59" y2="50"/>'+
+               '<line x1="44" y1="44" x2="56" y2="56"/><line x1="56" y1="44" x2="44" y2="56"/>'+
+             '</g></svg>';
+  })();
 
   const SECTIONS = [
     { key:"stad",   label:"Stad",   sub:"Wijchen",                        scope:"de gemeente Wijchen",                                    count:COUNT },
@@ -590,11 +615,13 @@ Zoek en geef ${s.count} positieve berichten van de afgelopen 7 dagen in het afge
         html += '<div class="items">';
         items.forEach((it,i) => {
           const meta = [esc(it.bron), fmtDate(it.datum)].filter(Boolean).join(" · ");
-          const cls = (i===0 ? " lead" : "") + (idx===0 && i===0 ? " span" : "");
+          const isTop = idx===0 && i===0;
+          const cls = (i===0 ? " lead" : "") + (isTop ? " span" : "");
           html += '<article class="item'+cls+'">'+
                     '<h2>'+esc(it.kop)+'</h2>'+
                     (meta ? '<div class="meta">'+meta+'</div>' : '')+
                     '<p>'+esc(it.samenvatting)+'</p>'+
+                    (isTop ? '<div class="dingbat">'+SUNFLOWER_SVG+'</div>' : '')+
                   '</article>';
         });
         html += '</div>';
