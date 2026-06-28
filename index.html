@@ -189,12 +189,55 @@
     wereld: "Good News Network, Positive News, Reasons to be Cheerful, BBC"
   };
 
+  /* ====== Vaste editie — Wijchen, zondag 28 juni 2026 ======
+     Deze inhoud staat vast in de pagina zodat de krant direct toont,
+     zonder API-sleutel. Klik op ‘Genereer krant’ om te verversen. */
+  const PRELOAD_DATE = "2026-06-28";
+  const PRELOAD = {
+    stad: [
+      { kop:"Bergharen heeft weer een eigen ontmoetingsplek: Vincent Veltmaat krijgt Zilveren Draagspeld",
+        bron:"wijchen.nieuws.nl", datum:"2026-06-25",
+        samenvatting:"Een bijzonder moment in Bergharen: tijdens de officiële opening van Buurtmarkt Blije Bikkels reikte burgemeester Renske Helmer-Englebert de Zilveren Draagspeld van de gemeente Wijchen uit aan Vincent Veltmaat. Hij ontving de gemeentelijke onderscheiding vanwege zijn uitzonderlijke inzet voor de leefbaarheid van het dorp. Na het sluiten van de supermarkt in 2020 en het verdwijnen van de laatste winkel in 2022 dreigde Bergharen zijn voorzieningenniveau kwijt te raken. Veltmaat zette zich de afgelopen zes jaar vrijwel dagelijks in als vrijwilliger en projectleider om dat tij te keren. Hij begeleidde onderzoek naar de levensvatbaarheid van een nieuwe buurtwinkel, trok subsidies binnen, regelde de bouw van een bakkerij en horecaruimte, en stelde teams samen — waaronder mensen met een afstand tot de arbeidsmarkt. Met zijn brede netwerk bracht hij vrijwilligers, ondernemers, zorgpartners en de gemeente samen. Buurtmarkt Blije Bikkels is nu een volwaardige winkel én ontmoetingsplek voor inwoners van Bergharen, Hernen en Leur. Een inspirerend verhaal over wat doorzettingsvermogen en gemeenschapszin kunnen bereiken." },
+      { kop:"Wijchen zet drie gebiedscoördinatoren in als vaste gezichten in de wijk",
+        bron:"regioonline.nl / gemeente Wijchen", datum:"2026-06-24",
+        samenvatting:"Wie een idee heeft voor zijn buurt of een vraag voor de gemeente, heeft in Wijchen voortaan een vast aanspreekpunt. De gemeente heeft drie gebiedscoördinatoren aangesteld die actief in de wijken en kernen aan de slag gaan. Zij luisteren naar wat er speelt, verbinden mensen en initiatieven, en zorgen ervoor dat ideeën uit de wijk een plek krijgen binnen de gemeentelijke organisatie. Met deze aanpak wil Wijchen de samenwerking met de samenleving versterken en werken aan prettige, toekomstbestendige buurten. Elke coördinator heeft een eigen werkgebied: Wouter Keijzer is aanspreekpunt voor Noord Wijchen, Bergharen, Hernen en Leur; Marlies Taal richt zich op Wijchen-Centrum, Huurlingsedam, Alverna en de bedrijventerreinen; en Ariel Daniëls is actief voor Wijchen-Zuid, Balgoij, Batenburg en Niftrik. Samen met inwoners stellen zij ook wijk- en kernaanpakken op, die aansluiten bij de toekomstvisie Wijchen 2035. Wethouder Twan van Bronkhorst reageerde enthousiast op de start van de nieuwe aanpak. Inwoners kunnen contact opnemen via wijchen.nl/gebiedscoordinatoren." },
+      { kop:"Wijchense Berg in Alverna krijgt een frisse toekomst als recreatiegebied voor iedereen",
+        bron:"weekblad-wegwijs.nl / gemeente Wijchen", datum:"2026-06-24",
+        samenvatting:"De Wijchense Berg in Alverna, ooit een gesloten stortplaats, staat aan de vooravond van een nieuwe toekomst als openbaar recreatiegebied. De gemeente Wijchen heeft gekozen voor een uitgebreide aanpak waarbij de voormalige stortplaats niet alleen veiliger wordt gemaakt, maar ook geschikt blijft voor wandelaars en mountainbikers. Het college koos daarbij voor het meest ambitieuze van drie onderzochte scenario's. Zodra de werkzaamheden zijn afgerond, kan iedereen er weer veilig terecht. Wandelaars kunnen dan boven op de berg genieten van het uitzicht over de omgeving, terwijl mountainbikers optimaal gebruik kunnen maken van de hoogteverschillen. De gemeente benadrukt dat veiligheid en gezondheid daarbij altijd vooropstaan: er wordt zorgvuldig gemeten en onderzocht voor er ook maar iets gebeurt. Een plek die jarenlang gesloten was, wordt zo omgetoverd tot een uitnodigende groene long die mensen samenbrengt. De aanpak past in de bredere ambitie van Wijchen om de openbare ruimte levendig, veilig en toegankelijk te houden voor alle inwoners." }
+    ],
+    regio: [
+      { kop:"Kunstroute Lent viert tweede editie met dertig kunstenaars en jongerenwerkplaats",
+        bron:"Nijmegen Nieuws / wegwijzer024.nl", datum:"2026-06-27",
+        samenvatting:"Dit weekend, op zaterdag 27 en zondag 28 juni, vindt in Lent de tweede editie van Kunstroute Lent plaats, een gratis tweedaags kunstevenement in de Nijmeegse wijk aan de andere kant van de Waal. Bijna 35 kunstenaars uit Lent en Nijmegen tonen hun werk op uiteenlopende plekken in de wijk, van schilderkunst en keramiek tot fotografie, beeldhouwkunst en mixed media. De route loopt langs eigen ateliers aan de Vrouwe Udasingel en langs vijf gemeenschappelijke expositielocaties, waaronder Café Waalzicht en de historische tuinderij De Warmoes. Nieuw dit jaar is een kunstzinnige Jongerenwerkplaats in de Ontmoetfabriek, speciaal gericht op jongere bezoekers en kunstliefhebbers van de toekomst. Conservator Emiel van der Pol van het Valkhof Museum verzorgde de officiële aftrap en prees het initiatief als belangrijk om kunst ook aan de andere kant van de Waal vrij toegankelijk te maken. De route is te doen per fiets of te voet, en is gratis toegankelijk voor iedereen. Van 12.00 tot 17.00 uur kunnen bezoekers op eigen tempo langs alle locaties wandelen of fietsen. De Kunstroute werd mede mogelijk gemaakt dankzij steun van de gemeente Nijmegen en Stichting De Schepper Delft." }
+    ],
+    land: [
+      { kop:"Oranje door als groepswinnaar: Nederland treft Marokko in knock-outfase WK",
+        bron:"NOS / Voetbalzone", datum:"2026-06-26",
+        samenvatting:"Het Nederlands elftal heeft zich zondag als ongeslagen groepswinnaar geplaatst voor de knock-outfase van het WK 2026 in Noord-Amerika. Met een overtuigende 3-1 zege op Tunesië in Kansas City eindigde Oranje bovenaan in groep F met zeven punten. Al na twee minuten stond Nederland op voorsprong via een eigen doelpunt van Skhiri, waarna Brian Brobbey snel de 0-2 binnenkopte. Tunesië maakte weliswaar de aansluitingstreffer, maar Oranje zorgde vlak daarna voor de definitieve 1-3. De ploeg van bondscoach Ronald Koeman bereidt zich nu vol vertrouwen voor op de zestiende finale. Die wordt in de nacht van maandag op dinsdag om 03.00 uur gespeeld in Monterrey, Mexico. Tegenstander Marokko eindigde als tweede in groep C met eveneens zeven punten. Bij winst op Marokko wacht Oranje een kraker tegen de winnaar van Zuid-Afrika of Canada in de achtste finales. Heel Nederland kijkt reikhalzend uit naar wat op papier een spraakmakende WK-avond belooft te worden." }
+    ],
+    wereld: [
+      { kop:"Groene economie overtreft zorg in beurswaarde en groeit sneller dan ooit",
+        bron:"Positive News", datum:"2026-06-26",
+        samenvatting:"De groene economie heeft een indrukwekkende mijlpaal bereikt: ze heeft de zorgsector overtroffen in totale marktwaarde, zo blijkt uit een nieuw rapport van beursdataspecialist LSEG. Als de groene sector officieel als eigenstandige categorie zou worden geclassificeerd, zou zij wereldwijd de derde grootste zijn, alleen overtroffen door technologie en industriële goederen en diensten. Ondanks tegenwind van sommige populistische regeringen bleven de groene inkomsten stijgen. Het rapport stelt dat de mondiale groene economie in 2026 wordt aangedreven door zowel energieveiligheid als klimaatdoelstellingen. De huidige energiecrisis versnelt die verschuiving juist, omdat ze de voordelen van groene technologieën op het gebied van schaalbaarheid en voorzieningszekerheid benadrukt. Tegelijkertijd registreerde Carbon Brief dat in het VK, in het jaar tot mei 2026, voor het eerst meer elektrische auto's werden verkocht dan benzineauto's: 516.490 elektrische voertuigen tegenover 504.010 benzineauto's. Bovendien besparen EV-rijders in het VK gemiddeld 1.100 pond per jaar op brandstofkosten. Een dubbele doorbraak die aantoont dat de energietransitie breed gedragen en economisch aantrekkelijk wordt." },
+      { kop:"Wereldwijde bloeddonaties stijgen met bijna een vijfde dankzij vrijwilligers",
+        bron:"Positive News", datum:"2026-06-26",
+        samenvatting:"Wereldwijd worden steeds meer levens gered door een groeiend leger van bloeddonoren. Uit nieuwe cijfers van de Wereldgezondheidsorganisatie (WHO), gebaseerd op gegevens uit 132 landen, blijkt dat het aantal bloeddonaties tussen 2013 en 2023 met bijna 19 procent is gestegen. In 2023 werden wereldwijd naar schatting 120 miljoen bloeddonaties ontvangen, waarvan meer dan 85 procent afkomstig was van onbetaalde vrijwilligers. WHO-directeur-generaal Tedros Adhanom Ghebreyesus noemde de cijfers “bemoedigende vooruitgang”. De toename laat zien dat burgers over de hele wereld bereid zijn om letterlijk iets van zichzelf te geven voor de gezondheid van anderen. Vrijwilligersdonaties vormen daarmee de ruggengraat van veilige bloedvoorziening in ziekenhuizen. De WHO benadrukt dat deze positieve trend verder versterkt moet worden, met name in lage-inkomenslanden waar de toegang tot veilig bloed nog ongelijk verdeeld is. Het goede nieuws inspireert overheden en gezondheidsorganisaties om donorcampagnes wereldwijd verder uit te breiden." }
+    ]
+  };
+
   /* ====== UI helpers ====== */
   const $ = id => document.getElementById(id);
   function nowNL(){
     return new Date().toLocaleDateString("nl-NL",
       {weekday:"long",day:"numeric",month:"long",year:"numeric"});
   }
+  function longNL(d){               // "zondag 28 juni 2026" voor een vaste datum
+    const t = new Date(d);
+    if(isNaN(t)) return nowNL();
+    return t.toLocaleDateString("nl-NL",
+      {weekday:"long",day:"numeric",month:"long",year:"numeric"});
+  }
+  let editieDatum = null;          // gezet bij een vaste editie, anders vandaag
   function setBusy(b){
     ["gen","pdf","prn","cpy"].forEach(id => { const el = $(id); if(el) el.disabled = b; });
   }
@@ -240,6 +283,7 @@
       setStatus("Geen API-sleutel — klik op ‘Sleutel’", false);
       return;
     }
+    editieDatum = null;                            // verse editie → datum van vandaag
     const today = new Date().toISOString().slice(0,10);
     const krant = {stad:[],regio:[],land:[],wereld:[]};
     let ok = false;
@@ -376,7 +420,7 @@ Zoek en geef ${s.count} positieve berichten van de afgelopen 7 dagen in het afge
     $("nameplate").textContent = TITLE;
     $("tagline").textContent   = TAGLINE;
     $("edition").textContent   = "Editie "+PLACE;
-    $("date").textContent      = nowNL();
+    $("date").textContent      = editieDatum ? longNL(editieDatum) : nowNL();
 
     let html = "";
     for(const sec of SECTIONS){
@@ -410,7 +454,7 @@ Zoek en geef ${s.count} positieve berichten van de afgelopen 7 dagen in het afge
   function krantAsText(){
     const out = [];
     out.push(TITLE.toUpperCase()+" — "+TAGLINE);
-    out.push("Editie "+PLACE+" · "+nowNL());
+    out.push("Editie "+PLACE+" · "+(editieDatum ? longNL(editieDatum) : nowNL()));
     out.push("");
     for(const sec of SECTIONS){
       const items = (laatste && laatste[sec.key]) || [];
@@ -473,10 +517,11 @@ Zoek en geef ${s.count} positieve berichten van de afgelopen 7 dagen in het afge
     }
   }
 
-  // Set the date in the masthead on load (even before first generate).
-  $("date").textContent = nowNL();
-  // Hint dat er eenmalig een API-sleutel nodig is buiten de Claude-omgeving.
-  if(!getSleutel()) setStatus("Klik op ‘Sleutel’ om je API-sleutel in te stellen", false);
+  // Toon meteen de vaste editie (Wijchen, zondag 28 juni 2026).
+  editieDatum = PRELOAD_DATE;
+  laatste = PRELOAD;
+  render(PRELOAD, PRELOAD_DATE);
+  setStatus("Editie "+longNL(PRELOAD_DATE), false);
 </script>
 </body>
 </html>
