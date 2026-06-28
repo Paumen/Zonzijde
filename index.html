@@ -63,7 +63,7 @@
   }
 
   /* ---------- Masthead ---------- */
-  #masthead{text-align:center;margin-bottom:5mm}
+  #masthead{text-align:center;margin-bottom:3mm}
   .mh-top{
     display:flex;justify-content:space-between;align-items:flex-end;
     font-family:"Archivo",sans-serif;font-size:10px;text-transform:uppercase;
@@ -85,7 +85,7 @@
 
   /* ---------- Sections ---------- */
   .sec{margin-top:6mm;padding-top:3mm;border-top:1px solid var(--hair)}
-  .sec:first-of-type{border-top:none;padding-top:0}
+  .sec:first-of-type{border-top:none;padding-top:0;margin-top:0}
   .kicker{display:flex;align-items:baseline;gap:8px;margin-bottom:3mm}
   .k-label{
     font-family:"Archivo",sans-serif;font-weight:700;font-size:13px;
@@ -95,7 +95,7 @@
   .k-rule{flex:1;height:1px;background:var(--ink);align-self:center}
 
   .items{column-width:56mm;column-gap:6mm}
-  .item{break-inside:avoid;margin:0 0 4.5mm;padding-bottom:4mm;border-bottom:1px solid var(--hair)}
+  .item{break-inside:avoid;margin:0 0 3.6mm;padding-bottom:3.2mm;border-bottom:1px solid var(--hair)}
   .item:last-child{border-bottom:none}
   .item h2{
     font-family:"Fraunces",serif;font-weight:560;font-size:14.5px;line-height:1.18;
@@ -107,7 +107,7 @@
   }
   .item p{font-size:12.5px;line-height:1.45;margin:0;color:#28281f;text-align:justify;hyphens:auto;-webkit-hyphens:auto}
 
-  .item.lead{column-span:all;border-bottom:1.5px solid var(--ink);margin-bottom:5mm;padding-bottom:4mm}
+  .item.lead{column-span:all;border-bottom:1.5px solid var(--ink);margin-bottom:3.5mm;padding-bottom:3mm}
   .item.lead h2{font-size:clamp(19px,2.4vw,24px);line-height:1.12;font-weight:640;margin-bottom:3px}
   .item.lead p{font-size:13.5px;line-height:1.42;text-align:justify}
 
@@ -118,6 +118,7 @@
 
   /* ---------- Weer (7-daagse) ---------- */
   #weer:empty{display:none}
+  #weer{break-before:page}   /* op print/PDF: begin op een nieuwe pagina */
   .wx{display:flex;gap:2mm}
   .wx-day{
     flex:1 1 0;min-width:0;text-align:center;
@@ -188,7 +189,6 @@
       <span id="date">—</span>
     </div>
   </header>
-  <div id="weer"></div>
   <div id="sections">
     <p class="hint">Klik op <strong>Genereer krant</strong> om het goede nieuws van vandaag op te halen.</p>
   </div>
@@ -299,13 +299,15 @@
   }
   function tekenWeer(day){
     const el = document.getElementById("weer");
-    if(!el || !day) return;
+    if(!el || !day || !Array.isArray(day.time) || !Array.isArray(day.weathercode)
+       || !Array.isArray(day.temperature_2m_max) || !Array.isArray(day.temperature_2m_min)
+       || !Array.isArray(day.precipitation_probability_max)) return;
     {
       let cards = "";
       for(let i=0; i<day.time.length; i++){
         const t  = new Date(day.time[i]);           // YYYY-MM-DD → UTC; weekdag in UTC
         const wd = i===0 ? "Vandaag"
-                         : t.toLocaleDateString("nl-NL",{weekday:"short",timeZone:"UTC"});
+                         : (isNaN(t) ? "—" : t.toLocaleDateString("nl-NL",{weekday:"short",timeZone:"UTC"}));
         const [ic,lbl] = wmo(day.weathercode[i]);
         const mx = Math.round(day.temperature_2m_max[i]);
         const mn = Math.round(day.temperature_2m_min[i]);
@@ -530,7 +532,7 @@ Zoek en geef ${s.count} positieve berichten van de afgelopen 7 dagen in het afge
     $("date").textContent      = editieDatum ? longNL(editieDatum) : nowNL();
 
     let html = "";
-    for(const sec of SECTIONS){
+    SECTIONS.forEach((sec, idx) => {
       const items = Array.isArray(krant[sec.key]) ? krant[sec.key] : [];
       html += '<section class="sec">';
       const kick = sec.sub ? sec.label + ", " + sec.sub : sec.label;
@@ -553,8 +555,11 @@ Zoek en geef ${s.count} positieve berichten van de afgelopen 7 dagen in het afge
         html += '</div>';
       }
       html += '</section>';
-    }
+      // Weerbalk op pagina 2: na de eerste rubriek, vóór de rest.
+      if(idx === 0) html += '<div id="weer"></div>';
+    });
     $("sections").innerHTML = html;
+    laadWeer();                        // (her)laad de 7-daagse verwachting
   }
 
   /* ====== Kopieer naar klembord (werkt ook op mobiel) ====== */
@@ -627,9 +632,8 @@ Zoek en geef ${s.count} positieve berichten van de afgelopen 7 dagen in het afge
   // Toon meteen de vaste editie (Wijchen, zondag 28 juni 2026).
   editieDatum = PRELOAD_DATE;
   laatste = PRELOAD;
-  render(PRELOAD, PRELOAD_DATE);
+  render(PRELOAD, PRELOAD_DATE);     // rendert de krant én haalt het weer op
   setStatus("Editie "+longNL(PRELOAD_DATE), false);
-  laadWeer();                       // live 7-daagse weersverwachting ophalen
 </script>
 </body>
 </html>
