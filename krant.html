@@ -5,16 +5,16 @@
 <title>De Zonzijde — Editie Wijchen, 28 juni 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,560;9..144,640&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&amp;family=Archivo:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,560;9..144,640;9..144,700&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&amp;family=Archivo:wght@500;600;700&amp;display=swap" rel="stylesheet">
 
 <style>
   :root{
-    --paper:#FAF9F6;
-    --desk:#ECEAE3;
-    --ink:#1B1B17;
-    --muted:#6B6A61;
-    --hair:#D6D4CB;
-    --spot:#356B4B;
+    --paper:#FCFCFB;   /* zwart-wit: neutraal krantenpapier */
+    --desk:#E6E6E4;
+    --ink:#121212;     /* bijna zwart */
+    --muted:#6A6A6A;   /* grijs */
+    --hair:#C9C9C7;    /* grijze lijntjes */
+    --spot:#121212;    /* accent = zwart (geen kleur meer) */
   }
   *{box-sizing:border-box}
   html,body{margin:0}
@@ -62,7 +62,7 @@
   }
 
   /* ---------- Masthead ---------- */
-  #masthead{text-align:center;margin-bottom:3mm}
+  #masthead{text-align:center;margin-bottom:3mm;border-top:4px solid var(--ink);padding-top:5px}
   .mh-top{
     display:flex;justify-content:space-between;align-items:flex-end;
     font-family:"Archivo",sans-serif;font-size:10px;text-transform:uppercase;
@@ -70,9 +70,9 @@
     border-bottom:1px solid var(--ink);padding-bottom:3px;
   }
   #nameplate{
-    font-family:"Fraunces",serif;font-weight:640;font-optical-sizing:auto;
-    font-size:clamp(34px,7vw,52px);line-height:.95;margin:6px 0 4px;
-    letter-spacing:.005em;
+    font-family:"Fraunces",serif;font-weight:700;font-optical-sizing:auto;
+    font-size:clamp(34px,7.4vw,56px);line-height:.95;margin:6px 0 4px;
+    letter-spacing:-.005em;
   }
   .mh-sub{
     font-family:"Archivo",sans-serif;font-size:11px;letter-spacing:.1em;
@@ -85,13 +85,14 @@
   /* ---------- Sections ---------- */
   .sec{margin-top:6mm;padding-top:3mm;border-top:1px solid var(--hair)}
   .sec:first-of-type{border-top:none;padding-top:0;margin-top:0}
-  .kicker{display:flex;align-items:baseline;gap:8px;margin-bottom:3mm}
+  .kicker{display:flex;align-items:center;gap:8px;margin-bottom:3mm}
   .k-label{
-    font-family:"Archivo",sans-serif;font-weight:700;font-size:13px;
-    text-transform:uppercase;letter-spacing:.13em;color:var(--spot);
+    font-family:"Archivo",sans-serif;font-weight:700;font-size:11.5px;
+    text-transform:uppercase;letter-spacing:.08em;
+    background:var(--ink);color:var(--paper);padding:3px 8px 2px;
   }
   .k-sub{font-family:"Newsreader",serif;font-style:italic;font-size:12px;color:var(--muted)}
-  .k-rule{flex:1;height:1px;background:var(--ink);align-self:center}
+  .k-rule{flex:1;height:2px;background:var(--ink);align-self:center}
 
   .items{column-width:56mm;column-gap:6mm}
   .item{break-inside:avoid;margin:0 0 3.6mm;padding-bottom:3.2mm;border-bottom:1px solid var(--hair)}
@@ -123,16 +124,16 @@
     flex:1 1 0;min-width:0;text-align:center;
     border:1px solid var(--hair);background:#fff;padding:3mm 1mm 2.5mm;
   }
-  .wx-day.today{border:1.5px solid var(--spot)}
+  .wx-day.today{border:2px solid var(--ink)}
   .wx-day .wd{
     font-family:"Archivo",sans-serif;font-size:9.5px;font-weight:600;
     text-transform:uppercase;letter-spacing:.05em;color:var(--muted);
   }
   .wx-day.today .wd{color:var(--spot)}
-  .wx-day .ic{font-size:21px;line-height:1.25;margin:3px 0}
+  .wx-day .ic{font-size:21px;line-height:1.25;margin:3px 0;filter:grayscale(1)}
   .wx-day .tmax{font-family:"Fraunces",serif;font-weight:560;font-size:14px}
   .wx-day .tmin{font-family:"Fraunces",serif;font-size:11.5px;color:var(--muted);margin-left:2px}
-  .wx-day .pp{font-family:"Archivo",sans-serif;font-size:8.5px;color:var(--spot);margin-top:1px}
+  .wx-day .pp{font-family:"Archivo",sans-serif;font-size:8.5px;color:var(--muted);margin-top:1px}
   .wx-cap{
     font-family:"Archivo",sans-serif;font-size:8.5px;color:var(--muted);
     text-align:right;margin-top:1.5mm;text-transform:uppercase;letter-spacing:.05em;
