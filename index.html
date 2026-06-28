@@ -107,7 +107,8 @@
   }
   .item p{font-size:12.5px;line-height:1.45;margin:0;color:#28281f;text-align:justify;hyphens:auto;-webkit-hyphens:auto}
 
-  .item.lead{column-span:all;border-bottom:1.5px solid var(--ink);margin-bottom:3.5mm;padding-bottom:3mm}
+  .item.lead{border-bottom:1.5px solid var(--ink);margin-bottom:3.5mm;padding-bottom:3mm}
+  .item.lead.span{column-span:all}   /* alleen de voorpagina-kop over beide kolommen */
   .item.lead h2{font-size:clamp(19px,2.4vw,24px);line-height:1.12;font-weight:640;margin-bottom:3px}
   .item.lead p{font-size:13.5px;line-height:1.42;text-align:justify}
 
@@ -159,12 +160,13 @@
        Twee vaste kolommen pagineren betrouwbaarder dan kolommen op breedte
        (die op smalle/mobiele schermen naar één kolom inklappen). */
     .items{column-width:auto;column-count:2;column-gap:7mm}
-    .item.lead{column-span:all}
-    .item{break-inside:avoid}
+    /* Artikelen mogen doorlopen over kolom-/paginagrens zodat de pagina's
+       vol raken (zoals een echte krant) — geen grote witruimte onderaan. */
+    .item{break-inside:auto}
+    .item h2, .item .meta{break-after:avoid}   /* kop blijft bij de tekst */
     .item:last-child{border-bottom:none}
-    .kicker{break-after:avoid}      /* kop niet los onderaan een pagina */
+    .kicker{break-after:avoid}      /* rubriekkop niet los onderaan */
     .wx{break-inside:avoid}         /* weerbalk in z'n geheel bijeen */
-    #weer{break-before:page}        /* weer boven aan een nieuwe pagina */
   }
 
   @media (max-width:520px){
@@ -555,7 +557,8 @@ Zoek en geef ${s.count} positieve berichten van de afgelopen 7 dagen in het afge
         html += '<div class="items">';
         items.forEach((it,i) => {
           const meta = [esc(it.bron), fmtDate(it.datum)].filter(Boolean).join(" · ");
-          html += '<article class="item'+(i===0?' lead':'')+'">'+
+          const cls = (i===0 ? " lead" : "") + (idx===0 && i===0 ? " span" : "");
+          html += '<article class="item'+cls+'">'+
                     '<h2>'+esc(it.kop)+'</h2>'+
                     (meta ? '<div class="meta">'+meta+'</div>' : '')+
                     '<p>'+esc(it.samenvatting)+'</p>'+
