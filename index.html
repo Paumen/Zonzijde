@@ -155,20 +155,16 @@
     .toolbar{display:none}
     #paper{width:auto;max-width:none;margin:0;padding:0;box-shadow:none}
 
-    /* Eén kolom bij browser-print: kolommen pagineren onbetrouwbaar
-       (sommige browsers zetten dan één artikel per pagina). */
-    .items{column-width:auto;column-count:1}
-    .item.lead{column-span:none}
+    /* Krantenkolommen behouden — dat geeft het 'echt papier'-gevoel.
+       Twee vaste kolommen pagineren betrouwbaarder dan kolommen op breedte
+       (die op smalle/mobiele schermen naar één kolom inklappen). */
+    .items{column-width:auto;column-count:2;column-gap:7mm}
+    .item.lead{column-span:all}
     .item{break-inside:avoid}
     .item:last-child{border-bottom:none}
     .kicker{break-after:avoid}      /* kop niet los onderaan een pagina */
     .wx{break-inside:avoid}         /* weerbalk in z'n geheel bijeen */
-
-    /* Onze eigen PDF-export (Chromium) zet .pdfexport en krijgt wél de
-       krantenkolommen terug, met het weer boven aan pagina 2. */
-    body.pdfexport .items{column-width:56mm;column-count:auto}
-    body.pdfexport .item.lead{column-span:all}
-    body.pdfexport #weer{break-before:page}
+    #weer{break-before:page}        /* weer boven aan een nieuwe pagina */
   }
 
   @media (max-width:520px){
