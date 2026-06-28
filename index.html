@@ -288,7 +288,7 @@
     try{
       const u = "https://api.open-meteo.com/v1/forecast?latitude="+WEER.lat+"&longitude="+WEER.lon+
         "&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_probability_max"+
-        "&timezone=Europe%2FAmsterdam&forecast_days=7";
+        "&timezone=Europe%2FAmsterdam&forecast_days=6";
       const r = await fetch(u);
       if(!r.ok) throw new Error("HTTP "+r.status);
       tekenWeer((await r.json()).daily);
@@ -323,7 +323,7 @@
       el.innerHTML =
         '<div class="kicker">'+
           '<span class="k-label">Weer</span>'+
-          '<span class="k-sub">'+esc(WEER.plaats)+' — vandaag en de komende 6 dagen</span>'+
+          '<span class="k-sub">'+esc(WEER.plaats)+' — vandaag en de komende 5 dagen</span>'+
           '<span class="k-rule"></span>'+
         '</div>'+
         '<div class="wx">'+cards+'</div>'+
