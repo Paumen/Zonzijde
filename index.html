@@ -246,8 +246,10 @@
   function longNL(d){               // "zondag 28 juni 2026" voor een vaste datum
     const t = new Date(d);
     if(isNaN(t)) return nowNL();
+    // YYYY-MM-DD wordt als UTC-middernacht geparsed; forceer UTC zodat de
+    // dag niet verschuift in negatieve tijdzones (bv. Amerika).
     return t.toLocaleDateString("nl-NL",
-      {weekday:"long",day:"numeric",month:"long",year:"numeric"});
+      {weekday:"long",day:"numeric",month:"long",year:"numeric",timeZone:"UTC"});
   }
   let editieDatum = null;          // gezet bij een vaste editie, anders vandaag
   function setBusy(b){
@@ -425,7 +427,8 @@ Zoek en geef ${s.count} positieve berichten van de afgelopen 7 dagen in het afge
     if(!d) return "";
     const t = new Date(d);
     if(isNaN(t)) return "";
-    return t.toLocaleDateString("nl-NL",{day:"numeric",month:"short"});
+    // UTC forceren zodat de dag niet verschuift in negatieve tijdzones.
+    return t.toLocaleDateString("nl-NL",{day:"numeric",month:"short",timeZone:"UTC"});
   }
 
   function render(krant, today){
