@@ -144,6 +144,7 @@
   <button id="pdf" onclick="exportPDF()">PDF</button>
   <button id="prn" onclick="window.print()">Print</button>
   <button id="cpy" onclick="kopieer()">Kopieer</button>
+  <button id="key" onclick="stelSleutelIn()">Sleutel</button>
   <span class="grow"></span>
   <span class="status" id="status">Klaar om te verzamelen</span>
 </div>
@@ -208,27 +209,64 @@
     setTimeout(() => { if(s.textContent === msg) s.textContent = prev; }, 1800);
   }
 
+  /* ====== API-sleutel (alleen in deze browser opgeslagen) ======
+     Deze pagina draait statisch (GitHub Pages) en heeft geen server.
+     De Anthropic-sleutel wordt daarom lokaal in de browser bewaard
+     (localStorage) en nooit in de repository opgeslagen. */
+  const SLEUTEL_KEY = "zonzijde_anthropic_key";
+  function getSleutel(){ return localStorage.getItem(SLEUTEL_KEY) || ""; }
+  function vraagSleutel(){
+    const huidig = getSleutel();
+    const inv = prompt(
+      "Plak je Anthropic API-sleutel (begint met sk-ant-…).\n" +
+      "Wordt alleen in deze browser bewaard, niet online.",
+      huidig);
+    if(inv === null) return getSleutel();          // geannuleerd → laat staan
+    const k = inv.trim();
+    if(k) localStorage.setItem(SLEUTEL_KEY, k);
+    else  localStorage.removeItem(SLEUTEL_KEY);     // leeg → wissen
+    return k;
+  }
+  function stelSleutelIn(){
+    const k = vraagSleutel();
+    flash(k ? "Sleutel opgeslagen" : "Sleutel gewist");
+  }
+
   /* ====== Generate — one call per section, sequential + retry ====== */
   async function genereer(){
+    let sleutel = getSleutel();
+    if(!sleutel) sleutel = vraagSleutel();
+    if(!sleutel){
+      setStatus("Geen API-sleutel — klik op ‘Sleutel’", false);
+      return;
+    }
     const today = new Date().toISOString().slice(0,10);
     const krant = {stad:[],regio:[],land:[],wereld:[]};
     let ok = false;
+    let authFout = false;                          // 401/403 → sleutel klopt niet
 
     // Parallel liep tegen rate limits aan (lege secties); daarom één voor één.
     for(let i=0; i<SECTIONS.length; i++){
       const s = SECTIONS[i];
       setStatus("Verzamelen… "+s.label+" ("+(i+1)+"/"+SECTIONS.length+")", true);
       let items = [];
-      try { items = await fetchSection(s, today); }
-      catch(e){ console.error(s.key, e); }
-      if(!items.length){                          // één herkansing bij leeg of fout
-        try { items = await fetchSection(s, today); }
-        catch(e){ console.error(s.key+" (herkansing)", e); }
+      try { items = await fetchSection(s, today, sleutel); }
+      catch(e){ console.error(s.key, e); if(e && e.auth) authFout = true; }
+      if(!items.length && !authFout){             // één herkansing bij leeg of fout
+        try { items = await fetchSection(s, today, sleutel); }
+        catch(e){ console.error(s.key+" (herkansing)", e); if(e && e.auth) authFout = true; }
       }
       krant[s.key] = items;
       if(items.length) ok = true;
+      if(authFout) break;                          // geen zin om door te gaan
     }
 
+    if(authFout){
+      $("sections").innerHTML =
+        '<p class="hint">De API-sleutel werd geweigerd. Klik op <strong>Sleutel</strong> en plak een geldige Anthropic-sleutel (sk-ant-…).</p>';
+      setStatus("Sleutel ongeldig — klik op ‘Sleutel’", false);
+      return;
+    }
     if(!ok){
       $("sections").innerHTML =
         '<p class="hint">Verzamelen lukte niet. Controleer de verbinding en klik opnieuw op <strong>Genereer krant</strong>.</p>';
@@ -240,7 +278,7 @@
     setStatus("Klaar — "+nowNL(), false);
   }
 
-  async function fetchSection(s, today){
+  async function fetchSection(s, today, sleutel){
     const system =
 `Je bent eindredacteur van een Nederlandstalige krant met UITSLUITEND positief, opbeurend en constructief nieuws. Géén rampen, misdaad, ongelukken, oorlog of negatieve politiek. Zoek met de zoekfunctie naar nieuws van de afgelopen 7 dagen over de opgegeven regio en kies de meest concrete, positieve berichten. Gebruik UITSLUITEND berichten met een publicatiedatum binnen 7 dagen vóór de datum van vandaag; laat alles wat ouder is weg. Schrijf in vlot, helder Nederlands.
 
@@ -264,7 +302,13 @@ Zoek en geef ${s.count} positieve berichten van de afgelopen 7 dagen in het afge
 
     const res = await fetch("https://api.anthropic.com/v1/messages",{
       method:"POST",
-      headers:{"Content-Type":"application/json"},
+      headers:{
+        "Content-Type":"application/json",
+        "x-api-key": sleutel,
+        "anthropic-version":"2023-06-01",
+        // Vereist om de Anthropic-API rechtstreeks vanuit de browser te mogen aanroepen.
+        "anthropic-dangerous-direct-browser-access":"true"
+      },
       body:JSON.stringify({
         model:"claude-sonnet-4-6",
         max_tokens:3000,
@@ -273,7 +317,11 @@ Zoek en geef ${s.count} positieve berichten van de afgelopen 7 dagen in het afge
         tools:[{type:"web_search_20250305",name:"web_search"}]
       })
     });
-    if(!res.ok) throw new Error("HTTP "+res.status);
+    if(!res.ok){
+      const err = new Error("HTTP "+res.status);
+      if(res.status === 401 || res.status === 403) err.auth = true;
+      throw err;
+    }
     const data = await res.json();
     const text = (data.content||[])
       .filter(b => b.type === "text")
@@ -427,6 +475,8 @@ Zoek en geef ${s.count} positieve berichten van de afgelopen 7 dagen in het afge
 
   // Set the date in the masthead on load (even before first generate).
   $("date").textContent = nowNL();
+  // Hint dat er eenmalig een API-sleutel nodig is buiten de Claude-omgeving.
+  if(!getSleutel()) setStatus("Klik op ‘Sleutel’ om je API-sleutel in te stellen", false);
 </script>
 </body>
 </html>
