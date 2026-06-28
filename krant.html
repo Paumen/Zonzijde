@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="nl"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>De Zonzijde — Editie Wijchen, 28 juni 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,560;9..144,640&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&amp;family=Archivo:wght@500;600;700&amp;display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --paper:#FAF9F6;
+    --desk:#ECEAE3;
+    --ink:#1B1B17;
+    --muted:#6B6A61;
+    --hair:#D6D4CB;
+    --spot:#356B4B;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    background:var(--desk);
+    color:var(--ink);
+    font-family:"Newsreader",Georgia,serif;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---------- Toolbar (screen only) ---------- */
+  .toolbar{
+    position:sticky;top:0;z-index:10;
+    display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+    padding:7px 12px;
+    background:rgba(250,249,246,.92);
+    backdrop-filter:saturate(1.2) blur(4px);
+    border-bottom:1px solid var(--hair);
+    font-family:"Archivo",system-ui,sans-serif;font-size:12px;
+  }
+  .toolbar .brand{font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--spot)}
+  .toolbar .grow{flex:1}
+  .toolbar .status{color:var(--muted)}
+  button{
+    font-family:"Archivo",system-ui,sans-serif;font-size:12px;font-weight:600;
+    letter-spacing:.02em;
+    padding:5px 11px;border:1px solid var(--ink);border-radius:0;
+    background:var(--paper);color:var(--ink);cursor:pointer;
+  }
+  button:hover{background:var(--ink);color:var(--paper)}
+  button:disabled{opacity:.5;cursor:default}
+  button:focus-visible{outline:2px solid var(--spot);outline-offset:2px}
+  .spin{
+    width:11px;height:11px;border:2px solid var(--hair);border-top-color:var(--spot);
+    border-radius:50%;display:inline-block;vertical-align:-1px;animation:sp .7s linear infinite}
+  @keyframes sp{to{transform:rotate(360deg)}}
+  @media (prefers-reduced-motion:reduce){.spin{animation:none}}
+
+  /* ---------- Paper ---------- */
+  #paper{
+    width:210mm;max-width:100%;margin:14px auto 40px;
+    background:var(--paper);
+    padding:11mm 12mm 14mm;
+    box-shadow:0 1px 0 rgba(0,0,0,.04),0 12px 28px rgba(0,0,0,.10);
+  }
+
+  /* ---------- Masthead ---------- */
+  #masthead{text-align:center;margin-bottom:5mm}
+  .mh-top{
+    display:flex;justify-content:space-between;align-items:flex-end;
+    font-family:"Archivo",sans-serif;font-size:10px;text-transform:uppercase;
+    letter-spacing:.14em;color:var(--muted);
+    border-bottom:1px solid var(--ink);padding-bottom:3px;
+  }
+  #nameplate{
+    font-family:"Fraunces",serif;font-weight:640;font-optical-sizing:auto;
+    font-size:clamp(34px,7vw,52px);line-height:.95;margin:6px 0 4px;
+    letter-spacing:.005em;
+  }
+  .mh-sub{
+    font-family:"Archivo",sans-serif;font-size:11px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--ink);
+    border-top:2px solid var(--spot);border-bottom:1px solid var(--ink);
+    padding:4px 0;display:flex;justify-content:center;gap:10px;flex-wrap:wrap;
+  }
+  .mh-sub .dot{color:var(--spot)}
+
+  /* ---------- Sections ---------- */
+  .sec{margin-top:6mm;padding-top:3mm;border-top:1px solid var(--hair)}
+  .sec:first-of-type{border-top:none;padding-top:0}
+  .kicker{display:flex;align-items:baseline;gap:8px;margin-bottom:3mm}
+  .k-label{
+    font-family:"Archivo",sans-serif;font-weight:700;font-size:13px;
+    text-transform:uppercase;letter-spacing:.13em;color:var(--spot);
+  }
+  .k-sub{font-family:"Newsreader",serif;font-style:italic;font-size:12px;color:var(--muted)}
+  .k-rule{flex:1;height:1px;background:var(--ink);align-self:center}
+
+  .items{column-width:56mm;column-gap:6mm}
+  .item{break-inside:avoid;margin:0 0 4.5mm;padding-bottom:4mm;border-bottom:1px solid var(--hair)}
+  .item:last-child{border-bottom:none}
+  .item h2{
+    font-family:"Fraunces",serif;font-weight:560;font-size:14.5px;line-height:1.18;
+    margin:0 0 2px;
+  }
+  .item .meta{
+    font-family:"Archivo",sans-serif;font-size:9.5px;text-transform:uppercase;
+    letter-spacing:.07em;color:var(--muted);margin-bottom:3px;
+  }
+  .item p{font-size:12.5px;line-height:1.45;margin:0;color:#28281f;text-align:justify;hyphens:auto;-webkit-hyphens:auto}
+
+  .item.lead{column-span:all;border-bottom:1.5px solid var(--ink);margin-bottom:5mm;padding-bottom:4mm}
+  .item.lead h2{font-size:clamp(19px,2.4vw,24px);line-height:1.12;font-weight:640;margin-bottom:3px}
+  .item.lead p{font-size:13.5px;line-height:1.42;text-align:justify}
+
+  /* Clean single column while exporting to PDF (html2canvas handles multicol poorly) */
+  .exporting #paper{box-shadow:none}
+  .exporting .items{column-width:auto;column-count:1}
+  .exporting .item.lead{column-span:none}
+
+  .empty{font-family:"Newsreader",serif;font-style:italic;color:var(--muted);font-size:12.5px}
+  .hint{
+    text-align:center;color:var(--muted);font-style:italic;font-size:13px;
+    padding:12mm 4mm;
+  }
+
+  /* ---------- Print ---------- */
+  @page{size:A4;margin:13mm}
+  @media print{
+    body{background:#fff}
+    .toolbar{display:none}
+    #paper{width:auto;max-width:none;margin:0;padding:0;box-shadow:none}
+    .item{break-inside:avoid}
+  }
+
+  @media (max-width:520px){
+    #paper{padding:14px;margin:8px auto 30px}
+  }
+</style>
+</head>
+<body>
+
+
+
+<main id="paper">
+  <header id="masthead">
+    <div class="mh-top">
+      <span id="edition">Editie Wijchen</span>
+      <span>Nr. 1</span>
+    </div>
+    <h1 id="nameplate">De Zonzijde</h1>
+    <div class="mh-sub">
+      <span id="tagline">Alleen goed nieuws</span>
+      <span class="dot">◆</span>
+      <span id="date">zondag 28 juni 2026</span>
+    </div>
+  </header>
+  <div id="sections"><section class="sec"><div class="kicker"><span class="k-label">Stad, Wijchen</span><span class="k-rule"></span></div><div class="items"><article class="item lead"><h2>Vrijwilliger Vincent Veltmaat krijgt Zilveren Draagspeld voor reddingsboei Bergharen</h2><div class="meta">wijchen.nl · 25 jun</div><p>Tijdens de officiële opening van Buurtmarkt Blije Bikkels in Bergharen heeft burgemeester Renske Helmer-Englebert de Zilveren Draagspeld van de gemeente Wijchen uitgereikt aan Vincent Veltmaat. Hij ontving deze gemeentelijke onderscheiding als blijk van grote waardering voor zijn uitzonderlijke inzet voor de leefbaarheid van Bergharen. Na het sluiten van de supermarkt in 2020 en het verdwijnen van de laatste winkel in 2022 kwam de leefbaarheid van Bergharen onder druk te staan, maar het leegstaande pand bood kansen. Dankzij de inzet van vele vrijwilligers en betrokken inwoners is Buurtmarkt Blije Bikkels nu een nieuwe ontmoetingsplek voor Bergharen, Hernen en Leur. In het voormalige winkelpand werd uiteindelijk Buurtmarkt Blije Bikkels gerealiseerd, die inmiddels fungeert als winkel én ontmoetingsplek voor inwoners van de drie dorpen. Vincent Veltmaat speelde een centrale rol bij het tot stand komen van de buurtmarkt; als vrijwilliger en projectleider zette hij zich de afgelopen zes jaar vrijwel dagelijks in voor het project. De onderscheiding is een mooie bekroning voor jaren van doorzetten en samenwerken. Bergharen heeft met de buurtmarkt een bruisend hart teruggekregen, en de gemeente laat met deze eerbewijzing zien hoe ze lokale betrokkenheid en gemeenschapszin waardeert.</p></article><article class="item"><h2>Drie vaste gezichten in de wijk: gemeente Wijchen pakt door met gebiedscoördinatoren</h2><div class="meta">wijchen.nieuws.nl · 24 jun</div><p>Gemeente Wijchen heeft drie gebiedscoördinatoren aangesteld die het vaste aanspreekpunt zijn voor inwoners, leefbaarheidsgroepen en organisaties in de wijken en kernen. Zij luisteren naar wat er speelt, verbinden mensen en initiatieven en zorgen ervoor dat ideeën uit de wijk een plek krijgen binnen de gemeente. Met deze aanpak wil gemeente Wijchen de samenwerking met de samenleving versterken en werken aan prettige en toekomstbestendige wijken en kernen. Wouter Keijzer is het aanspreekpunt voor Noord Wijchen, Bergharen, Hernen en Leur; Marlies Taal richt zich op Wijchen-Centrum, Huurlingsedam, Alverna en de bedrijventerreinen; en Ariel Daniëls werkt voor Wijchen-Zuid, Balgoij, Batenburg en Niftrik. Wethouder Twan van Bronkhorst is blij met de komst van de coördinatoren en ziet hoe ze de afgelopen tijd enthousiast de wijken en kernen zijn ingegaan en zichtbaar aanwezig zijn. Samen met de samenleving stellen de gebiedscoördinatoren wijk- en kernaanpakken op, waarin per wijk of kern de belangrijkste doelen en acties voor een fijne leefomgeving staan. Inwoners met een idee of initiatief kunnen hun gebiedscoördinator rechtstreeks benaderen via de gemeentelijke website.</p></article><article class="item"><h2>Veertig jaar muziek en feest: Vierdaagse Orkest speelt jubileumconcert op Wijchense Markt</h2><div class="meta">wijchensnieuws.nl · 27 jun</div><p>Het Vierdaagse Orkest viert dit jaar zijn 40-jarig bestaan en blikt in muzikale zin op bijzondere wijze terug, met een uitgebreid concertprogramma dat de tijd ingaat met muziek die in de loop van de jaren op de lessenaar heeft gelegen. Het orkest viert dat met een feestelijke concerttour en doet op dinsdag 21 juli ook Wijchen aan voor een bijzonder jubileumconcert op de Markt. Tijdens de show neemt het orkest bezoekers mee langs veertig jaar muziekgeschiedenis, met een afwisselend programma met bekende nummers uit pop, rock en filmmuziek. Het Vierdaagse Orkest bestaat uit ruim 70 muzikale talenten uit de regio, waarvan de helft tussen de 15 en 35 jaar oud is. Wat in 1986 begon als een muzikaal initiatief rond de Nijmeegse Vierdaagse is uitgegroeid tot een begrip in de regio; veertig jaar later staat nog altijd hetzelfde doel centraal: mensen verbinden door muziek. In het jubileumjaar staat het orkest met 70 muzikanten en zangers op het podium. Het concert op de Wijchense Markt begint om 19.30 uur en is gratis toegankelijk — de perfecte zomeravond voor jong en oud.</p></article></div></section><section class="sec"><div class="kicker"><span class="k-label">Regio, Gelderland</span><span class="k-rule"></span></div><div class="items"><article class="item lead"><h2>Regio Arnhem-Nijmegen stapt vandaag over op nieuw busnetwerk RRReis</h2><div class="meta">Arnhemse Koerier / rrreis.nl · 28 jun</div><p>Vandaag, 28 juni 2026, start een nieuw tijdperk voor het openbaar vervoer in de regio Arnhem-Nijmegen en het Rijk van Nijmegen. De vertrouwde merknaam Breng verdwijnt en maakt plaats voor RRReis, het overkoepelende merk voor regionaal busvervoer in Gelderland, Overijssel en Flevoland. Met de nieuwe dienstregeling rijden op diverse lijnen meer bussen, en sluit het openbaar vervoer beter aan op treinen in de vroege ochtend én na middernacht op stations als Nijmegen en Arnhem Centraal. Reizigers in gemeenten als Beuningen, Wijchen en Heumen profiteren direct van verbeterde verbindingen. Ook bedrijventerreinen worden beter bereikbaar: zo rijdt er voortaan elke dag een bus naar Park 15 bij Oosterhout, waar nu nog geen bushalte bestaat. CNG-bussen en dieselbussen worden stap voor stap vervangen door schone, elektrische voertuigen. Bovendien keert vanaf 4 juli het nachtnet terug: uitgaanspubliek en late treinreizigers kunnen dan ook 's nachts met de bus naar huis vanuit Nijmegen. Reizigers kunnen vertrektijden vinden op de website van RRReis en in gangbare reisplanners.</p></article><article class="item"><h2>Nimma Sportzomer opent vandaag op de Grote Markt: gratis sport voor iedereen</h2><div class="meta">Sport in Nijmegen · 28 jun</div><p>Wie vandaag vroeg opstaat in Nijmegen, kan terecht op de Grote Markt voor de aftrap van de Nimma Sportzomer 2026. Van 8.00 tot 14.00 uur staat het historische stadshart in het teken van bewegen, plezier en verbinding. De Nimma Sportzomer is een zomerlang evenementenprogramma waarbij Nijmegenaren op verschillende plekken in de stad gratis kunnen meedoen aan allerlei sportieve activiteiten. Het aanbod is breed: van sport en spel tot activiteiten op en rond het water, met de bal of op de fiets. Nieuw dit jaar is de samenwerking met Bindkracht10, een organisatie die op elk sportevenement aanwezig is met activiteiten voor alle leeftijden, van kinderen tot senioren. Zo brengt de Nimma Sportzomer mensen uit verschillende wijken samen en maakt het buiten bewegen laagdrempeliger dan ooit. De evenementen zijn verspreid over vijf locaties in de stad, elk met een eigen karakter maar altijd met dezelfde ingrediënten: bewegen, plezier en gezelligheid. Aanmelden is niet nodig en deelname is volledig gratis.</p></article><article class="item"><h2>Nijmegen bruist: Vierdaagse en Zomerfeesten naderen met rasse schreden</h2><div class="meta">4daagse.nl / Visit Nijmegen · 24 jun</div><p>De teller tikt: nog geen vier weken en de 108e editie van de Nijmeegse Vierdaagse barst los. Van 21 tot en met 24 juli 2026 trekken meer dan 45.000 wandelaars uit ruim 70 landen door de prachtige omgeving van het Rijk van Nijmegen, langs bossen, rivieren en schilderachtige dorpen. De organisatie heeft bekendgemaakt dat de startopzet voor deze editie verder is verbeterd, zodat deelnemers nog soepeler van start kunnen gaan. Rondom de wandeldagen vinden de Vierdaagsefeesten plaats van zaterdag 18 tot en met vrijdag 24 juli, het grootste vrij toegankelijke evenement van Nederland. Met meer dan veertig podia en ruim duizend optredens verandert de binnenstad zeven dagen lang in één groot feestterrein dat jaarlijks zo'n anderhalf miljoen bezoekers trekt. De feesten zijn volledig gratis toegankelijk en draaien op bijna volledig lokaal opgewekte groene energie. Programmamakers kondigden publieksfavorieten aan voor de podia. De hele stad leeft mee: ook horeca, musea en wijken in het Rijk van Nijmegen haken in op de feestweek.</p></article></div></section><section class="sec"><div class="kicker"><span class="k-label">Land, Nederland</span><span class="k-rule"></span></div><div class="items"><article class="item lead"><h2>Oranje kroont zich tot groepswinnaar op WK 2026 met knappe zege op Tunesië</h2><div class="meta">NOS · 26 jun</div><p>Het Nederlands elftal heeft zich verzekerd van groepswinst op het WK voetbal 2026. In de nacht van woensdag op donderdag versloeg Oranje Tunesië met 3-1 in Kansas City, waarmee de ploeg van bondscoach Ronald Koeman zeven punten verzamelde in groep F. Topschutter Brian Brobbey was opnieuw trefzeker en scoorde zijn derde doelpunt van het toernooi. Vier minuten later kopte Van Dijk de bal voor de voeten van Brobbey, die van dichtbij raak schoot. Jan Paul van Hecke maakte zijn eerste interlanddoelpunt door een hoekschop in te koppen en zorgde daarmee voor de definitieve 3-1 eindstand. Na afloop blikt Oranje ontspannen vooruit op de knock-outfase: de benen werden losgetrapt op de spinningfiets en er was tijd om bij te kletsen met familie. De volgende horde is Marokko, op maandag 29 juni in Guadalupe, Mexico. In de voetbalwereld wordt het duel al beschreven als een wedstrijd om je vingers bij af te likken. Brobbey zelf is vol vertrouwen: “Het was een goede week voor mij persoonlijk en voor het team.”</p></article><article class="item"><h2>Zomers treinticket voor €49 sloeg direct aan: massale belangstelling voor Nederland Dal Vrij</h2><div class="meta">Rijksoverheid / NS · 22 jun</div><p>Het tijdelijke zomerabonnement ‘Nederland Dal Vrij Trein’ is een groot succes gebleken. Sinds de lancering op 15 juni kunnen reizigers voor slechts €49 per maand onbeperkt reizen in de daluren en weekenden, bij alle binnenlandse treinvervoerders. Normaal kost het vergelijkbare NS Flex Dal Vrij-abonnement €127,95 per maand, dus de korting is aanzienlijk. De belangstelling was op de eerste dag zo groot dat de website van NS overbelast raakte en tijdelijk niet bereikbaar was. Het kabinet stelt in totaal €118 miljoen beschikbaar voor deze maatregel, die bedoeld is als compensatie voor de hoge brandstofprijzen en mensen moet verleiden vaker de trein te pakken. Staatssecretaris Annet Bertram noemde het abonnement “een prachtige kans om kennis te maken met de trein en dan de auto een keer te laten staan.” Kinderen tot en met 11 jaar reizen gratis mee via het Kids Vrij-abonnement. Het abonnement is geldig tot en met 31 augustus en maandelijks opzegbaar. Wie het voor 1 juli afsluit, profiteert twee volle maanden van het lage tarief.</p></article><article class="item"><h2>AOW gaat per 1 juli omhoog: gepensioneerden ontvangen tot €25 meer per maand</h2><div class="meta">SVB / Rijksoverheid · 22 jun</div><p>Miljoenen gepensioneerden in Nederland mogen zich verheugen op een hogere AOW-uitkering. Per 1 juli 2026 stijgt de AOW met 1,5 procent, zo heeft de Sociale Verzekeringsbank bekendgemaakt. Alleenstaande AOW-gerechtigden gaan er €24,59 bruto per maand op vooruit en ontvangen voortaan €1.662,16 bruto per maand. Netto komt dat, met loonheffingskorting, neer op €1.581,55 per maand. Gehuwden en samenwonenden ontvangen per persoon €17,27 bruto extra, wat neerkomt op €1.139,39 bruto per maand. De verhoging hangt samen met de stijging van het wettelijk minimumloon, dat per 1 juli stijgt van €14,71 naar €14,99 bruto per uur. De AOW is wettelijk aan dit minimumloon gekoppeld, zodat gepensioneerden niet achterblijven bij de loonontwikkeling. Op jaarbasis betekent de verhoging voor alleenstaanden ruim €295 extra netto. De verhoogde bedragen worden voor het eerst uitbetaald op 23 juli 2026. Goed nieuws ook: de Zvw-bijdrage daalde dit jaar al van 5,26 naar 4,85 procent, waardoor gepensioneerden netto extra voordeel ondervinden.</p></article></div></section><section class="sec"><div class="kicker"><span class="k-label">Wereld</span><span class="k-rule"></span></div><div class="items"><article class="item lead"><h2>Groene economie overtreft gezondheidszorg in beurswaarde voor het eerst ooit</h2><div class="meta">Positive News · 26 jun</div><p>De wereldwijde groene economie heeft een historische mijlpaal bereikt: de sector heeft de gezondheidszorg overtroffen in totale beurswaarde. Dat blijkt uit een nieuw rapport van de London Stock Exchange Group (LSEG). Als de groene economie officieel als eigen sector zou worden geclassificeerd, zou ze wereldwijd de derde grootste zijn, na technologie en industriële goederen en diensten. Ondanks tegenwind van populistische politici blijven de groene inkomsten stijgen. Volgens het rapport wordt de groene economie in 2026 net zozeer gedreven door energiezekerheid als door verduurzaming. De huidige energiecrisis versnelt de verschuiving naar groene technologieën nog verder. Tegelijkertijd laten verkoopcijfers zien dat in het Verenigd Koninkrijk voor het eerst meer elektrische auto's worden verkocht dan benzineauto's: 516.490 nieuwe EV's tegenover 504.010 nieuwe benzineauto's in het jaar tot mei 2026. EV-rijders besparen bovendien gemiddeld 1.100 pond per jaar op brandstofkosten. De wereld kiest steeds duidelijker voor schone energie en een duurzame toekomst.</p></article><article class="item"><h2>Wereldwijde bloeddonaties stijgen met bijna twintig procent dankzij vrijwilligers</h2><div class="meta">Positive News · 26 jun</div><p>Het aantal bloeddonaties wereldwijd is in tien jaar tijd met bijna een vijfde gestegen, zo blijkt uit nieuwe cijfers van de Wereldgezondheidsorganisatie (WHO). Uit data verzameld in 132 landen blijkt dat de mondiale bloedafname tussen 2013 en 2023 met bijna 19 procent toenam. Meer dan 85 procent van de geschatte 120 miljoen donaties in 2023 was afkomstig van onbetaalde vrijwilligers. WHO-directeur-generaal Tedros Adhanom Ghebreyesus noemde de cijfers “bemoedigende vooruitgang”. De stijging is een rechtstreeks gevolg van groeiende bewustwording en succesvolle campagnes om burgers aan te sporen bloed te doneren. Steeds meer landen slagen erin een betrouwbaar netwerk van vrijwillige donoren op te bouwen. Bloed is een onmisbaar onderdeel van de gezondheidszorg, van operaties tot de behandeling van bloedarmoede en kanker. De groei laat zien dat solidariteit wereldwijd leeft en dat mensen bereid zijn anderen te helpen, zonder daar iets voor terug te verwachten.</p></article></div></section></div>
+</main>
+
+
+
+
+</body></html>
