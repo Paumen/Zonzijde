@@ -85,7 +85,7 @@
   .wud-hero .lbl{font-family:"Archivo",sans-serif;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
   .wud-hero p{font-family:"Fraunces",serif;font-weight:560;font-size:19px;line-height:1.25;margin:4px auto 0;max-width:80%}
 
-  /* ============ 2. NUMBER VAN DE WEEK ============ */
+  /* ============ 2. NUMMER VAN DE WEEK ============ */
   /* A: big number left */
   .num-a{display:flex;align-items:center;gap:14px}
   .num-a .big{font-family:"Fraunces",serif;font-weight:700;font-size:58px;line-height:.9;letter-spacing:-.02em}
@@ -185,7 +185,7 @@
   .bar:last-child{margin-bottom:0}
   .bar .bl{font-family:"Archivo",sans-serif;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;flex:0 0 22mm}
   .bar .track{flex:1;height:7px;background:#ededeb;position:relative}
-  .bar .track i{position:absolute;left:0;top:0;bottom:0;background:var(--ink)}
+  .bar .track span{position:absolute;left:0;top:0;bottom:0;background:var(--ink)}
   .bar .bv{font-family:"Fraunces",serif;font-size:11px;flex:0 0 auto;width:18mm;text-align:right}
   /* C: inline strip */
   .idx-strip{display:flex;justify-content:space-between;gap:10px;border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);padding:6px 0;font-size:11.5px}
@@ -254,7 +254,7 @@
 
 
 <!-- ================= 2. NUMBER VAN DE WEEK ================= -->
-<div class="mock-h">2 · Number van de week</div>
+<div class="mock-h">2 · Nummer van de week</div>
 <p class="mock-note">Eén cijfer dat een verhaal vertelt — typografisch sterk in Fraunces.</p>
 
 <div class="variant">
@@ -309,7 +309,7 @@
 <div class="variant">
   <span class="tag">Variant B — één tip-kaart met icoon</span>
   <div class="tt-card">
-    <div class="ic">🌱</div>
+    <div class="ic" aria-hidden="true">🌱</div>
     <div>
       <h2>Deze week: zaai je sla in de schaduw</h2>
       <p>Bij zomerse hitte schiet sla snel door. Zaai daarom een nieuwe rij op een koel, half­beschaduwd plekje en houd de grond licht vochtig — over zes weken oogst je knapperige kropjes.</p>
@@ -443,11 +443,11 @@
   <div class="sec" style="border:none;margin:0;padding:0">
     <div class="kicker"><span class="k-label">Buitenwijzer</span><span class="k-sub">Wijchen — vandaag</span><span class="k-rule"></span></div>
     <div class="idx">
-      <div class="cell"><div class="ic">☀️</div><div class="v">7</div><div class="l">UV-index · hoog</div></div>
-      <div class="cell"><div class="ic">🌾</div><div class="v">Matig</div><div class="l">graspollen</div></div>
-      <div class="cell"><div class="ic">😷</div><div class="v">Goed</div><div class="l">luchtkwaliteit</div></div>
-      <div class="cell"><div class="ic">🌅</div><div class="v">05:21</div><div class="l">zon op</div></div>
-      <div class="cell"><div class="ic">🌇</div><div class="v">22:04</div><div class="l">zon onder</div></div>
+      <div class="cell"><div class="ic" aria-hidden="true">☀️</div><div class="v">7</div><div class="l">UV-index · hoog</div></div>
+      <div class="cell"><div class="ic" aria-hidden="true">🌾</div><div class="v">Matig</div><div class="l">graspollen</div></div>
+      <div class="cell"><div class="ic" aria-hidden="true">😷</div><div class="v">Goed</div><div class="l">luchtkwaliteit</div></div>
+      <div class="cell"><div class="ic" aria-hidden="true">🌅</div><div class="v">05:21</div><div class="l">zon op</div></div>
+      <div class="cell"><div class="ic" aria-hidden="true">🌇</div><div class="v">22:04</div><div class="l">zon onder</div></div>
     </div>
   </div>
 </div>
@@ -455,9 +455,9 @@
 <div class="variant">
   <span class="tag">Variant B — gelabelde balken</span>
   <div>
-    <div class="bar"><span class="bl">UV-index</span><span class="track"><i style="width:70%"></i></span><span class="bv">7 · hoog</span></div>
-    <div class="bar"><span class="bl">Graspollen</span><span class="track"><i style="width:55%"></i></span><span class="bv">matig</span></div>
-    <div class="bar"><span class="bl">Luchtkwal.</span><span class="track"><i style="width:25%"></i></span><span class="bv">goed</span></div>
+    <div class="bar"><span class="bl">UV-index</span><span class="track"><span style="width:70%"></span></span><span class="bv">7 · hoog</span></div>
+    <div class="bar"><span class="bl">Graspollen</span><span class="track"><span style="width:55%"></span></span><span class="bv">matig</span></div>
+    <div class="bar"><span class="bl">Luchtkwal.</span><span class="track"><span style="width:25%"></span></span><span class="bv">goed</span></div>
   </div>
 </div>
 
