@@ -145,6 +145,10 @@
     transition:transform .15s ease,box-shadow .15s ease;
   }
   .wx-day:hover{transform:translateY(-2px);box-shadow:0 4px 10px rgba(0,0,0,.08)}
+  @media (prefers-reduced-motion:reduce){
+    .wx-day{transition:none}
+    .wx-day:hover{transform:none}
+  }
   .wx-day.today{border:2px solid var(--ink)}
   .wx-day .wd{
     font-family:"Archivo",sans-serif;font-size:9.5px;font-weight:600;
