@@ -10,8 +10,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
   :root{
-    --paper:#FCFBF6;   /* zwart-wit, maar zacht ivoor i.p.v. grijswit */
-    --desk:#EAE8E1;    /* warme bureau-tint */
+    --paper:#FCFCFB;   /* zwart-wit: neutraal krantenpapier */
+    --desk:#E6E6E4;
     --ink:#121212;     /* bijna zwart */
     --muted:#6A6A6A;   /* grijs */
     --hair:#C9C9C7;    /* grijze lijntjes */
@@ -45,7 +45,6 @@
     letter-spacing:.02em;
     padding:5px 11px;border:1px solid var(--ink);border-radius:var(--radius);
     background:var(--paper);color:var(--ink);cursor:pointer;
-    transition:background .15s ease,color .15s ease;
   }
   button:hover{background:var(--ink);color:var(--paper)}
   button:disabled{opacity:.5;cursor:default}
@@ -80,10 +79,7 @@
   }
   #nameplate .sunflower{
     width:.92em;height:.92em;flex:0 0 auto;color:var(--ink);
-    transition:transform .6s ease;
   }
-  #nameplate:hover .sunflower{transform:rotate(24deg)}
-  @media (prefers-reduced-motion:reduce){#nameplate:hover .sunflower{transform:none}}
   .mh-sub{
     font-family:"Archivo",sans-serif;font-size:11px;letter-spacing:.1em;
     text-transform:uppercase;color:var(--ink);
@@ -142,12 +138,6 @@
     flex:1 1 0;min-width:0;text-align:center;
     border:1px solid var(--hair);background:#fff;padding:3mm 1mm 2.5mm;
     border-radius:var(--radius);
-    transition:transform .15s ease,box-shadow .15s ease;
-  }
-  .wx-day:hover{transform:translateY(-2px);box-shadow:0 4px 10px rgba(0,0,0,.08)}
-  @media (prefers-reduced-motion:reduce){
-    .wx-day{transition:none}
-    .wx-day:hover{transform:none}
   }
   .wx-day.today{border:2px solid var(--ink)}
   .wx-day .wd{
