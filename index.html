@@ -162,8 +162,8 @@
   }
 
   /* ---------- Bloem (decoratieve scheiding, halverwege de krant) ---------- */
-  .bloem-figuur{margin:6mm 0 5mm;text-align:center}
-  .bloem-figuur .spot{display:inline-block;width:30mm;height:auto}
+  .bloem-figuur{margin:6mm 0 5mm;text-align:center;break-inside:avoid}
+  .bloem-figuur .spot{display:inline-block;width:30mm;height:37.5mm}   /* expliciete hoogte (viewBox 120×150 = 4:5) — html2canvas/PDF-proof */
   /* float:left + margin:1px 5mm 2mm 0  -> if you want text to wrap around it */
 
   /* ---------- Print ---------- */
@@ -713,8 +713,8 @@ Zoek en geef ${s.count} positieve berichten van de afgelopen 7 dagen in het afge
     if(!svg||svg.dataset.done)return; svg.dataset.done="1";
     const g=mk("g",{transform:"translate(60,52)"});
     petal(g,16,14,34,7,0); petal(g,16,12,26,5,11.25);                       // twee ringen blaadjes
-    for(let y=-12;y<=12;y+=2.4){const ox=(Math.round((y+12)/2.4)%2)?1.2:0;   // gestippeld hart
-      for(let x=-12;x<=12;x+=2.4){const xx=x+ox; if(xx*xx+y*y<=11.4*11.4) g.appendChild(mk("circle",{cx:xx.toFixed(1),cy:y.toFixed(1),r:0.85,fill:INK}));}}
+    for(let iy=-5;iy<=5;iy++){const y=iy*2.4;const ox=((iy+5)%2)?1.2:0;   // gestippeld hart (integer-lus: geen FP-afronding)
+      for(let ix=-5;ix<=5;ix++){const x=ix*2.4;const xx=x+ox; if(xx*xx+y*y<=11.4*11.4) g.appendChild(mk("circle",{cx:xx.toFixed(1),cy:y.toFixed(1),r:0.85,fill:INK}));}}
     g.appendChild(mk("circle",{r:13.5,fill:"none",stroke:INK,"stroke-width":1.4}));
     svg.appendChild(g);
     svg.appendChild(mk("path",{d:"M60,66 C66,92 54,108 60,140",fill:"none",stroke:INK,"stroke-width":2.4,"stroke-linecap":"round"})); // stengel
