@@ -141,9 +141,10 @@
   }
   function addRing(g,r){
     const off=r.off||0;
+    const d=petalPath(r.rin,r.rout,r.w);   // identiek voor elk blad in deze krans
     for(let i=0;i<r.n;i++){
       const ang=360/r.n*i+off;
-      g.appendChild(mk("path",{d:petalPath(r.rin,r.rout,r.w),transform:"rotate("+ang+")",
+      g.appendChild(mk("path",{d,transform:"rotate("+ang+")",
         fill:r.fill||"#fff",stroke:INK,"stroke-width":r.sw||1.3,"stroke-linejoin":"round"}));
       if(r.veins!==false)
         g.appendChild(mk("line",{x1:0,y1:-(r.rin+2),x2:0,y2:-(r.rout-4),transform:"rotate("+ang+")",
@@ -162,7 +163,7 @@
       g.appendChild(mk("circle",{r:c.r,fill:"none",stroke:INK,"stroke-width":c.ring||1.4}));
     }else if(c.type==="disc"){
       g.appendChild(mk("circle",{r:c.r,fill:INK}));
-      g.appendChild(mk("circle",{r:c.r-3.5,fill:"none",stroke:PAPER,"stroke-width":1.1,"stroke-dasharray":c.dash||"0"}));
+      g.appendChild(mk("circle",{r:c.r-3.5,fill:"none",stroke:PAPER,"stroke-width":1.1,"stroke-dasharray":c.dash||"none"}));
     }else if(c.type==="dot"){
       g.appendChild(mk("circle",{r:c.r,fill:INK}));
     }
