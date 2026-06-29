@@ -159,9 +159,11 @@
     padding:12mm 4mm;
   }
 
-  /* ---------- Bloem (decoratieve scheiding, halverwege de krant) ---------- */
-  .bloem-figuur{margin:6mm 0 5mm;text-align:center;break-inside:avoid}
-  .bloem-figuur .spot{display:inline-block;width:30mm;height:37.5mm}   /* expliciete hoogte (viewBox 120×150 = 4:5) — html2canvas/PDF-proof */
+  /* ---------- Bloem (decoratieve illustratie, halverwege de krant) ----------
+     Zweeft links in de kolom zodat de tekst eromheen loopt — zo blijft er
+     geen grote witruimte naast de bloem staan. */
+  .spot{float:left;width:18mm;height:22.5mm;   /* viewBox 120×150 = 4:5 — expliciete hoogte = html2canvas/PDF-proof */
+        margin:0.5mm 4mm 2mm 0;break-inside:avoid}
 
   @page{size:A4;margin:13mm}
   @media print{
@@ -248,10 +250,10 @@
         <article class="item"><h2>Nijmegen bruist: Vierdaagse en Zomerfeesten naderen met rasse schreden</h2><div class="meta">4daagse.nl / Visit Nijmegen · 24 jun</div><p>De teller tikt: nog geen vier weken en de 108e editie van de Nijmeegse Vierdaagse barst los. Van 21 tot en met 24 juli 2026 trekken meer dan 45.000 wandelaars uit ruim 70 landen door de prachtige omgeving van het Rijk van Nijmegen, langs bossen, rivieren en schilderachtige dorpen. De organisatie heeft bekendgemaakt dat de startopzet voor deze editie verder is verbeterd, zodat deelnemers nog soepeler van start kunnen gaan. Rondom de wandeldagen vinden de Vierdaagsefeesten plaats van zaterdag 18 tot en met vrijdag 24 juli, het grootste vrij toegankelijke evenement van Nederland. Met meer dan veertig podia en ruim duizend optredens verandert de binnenstad zeven dagen lang in één groot feestterrein dat jaarlijks zo'n anderhalf miljoen bezoekers trekt. De feesten zijn volledig gratis toegankelijk en draaien op bijna volledig lokaal opgewekte groene energie. Programmamakers kondigden publieksfavorieten aan voor de podia. De hele stad leeft mee: ook horeca, musea en wijken in het Rijk van Nijmegen haken in op de feestweek.</p></article>
       </div>
     </section>
-    <figure class="bloem-figuur"><svg class="spot" viewBox="0 0 120 150" data-flower aria-hidden="true"></svg></figure>
     <section class="sec">
       <div class="kicker"><span class="k-label"> Nederland</span><span class="k-rule"></span></div>
       <div class="items">
+        <svg class="spot" viewBox="0 0 120 150" data-flower aria-hidden="true"></svg>
         <article class="item"><h2>Zomers treinticket voor €49 slaat direct aan</h2><div class="meta">Rijksoverheid / NS · 22 jun</div><p>Het tijdelijke zomerabonnement ‘Nederland Dal Vrij Trein’ is een groot succes gebleken. Sinds de lancering op 15 juni kunnen reizigers voor slechts €49 per maand onbeperkt reizen in de daluren en weekenden, bij alle binnenlandse treinvervoerders. Normaal kost het vergelijkbare NS Flex Dal Vrij-abonnement €127,95 per maand, dus de korting is aanzienlijk. De belangstelling was op de eerste dag zo groot dat de website van NS overbelast raakte en tijdelijk niet bereikbaar was. Het kabinet stelt in totaal €118 miljoen beschikbaar voor deze maatregel, die bedoeld is als compensatie voor de hoge brandstofprijzen en mensen moet verleiden vaker de trein te pakken. Staatssecretaris Annet Bertram noemde het abonnement “een prachtige kans om kennis te maken met de trein en dan de auto een keer te laten staan.” Kinderen tot en met 11 jaar reizen gratis mee via het Kids Vrij-abonnement. Het abonnement is geldig tot en met 31 augustus en maandelijks opzegbaar. Wie het voor 1 juli afsluit, profiteert twee volle maanden van het lage tarief.</p></article>
         <article class="item"><h2>AOW gaat per 1 juli omhoog: gepensioneerden ontvangen tot €25 meer per maand</h2><div class="meta">SVB / Rijksoverheid · 22 jun</div><p>Miljoenen gepensioneerden in Nederland mogen zich verheugen op een hogere AOW-uitkering. Per 1 juli 2026 stijgt de AOW met 1,5 procent, zo heeft de Sociale Verzekeringsbank bekendgemaakt. Alleenstaande AOW-gerechtigden gaan er €24,59 bruto per maand op vooruit en ontvangen voortaan €1.662,16 bruto per maand. Netto komt dat, met loonheffingskorting, neer op €1.581,55 per maand. Gehuwden en samenwonenden ontvangen per persoon €17,27 bruto extra, wat neerkomt op €1.139,39 bruto per maand. De verhoging hangt samen met de stijging van het wettelijk minimumloon, dat per 1 juli stijgt van €14,71 naar €14,99 bruto per uur. De AOW is wettelijk aan dit minimumloon gekoppeld, zodat gepensioneerden niet achterblijven bij de loonontwikkeling. Op jaarbasis betekent de verhoging voor alleenstaanden ruim €295 extra netto. De verhoogde bedragen worden voor het eerst uitbetaald op 23 juli 2026. Goed nieuws ook: de Zvw-bijdrage daalde dit jaar al van 5,26 naar 4,85 procent, waardoor gepensioneerden netto extra voordeel ondervinden.</p></article>
       </div>
