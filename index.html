@@ -3,8 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- GitHub Pages cachet HTML ~10 min op zijn CDN; deze meta-tags laten de
-     browser revalideren i.p.v. een oude editie tonen. -->
+
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -15,12 +14,14 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
   :root{
-    --paper:#FCFCFB;   /* zwart-wit: neutraal krantenpapier */
+    --paper:#FCFCFB;
     --desk:#E6E6E4;
-    --ink:#121212;     /* bijna zwart */
-    --muted:#6A6A6A;   /* grijs */
-    --hair:#C9C9C7;    /* grijze lijntjes */
-    --spot:#121212;    /* accent = zwart (geen kleur meer) */
+    --ink:#121212;
+    --muted:#6A6A6A;
+    --hair:#C9C9C7;
+    --spot:#121212;
+
+    --flower-ink:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='14' viewBox='0 0 20 14'%3E%3Cg transform='translate(10,7)' fill='none' stroke='%23121212' stroke-width='0.9'%3E%3Cg id='r'%3E%3Cellipse cx='0' cy='-3.2' rx='1.25' ry='2.7'/%3E%3C/g%3E%3Cuse href='%23r' transform='rotate(60)'/%3E%3Cuse href='%23r' transform='rotate(120)'/%3E%3Cuse href='%23r' transform='rotate(180)'/%3E%3Cuse href='%23r' transform='rotate(240)'/%3E%3Cuse href='%23r' transform='rotate(300)'/%3E%3Ccircle r='1.1' fill='%23121212' stroke='none'/%3E%3C/g%3E%3C/svg%3E");
   }
   *{box-sizing:border-box}
   html,body{margin:0}
@@ -31,7 +32,6 @@
     -webkit-font-smoothing:antialiased;
   }
 
-  /* ---------- Toolbar (screen only) ---------- */
   .toolbar{
     position:sticky;top:0;z-index:10;
     display:flex;align-items:center;gap:10px;flex-wrap:wrap;
@@ -59,7 +59,6 @@
   @keyframes sp{to{transform:rotate(360deg)}}
   @media (prefers-reduced-motion:reduce){.spin{animation:none}}
 
-  /* ---------- Paper ---------- */
   #paper{
     width:210mm;max-width:100%;margin:14px auto 40px;
     background:var(--paper);
@@ -67,7 +66,6 @@
     box-shadow:0 1px 0 rgba(0,0,0,.04),0 12px 28px rgba(0,0,0,.10);
   }
 
-  /* ---------- Masthead ---------- */
   #masthead{text-align:center;margin-bottom:3mm;border-top:4px solid var(--ink);padding-top:5px}
   .mh-top{
     display:flex;justify-content:space-between;align-items:flex-end;
@@ -92,9 +90,8 @@
   }
   .mh-sub .dot{color:var(--spot)}
 
-  /* ---------- Sections ---------- */
-  .sec{margin-top:6mm;padding-top:3mm;border-top:1px solid var(--hair)}
-  .sec:first-of-type{border-top:none;padding-top:0;margin-top:0}
+  .sec{margin-top:7mm;padding-top:0}
+  .sec:first-of-type{margin-top:0}
   .kicker{display:flex;align-items:center;gap:8px;margin-bottom:3mm}
   .k-label{
     font-family:"Archivo",sans-serif;font-weight:700;font-size:11.5px;
@@ -102,7 +99,8 @@
     background:var(--ink);color:var(--paper);padding:3px 8px 2px;
   }
   .k-sub{font-family:"Newsreader",serif;font-style:italic;font-size:12px;color:var(--muted)}
-  .k-rule{flex:1;height:2px;background:var(--ink);align-self:center}
+
+  .k-rule{flex:1;height:14px;align-self:center;background:var(--flower-ink) repeat-x left center;background-size:auto 14px;print-color-adjust:exact;-webkit-print-color-adjust:exact}
 
   .items{column-width:56mm;column-gap:6mm}
   .item{break-inside:avoid;margin:0 0 3.6mm;padding-bottom:3.2mm;border-bottom:1px solid var(--hair)}
@@ -118,23 +116,20 @@
   .item p{font-size:12.5px;line-height:1.45;margin:0;color:#28281f;text-align:justify;hyphens:auto;-webkit-hyphens:auto}
 
   .item.lead{border-bottom:1.5px solid var(--ink);margin-bottom:3.5mm;padding-bottom:3mm}
-  .item.lead.span{column-span:all}   /* alleen de voorpagina-kop over beide kolommen */
+  .item.lead.span{column-span:all}
   .item.lead h2{font-size:clamp(19px,2.4vw,24px);line-height:1.12;font-weight:640;margin-bottom:3px}
   .item.lead p{font-size:13.5px;line-height:1.42;text-align:justify}
 
-  /* Drop cap op de voorpagina-kop (alleen het topverhaal). */
   .item.lead.span > p::first-letter{
     font-family:"Fraunces",serif;font-weight:700;
     float:left;font-size:3.05em;line-height:.78;
     padding:2px 6px 0 0;color:var(--ink);
   }
 
-  /* Clean single column while exporting to PDF (html2canvas handles multicol poorly) */
   .exporting #paper{box-shadow:none}
   .exporting .items{column-width:auto;column-count:1}
   .exporting .item.lead{column-span:none}
 
-  /* ---------- Weer (7-daagse) ---------- */
   #weer:empty{display:none}
   .wx{display:flex;gap:2mm}
   .wx-day{
@@ -157,7 +152,7 @@
   }
   @media (max-width:520px){
     .wx{flex-wrap:wrap}
-    .wx-day{flex:1 1 30%}   /* 3 kaarten per rij op smalle schermen */
+    .wx-day{flex:1 1 30%}
   }
 
   .empty{font-family:"Newsreader",serif;font-style:italic;color:var(--muted);font-size:12.5px}
@@ -166,30 +161,22 @@
     padding:12mm 4mm;
   }
 
-  /* ---------- Bloem (decoratieve illustratie, halverwege de krant) ----------
-     Zweeft links in de kolom zodat de tekst eromheen loopt — zo blijft er
-     geen grote witruimte naast de bloem staan. */
-  .spot{float:left;width:18mm;height:22.5mm;   /* viewBox 120×150 = 4:5 — expliciete hoogte = html2canvas/PDF-proof */
+  .spot{float:left;width:18mm;height:22.5mm;
         margin:0.5mm 4mm 2mm 0;break-inside:avoid}
 
-  /* ---------- Print ---------- */
   @page{size:A4;margin:13mm}
   @media print{
     body{background:#fff}
     .toolbar{display:none}
     #paper{width:auto;max-width:none;margin:0;padding:0;box-shadow:none}
 
-    /* Krantenkolommen behouden — dat geeft het 'echt papier'-gevoel.
-       Twee vaste kolommen pagineren betrouwbaarder dan kolommen op breedte
-       (die op smalle/mobiele schermen naar één kolom inklappen). */
     .items{column-width:auto;column-count:2;column-gap:7mm}
-    /* Artikelen mogen doorlopen over kolom-/paginagrens zodat de pagina's
-       vol raken (zoals een echte krant) — geen grote witruimte onderaan. */
+
     .item{break-inside:auto}
-    .item h2, .item .meta{break-after:avoid}   /* kop blijft bij de tekst */
+    .item h2, .item .meta{break-after:avoid}
     .item:last-child{border-bottom:none}
-    .kicker{break-after:avoid}      /* rubriekkop niet los onderaan */
-    .wx{break-inside:avoid}         /* weerbalk in z'n geheel bijeen */
+    .kicker{break-after:avoid}
+    .wx{break-inside:avoid}
   }
 
   @media (max-width:520px){
@@ -256,11 +243,11 @@
 </main>
 
 <script>
-  /* ====== Rename / retune here ====== */
+
   const TITLE   = "De Zonzijde";
   const TAGLINE = "Alleen goed nieuws";
   const PLACE   = "Wijchen";
-  const COUNT = 3;   // berichten per sectie — hoger = meer pagina's
+  const COUNT = 3;
 
   const SECTIONS = [
     { key:"stad",   label:"Stad",   sub:"Wijchen",                        scope:"de gemeente Wijchen",                                    count:COUNT },
@@ -269,7 +256,6 @@
     { key:"wereld", label:"Wereld", sub:"",                               scope:"de wereld (internationaal nieuws)",                      count:COUNT },
   ];
 
-  // Preferred outlets used to steer the search (v1: hints, not hard feeds).
   const SOURCE_HINTS = {
     stad:   "wijchensnieuws.nl, wijchen.nieuws.nl, RN7.nl, Omroep Gelderland Wijchen (gld.nl/wijchen), De Gelderlander (Wijchen), gemeente Wijchen (wijchen.nl). Varieer over meerdere bronnen — niet alleen de gemeentesite wijchen.nl",
     regio:  "Omroep Gelderland (gld.nl, regio Rijk van Nijmegen), De Gelderlander",
@@ -277,9 +263,6 @@
     wereld: "Good News Network, Positive News, Reasons to be Cheerful, BBC"
   };
 
-  /* ====== Vaste editie — Wijchen, zondag 28 juni 2026 ======
-     Deze inhoud staat vast in de pagina zodat de krant direct toont,
-     zonder API-sleutel. Klik op ‘Genereer krant’ om te verversen. */
   const PRELOAD_DATE = "2026-06-28";
   const PRELOAD = {
     stad: [
@@ -325,9 +308,8 @@
     ]
   };
 
-  /* ====== Weer — 7-daagse voorspelling (Open-Meteo, geen sleutel nodig) ====== */
   const WEER = { lat:51.8126, lon:5.7292, plaats:"Wijchen" };
-  // WMO-weercodes → pictogram + Nederlandse omschrijving.
+
   function wmo(code){
     const m = {
       0:["☀️","Onbewolkt"], 1:["🌤️","Overwegend zonnig"], 2:["⛅","Half bewolkt"], 3:["☁️","Bewolkt"],
@@ -355,7 +337,7 @@
       tekenWeer((await r.json()).daily);
     }catch(e){
       console.error("weer", e);
-      el.className = ""; el.innerHTML = "";          // stil falen: geen weerbalk
+      el.className = ""; el.innerHTML = "";
     }
   }
   function tekenWeer(day){
@@ -366,7 +348,7 @@
     {
       let cards = "";
       for(let i=0; i<day.time.length; i++){
-        const t  = new Date(day.time[i]);           // YYYY-MM-DD → UTC; weekdag in UTC
+        const t  = new Date(day.time[i]);
         const wd = i===0 ? "Vandaag"
                          : (isNaN(t) ? "—" : t.toLocaleDateString("nl-NL",{weekday:"short",timeZone:"UTC"}));
         const [ic,lbl] = wmo(day.weathercode[i]);
@@ -392,21 +374,19 @@
     }
   }
 
-  /* ====== UI helpers ====== */
   const $ = id => document.getElementById(id);
   function nowNL(){
     return new Date().toLocaleDateString("nl-NL",
       {weekday:"long",day:"numeric",month:"long",year:"numeric"});
   }
-  function longNL(d){               // "zondag 28 juni 2026" voor een vaste datum
+  function longNL(d){
     const t = new Date(d);
     if(isNaN(t)) return nowNL();
-    // YYYY-MM-DD wordt als UTC-middernacht geparsed; forceer UTC zodat de
-    // dag niet verschuift in negatieve tijdzones (bv. Amerika).
+
     return t.toLocaleDateString("nl-NL",
       {weekday:"long",day:"numeric",month:"long",year:"numeric",timeZone:"UTC"});
   }
-  let editieDatum = null;          // gezet bij een vaste editie, anders vandaag
+  let editieDatum = null;
   function setBusy(b){
     ["gen","pdf","prn","cpy"].forEach(id => { const el = $(id); if(el) el.disabled = b; });
   }
@@ -414,17 +394,13 @@
     $("status").innerHTML = (busy ? '<span class="spin"></span> ' : '') + txt;
     setBusy(busy);
   }
-  let laatste = null;                          // laatst gegenereerde krant (voor Kopieer)
+  let laatste = null;
   function flash(msg){
     const s = $("status"); const prev = s.textContent;
     s.textContent = msg;
     setTimeout(() => { if(s.textContent === msg) s.textContent = prev; }, 1800);
   }
 
-  /* ====== API-sleutel (alleen in deze browser opgeslagen) ======
-     Deze pagina draait statisch (GitHub Pages) en heeft geen server.
-     De Anthropic-sleutel wordt daarom lokaal in de browser bewaard
-     (localStorage) en nooit in de repository opgeslagen. */
   const SLEUTEL_KEY = "zonzijde_anthropic_key";
   function getSleutel(){ return localStorage.getItem(SLEUTEL_KEY) || ""; }
   function vraagSleutel(){
@@ -433,10 +409,10 @@
       "Plak je Anthropic API-sleutel (begint met sk-ant-…).\n" +
       "Wordt alleen in deze browser bewaard, niet online.",
       huidig);
-    if(inv === null) return getSleutel();          // geannuleerd → laat staan
+    if(inv === null) return getSleutel();
     const k = inv.trim();
     if(k) localStorage.setItem(SLEUTEL_KEY, k);
-    else  localStorage.removeItem(SLEUTEL_KEY);     // leeg → wissen
+    else  localStorage.removeItem(SLEUTEL_KEY);
     return k;
   }
   function stelSleutelIn(){
@@ -444,7 +420,6 @@
     flash(k ? "Sleutel opgeslagen" : "Sleutel gewist");
   }
 
-  /* ====== Generate — one call per section, sequential + retry ====== */
   async function genereer(){
     let sleutel = getSleutel();
     if(!sleutel) sleutel = vraagSleutel();
@@ -452,26 +427,25 @@
       setStatus("Geen API-sleutel — klik op ‘Sleutel’", false);
       return;
     }
-    editieDatum = null;                            // verse editie → datum van vandaag
+    editieDatum = null;
     const today = new Date().toISOString().slice(0,10);
     const krant = {stad:[],regio:[],land:[],wereld:[]};
     let ok = false;
-    let authFout = false;                          // 401/403 → sleutel klopt niet
+    let authFout = false;
 
-    // Parallel liep tegen rate limits aan (lege secties); daarom één voor één.
     for(let i=0; i<SECTIONS.length; i++){
       const s = SECTIONS[i];
       setStatus("Verzamelen… "+s.label+" ("+(i+1)+"/"+SECTIONS.length+")", true);
       let items = [];
       try { items = await fetchSection(s, today, sleutel); }
       catch(e){ console.error(s.key, e); if(e && e.auth) authFout = true; }
-      if(!items.length && !authFout){             // één herkansing bij leeg of fout
+      if(!items.length && !authFout){
         try { items = await fetchSection(s, today, sleutel); }
         catch(e){ console.error(s.key+" (herkansing)", e); if(e && e.auth) authFout = true; }
       }
       krant[s.key] = items;
       if(items.length) ok = true;
-      if(authFout) break;                          // geen zin om door te gaan
+      if(authFout) break;
     }
 
     if(authFout){
@@ -519,7 +493,7 @@ Zoek en geef ${s.count} positieve berichten van de afgelopen 7 dagen in het afge
         "Content-Type":"application/json",
         "x-api-key": sleutel,
         "anthropic-version":"2023-06-01",
-        // Vereist om de Anthropic-API rechtstreeks vanuit de browser te mogen aanroepen.
+
         "anthropic-dangerous-direct-browser-access":"true"
       },
       body:JSON.stringify({
@@ -542,7 +516,6 @@ Zoek en geef ${s.count} positieve berichten van de afgelopen 7 dagen in het afge
     return parseItems(text).filter(it => isRecent(it.datum));
   }
 
-  // Parses @@ITEM blocks for one section. Quote-proof: values read line-by-line.
   function parseItems(text){
     const items = [];
     let item=null, field=null;
@@ -550,14 +523,14 @@ Zoek en geef ${s.count} positieve berichten van de afgelopen 7 dagen in het afge
     for(const raw of (text||"").split(/\r?\n/)){
       const line = raw.trim();
       if(/^@@ITEM\b/i.test(line)){ flush(); item={kop:"",bron:"",datum:"",samenvatting:""}; continue; }
-      if(/^@@/.test(line)) continue;              // ignore any other @@ markers
+      if(/^@@/.test(line)) continue;
       if(!item) continue;
       let m;
       if((m = line.match(/^kop:\s*(.*)$/i)))        { item.kop = m[1]; field="kop"; }
       else if((m = line.match(/^bron:\s*(.*)$/i)))  { item.bron = clean(m[1]); field="bron"; }
       else if((m = line.match(/^datum:\s*(.*)$/i))) { item.datum = clean(m[1]); field="datum"; }
       else if((m = line.match(/^tekst:\s*(.*)$/i))) { item.samenvatting = m[1]; field="samenvatting"; }
-      else if(field && line){ item[field] += " " + line; }  // wrapped-line continuation
+      else if(field && line){ item[field] += " " + line; }
     }
     flush();
     return items;
@@ -566,14 +539,13 @@ Zoek en geef ${s.count} positieve berichten van de afgelopen 7 dagen in het afge
     v = (v||"").trim();
     return /^(leeg|onbekend|n\.?v\.?t\.?)$/i.test(v) ? "" : v;
   }
-  function isRecent(d){               // houd alleen berichten van max ~7 dagen oud
-    if(!d) return true;              // geen datum → vertrouw de selectie van het model
+  function isRecent(d){
+    if(!d) return true;
     const t = new Date(d);
     if(isNaN(t)) return true;
     return (Date.now() - t.getTime()) / 86400000 <= 7.5;
   }
 
-  /* ====== Render ====== */
   function esc(x){
     return String(x==null?"":x)
       .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
@@ -582,7 +554,7 @@ Zoek en geef ${s.count} positieve berichten van de afgelopen 7 dagen in het afge
     if(!d) return "";
     const t = new Date(d);
     if(isNaN(t)) return "";
-    // UTC forceren zodat de dag niet verschuift in negatieve tijdzones.
+
     return t.toLocaleDateString("nl-NL",{day:"numeric",month:"short",timeZone:"UTC"});
   }
 
@@ -606,8 +578,7 @@ Zoek en geef ${s.count} positieve berichten van de afgelopen 7 dagen in het afge
         html += '<p class="empty">Vandaag geen goed nieuws gevonden voor deze rubriek.</p>';
       }else{
         html += '<div class="items">';
-        // Decoratieve bloem zweeft links in de eerste kolom van de rubriek die
-        // halverwege begint (idx 2 = Land), zodat de tekst er netjes omheen loopt.
+
         if(idx === 2) html += '<svg class="spot" viewBox="0 0 120 150" data-flower aria-hidden="true"></svg>';
         items.forEach((it,i) => {
           const meta = [esc(it.bron), fmtDate(it.datum)].filter(Boolean).join(" · ");
@@ -621,15 +592,14 @@ Zoek en geef ${s.count} positieve berichten van de afgelopen 7 dagen in het afge
         html += '</div>';
       }
       html += '</section>';
-      // Weerbalk op pagina 2: na de eerste rubriek, vóór de rest.
+
       if(idx === 0) html += '<div id="weer"></div>';
     });
     $("sections").innerHTML = html;
-    laadWeer();                        // (her)laad de 7-daagse verwachting
-    if(window.tekenBloem) window.tekenBloem();   // teken de bloem(en) in de verse DOM
+    laadWeer();
+    if(window.tekenBloem) window.tekenBloem();
   }
 
-  /* ====== Kopieer naar klembord (werkt ook op mobiel) ====== */
   function krantAsText(){
     const out = [];
     out.push(TITLE.toUpperCase()+" — "+TAGLINE);
@@ -669,7 +639,6 @@ Zoek en geef ${s.count} positieve berichten van de afgelopen 7 dagen in het afge
     flash(ok ? "Gekopieerd" : "Kopiëren lukt hier niet");
   }
 
-  /* ====== Export naar PDF (best-effort; werkt waar downloads zijn toegestaan) ====== */
   async function exportPDF(){
     if(!laatste){ flash("Genereer eerst de krant"); return; }
     if(typeof html2pdf === "undefined"){ flash("PDF-functie niet geladen"); return; }
@@ -696,14 +665,12 @@ Zoek en geef ${s.count} positieve berichten van de afgelopen 7 dagen in het afge
     }
   }
 
-  // Toon meteen de vaste editie (Wijchen, zondag 28 juni 2026).
   editieDatum = PRELOAD_DATE;
   laatste = PRELOAD;
-  render(PRELOAD, PRELOAD_DATE);     // rendert de krant én haalt het weer op
+  render(PRELOAD, PRELOAD_DATE);
   setStatus("Editie "+longNL(PRELOAD_DATE), false);
 </script>
 
-<!-- ===== Bloem (met de hand getekende zonbloem, SVG) ===== -->
 <script>
 (function(){
   const INK="#121212", NS="http://www.w3.org/2000/svg";
@@ -718,18 +685,18 @@ Zoek en geef ${s.count} positieve berichten van de afgelopen 7 dagen in het afge
   function flower(svg){
     if(!svg||svg.dataset.done)return; svg.dataset.done="1";
     const g=mk("g",{transform:"translate(60,52)"});
-    petal(g,16,14,34,7,0); petal(g,16,12,26,5,11.25);                       // twee ringen blaadjes
-    for(let iy=-5;iy<=5;iy++){const y=iy*2.4;const ox=((iy+5)%2)?1.2:0;   // gestippeld hart (integer-lus: geen FP-afronding)
+    petal(g,16,14,34,7,0); petal(g,16,12,26,5,11.25);
+    for(let iy=-5;iy<=5;iy++){const y=iy*2.4;const ox=((iy+5)%2)?1.2:0;
       for(let ix=-5;ix<=5;ix++){const x=ix*2.4;const xx=x+ox; if(xx*xx+y*y<=11.4*11.4) g.appendChild(mk("circle",{cx:xx.toFixed(1),cy:y.toFixed(1),r:0.85,fill:INK}));}}
     g.appendChild(mk("circle",{r:13.5,fill:"none",stroke:INK,"stroke-width":1.4}));
     svg.appendChild(g);
-    svg.appendChild(mk("path",{d:"M60,66 C66,92 54,108 60,140",fill:"none",stroke:INK,"stroke-width":2.4,"stroke-linecap":"round"})); // stengel
+    svg.appendChild(mk("path",{d:"M60,66 C66,92 54,108 60,140",fill:"none",stroke:INK,"stroke-width":2.4,"stroke-linecap":"round"}));
     const leaf=(x,y,r)=>svg.appendChild(mk("path",{d:"M0,0 C12,-5 22,-2 28,6 C18,8 6,7 0,0 Z",transform:"translate("+x+","+y+") rotate("+r+")",fill:"#fff",stroke:INK,"stroke-width":1.3}));
-    leaf(60,104,18); leaf(60,118,168);                                       // twee blaadjes
+    leaf(60,104,18); leaf(60,118,168);
   }
-  // Exposeer zodat render() de bloem opnieuw tekent na elke (her)opbouw van de DOM.
+
   window.tekenBloem = function(root){ (root||document).querySelectorAll('svg[data-flower]').forEach(flower); };
-  window.tekenBloem();                                                       // initiële preload-render
+  window.tekenBloem();
 })();
 </script>
 </body>
