@@ -21,6 +21,9 @@
     --muted:#6A6A6A;
     --hair:#C9C9C7;
     --spot:#121212;
+    /* Rubrieksscheiding = een rij piepkleine bloempjes i.p.v. een streep. */
+    --flower-ink:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='12' viewBox='0 0 22 12'%3E%3Cg fill='%23121212'%3E%3Ccircle cx='11' cy='2.8' r='1.4'/%3E%3Ccircle cx='13.85' cy='4.87' r='1.4'/%3E%3Ccircle cx='12.76' cy='8.21' r='1.4'/%3E%3Ccircle cx='9.24' cy='8.21' r='1.4'/%3E%3Ccircle cx='8.15' cy='4.87' r='1.4'/%3E%3Ccircle cx='11' cy='6' r='1' fill='%23FCFCFB'/%3E%3C/g%3E%3C/svg%3E");
+    --flower-hair:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='12' viewBox='0 0 24 12'%3E%3Cg fill='%23C9C9C7'%3E%3Ccircle cx='12' cy='2.9' r='1.3'/%3E%3Ccircle cx='14.66' cy='4.84' r='1.3'/%3E%3Ccircle cx='13.65' cy='7.95' r='1.3'/%3E%3Ccircle cx='10.35' cy='7.95' r='1.3'/%3E%3Ccircle cx='9.34' cy='4.84' r='1.3'/%3E%3Ccircle cx='12' cy='6' r='0.95' fill='%23FCFCFB'/%3E%3C/g%3E%3C/svg%3E");
   }
   *{box-sizing:border-box}
   html,body{margin:0}
@@ -89,8 +92,9 @@
   }
   .mh-sub .dot{color:var(--spot)}
 
-  .sec{margin-top:6mm;padding-top:3mm;border-top:1px solid var(--hair)}
-  .sec:first-of-type{border-top:none;padding-top:0;margin-top:0}
+  /* Scheidingslijn = een rij piepkleine bloempjes (zie --flower-hair). */
+  .sec{margin-top:6mm;padding-top:3mm;background:var(--flower-hair) repeat-x top center;background-size:auto 12px}
+  .sec:first-of-type{background:none;padding-top:0;margin-top:0}
   .kicker{display:flex;align-items:center;gap:8px;margin-bottom:3mm}
   .k-label{
     font-family:"Archivo",sans-serif;font-weight:700;font-size:11.5px;
@@ -98,7 +102,8 @@
     background:var(--ink);color:var(--paper);padding:2px 8px 2px;
   }
   .k-sub{font-family:"Newsreader",serif;font-style:italic;font-size:12px;color:var(--muted)}
-  .k-rule{flex:1;height:2px;background:var(--ink);align-self:center}
+  /* Vulregel naast de rubriekkop = óók een rij bloempjes (zie --flower-ink). */
+  .k-rule{flex:1;height:12px;align-self:center;background:var(--flower-ink) repeat-x left center;background-size:auto 12px}
 
   .items{column-width:56mm;column-gap:6mm}
   .item{break-inside:avoid;margin:0 0 3.6mm;padding-bottom:3.2mm;border-bottom:1px solid var(--hair)}
