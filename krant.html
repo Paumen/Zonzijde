@@ -1,4 +1,179 @@
 
+<!DOCTYPE html>
+<html lang="nl"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>De Zonzijde — Editie Wijchen, 28 juni 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,560;9..144,640;9..144,700&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&amp;family=Archivo:wght@500;600;700&amp;display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --paper:#FCFCFB;
+    --desk:#E6E6E4;
+    --ink:#121212;
+    --muted:#6A6A6A;
+    --hair:#C9C9C7;
+    --spot:#121212;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    background:var(--desk);
+    color:var(--ink);
+    font-family:"Newsreader",Georgia,serif;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .toolbar{
+    position:sticky;top:0;z-index:10;
+    display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+    padding:7px 12px;
+    background:rgba(250,249,246,.92);
+    backdrop-filter:saturate(1.2) blur(4px);
+    border-bottom:1px solid var(--hair);
+    font-family:"Archivo",system-ui,sans-serif;font-size:12px;
+  }
+  .toolbar .brand{font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--spot)}
+  .toolbar .grow{flex:1}
+  .toolbar .status{color:var(--muted)}
+  button{
+    font-family:"Archivo",system-ui,sans-serif;font-size:12px;font-weight:600;
+    letter-spacing:.02em;
+    padding:5px 11px;border:1px solid var(--ink);border-radius:0;
+    background:var(--paper);color:var(--ink);cursor:pointer;
+  }
+  button:hover{background:var(--ink);color:var(--paper)}
+  button:disabled{opacity:.5;cursor:default}
+  button:focus-visible{outline:2px solid var(--spot);outline-offset:2px}
+  .spin{
+    width:11px;height:11px;border:2px solid var(--hair);border-top-color:var(--spot);
+    border-radius:50%;display:inline-block;vertical-align:-1px;animation:sp .7s linear infinite}
+  @keyframes sp{to{transform:rotate(360deg)}}
+  @media (prefers-reduced-motion:reduce){.spin{animation:none}}
+
+  #paper{
+    width:210mm;max-width:100%;margin:14px auto 40px;
+    background:var(--paper);
+    padding:11mm 12mm 14mm;
+    box-shadow:0 1px 0 rgba(0,0,0,.04),0 12px 28px rgba(0,0,0,.10);
+  }
+
+  #masthead{text-align:center;margin-bottom:3mm;border-top:4px solid var(--ink);padding-top:5px}
+  .mh-top{
+    display:flex;justify-content:space-between;align-items:flex-end;
+    font-family:"Archivo",sans-serif;font-size:10px;text-transform:uppercase;
+    letter-spacing:.14em;color:var(--muted);
+    border-bottom:1px solid var(--ink);padding-bottom:3px;
+  }
+  #nameplate{
+    font-family:"Fraunces",serif;font-weight:700;font-optical-sizing:auto;
+    font-size:clamp(34px,7.4vw,56px);line-height:.95;margin:6px 0 4px;
+    letter-spacing:-.005em;
+    display:flex;align-items:center;justify-content:center;gap:.28em;
+  }
+  #nameplate .sunflower{
+    width:.92em;height:.92em;flex:0 0 auto;color:var(--ink);
+  }
+  .mh-sub{
+    font-family:"Archivo",sans-serif;font-size:11px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--ink);
+    border-top:2px solid var(--spot);border-bottom:1px solid var(--ink);
+    padding:4px 0;display:flex;justify-content:center;gap:10px;flex-wrap:wrap;
+  }
+  .mh-sub .dot{color:var(--spot)}
+
+  .sec{margin-top:6mm;padding-top:3mm;border-top:1px solid var(--hair)}
+  .sec:first-of-type{border-top:none;padding-top:0;margin-top:0}
+  .kicker{display:flex;align-items:center;gap:8px;margin-bottom:3mm}
+  .k-label{
+    font-family:"Archivo",sans-serif;font-weight:700;font-size:11.5px;
+    text-transform:uppercase;letter-spacing:.08em;
+    background:var(--ink);color:var(--paper);padding:3px 8px 2px;
+  }
+  .k-sub{font-family:"Newsreader",serif;font-style:italic;font-size:12px;color:var(--muted)}
+  .k-rule{flex:1;height:2px;background:var(--ink);align-self:center}
+
+  .items{column-width:56mm;column-gap:6mm}
+  .item{break-inside:avoid;margin:0 0 3.6mm;padding-bottom:3.2mm;border-bottom:1px solid var(--hair)}
+  .item:last-child{border-bottom:none}
+  .item h2{
+    font-family:"Fraunces",serif;font-weight:560;font-size:14.5px;line-height:1.18;
+    margin:0 0 2px;
+  }
+  .item .meta{
+    font-family:"Archivo",sans-serif;font-size:9.5px;text-transform:uppercase;
+    letter-spacing:.07em;color:var(--muted);margin-bottom:3px;
+  }
+  .item p{font-size:12.5px;line-height:1.45;margin:0;color:#28281f;text-align:justify;hyphens:auto;-webkit-hyphens:auto}
+
+  .item.lead{border-bottom:1.5px solid var(--ink);margin-bottom:3.5mm;padding-bottom:3mm}
+  .item.lead.span{column-span:all}
+  .item.lead h2{font-size:clamp(19px,2.4vw,24px);line-height:1.12;font-weight:640;margin-bottom:3px}
+  .item.lead p{font-size:13.5px;line-height:1.42;text-align:justify}
+
+  .item.lead.span > p::first-letter{
+    font-family:"Fraunces",serif;font-weight:700;
+    float:left;font-size:3.05em;line-height:.78;
+    padding:2px 6px 0 0;color:var(--ink);
+  }
+
+  .exporting #paper{box-shadow:none}
+  .exporting .items{column-width:auto;column-count:1}
+  .exporting .item.lead{column-span:none}
+
+  #weer:empty{display:none}
+  .wx{display:flex;gap:2mm}
+  .wx-day{
+    flex:1 1 0;min-width:0;text-align:center;
+    border:1px solid var(--hair);background:#fff;padding:3mm 1mm 2.5mm;
+  }
+  .wx-day.today{border:2px solid var(--ink)}
+  .wx-day .wd{
+    font-family:"Archivo",sans-serif;font-size:9.5px;font-weight:600;
+    text-transform:uppercase;letter-spacing:.05em;color:var(--muted);
+  }
+  .wx-day.today .wd{color:var(--spot)}
+  .wx-day .ic{font-size:21px;line-height:1.25;margin:3px 0;filter:grayscale(1)}
+  .wx-day .tmax{font-family:"Fraunces",serif;font-weight:560;font-size:14px}
+  .wx-day .tmin{font-family:"Fraunces",serif;font-size:11.5px;color:var(--muted);margin-left:2px}
+  .wx-day .pp{font-family:"Archivo",sans-serif;font-size:8.5px;color:var(--muted);margin-top:1px}
+  .wx-cap{
+    font-family:"Archivo",sans-serif;font-size:8.5px;color:var(--muted);
+    text-align:right;margin-top:1.5mm;text-transform:uppercase;letter-spacing:.05em;
+  }
+  @media (max-width:520px){
+    .wx{flex-wrap:wrap}
+    .wx-day{flex:1 1 30%}
+  }
+
+  .empty{font-family:"Newsreader",serif;font-style:italic;color:var(--muted);font-size:12.5px}
+  .hint{
+    text-align:center;color:var(--muted);font-style:italic;font-size:13px;
+    padding:12mm 4mm;
+  }
+
+  @page{size:A4;margin:13mm}
+  @media print{
+    body{background:#fff}
+    .toolbar{display:none}
+    #paper{width:auto;max-width:none;margin:0;padding:0;box-shadow:none}
+
+    .items{column-width:auto;column-count:2;column-gap:7mm}
+    .item{break-inside:auto}
+    .item h2, .item .meta{break-after:avoid}
+    .item:last-child{border-bottom:none}
+    .kicker{break-after:avoid}
+    .wx{break-inside:avoid}
+  }
+
+  @media (max-width:520px){
+    #paper{padding:14px;margin:8px auto 30px}
+  }
+</style>
+</head>
+
 <body id="paper">
   <header id="masthead">
     <div class="mh-top">
