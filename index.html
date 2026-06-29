@@ -21,11 +21,9 @@
     --muted:#6A6A6A;   /* grijs */
     --hair:#C9C9C7;    /* grijze lijntjes */
     --spot:#121212;    /* accent = zwart (geen kleur meer) */
-    /* Rubrieksscheiding = een rij piepkleine bloempjes (line-art madeliefjes)
-       i.p.v. een streep. Eén bloempje per tegel; repeat-x maakt er een lijn van.
-       --flower-ink = zwart (vulregel naast de kop); --flower-hair = grijs (scheiding). */
+    /* Rubriekkop-vulregel = een rij piepkleine bloempjes (line-art madeliefjes)
+       i.p.v. een streep. Eén bloempje per tegel; repeat-x maakt er een lijn van. */
     --flower-ink:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='14' viewBox='0 0 20 14'%3E%3Cg transform='translate(10,7)' fill='none' stroke='%23121212' stroke-width='0.9'%3E%3Cg id='r'%3E%3Cellipse cx='0' cy='-3.2' rx='1.25' ry='2.7'/%3E%3C/g%3E%3Cuse href='%23r' transform='rotate(60)'/%3E%3Cuse href='%23r' transform='rotate(120)'/%3E%3Cuse href='%23r' transform='rotate(180)'/%3E%3Cuse href='%23r' transform='rotate(240)'/%3E%3Cuse href='%23r' transform='rotate(300)'/%3E%3Ccircle r='1.1' fill='%23121212' stroke='none'/%3E%3C/g%3E%3C/svg%3E");
-    --flower-hair:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='14' viewBox='0 0 20 14'%3E%3Cg transform='translate(10,7)' fill='none' stroke='%23AEAEAC' stroke-width='0.9'%3E%3Cg id='r'%3E%3Cellipse cx='0' cy='-3.2' rx='1.25' ry='2.7'/%3E%3C/g%3E%3Cuse href='%23r' transform='rotate(60)'/%3E%3Cuse href='%23r' transform='rotate(120)'/%3E%3Cuse href='%23r' transform='rotate(180)'/%3E%3Cuse href='%23r' transform='rotate(240)'/%3E%3Cuse href='%23r' transform='rotate(300)'/%3E%3Ccircle r='1.1' fill='%23AEAEAC' stroke='none'/%3E%3C/g%3E%3C/svg%3E");
   }
   *{box-sizing:border-box}
   html,body{margin:0}
@@ -98,9 +96,10 @@
   .mh-sub .dot{color:var(--spot)}
 
   /* ---------- Sections ---------- */
-  /* Scheidingslijn = een rij piepkleine bloempjes (zie --flower-hair). */
-  .sec{margin-top:6mm;padding-top:3mm;background:var(--flower-hair) repeat-x top center;background-size:auto 14px;print-color-adjust:exact;-webkit-print-color-adjust:exact}
-  .sec:first-of-type{background:none;padding-top:0;margin-top:0}
+  /* Geen aparte scheidingslijn meer: de bloemen-vulregel naast de rubriekkop
+     markeert het begin van elke sectie. */
+  .sec{margin-top:7mm;padding-top:0}
+  .sec:first-of-type{margin-top:0}
   .kicker{display:flex;align-items:center;gap:8px;margin-bottom:3mm}
   .k-label{
     font-family:"Archivo",sans-serif;font-weight:700;font-size:11.5px;
