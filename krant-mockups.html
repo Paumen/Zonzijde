@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="nl"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>De Zonzijde — Mockups intermezzo-secties</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,560;9..144,640;9..144,700&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&amp;family=Archivo:wght@500;600;700&amp;display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --paper:#FCFCFB;
+    --desk:#E6E6E4;
+    --ink:#121212;
+    --muted:#6A6A6A;
+    --hair:#C9C9C7;
+    --spot:#121212;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    background:var(--desk);
+    color:var(--ink);
+    font-family:"Newsreader",Georgia,serif;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  #paper{
+    width:210mm;max-width:100%;margin:14px auto 40px;
+    background:var(--paper);
+    padding:11mm 12mm 14mm;
+    box-shadow:0 1px 0 rgba(0,0,0,.04),0 12px 28px rgba(0,0,0,.10);
+  }
+
+  /* ---- shared krant building blocks (from krant.html) ---- */
+  .sec{margin-top:6mm;padding-top:3mm;border-top:1px solid var(--hair)}
+  .kicker{display:flex;align-items:center;gap:8px;margin-bottom:3mm}
+  .k-label{
+    font-family:"Archivo",sans-serif;font-weight:700;font-size:11.5px;
+    text-transform:uppercase;letter-spacing:.08em;
+    background:var(--ink);color:var(--paper);padding:3px 8px 2px;
+  }
+  .k-sub{font-family:"Newsreader",serif;font-style:italic;font-size:12px;color:var(--muted)}
+  .k-rule{flex:1;height:2px;background:var(--ink);align-self:center}
+
+  .item h2{font-family:"Fraunces",serif;font-weight:560;font-size:14.5px;line-height:1.18;margin:0 0 2px}
+  .item p{font-size:12.5px;line-height:1.45;margin:0;color:#28281f}
+  .meta{font-family:"Archivo",sans-serif;font-size:9.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+
+  /* ---- mockup scaffold ---- */
+  .mock-h{
+    font-family:"Archivo",sans-serif;font-size:13px;font-weight:700;
+    text-transform:uppercase;letter-spacing:.06em;color:var(--spot);
+    margin:22px 0 2px;padding-top:18px;border-top:3px solid var(--ink);
+  }
+  .mock-h:first-child{padding-top:0;border-top:none;margin-top:0}
+  .mock-note{font-family:"Newsreader",serif;font-style:italic;font-size:12.5px;color:var(--muted);margin:0 0 10px}
+  .variant{margin:0 0 14px;border:1px dashed var(--hair);padding:9px 11px 11px;background:#fff}
+  .variant > .tag{
+    font-family:"Archivo",sans-serif;font-size:9px;font-weight:700;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--muted);display:block;margin-bottom:7px;
+  }
+
+  /* ============ 1. WIST U DAT? ============ */
+  /* A: inline list */
+  .wud-list{list-style:none;margin:0;padding:0}
+  .wud-list li{
+    font-size:12.5px;line-height:1.5;padding:0 0 4px 16px;position:relative;
+    border-bottom:1px solid var(--hair);margin-bottom:4px;
+  }
+  .wud-list li:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+  .wud-list li::before{content:"✺";position:absolute;left:0;top:0;color:var(--spot);font-size:11px}
+  .wud-list b{font-weight:600;font-family:"Fraunces",serif}
+  /* B: boxed three-up */
+  .wud-box{border:1.5px solid var(--ink);padding:0}
+  .wud-box .hd{
+    font-family:"Fraunces",serif;font-weight:700;font-size:16px;
+    background:var(--ink);color:var(--paper);padding:5px 10px;
+  }
+  .wud-box .body{display:flex;gap:0}
+  .wud-box .body div{flex:1;padding:8px 10px;font-size:11.5px;line-height:1.4;border-left:1px solid var(--hair)}
+  .wud-box .body div:first-child{border-left:none}
+  /* C: single hero */
+  .wud-hero{text-align:center;padding:4px 0}
+  .wud-hero .lbl{font-family:"Archivo",sans-serif;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .wud-hero p{font-family:"Fraunces",serif;font-weight:560;font-size:19px;line-height:1.25;margin:4px auto 0;max-width:80%}
+
+  /* ============ 2. NUMMER VAN DE WEEK ============ */
+  /* A: big number left */
+  .num-a{display:flex;align-items:center;gap:14px}
+  .num-a .big{font-family:"Fraunces",serif;font-weight:700;font-size:58px;line-height:.9;letter-spacing:-.02em}
+  .num-a .txt h2{margin:0 0 3px}
+  .num-a .txt p{color:#28281f}
+  /* B: centered */
+  .num-b{text-align:center;padding:6px 0}
+  .num-b .big{font-family:"Fraunces",serif;font-weight:700;font-size:64px;line-height:.9}
+  .num-b .unit{font-family:"Archivo",sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-top:2px}
+  .num-b .cap{font-size:12px;font-style:italic;color:var(--muted);margin-top:6px}
+  /* C: three mini stats */
+  .num-c{display:flex;gap:2mm}
+  .num-c .cell{flex:1;text-align:center;border:1px solid var(--hair);padding:8px 4px}
+  .num-c .cell .n{font-family:"Fraunces",serif;font-weight:700;font-size:26px;line-height:1}
+  .num-c .cell .l{font-family:"Archivo",sans-serif;font-size:8.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-top:4px;line-height:1.25}
+
+  /* ============ 3. TUINTIPS ============ */
+  /* A: numbered list */
+  .tt-ol{margin:0;padding:0;list-style:none;counter-reset:t}
+  .tt-ol li{counter-increment:t;position:relative;padding:0 0 5px 24px;font-size:12.5px;line-height:1.45;border-bottom:1px solid var(--hair);margin-bottom:5px}
+  .tt-ol li:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+  .tt-ol li::before{content:counter(t);position:absolute;left:0;top:0;font-family:"Fraunces",serif;font-weight:700;font-size:13px;width:16px;text-align:center;border-bottom:2px solid var(--spot)}
+  /* B: single tip card */
+  .tt-card{display:flex;gap:12px;align-items:flex-start}
+  .tt-card .ic{font-size:30px;filter:grayscale(1);line-height:1}
+  .tt-card h2{margin:0 0 2px}
+  /* C: doen / niet doen */
+  .tt-two{display:flex;gap:3mm}
+  .tt-two .col{flex:1;padding:8px 10px;border:1px solid var(--hair)}
+  .tt-two .col .h{font-family:"Archivo",sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}
+  .tt-two .col.do .h::before{content:"✓ ";}
+  .tt-two .col.dont .h{color:var(--muted)}
+  .tt-two .col.dont .h::before{content:"✕ ";}
+  .tt-two .col p{font-size:11.5px;line-height:1.4}
+
+  /* ============ 4. QUOTE VAN DE WEEK ============ */
+  /* A: centered pull */
+  .q-a{text-align:center;padding:8px 4px}
+  .q-a blockquote{font-family:"Fraunces",serif;font-weight:560;font-size:21px;line-height:1.28;margin:0;font-style:italic}
+  .q-a .by{font-family:"Archivo",sans-serif;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-top:8px}
+  /* B: big quote mark left */
+  .q-b{display:flex;gap:10px}
+  .q-b .mark{font-family:"Fraunces",serif;font-weight:700;font-size:54px;line-height:.8;color:var(--spot)}
+  .q-b blockquote{font-family:"Newsreader",serif;font-style:italic;font-size:16px;line-height:1.35;margin:0}
+  .q-b .by{font-family:"Archivo",sans-serif;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-top:6px;font-style:normal}
+  /* C: bordered box */
+  .q-c{border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);padding:10px 14px;text-align:center}
+  .q-c blockquote{font-family:"Fraunces",serif;font-weight:560;font-size:18px;line-height:1.3;margin:0}
+  .q-c .by{font-family:"Newsreader",serif;font-style:italic;font-size:12.5px;color:var(--muted);margin-top:6px}
+
+  /* ============ 5. WIJCHEN TOEN ============ */
+  .ph{background:repeating-linear-gradient(45deg,#ededeb,#ededeb 8px,#e3e3e0 8px,#e3e3e0 16px);display:flex;align-items:center;justify-content:center;color:var(--muted);font-family:"Archivo",sans-serif;font-size:10px;text-transform:uppercase;letter-spacing:.1em}
+  /* A: photo left, text right */
+  .wt-a{display:flex;gap:12px}
+  .wt-a .ph{flex:0 0 46mm;height:34mm}
+  .wt-a .tx h2{margin:0 0 3px}
+  /* B: full-width photo + caption bar */
+  .wt-b .ph{width:100%;height:40mm}
+  .wt-b .cap{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid var(--hair);padding:5px 0;font-size:11.5px;line-height:1.4}
+  .wt-b .cap .yr{font-family:"Fraunces",serif;font-weight:700;font-size:15px;flex:0 0 auto}
+  /* C: toen & nu */
+  .wt-c{display:flex;gap:3mm}
+  .wt-c figure{flex:1;margin:0}
+  .wt-c .ph{height:30mm}
+  .wt-c figcaption{font-family:"Archivo",sans-serif;font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-top:4px;display:flex;justify-content:space-between}
+
+  /* ============ 6. VOORUITBLIK / KALENDER ============ */
+  /* A: agenda list */
+  .cal-a{margin:0;padding:0;list-style:none}
+  .cal-a li{display:flex;gap:12px;align-items:baseline;padding:5px 0;border-bottom:1px solid var(--hair)}
+  .cal-a li:last-child{border-bottom:none}
+  .cal-a .d{font-family:"Fraunces",serif;font-weight:700;font-size:13px;flex:0 0 16mm;color:var(--spot)}
+  .cal-a .e{font-size:12.5px;line-height:1.35}
+  .cal-a .e b{font-weight:600}
+  .cal-a .e .pl{font-family:"Archivo",sans-serif;font-size:9px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-left:6px}
+  /* B: date-chip grid */
+  .cal-b{display:flex;gap:2mm;flex-wrap:wrap}
+  .cal-b .ev{flex:1 1 0;min-width:0;border:1px solid var(--hair);padding:7px 8px}
+  .cal-b .ev .dt{font-family:"Archivo",sans-serif;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--spot);border-bottom:2px solid var(--ink);padding-bottom:3px;margin-bottom:4px;display:inline-block}
+  .cal-b .ev h2{font-size:12.5px;margin:0}
+  /* C: three highlight cards */
+  .cal-c{display:flex;gap:3mm}
+  .cal-c .card{flex:1;border-top:3px solid var(--ink);padding-top:6px}
+  .cal-c .card .dt{font-family:"Fraunces",serif;font-weight:700;font-size:18px;line-height:1}
+  .cal-c .card .mo{font-family:"Archivo",sans-serif;font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+  .cal-c .card h2{font-size:12.5px;margin:5px 0 0}
+
+  /* ============ 7. POLLEN / UV ============ */
+  /* A: gauge row (weather-style) */
+  .idx{display:flex;gap:2mm}
+  .idx .cell{flex:1;text-align:center;border:1px solid var(--hair);background:#fff;padding:6px 4px}
+  .idx .cell .ic{font-size:19px;filter:grayscale(1);line-height:1}
+  .idx .cell .v{font-family:"Fraunces",serif;font-weight:560;font-size:15px;margin-top:3px}
+  .idx .cell .l{font-family:"Archivo",sans-serif;font-size:8.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin-top:1px}
+  /* B: labelled bars */
+  .bar{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+  .bar:last-child{margin-bottom:0}
+  .bar .bl{font-family:"Archivo",sans-serif;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;flex:0 0 22mm}
+  .bar .track{flex:1;height:7px;background:#ededeb;position:relative}
+  .bar .track span{position:absolute;left:0;top:0;bottom:0;background:var(--ink)}
+  .bar .bv{font-family:"Fraunces",serif;font-size:11px;flex:0 0 auto;width:18mm;text-align:right}
+  /* C: inline strip */
+  .idx-strip{display:flex;justify-content:space-between;gap:10px;border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);padding:6px 0;font-size:11.5px}
+  .idx-strip span b{font-family:"Fraunces",serif;font-weight:560}
+  .idx-strip .ttl{font-family:"Archivo",sans-serif;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);display:block}
+
+  /* ============ 8. CARTOON ============ */
+  /* A: framed single panel */
+  .ct-a{border:1.5px solid var(--ink);padding:6px}
+  .ct-a .ph{height:46mm}
+  .ct-a .cap{font-family:"Newsreader",serif;font-style:italic;font-size:12px;color:var(--muted);text-align:center;margin-top:6px}
+  /* B: small square + caption beside */
+  .ct-b{display:flex;gap:12px;align-items:center}
+  .ct-b .ph{flex:0 0 40mm;height:40mm;border:1.5px solid var(--ink)}
+  .ct-b .tx .by{font-family:"Archivo",sans-serif;font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-top:6px}
+  /* C: wide strip */
+  .ct-c .ph{width:100%;height:26mm;border:1.5px solid var(--ink)}
+  .ct-c .cap{font-family:"Newsreader",serif;font-style:italic;font-size:11.5px;color:var(--muted);text-align:right;margin-top:4px}
+
+  @media (max-width:520px){
+    #paper{padding:14px;margin:8px auto 30px}
+    .num-a{flex-wrap:wrap}
+    .wt-a{flex-direction:column}
+    .wt-a .ph{flex-basis:auto;height:34mm}
+  }
+</style>
+</head>
+
+<body id="paper">
+
+<!-- ================= 1. WIST U DAT? ================= -->
+<div class="mock-h">1 · Wist u dat?</div>
+<p class="mock-note">Klassieke vuller, warme toon, kan lokaal gekleurd worden.</p>
+
+<div class="variant">
+  <span class="tag">Variant A — inline lijst met zon-bullets</span>
+  <div class="sec" style="border:none;margin:0;padding:0">
+    <div class="kicker"><span class="k-label">Wist u dat?</span><span class="k-rule"></span></div>
+    <ul class="wud-list">
+      <li>De <b>Wijchense Berg</b> ooit een afgesloten vuilstort was — en straks een uitkijkpunt voor wandelaars wordt?</li>
+      <li>Het <b>Vierdaagse Orkest</b> in 1986 begon met een handvol muzikanten en er nu ruim 70 op het podium staan?</li>
+      <li>Het kasteel van Wijchen een van de <b>best bewaarde</b> waterkastelen van Gelderland is?</li>
+    </ul>
+  </div>
+</div>
+
+<div class="variant">
+  <span class="tag">Variant B — drieluik in kader</span>
+  <div class="wud-box">
+    <div class="hd">Wist u dat&hellip;</div>
+    <div class="body">
+      <div>&hellip;Wijchen zijn naam dankt aan het Romeinse <i>vicus</i>, een marktnederzetting?</div>
+      <div>&hellip;de Wijchense Meer ontstond door zandwinning voor de snelweg?</div>
+      <div>&hellip;Bergharen de enige &lsquo;berg&rsquo; in de wijde omtrek heeft?</div>
+    </div>
+  </div>
+</div>
+
+<div class="variant">
+  <span class="tag">Variant C — één hero-feit</span>
+  <div class="wud-hero">
+    <div class="lbl">Wist u dat?</div>
+    <p>De toren van de Wijchense Markt al meer dan vijf eeuwen de tijd aangeeft voor het dorp.</p>
+  </div>
+</div>
+
+
+<!-- ================= 2. NUMBER VAN DE WEEK ================= -->
+<div class="mock-h">2 · Nummer van de week</div>
+<p class="mock-note">Eén cijfer dat een verhaal vertelt — typografisch sterk in Fraunces.</p>
+
+<div class="variant">
+  <span class="tag">Variant A — groot getal links + duiding</span>
+  <div class="sec" style="border:none;margin:0;padding:0">
+    <div class="kicker"><span class="k-label">Cijfer v/d week</span><span class="k-rule"></span></div>
+    <div class="num-a">
+      <div class="big">45.000</div>
+      <div class="txt">
+        <h2>wandelaars uit ruim 70 landen</h2>
+        <p>lopen deze zomer mee met de 108e Nijmeegse Vierdaagse, van 21 t/m 24 juli — dwars door het Rijk van Nijmegen.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="variant">
+  <span class="tag">Variant B — gecentreerd met onderschrift</span>
+  <div class="num-b">
+    <div class="big">€49</div>
+    <div class="unit">per maand</div>
+    <div class="cap">kost het tijdelijke zomer-treinabonnement — ruim 60% onder het normale daltarief.</div>
+  </div>
+</div>
+
+<div class="variant">
+  <span class="tag">Variant C — drie mini-cijfers</span>
+  <div class="num-c">
+    <div class="cell"><div class="n">40</div><div class="l">jaar Vierdaagse-orkest</div></div>
+    <div class="cell"><div class="n">70+</div><div class="l">muzikanten op het podium</div></div>
+    <div class="cell"><div class="n">19.30</div><div class="l">aanvang concert markt</div></div>
+  </div>
+</div>
+
+
+<!-- ================= 3. TUINTIPS VAN DE WEEK ================= -->
+<div class="mock-h">3 · Tuintips van de week</div>
+<p class="mock-note">Seizoensgebonden, gezellig — sterk in de zomereditie.</p>
+
+<div class="variant">
+  <span class="tag">Variant A — genummerde tips</span>
+  <div class="sec" style="border:none;margin:0;padding:0">
+    <div class="kicker"><span class="k-label">Tuintips</span><span class="k-sub">eind juni in de moestuin</span><span class="k-rule"></span></div>
+    <ol class="tt-ol">
+      <li>Water geven? Doe het vroeg in de ochtend, dan verdampt er minder en groeien er geen schimmels.</li>
+      <li>Tomaten dieven: haal de zijscheuten weg zodat alle kracht naar de vruchten gaat.</li>
+      <li>Uitgebloeide rozen knippen stimuleert een tweede bloei in augustus.</li>
+    </ol>
+  </div>
+</div>
+
+<div class="variant">
+  <span class="tag">Variant B — één tip-kaart met icoon</span>
+  <div class="tt-card">
+    <div class="ic" aria-hidden="true">🌱</div>
+    <div>
+      <h2>Deze week: zaai je sla in de schaduw</h2>
+      <p>Bij zomerse hitte schiet sla snel door. Zaai daarom een nieuwe rij op een koel, half­beschaduwd plekje en houd de grond licht vochtig — over zes weken oogst je knapperige kropjes.</p>
+    </div>
+  </div>
+</div>
+
+<div class="variant">
+  <span class="tag">Variant C — wél doen / niet doen</span>
+  <div class="tt-two">
+    <div class="col do"><div class="h">Deze week wél</div><p>Mulchen met gemaaid gras: houdt de bodem vochtig en koel tijdens warme dagen.</p></div>
+    <div class="col dont"><div class="h">Deze week niet</div><p>De heg snoeien — veel vogels broeden nog. Wacht tot na half juli.</p></div>
+  </div>
+</div>
+
+
+<!-- ================= 4. QUOTE VAN DE WEEK ================= -->
+<div class="mock-h">4 · Quote van de week</div>
+<p class="mock-note">Een feest met Fraunces. Past dicht bij de lead-typografie van de krant.</p>
+
+<div class="variant">
+  <span class="tag">Variant A — gecentreerde pull-quote</span>
+  <div class="sec" style="border:none;margin:0;padding:0">
+    <div class="kicker"><span class="k-label">Quote v/d week</span><span class="k-rule"></span></div>
+    <div class="q-a">
+      <blockquote>&ldquo;Een prachtige kans om kennis te maken met de trein en de auto eens te laten staan.&rdquo;</blockquote>
+      <div class="by">Annet Bertram · staatssecretaris</div>
+    </div>
+  </div>
+</div>
+
+<div class="variant">
+  <span class="tag">Variant B — groot aanhalingsteken links</span>
+  <div class="q-b">
+    <div class="mark">&ldquo;</div>
+    <div>
+      <blockquote>Bergharen heeft met de buurtmarkt een bruisend hart teruggekregen.</blockquote>
+      <div class="by">Renske Helmer-Englebert · burgemeester</div>
+    </div>
+  </div>
+</div>
+
+<div class="variant">
+  <span class="tag">Variant C — in dubbele kaderlijn</span>
+  <div class="q-c">
+    <blockquote>&ldquo;Veertig jaar later staat nog altijd hetzelfde doel centraal: mensen verbinden door muziek.&rdquo;</blockquote>
+    <div class="by">— Vierdaagse Orkest, bij het jubileumconcert</div>
+  </div>
+</div>
+
+
+<!-- ================= 5. WIJCHEN TOEN ================= -->
+<div class="mock-h">5 · Wijchen toen</div>
+<p class="mock-note">Sterkste qua identiteit; vraagt wel beeldmateriaal (placeholders hieronder).</p>
+
+<div class="variant">
+  <span class="tag">Variant A — foto links, tekst rechts</span>
+  <div class="sec" style="border:none;margin:0;padding:0">
+    <div class="kicker"><span class="k-label">Wijchen toen</span><span class="k-rule"></span></div>
+    <div class="wt-a">
+      <div class="ph">foto · ± 1955</div>
+      <div class="tx">
+        <h2>De Markt, toen er nog karren reden</h2>
+        <p>Waar nu het terras van het zomerconcert staat, dreven boeren ooit hun vee naar de wekelijkse markt. De kerktoren op de achtergrond is een van de weinige bakens die onveranderd bleef.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="variant">
+  <span class="tag">Variant B — brede foto + onderschriftbalk</span>
+  <div class="wt-b">
+    <div class="ph">historische foto — volledige breedte</div>
+    <div class="cap">
+      <span class="yr">1962</span>
+      <span>De aanleg van de Wijchense Meer: zandwinning voor de nieuwe snelweg gaf het dorp onbedoeld zijn geliefde recreatieplas.</span>
+    </div>
+  </div>
+</div>
+
+<div class="variant">
+  <span class="tag">Variant C — &lsquo;toen &amp; nu&rsquo; naast elkaar</span>
+  <div class="wt-c">
+    <figure><div class="ph">toen</div><figcaption><span>Stationsstraat</span><span>1948</span></figcaption></figure>
+    <figure><div class="ph">nu</div><figcaption><span>Stationsstraat</span><span>2026</span></figcaption></figure>
+  </div>
+</div>
+
+
+<!-- ================= 6. VOORUITBLIK / KALENDER ================= -->
+<div class="mock-h">6 · Vooruitblik / kalender</div>
+<p class="mock-note">Functioneel; lijstvorm vraagt aandacht om niet rommelig te ogen.</p>
+
+<div class="variant">
+  <span class="tag">Variant A — agenda-lijst (datum | activiteit)</span>
+  <div class="sec" style="border:none;margin:0;padding:0">
+    <div class="kicker"><span class="k-label">Vooruitblik</span><span class="k-sub">de komende weken in Wijchen</span><span class="k-rule"></span></div>
+    <ul class="cal-a">
+      <li><span class="d">4 jul</span><span class="e"><b>Terugkeer nachtbus</b> vanuit Nijmegen <span class="pl">vervoer</span></span></li>
+      <li><span class="d">18–24 jul</span><span class="e"><b>Vierdaagsefeesten</b> in de binnenstad <span class="pl">festival</span></span></li>
+      <li><span class="d">21 jul</span><span class="e"><b>Jubileumconcert</b> Vierdaagse Orkest, Markt <span class="pl">muziek · gratis</span></span></li>
+    </ul>
+  </div>
+</div>
+
+<div class="variant">
+  <span class="tag">Variant B — datum-chips naast elkaar</span>
+  <div class="cal-b">
+    <div class="ev"><span class="dt">vr 4 jul</span><h2>Nachtnet keert terug naar Wijchen</h2></div>
+    <div class="ev"><span class="dt">di 21 jul</span><h2>Gratis jubileumconcert op de Markt</h2></div>
+    <div class="ev"><span class="dt">za 18 jul</span><h2>Start Vierdaagsefeesten Nijmegen</h2></div>
+  </div>
+</div>
+
+<div class="variant">
+  <span class="tag">Variant C — drie highlight-kaarten</span>
+  <div class="cal-c">
+    <div class="card"><span class="dt">04</span><span class="mo">juli</span><h2>Nachtbus terug</h2></div>
+    <div class="card"><span class="dt">21</span><span class="mo">juli</span><h2>Concert op de Markt</h2></div>
+    <div class="card"><span class="dt">24</span><span class="mo">juli</span><h2>Finale Vierdaagse</h2></div>
+  </div>
+</div>
+
+
+<!-- ================= 7. POLLEN / UV / ETC ================= -->
+<div class="mock-h">7 · Pollen / UV / etc</div>
+<p class="mock-note">Technisch makkelijk (zelfde Open-Meteo-bron), maar inhoudelijk dicht bij het weerblok.</p>
+
+<div class="variant">
+  <span class="tag">Variant A — meter-rij in weer-stijl</span>
+  <div class="sec" style="border:none;margin:0;padding:0">
+    <div class="kicker"><span class="k-label">Buitenwijzer</span><span class="k-sub">Wijchen — vandaag</span><span class="k-rule"></span></div>
+    <div class="idx">
+      <div class="cell"><div class="ic" aria-hidden="true">☀️</div><div class="v">7</div><div class="l">UV-index · hoog</div></div>
+      <div class="cell"><div class="ic" aria-hidden="true">🌾</div><div class="v">Matig</div><div class="l">graspollen</div></div>
+      <div class="cell"><div class="ic" aria-hidden="true">😷</div><div class="v">Goed</div><div class="l">luchtkwaliteit</div></div>
+      <div class="cell"><div class="ic" aria-hidden="true">🌅</div><div class="v">05:21</div><div class="l">zon op</div></div>
+      <div class="cell"><div class="ic" aria-hidden="true">🌇</div><div class="v">22:04</div><div class="l">zon onder</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="variant">
+  <span class="tag">Variant B — gelabelde balken</span>
+  <div>
+    <div class="bar"><span class="bl">UV-index</span><span class="track"><span style="width:70%"></span></span><span class="bv">7 · hoog</span></div>
+    <div class="bar"><span class="bl">Graspollen</span><span class="track"><span style="width:55%"></span></span><span class="bv">matig</span></div>
+    <div class="bar"><span class="bl">Luchtkwal.</span><span class="track"><span style="width:25%"></span></span><span class="bv">goed</span></div>
+  </div>
+</div>
+
+<div class="variant">
+  <span class="tag">Variant C — compacte strip onder het weer</span>
+  <div class="idx-strip">
+    <span><span class="ttl">UV-index</span><b>7</b> hoog</span>
+    <span><span class="ttl">Graspollen</span><b>matig</b></span>
+    <span><span class="ttl">Zon op/onder</span><b>05:21 — 22:04</b></span>
+    <span><span class="ttl">Luchtkwaliteit</span><b>goed</b></span>
+  </div>
+</div>
+
+
+<!-- ================= 8. CARTOON ================= -->
+<div class="mock-h">8 · Cartoon</div>
+<p class="mock-note">Beste intermezzo, maar botst met de bewust illustratie-arme stijl en vraagt wekelijks nieuw werk.</p>
+
+<div class="variant">
+  <span class="tag">Variant A — gekaderd paneel</span>
+  <div class="sec" style="border:none;margin:0;padding:0">
+    <div class="kicker"><span class="k-label">Prent van de week</span><span class="k-rule"></span></div>
+    <div class="ct-a">
+      <div class="ph">cartoon · enkel paneel</div>
+      <div class="cap">&ldquo;Eindelijk een berg om vanaf te fietsen&rdquo; — over de heropende Wijchense Berg.</div>
+    </div>
+  </div>
+</div>
+
+<div class="variant">
+  <span class="tag">Variant B — vierkant + tekst ernaast</span>
+  <div class="ct-b">
+    <div class="ph">cartoon</div>
+    <div class="tx">
+      <h2>De spotprent</h2>
+      <p>Een knipoog naar de overstap van Breng naar RRReis — drie R&rsquo;en, en de bus die maar niet komt.</p>
+      <div class="by">tekening · huiscartoonist</div>
+    </div>
+  </div>
+</div>
+
+<div class="variant">
+  <span class="tag">Variant C — brede strip</span>
+  <div class="ct-c">
+    <div class="ph">cartoon · liggende strook</div>
+    <div class="cap">De zomer in Wijchen, in één tekening.</div>
+  </div>
+</div>
+
+</body>
+</html>
