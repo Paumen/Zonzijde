@@ -16,6 +16,7 @@
     --muted:#6A6A6A;   /* grijs */
     --hair:#C9C9C7;    /* grijze lijntjes */
     --spot:#121212;    /* accent = zwart (geen kleur meer) */
+    --radius:6px;      /* zachte hoeken voor een vrolijker gevoel */
   }
   *{box-sizing:border-box}
   html,body{margin:0}
@@ -42,7 +43,7 @@
   button{
     font-family:"Archivo",system-ui,sans-serif;font-size:12px;font-weight:600;
     letter-spacing:.02em;
-    padding:5px 11px;border:1px solid var(--ink);border-radius:0;
+    padding:5px 11px;border:1px solid var(--ink);border-radius:var(--radius);
     background:var(--paper);color:var(--ink);cursor:pointer;
   }
   button:hover{background:var(--ink);color:var(--paper)}
@@ -88,13 +89,14 @@
   .mh-sub .dot{color:var(--spot)}
 
   /* ---------- Sections ---------- */
-  .sec{margin-top:6mm;padding-top:3mm;border-top:1px solid var(--hair)}
+  .sec{margin-top:6mm;padding-top:3mm;border-top:1px dotted var(--hair)}
   .sec:first-of-type{border-top:none;padding-top:0;margin-top:0}
   .kicker{display:flex;align-items:center;gap:8px;margin-bottom:3mm}
   .k-label{
     font-family:"Archivo",sans-serif;font-weight:700;font-size:11.5px;
     text-transform:uppercase;letter-spacing:.08em;
     background:var(--ink);color:var(--paper);padding:3px 8px 2px;
+    border-radius:var(--radius);
   }
   .k-sub{font-family:"Newsreader",serif;font-style:italic;font-size:12px;color:var(--muted)}
   .k-rule{flex:1;height:2px;background:var(--ink);align-self:center}
@@ -135,6 +137,7 @@
   .wx-day{
     flex:1 1 0;min-width:0;text-align:center;
     border:1px solid var(--hair);background:#fff;padding:3mm 1mm 2.5mm;
+    border-radius:var(--radius);
   }
   .wx-day.today{border:2px solid var(--ink)}
   .wx-day .wd{
@@ -202,7 +205,7 @@
 <main id="paper">
   <header id="masthead">
     <div class="mh-top">
-      <span id="edition">Editie Wijchen</span>
+      <span id="date">—</span>
       <span>Nr. 1</span>
     </div>
     <h1 id="nameplate">
@@ -235,8 +238,10 @@
     </h1>
     <div class="mh-sub">
       <span id="tagline">Alleen goed nieuws</span>
-      <span class="dot">◆</span>
-      <span id="date">—</span>
+      <span class="dot">✿</span>
+      <span id="edition">Editie Wijchen</span>
+      <span class="dot">✿</span>
+      <span>Altijd aan de zonzijde</span>
     </div>
   </header>
   <div id="sections">
