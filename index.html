@@ -166,10 +166,11 @@
     padding:12mm 4mm;
   }
 
-  /* ---------- Bloem (decoratieve scheiding, halverwege de krant) ---------- */
-  .bloem-figuur{margin:6mm 0 5mm;text-align:center;break-inside:avoid}
-  .bloem-figuur .spot{display:inline-block;width:30mm;height:37.5mm}   /* expliciete hoogte (viewBox 120×150 = 4:5) — html2canvas/PDF-proof */
-  /* float:left + margin:1px 5mm 2mm 0  -> if you want text to wrap around it */
+  /* ---------- Bloem (decoratieve illustratie, halverwege de krant) ----------
+     Zweeft links in de kolom zodat de tekst eromheen loopt — zo blijft er
+     geen grote witruimte naast de bloem staan. */
+  .spot{float:left;width:22mm;height:27.5mm;   /* viewBox 120×150 = 4:5 — expliciete hoogte = html2canvas/PDF-proof */
+        margin:2px 4mm 2mm 0;shape-outside:margin-box;break-inside:avoid}
 
   /* ---------- Print ---------- */
   @page{size:A4;margin:13mm}
@@ -605,6 +606,9 @@ Zoek en geef ${s.count} positieve berichten van de afgelopen 7 dagen in het afge
         html += '<p class="empty">Vandaag geen goed nieuws gevonden voor deze rubriek.</p>';
       }else{
         html += '<div class="items">';
+        // Decoratieve bloem zweeft links in de eerste kolom van de rubriek die
+        // halverwege begint (idx 2 = Land), zodat de tekst er netjes omheen loopt.
+        if(idx === 2) html += '<svg class="spot" viewBox="0 0 120 150" data-flower aria-hidden="true"></svg>';
         items.forEach((it,i) => {
           const meta = [esc(it.bron), fmtDate(it.datum)].filter(Boolean).join(" · ");
           const cls = (i===0 ? " lead" : "") + (idx===0 && i===0 ? " span" : "");
@@ -619,9 +623,6 @@ Zoek en geef ${s.count} positieve berichten van de afgelopen 7 dagen in het afge
       html += '</section>';
       // Weerbalk op pagina 2: na de eerste rubriek, vóór de rest.
       if(idx === 0) html += '<div id="weer"></div>';
-      // Decoratieve bloem precies halverwege: na de tweede rubriek (Regio),
-      // vóór de tweede helft van de krant (Land, Wereld).
-      if(idx === 1) html += '<figure class="bloem-figuur"><svg class="spot" viewBox="0 0 120 150" data-flower aria-hidden="true"></svg></figure>';
     });
     $("sections").innerHTML = html;
     laadWeer();                        // (her)laad de 7-daagse verwachting
