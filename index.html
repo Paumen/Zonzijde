@@ -168,9 +168,10 @@
     /* Keep the two-column newspaper grid in the PDF/print output. */
     .items{column-width:auto;column-count:2;column-gap:7mm}
 
-    /* Keep short stories intact; let the long lead stories flow across columns. */
-    .item{break-inside:avoid}
-    .item.lead{break-inside:auto}
+    /* Let stories flow across the column/page break so columns fill evenly —
+       forcing whole stories to stay together leaves big gaps. Just keep a
+       headline from being stranded at the foot of a column (rule below). */
+    .item{break-inside:auto}
     .item h2, .item .meta{break-after:avoid}
     .item:last-child{border-bottom:none}
     .kicker{break-after:avoid;break-inside:avoid}
