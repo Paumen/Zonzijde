@@ -169,14 +169,27 @@
   .spot{float:left;width:18mm;height:22.5mm;
         margin:0.5mm 2mm 1mm 0;break-inside:avoid}
 
-  @page{size:A4;margin:13mm}
+  @page{size:A4;margin:12mm}
   @media print{
     html,body{background:#fff}
     .toolbar{display:none !important}
     #paper{width:auto;max-width:none;margin:0;padding:0;box-shadow:none}
 
     /* Keep the two-column newspaper grid in the PDF/print output. */
-    .items{column-width:auto;column-count:2;column-gap:7mm}
+    .items{column-width:auto;column-count:2;column-gap:6mm}
+
+    /* Pack a touch tighter in print so the edition doesn't spill a
+       near-empty extra page. Body stays comfortably readable (12px). */
+    .sec{margin-top:5mm}
+    .item, .item.lead{margin-bottom:2.8mm;padding-bottom:2.5mm}
+    .kicker{margin-bottom:2.4mm}
+    .item p{font-size:12px;line-height:1.4}
+    .item.lead p{font-size:12.5px;line-height:1.4}
+
+    /* Keep the closing illustration compact so it tucks onto the last page
+       instead of forcing a page of its own. */
+    .footer-art{margin-top:4mm;break-inside:avoid}
+    .footer-art .bp-art{height:30mm;width:auto;max-width:100%;margin:0 auto}
 
     /* Let stories flow across the column/page break so columns fill evenly —
        forcing whole stories to stay together leaves big gaps. Just keep a
