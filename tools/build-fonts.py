@@ -151,7 +151,7 @@ def write_css(faces):
             f"  unicode-range:{urange};",
             "}",
         ]
-    with open(os.path.join(ROOT, "fonts.css"), "w") as fh:
+    with open(os.path.join(ROOT, "fonts.css"), "w", encoding="utf-8") as fh:
         fh.write("\n".join(lines) + "\n")
 
 

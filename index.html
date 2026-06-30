@@ -658,9 +658,12 @@ Zoek en geef ${s.count} positieve berichten van de afgelopen 7 dagen in het afge
   // Native "Save as PDF": the browser's print pipeline keeps real (vector,
   // selectable) text, the two-column layout and the embedded fonts — far
   // sharper and smaller than a rasterised screenshot.
+  function vandaagLokaal(){
+    const t = new Date(), p = n => String(n).padStart(2,"0");
+    return t.getFullYear()+"-"+p(t.getMonth()+1)+"-"+p(t.getDate());
+  }
   function pdfBestand(){
-    const d = editieDatum || new Date().toISOString().slice(0,10);
-    return "de-zonzijde-" + d;
+    return "de-zonzijde-" + (editieDatum || vandaagLokaal());
   }
   async function afdrukken(filenameTitle){
     if(document.fonts && document.fonts.ready){
@@ -669,13 +672,15 @@ Zoek en geef ${s.count} positieve berichten van de afgelopen 7 dagen in het afge
     // Most browsers seed the suggested PDF filename from document.title.
     const prev = document.title;
     if(filenameTitle) document.title = filenameTitle;
+    let timer = 0;
     const herstel = () => {
+      if(timer){ clearTimeout(timer); timer = 0; }
       document.title = prev;
       window.removeEventListener("afterprint", herstel);
     };
     window.addEventListener("afterprint", herstel);
     // Safety net in case afterprint never fires (some mobile browsers).
-    setTimeout(herstel, 60000);
+    timer = setTimeout(herstel, 60000);
     window.print();
   }
   async function exportPDF(){
