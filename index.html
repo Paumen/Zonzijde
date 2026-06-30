@@ -8,10 +8,9 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>De Zonzijde — goed nieuws</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,560;9..144,640;9..144,700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Archivo:wght@500;600;700&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<!-- Self-hosted, embedded fonts (Fraunces / Newsreader / Archivo, Latin + Latin-Ext,
+     variable axes preserved). Keeps typography correct in print/PDF even offline. -->
+<link rel="stylesheet" href="fonts.css">
 <style>
   :root{
     --paper:#FCFCFB;
@@ -126,10 +125,6 @@
     padding:2px 6px 0 0;color:var(--ink);
   }
 
-  .exporting #paper{box-shadow:none}
-  .exporting .items{column-width:auto;column-count:1}
-  .exporting .item.lead{column-span:none}
-
   #weer:empty{display:none}
   .wx{display:flex;gap:2mm}
   .wx-day{
@@ -166,17 +161,27 @@
 
   @page{size:A4;margin:13mm}
   @media print{
-    body{background:#fff}
-    .toolbar{display:none}
+    html,body{background:#fff}
+    .toolbar{display:none !important}
     #paper{width:auto;max-width:none;margin:0;padding:0;box-shadow:none}
 
+    /* Keep the two-column newspaper grid in the PDF/print output. */
     .items{column-width:auto;column-count:2;column-gap:7mm}
 
-    .item{break-inside:auto}
+    /* Keep short stories intact; let the long lead stories flow across columns. */
+    .item{break-inside:avoid}
+    .item.lead{break-inside:auto}
     .item h2, .item .meta{break-after:avoid}
     .item:last-child{border-bottom:none}
-    .kicker{break-after:avoid}
-    .wx{break-inside:avoid}
+    .kicker{break-after:avoid;break-inside:avoid}
+    .sec{break-inside:auto}
+    .wx,.wx-day{break-inside:avoid}
+    p{orphans:3;widows:3}
+
+    /* Force inked backgrounds, borders and rules to actually print. */
+    body,#masthead,.mh-sub,.k-label,.k-rule,.item,.wx-day{
+      -webkit-print-color-adjust:exact;print-color-adjust:exact;
+    }
   }
 
   @media (max-width:520px){
@@ -190,7 +195,7 @@
   <span class="brand">De Zonzijde</span>
   <button id="gen" onclick="genereer()">Genereer krant</button>
   <button id="pdf" onclick="exportPDF()">PDF</button>
-  <button id="prn" onclick="window.print()">Print</button>
+  <button id="prn" onclick="afdruk()">Print</button>
   <button id="cpy" onclick="kopieer()">Kopieer</button>
   <button id="key" onclick="stelSleutelIn()">Sleutel</button>
   <span class="grow"></span>
@@ -650,30 +655,42 @@ Zoek en geef ${s.count} positieve berichten van de afgelopen 7 dagen in het afge
     flash(ok ? "Gekopieerd" : "Kopiëren lukt hier niet");
   }
 
+  // Native "Save as PDF": the browser's print pipeline keeps real (vector,
+  // selectable) text, the two-column layout and the embedded fonts — far
+  // sharper and smaller than a rasterised screenshot.
+  function vandaagLokaal(){
+    const t = new Date(), p = n => String(n).padStart(2,"0");
+    return t.getFullYear()+"-"+p(t.getMonth()+1)+"-"+p(t.getDate());
+  }
+  function pdfBestand(){
+    return "de-zonzijde-" + (editieDatum || vandaagLokaal());
+  }
+  async function afdrukken(filenameTitle){
+    if(document.fonts && document.fonts.ready){
+      try { await document.fonts.ready; } catch(e){}
+    }
+    // Most browsers seed the suggested PDF filename from document.title.
+    const prev = document.title;
+    if(filenameTitle) document.title = filenameTitle;
+    let timer = 0;
+    const herstel = () => {
+      if(timer){ clearTimeout(timer); timer = 0; }
+      document.title = prev;
+      window.removeEventListener("afterprint", herstel);
+    };
+    window.addEventListener("afterprint", herstel);
+    // Safety net in case afterprint never fires (some mobile browsers).
+    timer = setTimeout(herstel, 60000);
+    window.print();
+  }
   async function exportPDF(){
     if(!laatste){ flash("Genereer eerst de krant"); return; }
-    if(typeof html2pdf === "undefined"){ flash("PDF-functie niet geladen"); return; }
-    setBusy(true); flash("PDF maken…");
-    try{
-      if(document.fonts && document.fonts.ready) await document.fonts.ready;
-      document.body.classList.add("exporting");
-      const opt = {
-        margin: 10,
-        filename: "de-zonzijde-"+new Date().toISOString().slice(0,10)+".pdf",
-        image: { type:"jpeg", quality:0.96 },
-        html2canvas: { scale: 2, useCORS: true, backgroundColor:"#FAF9F6" },
-        jsPDF: { unit:"mm", format:"a4", orientation:"portrait" },
-        pagebreak: { mode:["css","legacy"], avoid:".item" }
-      };
-      await html2pdf().set(opt).from($("paper")).save();
-      flash("PDF opgeslagen");
-    }catch(e){
-      console.error(e);
-      flash("PDF maken lukte niet");
-    }finally{
-      document.body.classList.remove("exporting");
-      setBusy(false);
-    }
+    flash("Kies ‘Opslaan als pdf’ in het printvenster");
+    await afdrukken(pdfBestand());
+  }
+  function afdruk(){
+    if(!laatste){ flash("Genereer eerst de krant"); return; }
+    afdrukken(pdfBestand());
   }
 
   editieDatum = PRELOAD_DATE;

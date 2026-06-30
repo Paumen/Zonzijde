@@ -8,9 +8,9 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>De Zonzijde — Editie Wijchen, 28 juni 2026</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,560;9..144,640;9..144,700&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&amp;family=Archivo:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<!-- Self-hosted, embedded fonts (Fraunces / Newsreader / Archivo, Latin + Latin-Ext,
+     variable axes preserved). Keeps typography correct in print/PDF even offline. -->
+<link rel="stylesheet" href="fonts.css">
 
 <style>
   :root{
@@ -171,16 +171,27 @@
 
   @page{size:A4;margin:13mm}
   @media print{
-    body{background:#fff}
-    .toolbar{display:none}
+    html,body{background:#fff}
+    .toolbar{display:none !important}
     #paper{width:auto;max-width:none;margin:0;padding:0;box-shadow:none}
 
+    /* Keep the two-column newspaper grid in the PDF/print output. */
     .items{column-width:auto;column-count:2;column-gap:7mm}
-    .item{break-inside:auto}
+
+    /* Keep short stories intact; let the long lead stories flow across columns. */
+    .item{break-inside:avoid}
+    .item.lead{break-inside:auto}
     .item h2, .item .meta{break-after:avoid}
     .item:last-child{border-bottom:none}
-    .kicker{break-after:avoid}
-    .wx{break-inside:avoid}
+    .kicker{break-after:avoid;break-inside:avoid}
+    .sec{break-inside:auto}
+    .wx,.wx-day{break-inside:avoid}
+    p{orphans:3;widows:3}
+
+    /* Force inked backgrounds, borders and rules to actually print. */
+    body,#masthead,.mh-sub,.k-label,.k-rule,.item,.wx-day{
+      -webkit-print-color-adjust:exact;print-color-adjust:exact;
+    }
   }
 
   @media (max-width:520px){
