@@ -19,8 +19,6 @@
     --muted:#6A6A6A;
     --hair:#C9C9C7;
     --spot:#121212;
-
-    --flower-ink:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Ctext x='6' y='6' font-size='11' text-anchor='middle' dominant-baseline='central' fill='%23121212'%3E%E2%9D%80%3C/text%3E%3C/svg%3E");
   }
   *{box-sizing:border-box}
   html,body{margin:0}
@@ -99,7 +97,7 @@
   }
   .k-sub{font-family:"Newsreader",serif;font-style:italic;font-size:12px;color:var(--muted)}
 
-  .k-rule{flex:1;height:12px;align-self:center;background:var(--flower-ink) repeat-x left center;background-size:12px 12px;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+  .k-rule{flex:1;height:0;align-self:center;border-top:1.5px solid var(--ink);print-color-adjust:exact;-webkit-print-color-adjust:exact}
 
   .items{column-width:56mm;column-gap:6mm}
   .item{break-inside:avoid;margin:0 0 3.6mm;padding-bottom:3.2mm;border-bottom:1px solid var(--hair)}
