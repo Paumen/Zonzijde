@@ -1,0 +1,7 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# Generated data exports
+bgg_top_games.csv
+top*.csv
