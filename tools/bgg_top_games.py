@@ -92,6 +92,13 @@ def _get(url: str, tries: int = 5) -> bytes:
                 backoff *= 2
                 continue
             raise
+        except (urllib.error.URLError, TimeoutError, ConnectionError) as exc:
+            # Transient network failure (DNS, timeout, connection reset) — retry.
+            if attempt < tries:
+                time.sleep(backoff)
+                backoff *= 2
+                continue
+            raise
     raise RuntimeError(f"gave up fetching {url} after {tries} tries")
 
 
@@ -103,7 +110,10 @@ def ranked_ids_from_csv(path: str, top: int) -> list[tuple[int, dict]]:
             rank = row.get("rank") or row.get("Rank")
             if not rank or not rank.strip().isdigit():
                 continue
-            rows.append((int(rank), int(row["id"]), row))
+            gid = row.get("id") or row.get("Id") or row.get("ID")
+            if not gid or not gid.strip().isdigit():
+                continue
+            rows.append((int(rank), int(gid), row))
     rows.sort(key=lambda r: r[0])
     return [(gid, row) for _rank, gid, row in rows[:top]]
 
@@ -114,14 +124,15 @@ def ranked_ids_from_browse(top: int) -> list[tuple[int, dict]]:
     page = 1
     while len(out) < top:
         html = _get(BROWSE.format(page=page)).decode("utf-8", "replace")
-        # Each ranked row links to /boardgame/<id>/<slug>; the rank is the
-        # leading cell. Pull ids in document order (already rank order).
-        ids = re.findall(r"/boardgame/(\d+)/", html)
+        # Only pull ids from the ranked table rows (id="row_..."); matching every
+        # /boardgame/<id>/ link would also grab sidebar/header/footer games and
+        # corrupt the ranking order. Rows appear in document (rank) order.
         seen, fresh = set(), []
-        for gid in ids:
-            if gid not in seen:
-                seen.add(gid)
-                fresh.append(int(gid))
+        for row in re.findall(r'<tr[^>]*id="row_".*?</tr>', html, re.DOTALL):
+            match = re.search(r"/boardgame/(\d+)/", row)
+            if match and match.group(1) not in seen:
+                seen.add(match.group(1))
+                fresh.append(int(match.group(1)))
         if not fresh:
             break
         for gid in fresh:
