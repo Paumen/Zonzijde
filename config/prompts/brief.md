@@ -1,7 +1,7 @@
 ---
 version: 1
-role: product brief — prompt input for select (S4/PIPE-4) and outline (S6/PIPE-6)
-source: concept_ZZ.md §1, verbatim
+role: product brief for a 6 content contributor or reviewer or planner or editor.
+source: concept_zz.Md.
 ---
 People are worn out by negative news. It pours in non-stop through every channel — traditional, social, digital, and now AI-generated — and it is nearly impossible not to be dragged along. Negativity is partly wired into us, which is why "why is news always bad?" never gets a satisfying answer. But there is a saturation point, and more and more people are reaching it: consumed by everything going wrong everywhere, all the time, and numbed by fake news, clickbait, deepfakes, and sensationalism. The odd thing is that on many fronts life is measurably better than it was ten, twenty, or thirty years ago — yet people don't feel it, see it, or believe it. That is the negativity spiral. The rise of podcasts shows a desire to slow down and step out of the drama; growing numbers are breaking lifelong habits — switching off the TV news, sighing at yet another morning-paper page of violence, death, and war.
 
