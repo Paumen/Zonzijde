@@ -79,6 +79,9 @@ def read_input(args):
                 blobs.append(fh.read())
         elif URL_RE.fullmatch(a) or a.startswith("http"):
             blobs.append(a)
+        else:
+            print(f"waarschuwing: '{a}' is geen bestaand bestand of geldige URL — overgeslagen.",
+                  file=sys.stderr)
     if not blobs and not sys.stdin.isatty():
         blobs.append(sys.stdin.read())
     text = "\n".join(blobs)
@@ -118,10 +121,14 @@ def parse_md_table(text):
     for line in rows[2:]:                       # skip header + separator row
         col = cells(line)
         raw = col[idx["link"]] if "link" in idx and idx["link"] < len(col) else line
-        m = MD_LINK_RE.search(raw) or URL_RE.search(raw)
-        if not m:
-            continue
-        link = m.group(1) if m.re is MD_LINK_RE else m.group(0)
+        m_link = MD_LINK_RE.search(raw)
+        if m_link:
+            link = m_link.group(1)
+        else:
+            m_url = URL_RE.search(raw)
+            if not m_url:
+                continue
+            link = m_url.group(0)
         if link in seen:
             continue
         seen.add(link)
@@ -151,6 +158,8 @@ def extract(html, url):
 def fetch_requests(rec, timeout):
     r = requests.get(rec["link"], headers={"User-Agent": UA},
                      timeout=timeout, verify=VERIFY)
+    if r.status_code != 200:            # 403/404/500 bodies are error pages, not the article
+        return (None, None, None, "", []), r.status_code
     return extract(r.text, rec["link"]), r.status_code
 
 
@@ -165,7 +174,8 @@ def process(rec, timeout, min_words):
                    date=date, text=text, links=links, words=len(text.split()))
         out["ok"] = out["words"] >= min_words
         if not out["ok"]:
-            out["note"] = "too thin for plain fetch (likely consent wall / JS / bot block)"
+            out["note"] = (f"HTTP {status} (error page, not the article)" if status != 200
+                           else "too thin for plain fetch (likely consent wall / JS / bot block)")
     except Exception as e:
         out["note"] = f"{type(e).__name__}: {e}"
     out["sec"] = round(time.perf_counter() - t0, 2)
@@ -222,7 +232,11 @@ def render_blocked(recs, timeout, min_words):
             ctx = browser.new_context(user_agent=UA, locale="nl-NL")
             page = ctx.new_page()
             try:
-                page.goto(r["link"], wait_until="domcontentloaded", timeout=timeout * 1000)
+                resp = page.goto(r["link"], wait_until="domcontentloaded", timeout=timeout * 1000)
+                if resp and resp.status != 200:     # don't extract an error page
+                    r["method"] = "playwright"
+                    r["note"] = f"browser got HTTP {resp.status}; using RSS summary"
+                    continue
                 page.wait_for_timeout(2500)     # let JS + consent settle
                 for sel in CONSENT_SELECTORS:
                     try:
@@ -277,8 +291,9 @@ def write_outputs(recs, out_dir):
         if r.get("ok") and r.get("text"):
             lines.append(r["text"])
         else:                                   # fallback: the RSS summary we started with
-            lines.append(f"> _(brontekst geblokkeerd — RSS-samenvatting)_\n>\n"
-                         f"> {r.get('samenvatting') or '—'}")
+            summary = r.get("samenvatting") or "—"
+            quoted = "\n".join(f"> {ln}" for ln in summary.splitlines() or ["—"])
+            lines.append(f"> _(brontekst geblokkeerd — RSS-samenvatting)_\n>\n{quoted}")
         if r.get("links"):
             lines.append("\n**Links in artikel:**")
             lines += [f"- {u}" for u in r["links"][:15]]
