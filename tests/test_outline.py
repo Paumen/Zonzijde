@@ -184,7 +184,8 @@ def test_run_writes_outline_and_log(tmp_ctx):
     outline.run(tmp_ctx, call=call)
     assert "People are worn out" in seen["system"]  # brief.md is the system
     assert "Edition constants (SPEC §5)" in seen["prompt"]
-    assert "woord" in seen["prompt"]                # full texts are inline
+    assert "Shortlist" in seen["prompt"] and "samenvatting=" in seen["prompt"]
+    assert "woord" not in seen["prompt"]            # full texts are NOT inline
 
     result = load_model(tmp_ctx.work_dir / "60-outline.json", EditionOutline)
     assert result.edition == tmp_ctx.edition

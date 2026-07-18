@@ -10,11 +10,12 @@ Two-stage fetch, because a few of the sources block plain HTTP clients:
   2. Playwright (headless Chromium) — only for links stage 1 left blocked or
      too thin (consent gates, JS-rendered bodies).
 
-Re-source-or-drop, per topic: a topic whose other source rows delivered full
-text needs nothing more (the sibling rows *are* the re-source). A topic with
-no full text at all gets one search for alternative coverage; if that also
-fails, the topic is dropped and logged — S6 sees the drop log so scope counts
-can rebalance (ARCHITECTURE §3).
+Pure code, no model: re-source-or-drop, per topic. A topic whose other source
+rows delivered full text needs nothing more (the sibling rows *are* the
+re-source). A topic with no full text on any of its rows is dropped and
+logged — S6 sees the drop log so scope counts can rebalance (ARCHITECTURE §3).
+There is no summary fallback (a blurb is never writing material) and no
+alternative-coverage search: enrichment stays deterministic plain code.
 """
 
 from __future__ import annotations
@@ -25,12 +26,10 @@ import re
 import time
 from concurrent.futures import ThreadPoolExecutor
 from typing import Callable
-from urllib.parse import urlsplit
 
 import requests
 import trafilatura
 
-from .. import llm
 from ..context import RunContext
 from ..contracts import ArticleText, Candidate, CandidateItem, load_artifact, save_artifact
 from ..net import VERIFY
@@ -44,19 +43,11 @@ MD_LINK_RE = re.compile(r"\[[^\]]+\]\((https?://[^)]+)\)")
 Fetch = Callable[[str, float], tuple[int, str]]
 # render(blocked_articles, timeout, min_words) -> recovered count; mutates.
 Render = Callable[[list[ArticleText], float, int], int]
-# search(query, timeout, max_results) -> candidate URLs.
-Search = Callable[[str, float, int], list[str]]
 
 
 def _dedupe(seq: list[str]) -> list[str]:
     seen: set[str] = set()
     return [x for x in seq if not (x in seen or seen.add(x))]
-
-
-def _host(url: str) -> str:
-    """Hostname normalised for comparison: hostnames are case-insensitive and
-    a site may serve the same pages with and without ``www.``."""
-    return urlsplit(url).netloc.lower().removeprefix("www.")
 
 
 # ----- fetch + extraction ---------------------------------------------------
@@ -189,102 +180,16 @@ def render_blocked(blocked: list[ArticleText], timeout: float,
     return recovered
 
 
-# ----- alternative coverage (the "search" half of re-source-or-drop) --------
-#
-# Scraping a search engine is a dead end here: production runs from
-# datacenter IPs (GitHub Actions) which the engines bot-wall. The frontier
-# tier already provides tool-assisted browsing (§6 — the same adapter gives
-# S6 its SRC-3 browsing), so a fully-blocked topic gets one short WebSearch
-# session. Operational instruction, not editorial wording, hence in code
-# (like S4's SHAPE_NOTE) rather than config/prompts/.
-
-SEARCH_SYSTEM = (
-    "Je zoekt alternatieve berichtgeving voor een Nederlands nieuwsverhaal "
-    "waarvan de oorspronkelijke bron niet op te halen is. Zoek op het web en "
-    "geef directe artikel-URL's van andere nieuwsmedia over precies hetzelfde "
-    "verhaal. Alleen nieuwsartikelen — geen homepagina's, aggregators, "
-    "zoekpagina's, Wikipedia of profielpagina's. Vind je geen berichtgeving "
-    "over hetzelfde verhaal, geef dan een lege lijst.")
-
-SEARCH_SCHEMA = {
-    "type": "object",
-    "properties": {"urls": {"type": "array", "items": {"type": "string"}}},
-    "required": ["urls"],
-    "additionalProperties": False,
-}
-
-
-def make_search(cfg: dict) -> Search:
-    """Default alternative-coverage search: one frontier session with
-    WebSearch. Failures (no key, transport) surface as ``LlmError`` — the
-    caller logs them and the topic drops (PIPE-5), never a summary fallback."""
-    def search(query: str, timeout: float, max_results: int) -> list[str]:
-        payload = llm.frontier_json(
-            f"Vind maximaal {max_results} alternatieve bronnen voor dit "
-            f"verhaal: {query}. Doe hooguit 2 zoekopdrachten en geef "
-            f"daarna direct je antwoord.",
-            system=SEARCH_SYSTEM, schema=SEARCH_SCHEMA,
-            model=cfg["model"], effort=cfg.get("effort"),
-            allowed_tools=["WebSearch"], max_turns=16)
-        urls = payload.get("urls") if isinstance(payload, dict) else None
-        if not isinstance(urls, list):
-            raise llm.LlmError(f"search returned no urls list: {payload!r:.200}")
-        # News-only is the search prompt's job (SEARCH_SYSTEM); no code-side
-        # host blocklist second-guesses it.
-        return _dedupe([u for u in urls if isinstance(u, str)
-                        and u.startswith("http")])[:max_results]
-    return search
-
-
-def _alt_source(cand: Candidate, articles: dict[str, ArticleText],
-                fetch: Fetch, search: Search, timeout: float,
-                min_words: int, max_results: int) -> dict:
-    """Search for alternative coverage of a fully-blocked topic; on success
-    the text lands on the topic's first row as ``method: alt-source``.
-    Returns the log entry either way."""
-    query = cand.items[0].titel  # the headline finds same-story coverage
-    own_hosts = {_host(r.link) for r in cand.items}
-    log: dict = {"query": query, "tried": [], "picked": None}
-    try:
-        results = search(query, timeout, max_results)
-    except (requests.RequestException, llm.LlmError) as e:
-        log["error"] = f"search failed: {type(e).__name__}: {e}"
-        return log
-    log["found"] = len(results)
-    for url in results:
-        if _host(url) in own_hosts:  # those hosts just blocked us
-            continue
-        log["tried"].append(url)
-        try:  # best-effort per URL: one bad page must not kill the run
-            status, html = fetch(url, timeout)
-            if status != 200:
-                continue
-            text, links = extract(html, url)
-        except Exception:
-            continue
-        words = len(text.split())
-        if words >= min_words:
-            art = articles[cand.items[0].id]
-            art.ok, art.method = True, "alt-source"
-            art.text, art.words, art.links = text, words, links
-            art.note = f"alt coverage: {url}"
-            log["picked"] = url
-            return log
-    return log
-
-
 # ----- the stage ------------------------------------------------------------
 
 def run(ctx: RunContext, fetch: Fetch | None = None,
-        render: Render | None = None, search: Search | None = None) -> None:
+        render: Render | None = None) -> None:
     cfg = ctx.enrich_cfg
     timeout = float(cfg.get("timeout_s", 25))
     min_words = int(cfg.get("min_words", 120))
     concurrency = int(cfg.get("concurrency", 8))
-    max_results = int(cfg.get("search_results", 5))
     fetch = fetch or fetch_html
     render = render or render_blocked
-    search = search or make_search(ctx.llm_cfg("frontier"))
 
     candidates = load_artifact(ctx.work_dir / "40-candidates.json", Candidate)
     if not candidates:
@@ -306,17 +211,14 @@ def run(ctx: RunContext, fetch: Fetch | None = None,
     if blocked and cfg.get("browser", True):
         render(blocked, timeout, min_words)
 
+    # A topic is dropped when none of its source rows delivered full text
+    # (the sibling rows are the only re-source; no search fallback).
     topics_log: list[dict] = []
     for cand in candidates:
         ok_rows = sum(1 for r in cand.items if articles[r.id].ok)
         entry = {"scope": cand.scope, "rank": cand.rank, "topic": cand.topic,
                  "rows": len(cand.items), "ok_rows": ok_rows,
-                 "alt_search": None, "dropped": False}
-        if ok_rows == 0:  # sibling rows delivered nothing either → search
-            entry["alt_search"] = _alt_source(cand, articles, fetch, search,
-                                              timeout, min_words, max_results)
-            entry["ok_rows"] = sum(1 for r in cand.items if articles[r.id].ok)
-        entry["dropped"] = entry["ok_rows"] == 0
+                 "dropped": ok_rows == 0}
         if entry["dropped"]:
             for row in cand.items:
                 art = articles[row.id]
@@ -326,7 +228,7 @@ def run(ctx: RunContext, fetch: Fetch | None = None,
 
     save_artifact(ctx.work_dir / "50-articles.json", list(articles.values()))
     methods = {m: sum(1 for a in articles.values() if a.ok and a.method == m)
-               for m in ("requests", "playwright", "alt-source")}
+               for m in ("requests", "playwright")}
     dropped = [t["topic"] for t in topics_log if t["dropped"]]
     log = {
         "rows": len(articles),
@@ -341,6 +243,5 @@ def run(ctx: RunContext, fetch: Fetch | None = None,
         json.dumps(log, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
     print(f"S5 enrich: {log['rows']} source rows → {log['full_text']} full texts"
-          f" (requests {methods['requests']}, playwright {methods['playwright']},"
-          f" alt-source {methods['alt-source']});"
+          f" (requests {methods['requests']}, playwright {methods['playwright']});"
           f" {len(dropped)} topic(s) dropped in {log['duration_s']}s")

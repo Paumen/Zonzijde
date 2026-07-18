@@ -1,19 +1,24 @@
-"""S6 outline (PIPE-6): a frontier LLM plans the edition.
+"""S6 outline (PIPE-6): a frontier LLM plans the edition — a quick pitch.
 
-Reads ``40-candidates.json``, ``50-articles.json`` (full texts; only ``ok``
-rows are writing material), ``50-enrich-log.json`` (the drop log, so scope
-counts can rebalance) and ``30-scored.json`` (published dates for ED-3).
-Writes ``60-outline.json`` and ``60-outline-log.json``.
+This is the Monday-morning pitch meeting: the model gets the shortlist and
+gives rough direction, fast. No web browsing, no full texts — just titles and
+RSS summaries. One plain prompt-in/JSON-out call, no tools. The full source
+texts belong to the writers (S7).
+
+Reads ``40-candidates.json`` (the shortlist), ``50-articles.json`` (only the
+``ok`` flag per row — which topics have usable text, never the text itself
+here), ``50-enrich-log.json`` (the drop log, so scope counts can rebalance)
+and ``30-scored.json`` (published dates for ED-3). Writes ``60-outline.json``
+and ``60-outline-log.json``.
 
 The call sends ``prompts/brief.md`` (system) + ``prompts/outline.md`` + the
-edition constants (SPEC §5, from config) + the full texts, with web tools
-enabled for the SRC-3 reference sources. The response is schema-enforced at
-the call layer and grounded here: every slot must build on ``ok`` article
-ids of matching scope, scope counts and length mix must satisfy ED-1/ED-2,
-ring order and the lokaal front are enforced by construction (ED-6), and
-``pos``/``role``/``source_date`` are assigned in code — never taken from
-the model. One call, no retry: a call failure or an invalid plan fails the
-run (§6).
+edition constants (SPEC §5, from config) + the shortlist. The response is
+schema-enforced at the call layer and grounded here: every slot must build on
+``ok`` article ids of matching scope, scope counts and length mix must satisfy
+ED-1/ED-2, ring order and the lokaal front are enforced by construction
+(ED-6), and ``pos``/``role``/``source_date`` are assigned in code — never
+taken from the model. One call, no retry: a call failure or an invalid plan
+fails the run (§6).
 
 ED-1 is not relaxed: a scope that cannot contribute its minimum after the
 S5 drops fails the run up front — the spec's answer to a thin harvest is
@@ -128,25 +133,21 @@ def spec_note(cfg: dict) -> str:
 
 
 def story_blocks(candidates: list[Candidate], articles: dict[str, ArticleText],
-                 published: dict[str, date | None], max_chars: int) -> str:
-    """The candidate topics with their full texts, one block per topic.
-    Non-``ok`` rows appear as provenance only — they are never writing
-    material (PIPE-5)."""
+                 published: dict[str, date | None]) -> str:
+    """The shortlist: each candidate topic with its rows as titel + RSS
+    samenvatting (not the full text — this is the pitch, the writers get the
+    texts). ``ok=false`` rows had no full text in S5, so a slot must not be
+    built on them (PIPE-5)."""
     blocks = []
     for cand in candidates:
-        header = f"## {cand.scope}{cand.rank} — {cand.topic}"
-        lines = [header]
+        lines = [f"## {cand.scope}{cand.rank} — {cand.topic}"]
         for row in cand.items:
             art = articles[row.id]
             pub = published.get(row.id)
+            summary = " ".join(row.samenvatting.split())
             lines.append(f"- id={row.id} | ok={str(art.ok).lower()} | "
                          f"bron={row.bron} | published={pub or 'unknown'} | "
-                         f"titel={row.titel} | link={row.link}")
-            if art.ok:
-                text = art.text[:max_chars]
-                if len(art.text) > max_chars:
-                    text += " […]"
-                lines += ["", text]
+                         f"titel={row.titel} | samenvatting={summary}")
         blocks.append("\n".join(lines))
     return "\n\n".join(blocks)
 
@@ -154,14 +155,14 @@ def story_blocks(candidates: list[Candidate], articles: dict[str, ArticleText],
 def build_prompt(outline_body: str, cfg: dict, candidates: list[Candidate],
                  articles: dict[str, ArticleText],
                  published: dict[str, date | None],
-                 dropped: list[str], max_chars: int) -> str:
+                 dropped: list[str]) -> str:
     parts = [outline_body, SHAPE_NOTE, spec_note(cfg)]
     if dropped:
         parts.append("Topics dropped in enrichment (no full text — rebalance "
                      "around them):\n"
                      + "\n".join(f"- {t}" for t in dropped))
-    parts.append("Candidate stories:\n\n"
-                 + story_blocks(candidates, articles, published, max_chars))
+    parts.append("Shortlist:\n\n"
+                 + story_blocks(candidates, articles, published))
     return "\n\n".join(parts)
 
 
@@ -276,17 +277,15 @@ def ground(payload: object, edition: date, cfg: dict,
 
 def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
     cfg = ctx.llm_cfg("frontier")
-    stage_cfg = ctx.stage_cfg("outline")
     ed_cfg = ctx.edition_cfg
-    max_chars = int(stage_cfg.get("article_chars", 8000))
     brief = prompts.load_prompt(ctx.root, "brief")
     outline_prompt = prompts.load_prompt(ctx.root, "outline")
     if call is None:
+        # Plain prompt-in/JSON-out, no tools: the outline is a quick pitch
+        # from the shortlist, not a research session.
         call = lambda prompt, system: llm.frontier_json(
             prompt, system=system, schema=RESPONSE_SCHEMA,
-            model=cfg["model"], effort=cfg.get("effort"),
-            allowed_tools=["WebSearch", "WebFetch"],
-            max_turns=int(stage_cfg.get("max_turns", 40)))
+            model=cfg["model"], effort=cfg.get("effort"))
 
     candidates = load_artifact(ctx.work_dir / "40-candidates.json", Candidate)
     articles = {a.id: a for a in
@@ -324,7 +323,7 @@ def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
             "automatically.")
 
     prompt = build_prompt(outline_prompt.body, ed_cfg, candidates, articles,
-                          published, dropped, max_chars)
+                          published, dropped)
     try:
         payload = call(prompt, brief.body)
     except llm.LlmError as e:

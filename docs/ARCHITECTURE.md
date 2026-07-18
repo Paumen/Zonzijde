@@ -74,8 +74,8 @@ flowchart TD
 | S2 `filter` | PIPE-2 | code | `10` → `20-filtered.json` + `20-rejected.json` | Batch dedupe + bucket filtering per PIPE-2; buckets B1–B5 live in `config/filters.yaml` (ported from the prototype). Rejections keep their reason for auditability. |
 | S3 `score` | PIPE-3 | LLM (light) | `20` → `30-scored.json` | Batched (~80 items/call, concurrent), schema-enforced output, prompt `prompts/score.md`. Unparseable batch → items left unscored and excluded (fail-closed: unscored never advances). |
 | S4 `select` | PIPE-4 | LLM (frontier) | `30` (+1/+2 only) → `40-candidates.json` | Inputs `prompts/brief.md` + `prompts/select.md` + scored titles/summaries; output shape per PIPE-4. |
-| S5 `enrich` | PIPE-5 | code (+search) | `40` → `50-articles.json` | `tools/fetch-articles.py` refactored into the package; two-stage fetch (requests, then headless browser). Re-source-or-drop per PIPE-5: the topic's sibling rows in `40-candidates.json` first, then search; drops logged. |
-| S6 `outline` | PIPE-6 | LLM (frontier) | `50` + SPEC §5 → `60-outline.json` | Produces the edition plan per PIPE-6 (story picks, length classes, types, angles, illustration subject, optional element). Works only from stories that survived S5 (sees the drop log). **ED-1 is a hard gate, not relaxed:** if the S5 drops leave a scope below its minimum, S6 fails the run and names the SRC-4 remedy (widen the window) — a human decision, never a quietly thinner edition. `pos`/`role` follow ring order by construction (ED-6); `source_date` (ED-3) is the *newest* source's publication date when a topic has several. Each source text is truncated to `outline.article_chars` (10,000 chars ≈ 1,600 words) in the prompt — the `50-articles.json` artifact keeps the full text. Tool-assisted browsing for the SRC-3 reference sources. |
+| S5 `enrich` | PIPE-5 | code | `40` → `50-articles.json` | `tools/fetch-articles.py` refactored into the package; two-stage fetch (requests, then headless browser). Re-source-or-drop per PIPE-5: the topic's sibling rows in `40-candidates.json` are the only re-source; a topic with no full text is dropped and logged. No model call. |
+| S6 `outline` | PIPE-6 | LLM (frontier) | `40` + `50` (ok flags) + SPEC §5 → `60-outline.json` | A quick pitch: produces the edition plan per PIPE-6 (story picks, length classes, types, angles, illustration subject, optional element) from the **shortlist** — titles + RSS summaries, not the full texts. One plain call, no tools, no browsing; the writers (S7) get the texts. Works only from stories that survived S5 (sees the drop log; `ok=false` rows can't carry a slot). **ED-1 is a hard gate, not relaxed:** if the S5 drops leave a scope below its minimum, S6 fails the run and names the SRC-4 remedy (widen the window) — a human decision, never a quietly thinner edition. `pos`/`role` follow ring order by construction (ED-6); `source_date` (ED-3) is the *newest* source's publication date when a topic has several. SRC-3 reference reading is not automated here (OQ-1). |
 | S7 `write` | PIPE-7 | LLM (frontier) | `60` → `70-drafts.json` | One call per article (grounded on its S5 texts only); hard rules from PIPE-7 in the system prompt. |
 | S8 `review` | PIPE-8 | LLM (frontier) | `70` → `80-reviewed.json` | Per article, checked against its S5 source text (WR-2); emits a correction log for the PR. |
 | S9 `compose` | PIPE-9 | code (+LLM assist) | `80` → `editions/<date>/krant-A3boekje.pdf` + `edition.json` | Custom-illustration drawing, Typst render, weather baking, typeset checks, booklet imposition — all per §5. Text-LLM assist only to shorten/lengthen a specific paragraph when a check demands it. |
@@ -107,9 +107,9 @@ every printed article traces back to its feed items.
   "items": [ { "id": "…", "bron": "…", "titel": "…", "samenvatting": "…", "link": "…" } ] }
 
 // 50-articles.json (S5): candidate item + full text
-{ "id": "…", "ok": true, "method": "requests | playwright | alt-source",
+{ "id": "…", "ok": true, "method": "requests | playwright",
   "text": "…", "words": 812, "links": ["…"], "note": "" }
-// ok:false = dropped (all fetch routes exhausted); kept in the file for the run report
+// ok:false = dropped (both fetch routes exhausted); kept in the file for the run report
 
 // 60-outline.json (S6) — the edition plan
 { "edition": "2026-07-26", "slots": [
@@ -183,7 +183,7 @@ sunflower and the closing landscape (EL-1/EL-4) are fixed assets.
 |-------|-------------|---------------|----------------|----------------|
 | S3 score | light (e.g. Claude Haiku) | ~15–25 batches | ~150k in / 5k out | no retry; unscored = excluded (fail-closed) |
 | S4 select | frontier | 1 | ~30k in / 2k out | no retry; fatal on failure or invalid output |
-| S6 outline | frontier (+ web tool) | 1 | ~50k in / 3k out | idem |
+| S6 outline | frontier (no tools) | 1 | ~8k in / 3k out | idem |
 | S7 write | frontier | ~10–12 (per article) | ~6k in / 1k out each | no retry; a failed article fails the run |
 | S8 review | frontier | ~10–12 | ~5k in / 1k out each | idem |
 | S9 illustration | frontier | 1 | ~5k in / 5k out | invalid SVG surfaces at the gate; editor judges |
@@ -198,11 +198,12 @@ versions used, so output changes are attributable to prompt changes.
 Provider access goes through a thin adapter (`zonzijde/llm.py`) with two named tiers
 (`light`, `frontier`) configured in `config/edition.yaml` — models are swappable without
 touching stages. **Both tiers are driven through the Claude Agent SDK, not raw API
-calls**: each stage invocation is a short agent session, which is what gives S6 its
-browsing/tool use for the SRC-3 reference sources (and S5 its alternative-coverage
-search), gives S9's trim assist file context, and provides schema-enforced structured
-output out of the box. The light tier (S3 scoring) runs the same sessions
-on a Haiku-class model — single prompt, no tools — so one auth path covers the whole
+calls**: each stage invocation is a short agent session, which gives S9's trim assist
+file context and provides schema-enforced structured output out of the box. The
+curation and writing stages (S4, S6, S7, S8) are single prompt-in/JSON-out calls with
+no tools; S5 enrichment is plain code with no model at all. The light tier (S3
+scoring) runs the same sessions on a Haiku-class model — single prompt, no tools —
+so one auth path covers the whole
 pipeline.
 
 ## 7. Orchestration

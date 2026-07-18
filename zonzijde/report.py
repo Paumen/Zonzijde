@@ -71,8 +71,7 @@ def build(ctx: RunContext) -> str:
             m = elog["methods"]
             parts += [f"- S5 enrich: {elog['rows']} source rows → "
                       f"{elog['full_text']} full texts"
-                      f" (requests {m['requests']}, playwright {m['playwright']},"
-                      f" alt-source {m['alt-source']})"
+                      f" (requests {m['requests']}, playwright {m['playwright']})"
                       + (f"; {len(elog['dropped_topics'])} topics dropped (PIPE-5)"
                          if elog["dropped_topics"] else "")]
         if outline_path.is_file():
@@ -137,24 +136,12 @@ def build(ctx: RunContext) -> str:
         elog = json.loads(enrich_log_path.read_text(encoding="utf-8"))
         rows = []
         for t in elog["topics"]:
-            alt = t.get("alt_search") or {}
-            if t["dropped"]:
-                status = "**dropped** — no full text on any route"
-            elif alt.get("picked"):
-                status = f"alt coverage: {alt['picked']}"
-            else:
-                status = "ok"
+            status = ("**dropped** — no full text on any source row"
+                      if t["dropped"] else "ok")
             rows.append([t["scope"], t["rank"], t["topic"],
                          f"{t['ok_rows']}/{t['rows']}", status])
         parts += ["", "## Full text (PIPE-5)", "",
                   _table(["scope", "rank", "topic", "full text", "status"], rows)]
-        for t in elog["topics"]:
-            alt = t.get("alt_search")
-            if t["dropped"] and alt:
-                parts += ["", f"Dropped {t['scope']}{t['rank']} "
-                              f"({t['topic']!r}): searched {alt['query']!r}, "
-                              f"tried {len(alt['tried'])} alternative(s)"
-                          + (f" — {alt['error']}" if alt.get("error") else "")]
 
     if outline_path.is_file():
         outline = load_model(outline_path, EditionOutline)

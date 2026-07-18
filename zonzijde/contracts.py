@@ -91,15 +91,15 @@ class Candidate(BaseModel):
     items: list[CandidateItem] = Field(min_length=1)
 
 
-FetchMethod = Literal["requests", "playwright", "alt-source"]
+FetchMethod = Literal["requests", "playwright"]
 
 
 class ArticleText(CandidateItem):
     """``50-articles.json`` entry (S5): candidate item + full text (PIPE-5).
-    ``ok=False`` means all fetch routes were exhausted; the row stays in the
-    file for the run report but never becomes writing material — there is no
-    summary fallback, ``samenvatting`` is metadata here. ``method`` is the
-    last route tried; for ``alt-source`` the substitute URL is in ``note``."""
+    ``ok=False`` means both fetch routes (plain request, then headless
+    browser) were exhausted; the row stays in the file for the run report but
+    never becomes writing material — there is no summary fallback,
+    ``samenvatting`` is metadata here. ``method`` is the last route tried."""
 
     ok: bool
     method: FetchMethod

@@ -17,17 +17,15 @@ fetch:
   timeout_s: 15
 
 enrich:
-  # S5 (PIPE-5): two-stage full-text fetch; values mirror the tuned
-  # tools/fetch-articles.py prototype. Below min_words a fetch counts as
-  # blocked (consent wall / JS shell / bot block, not an article).
+  # S5 (PIPE-5): two-stage full-text fetch, pure code — no model. Values
+  # mirror the tuned tools/fetch-articles.py prototype. Below min_words a
+  # fetch counts as blocked (consent wall / JS shell / bot block, not an
+  # article). A topic with no full text on any row is dropped and logged;
+  # there is no alternative-coverage search.
   concurrency: 8
   timeout_s: 25
   min_words: 120
   browser: true        # Playwright render for links the plain fetch left blocked
-  # Alternative-coverage candidates per fully-blocked topic; found via one
-  # frontier WebSearch session (llm.frontier), so this path needs
-  # ANTHROPIC_API_KEY — without it the topic drops and the drop is logged.
-  search_results: 5
 
 edition:
   # SPEC §5 constants, consumed by S6's grounding checks and the S7/S8 word
@@ -46,14 +44,9 @@ edition:
   body_words: {min: 2800, max: 3400}     # ED-5: edition body total
   paragraphs: {min: 3, max: 11}          # ED-4: paragraphs per article
 
-outline:
-  # S6 (PIPE-6): one frontier session with web tools for the SRC-3 reference
-  # sources; max_turns bounds that browsing. Source texts beyond article_chars
-  # are truncated in the prompt (the artifact keeps the full text); 10,000
-  # chars (~1,600 words) holds all but the longest sources whole
-  # (ARCHITECTURE §3, S6 row).
-  max_turns: 40
-  article_chars: 10000
+# S6 outline (PIPE-6) takes no stage config: one plain frontier call, no
+# tools, working from the shortlist (titles + summaries) — no browsing, no
+# full texts. See prompts/outline.md.
 
 write:
   # S7 (PIPE-7): one frontier call per article, a few in flight at once.

@@ -4,8 +4,9 @@ schema-enforced structured output.
 
 - ``light`` — cheap volume work (S3 scoring): single-prompt, no-tool sessions
   on a Haiku-class model.
-- ``frontier`` — curation and writing (S4+): a stronger model; stages may add
-  tool use (S5's alternative-coverage search, S6's SRC-3 browsing).
+- ``frontier`` — curation and writing (S4, S6, S7, S8): a stronger model,
+  single prompt-in/JSON-out, no tools. (S9's trim assist, phase 5, may add
+  file context.)
 
 Models are configured in ``config/edition.yaml`` (``llm:``) so they are
 swappable without touching stages. Auth is the SDK's own: ``ANTHROPIC_API_KEY``
@@ -82,8 +83,9 @@ def frontier_json(prompt: str, system: str, schema: dict, model: str,
                   allowed_tools: list[str] | None = None,
                   max_turns: int = 2) -> object:
     """One frontier-tier call (S4+). Raises ``LlmError`` on failure — the
-    stage fails the run (§6). ``allowed_tools``/``max_turns`` give a stage
-    tool use — e.g. WebSearch for S6's SRC-3 browsing. Two turns minimum:
+    stage fails the run (§6). ``allowed_tools``/``max_turns`` can give a stage
+    tool use, but no current stage uses them (S9 trim assist, phase 5, may).
+    Two turns minimum:
     on a sizeable prompt the model answers in one turn and emits the
     structured output in the next."""
     return agent_json(prompt, model=model, system=system, schema=schema,
