@@ -124,7 +124,7 @@ not published as-is.
 |----|-------------|
 | EL-1 | Masthead: the paper's title with the hand-drawn sunflower in front of it. |
 | EL-2 | Weather strip directly after the lokaal news, typically landing on page 2 (Wijchen; today + 5 days; max/min temperature and precipitation chance; source Open-Meteo). |
-| EL-3 | One custom illustration per edition, set with an article — preferably on page 3 or 4, usually regional or national. Hand-drawn style, one column wide, fits the Zonzijde theme and/or the article's topic; no colour — minimalist fine lines, patterns, strokes. |
+| EL-3 | One custom illustration per edition, **drawn anew for that edition's article** — never picked from a stock set. Set with an article, preferably on page 3 or 4, usually regional or national. Hand-drawn style, one column wide, fits the Zonzijde theme and/or the article's topic; no colour — minimalist fine lines, patterns, strokes. |
 | EL-4 | The edition closes with the hand-drawn landscape at the bottom of the last page — flowers, a village in the distance, and a sun. |
 | EL-5 | Optional per edition: a quote, a number of the week, or a side story set in a light grey block. |
 | EL-6 | Articles never reference the illustrations, and illustrations carry no colour (BR-5). |
@@ -144,7 +144,7 @@ not published as-is.
 | ID | Question | Current stance |
 |----|----------|----------------|
 | OQ-1 | Regionaal and nationaal deep-dive reference sources (TODO in concept §3.5). | Outline stage consults only same-bron history until decided. |
-| OQ-2 | Per-edition custom illustration (EL-3): hand-drawn weekly by a person, picked from a growing tagged library, or generated in the house style? | Architecture treats it as an asset slot: outline proposes a subject, composer takes the best match from `assets/illustrations/`, human may override in the editorial gate. |
+| OQ-2 | ~~Illustration sourcing~~ **Resolved**: each edition's illustration is a custom drawing for that edition — not picked from a library of generic illustrations. The pipeline draws a new SVG in the house style per edition; the editor judges it at the gate and can redraw or replace it. |
 | OQ-3 | Cadence: weekly Sunday is inferred from the three existing editions, not stated in the concept. | Weekly Sunday assumed. |
 | OQ-4 | Attribution policy: articles are rewritten from source reporting — is a source credit line (bron) printed per article beyond ED-3's date+location? | Provenance is kept in the edition manifest either way; print attribution undecided. |
 | OQ-5 | May the pipeline ever auto-publish without the human gate (OPS-3)? | No — gate stays until trust is established. |

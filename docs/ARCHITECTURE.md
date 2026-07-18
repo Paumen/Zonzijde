@@ -65,7 +65,7 @@ flowchart TD
     S9 --> PR[Edition PR\nhuman editorial gate]
     PR -->|merge| Pages[GitHub Pages]
     W[Open-Meteo weather] --> S9
-    A[assets/illustrations] --> S9
+    A[custom SVG drawing\nper edition] --> S9
 ```
 
 | Stage | Spec | Kind | Input → output artifact | Notes |
@@ -78,7 +78,7 @@ flowchart TD
 | S6 `outline` | PIPE-6 | LLM (frontier) | `50` + SPEC §5 → `60-outline.json` | Picks final stories per ED-1/ED-2, assigns length class, type, tone/angle (WR-1), sources per story, illustration-subject proposal (EL-3), optional element (EL-5). Works only from stories that survived S5 (sees the drop log so scope counts can rebalance). Uses tool-assisted browsing for SRC-3 reference sources. |
 | S7 `write` | PIPE-7 | LLM (frontier) | `60` → `70-drafts.json` | One call per article (grounded on its S5 texts only); hard rules from PIPE-7 in the system prompt. |
 | S8 `review` | PIPE-8 | LLM (frontier) | `70` → `80-reviewed.json` | Per-article fact-check against S5 source text (WR-2), NL grammar/spelling, final title; emits a correction log for the PR. |
-| S9 `compose` | PIPE-9 | code (+LLM assist) | `80` → `editions/<date>/krant-A3boekje.pdf` + `edition.json` | Typst render of the krant template from `edition.json`; bakes weather; places illustration + closing landscape; typeset checks and A3 booklet imposition (§5). LLM is only called to shorten/lengthen a specific paragraph when a check demands it. |
+| S9 `compose` | PIPE-9 | code (+LLM assist) | `80` → `editions/<date>/krant-A3boekje.pdf` + `edition.json` | Draws the edition's custom illustration (frontier model, house style — §5); Typst render of the krant template from `edition.json`; bakes weather; places illustration + closing landscape; typeset checks and A3 booklet imposition (§5). Text-LLM assist only to shorten/lengthen a specific paragraph when a check demands it. |
 
 Stage contract: every stage is `python -m zonzijde <stage> --edition YYYY-MM-DD`;
 `run` chains them; `--from/--until` re-run a slice against existing artifacts.
@@ -129,7 +129,7 @@ every printed article traces back to its feed items.
 // editions/<date>/edition.json (S9) — manifest of the published edition
 { "edition": "2026-07-26", "nr": 3, "articles": [ …final texts + provenance ids… ],
   "weather": { …baked Open-Meteo snapshot… },
-  "illustration": "assets/illustrations/….svg",
+  "illustration": "work/85-illustration.svg",   // custom-drawn for this edition
   "pdf": "krant-A3boekje.pdf",
   "counts": { "words_body": 3120, "pages": 4 },
   "pipeline": { "run": "…", "prompt_versions": { "score": "v3", … } } }
@@ -169,10 +169,14 @@ sheets — outer sheet `4 | 1`, inner sheet `2 | 3` — producing the fold-ready
 Weather (EL-2) is fetched from Open-Meteo at compose time and baked into
 `edition.json`, so the rendered edition is a closed artifact (principle 4).
 
-Illustrations (EL-3/EL-4, OQ-2): `assets/illustrations/` is a small library of
-hand-drawn-style SVGs tagged by theme. S6 proposes a subject; S9 picks the best tag
-match and records the choice in `edition.json`; the editor can swap it in the PR. The
-masthead sunflower and the closing landscape are fixed assets from the prototype.
+**Illustration (EL-3): drawn anew every edition — no stock library.** S6 proposes the
+subject (tied to its article); S9 has the frontier model draw a fresh one-column SVG in
+the house style — black-and-white, minimalist fine lines, patterns, strokes. The style
+lives in `prompts/illustrate.md` together with two or three reference drawings from
+past editions (references teach the *style*, they are never reused as the drawing).
+Saved as `work/85-illustration.svg`, referenced from `edition.json`, and judged by the
+editor at the gate like any article: redraw or replace before merge. Only the masthead
+sunflower and the closing landscape (EL-1/EL-4) are fixed assets.
 
 ## 6. LLM usage & budget
 
@@ -183,6 +187,7 @@ masthead sunflower and the closing landscape are fixed assets from the prototype
 | S6 outline | frontier (+ web tool) | 1 | ~50k in / 3k out | idem |
 | S7 write | frontier | ~10–12 (per article) | ~6k in / 1k out each | retry per article |
 | S8 review | frontier | ~10–12 | ~5k in / 1k out each | idem |
+| S9 illustration | frontier | 1 (+retries) | ~5k in / 5k out | redraw on invalid SVG; editor judges at the gate |
 | S9 trim assist | frontier | 0–4 | small | idem |
 
 Order of magnitude: a few dollars per edition, dominated by S6–S8. Every response that
@@ -238,9 +243,11 @@ config/
   sources.yaml             # feed list + scope tags (from proto_fetchfilter.html)
   filters.yaml             # regex buckets B1–B5
   edition.yaml             # ED/LAY constants, cadence, model tiers
-  prompts/                 # score.md select.md outline.md write.md review.md (versioned)
+  prompts/                 # score.md select.md outline.md write.md review.md
+                           # illustrate.md (versioned)
 templates/krant.typ        # Typst print template (design per proto_krant.html)
-assets/illustrations/      # tagged SVG library + masthead + closing landscape
+assets/art/                # fixed art: masthead sunflower, closing landscape;
+                           # style-reference drawings for prompts/illustrate.md
 fonts/  fonts.css          # unchanged
 editions/<YYYY-MM-DD>/     # work/ (stage artifacts), krant-A3boekje.pdf,
                            # edition.json, report.md
@@ -290,8 +297,9 @@ Each phase lands as a normal PR and leaves the current manual workflow usable.
    correction log. *Exit: a full `80-reviewed.json` a human judges publishable-with-edits.*
 5. **S9 + template** — re-create the `proto_krant.html` design as `templates/krant.typ`
    (side-by-side against a printed prototype edition until visually equivalent);
-   ttf/otf font subsets; weather baking; illustration slot; typeset checks; A3 booklet
-   imposition. *Exit: golden run produces a fold-ready booklet PDF end-to-end.*
+   ttf/otf font subsets; weather baking; custom-illustration drawing step; typeset
+   checks; A3 booklet imposition. *Exit: golden run produces a fold-ready booklet PDF
+   end-to-end.*
 6. **Orchestration** — `edition.yml`, edition PR with report, archive index in Pages
    deploy. *Exit: one Sunday edition produced by cron, reviewed, merged, published.*
 7. **Hardening** — eval gates in CI, cost tracking, prompt versioning discipline; then
