@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import hashlib
 import json
-from datetime import datetime
+from datetime import date, datetime
 from pathlib import Path
 from typing import Literal, TypeVar
 from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
@@ -109,6 +109,84 @@ class ArticleText(CandidateItem):
     note: str
 
 
+Length = Literal["long", "standard", "short"]
+ArticleType = Literal["news", "feature", "profile", "zoom-out", "zoom-in"]
+OptionalKind = Literal["quote", "number", "side-story", "none"]
+
+
+class OutlineSlot(BaseModel):
+    """One planned article of ``60-outline.json`` (S6/PIPE-6). ``pos`` and
+    ``role`` are assigned in code from the plan's ring order (ED-6), and
+    ``source_date`` is derived from the sources' published dates (ED-3) —
+    the model never dictates any of the three."""
+
+    pos: int = Field(ge=1)
+    scope: Scope
+    role: Literal["front-hero", "body"]
+    topic: str
+    length: Length
+    type: ArticleType
+    angle: str
+    devices: list[str]
+    source_ids: list[str] = Field(min_length=1)
+    location: str
+    source_date: date | None
+
+
+class OutlineIllustration(BaseModel):
+    """The custom-illustration pick (EL-3): which slot it accompanies and a
+    concrete drawable subject. S9 draws it; the editor judges it at the gate."""
+
+    slot_pos: int = Field(ge=1)
+    subject: str
+
+
+class OptionalElement(BaseModel):
+    """EL-5: at most one per edition — quote, number of the week, or side
+    story; ``kind: none`` with empty content when the edition carries none."""
+
+    kind: OptionalKind
+    content: str
+
+
+class EditionOutline(BaseModel):
+    """``60-outline.json`` (S6): the edition plan per PIPE-6."""
+
+    edition: date
+    slots: list[OutlineSlot] = Field(min_length=1)
+    illustration: OutlineIllustration
+    optional_element: OptionalElement
+
+
+class Draft(BaseModel):
+    """``70-drafts.json`` entry (S7/PIPE-7): one written article. ``words``
+    is computed from ``paragraphs`` in code, never taken from the model;
+    ``location``/``source_date`` carry over from the outline slot (ED-3)."""
+
+    pos: int = Field(ge=1)
+    title: str
+    location: str
+    source_date: date | None
+    paragraphs: list[str] = Field(min_length=1)
+    words: int
+
+
+class Review(BaseModel):
+    """S8's findings for one article: unsupported facts found (and fixed or
+    flagged, WR-2) plus language/title corrections — the correction log for
+    the edition PR (PIPE-8)."""
+
+    fact_issues: list[str]
+    corrections: list[str]
+
+
+class ReviewedArticle(Draft):
+    """``80-reviewed.json`` entry (S8/PIPE-8): the corrected article + what
+    the review changed."""
+
+    review: Review
+
+
 def save_artifact(path: Path, items: list[BaseModel]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     data = [i.model_dump(mode="json") for i in items]
@@ -121,3 +199,14 @@ M = TypeVar("M", bound=BaseModel)
 def load_artifact(path: Path, model: type[M]) -> list[M]:
     data = json.loads(path.read_text(encoding="utf-8"))
     return [model.model_validate(d) for d in data]
+
+
+def save_model(path: Path, model: BaseModel) -> None:
+    """Like ``save_artifact`` for the single-object artifacts (the outline)."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    data = model.model_dump(mode="json")
+    path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+
+
+def load_model(path: Path, model: type[M]) -> M:
+    return model.model_validate(json.loads(path.read_text(encoding="utf-8")))

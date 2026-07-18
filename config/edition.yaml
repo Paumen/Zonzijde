@@ -29,6 +29,40 @@ enrich:
   # ANTHROPIC_API_KEY — without it the topic drops and the drop is logged.
   search_results: 5
 
+edition:
+  # SPEC §5 constants, consumed by S6's grounding checks and the S7/S8 word
+  # budgets. The per-class word ranges are chosen so that any mix satisfying
+  # ED-1/ED-2 lands the edition body near ED-5's 2,800–3,400 words.
+  scope_items: {min: 2, max: 3}          # ED-1: items per scope
+  length_mix:                            # ED-2: articles per length class
+    long: {min: 2, max: 3}
+    standard: {min: 3, max: 5}
+    short: {min: 2, max: 3}
+  words:                                 # word budget per length class
+    long: {min: 420, max: 620}
+    standard: {min: 230, max: 360}
+    short: {min: 110, max: 200}
+  body_words: {min: 2800, max: 3400}     # ED-5: edition body total
+  paragraphs: {min: 3, max: 11}          # ED-4: paragraphs per article
+
+outline:
+  # S6 (PIPE-6): one frontier session with web tools for the SRC-3 reference
+  # sources; max_turns bounds that browsing. Source texts beyond article_chars
+  # are truncated in the prompt (the artifact keeps the full text).
+  max_turns: 40
+  article_chars: 8000
+
+write:
+  # S7 (PIPE-7): one frontier call per article, a few in flight at once.
+  concurrency: 3
+
+review:
+  # S8 (PIPE-8): same shape as write. Slack is the tolerated fraction outside
+  # the word budget after corrections (review fixes facts, it does not
+  # re-plan lengths).
+  concurrency: 3
+  budget_slack: 0.15
+
 llm:
   # ARCHITECTURE §6: two named tiers, both short Claude Agent SDK sessions;
   # models swappable here without touching stages. Auth via ANTHROPIC_API_KEY
