@@ -1,5 +1,6 @@
 # De Zonzijde — edition constants (SPEC §5/§6/§8, ARCHITECTURE §8).
-# Grows with the pipeline; phase 1 only needs cadence and the fetch window.
+# Grows with the pipeline; phases 1–2 need cadence, the fetch window and the
+# LLM tiers.
 
 cadence:
   # OPS-1 (OQ-3): weekly, edition dated Sunday.
@@ -14,3 +15,18 @@ fetch:
   # S1 (PIPE-1): concurrent feed pull; values mirror the tuned prototype.
   concurrency: 6
   timeout_s: 15
+
+llm:
+  # ARCHITECTURE §6: two named tiers, models swappable here without touching
+  # stages. Keys live in env only (GEMINI_API_KEY / ANTHROPIC_API_KEY, OPS-5).
+  light:
+    # S3 (PIPE-3): batch scoring; values mirror the tuned prototype.
+    model: gemini-3.1-flash-lite
+    batch_size: 80
+    concurrency: 6
+  frontier:
+    # S4+ (PIPE-4): short Claude Agent SDK sessions. Sonnet at medium effort
+    # keeps the single select call fast; revisit against selection quality at
+    # the editorial gate (phase-2 exit criterion) before locking this in.
+    model: claude-sonnet-5
+    effort: medium  # low | medium | high | xhigh | max (omit = model default)

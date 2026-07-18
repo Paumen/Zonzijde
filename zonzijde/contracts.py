@@ -15,7 +15,7 @@ from pathlib import Path
 from typing import Literal, TypeVar
 from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 Scope = Literal["L", "R", "N", "I"]
 
@@ -61,6 +61,34 @@ class RejectedItem(FeedItem):
     e.g. ``duplicate`` or ``bucket:B2`` (PIPE-2, kept for auditability)."""
 
     reason: str
+
+
+class ScoredItem(FeedItem):
+    """``30-scored.json`` entry: item + direction score (PIPE-3). Items the
+    scorer could not score are *absent* from the artifact — fail-closed."""
+
+    score: int = Field(ge=-2, le=2)
+
+
+class CandidateItem(BaseModel):
+    """One source article backing a selected topic (PIPE-4 row). Dutch field
+    names per the spec's column contract; ``id`` traces back to S1."""
+
+    id: str
+    bron: str
+    titel: str
+    samenvatting: str
+    link: str
+
+
+class Candidate(BaseModel):
+    """``40-candidates.json`` entry (S4): one ranked topic per scope, with one
+    row per source article covering it (PIPE-4)."""
+
+    scope: Scope
+    rank: int = Field(ge=1, le=5)
+    topic: str
+    items: list[CandidateItem] = Field(min_length=1)
 
 
 def save_artifact(path: Path, items: list[BaseModel]) -> None:

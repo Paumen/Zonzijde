@@ -13,7 +13,6 @@ from __future__ import annotations
 
 import html
 import json
-import os
 import re
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
@@ -25,16 +24,10 @@ import requests
 
 from ..context import TZ, RunContext, Source
 from ..contracts import FeedItem, item_id, save_artifact
+from ..net import VERIFY
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0 Safari/537.36")
-
-# requests verifies TLS against this bundle when the agent proxy is in the way;
-# a normal machine has neither the env var nor the file, so verify stays True.
-CA_BUNDLE = (os.environ.get("REQUESTS_CA_BUNDLE")
-             or os.environ.get("CURL_CA_BUNDLE")
-             or "/root/.ccr/ca-bundle.crt")
-VERIFY = CA_BUNDLE if os.path.exists(CA_BUNDLE) else True
 
 _TAG_RE = re.compile(r"<[^>]+>")
 _WS_RE = re.compile(r"\s+")

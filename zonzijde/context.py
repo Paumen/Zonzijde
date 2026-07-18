@@ -65,6 +65,15 @@ class RunContext:
     def fetch_cfg(self) -> dict:
         return self._edition_cfg.get("fetch", {})
 
+    def llm_cfg(self, tier: str) -> dict:
+        """Config for one LLM tier (``light``/``frontier``, ARCHITECTURE §6).
+        The model is required — a silently defaulted model would make output
+        changes unattributable."""
+        cfg = (self._edition_cfg.get("llm") or {}).get(tier)
+        if not cfg or "model" not in cfg:
+            raise SystemExit(f"llm.{tier}.model missing from config/edition.yaml")
+        return cfg
+
     @property
     def edition_dir(self) -> Path:
         return self.root / "editions" / self.edition.isoformat()
