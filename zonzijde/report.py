@@ -11,7 +11,7 @@ import json
 from collections import Counter
 
 from .context import RunContext
-from .contracts import FeedItem, RejectedItem, load_artifact
+from .contracts import Candidate, FeedItem, RejectedItem, ScoredItem, load_artifact
 
 
 def _table(headers: list[str], rows: list[list]) -> str:
@@ -28,6 +28,8 @@ def build(ctx: RunContext) -> str:
     log_path = work / "10-fetch-log.json"
     items_path = work / "20-filtered.json"
     rejected_path = work / "20-rejected.json"
+    score_log_path = work / "30-score-log.json"
+    candidates_path = work / "40-candidates.json"
 
     if log_path.is_file():
         log = json.loads(log_path.read_text(encoding="utf-8"))
@@ -46,6 +48,18 @@ def build(ctx: RunContext) -> str:
             rejected = load_artifact(rejected_path, RejectedItem)
             parts += [f"- S2 filter: {kept} → {len(filtered)} candidates"
                       f" ({len(rejected)} rejected)"]
+        if score_log_path.is_file():
+            scored = load_artifact(work / "30-scored.json", ScoredItem)
+            positive = sum(1 for s in scored if s.score >= 1)
+            unscored = len(json.loads(score_log_path.read_text(encoding="utf-8"))
+                           ["unscored_ids"])
+            parts += [f"- S3 score: {len(scored)} scored → {positive} at +1/+2"
+                      + (f" ({unscored} unscored, excluded — PIPE-3)"
+                         if unscored else "")]
+        if candidates_path.is_file():
+            candidates = load_artifact(candidates_path, Candidate)
+            rows = sum(len(c.items) for c in candidates)
+            parts += [f"- S4 select: {len(candidates)} topics ({rows} source rows)"]
         parts += ["", "## Feeds", "",
                   _table(["bron", "items", "in window", "undated", "error"],
                          [[f["bron"], f["entries"], f["kept"], f["undated"],
@@ -64,6 +78,26 @@ def build(ctx: RunContext) -> str:
         parts += ["", "## Rejected (PIPE-2)", "",
                   _table(["reason", "count"],
                          [[k, v] for k, v in sorted(reasons.items())])]
+
+    if score_log_path.is_file():
+        log = json.loads(score_log_path.read_text(encoding="utf-8"))
+        parts += ["", "## Scores (PIPE-3)", "",
+                  f"model {log['model']}, prompt score.md v{log['prompt_version']}",
+                  "",
+                  _table(["score", "count"],
+                         [[f"+{k}" if int(k) > 0 else k, v]
+                          for k, v in log["distribution"].items()])]
+        if log["unscored_ids"]:
+            parts += ["", f"Unscored and excluded (fail-closed): "
+                          f"{len(log['unscored_ids'])} items"]
+
+    if candidates_path.is_file():
+        candidates = load_artifact(candidates_path, Candidate)
+        parts += ["", "## Selected topics (PIPE-4)", "",
+                  _table(["scope", "rank", "topic", "bronnen"],
+                         [[c.scope, c.rank, c.topic,
+                           ", ".join(r.bron for r in c.items)]
+                          for c in candidates])]
 
     return "\n".join(parts) + "\n"
 

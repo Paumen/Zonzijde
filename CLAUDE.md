@@ -21,27 +21,40 @@ the archive. There is no HTML edition.
 
 The original concept is archived at `docs/history/concept_ZZ.md`; SPEC.md supersedes it.
 
-## Current state: prototypes, not yet the pipeline
+## Current state: pipeline through S4, prototypes for the rest
 
-The `zonzijde/` package described in ARCHITECTURE.md does **not exist yet**. Today the
-edition is produced by hand-driving:
+The `zonzijde/` package exists through **build phase 2** (ARCHITECTURE §11):
+S1 fetch, S2 filter, S3 score (Gemini light tier, fail-closed) and S4 select
+(frontier tier via the Claude Agent SDK) run as `python -m zonzijde …`, with
+config in `config/` and the scorer eval in `tests/eval_score.py`. Still manual:
 
-- `proto_fetchfilter.html` — browser app: fetch RSS via CORS proxy, regex filter buckets
-  B1–B5, Gemini scoring, copies a markdown candidate table. Holds the canonical source
-  list and buckets until they migrate to `config/sources.yaml` / `config/filters.yaml`.
 - `tools/fetch-articles.py` — fetches full article text behind selected links
-  (requests+trafilatura, Playwright fallback). Becomes stage S5.
+  (requests+trafilatura, Playwright fallback). Becomes stage S5 (phase 3).
 - `proto_krant.html` — hand-built edition; the design reference for the future Typst
   template. `proto_index.html` is superseded, kept for reference.
+- `proto_fetchfilter.html` — the original browser app; remains as a manual
+  inspection/debug UI now that its sources, buckets and scoring live in the pipeline.
 
 When migrating prototype logic into the pipeline, prefer porting over rewriting —
 the regex buckets, source list, and scoring behaviour are tuned.
 
 ## Commands
 
-There is no build system, test suite, or linter yet. The runnable pieces:
-
 ```bash
+# The pipeline (run from repo root; deps: pip install -e ".[dev]")
+python3 -m zonzijde run --edition YYYY-MM-DD --until filter   # S1+S2, no keys needed
+python3 -m zonzijde score --edition YYYY-MM-DD                # S3, needs GEMINI_API_KEY
+python3 -m zonzijde select --edition YYYY-MM-DD               # S4, needs ANTHROPIC_API_KEY
+# Artifacts land in editions/<date>/work/, report in editions/<date>/report.md
+# --from/--until resume a slice against existing artifacts (ARCHITECTURE §3)
+
+# Tests (no network, no keys)
+python3 -m pytest
+
+# Scorer eval (live Gemini; re-run + post numbers on any change to
+# prompts/score.md, the light model, or the buckets — ARCHITECTURE §9)
+GEMINI_API_KEY=... python3 tests/eval_score.py
+
 # Fetch full article text for selected links (run from repo root)
 # Input: the MD table copied from proto_fetchfilter.html, or bare URLs
 python3 tools/fetch-articles.py table.md          # or URLs / stdin
@@ -55,9 +68,6 @@ python3 tools/build-fonts.py                      # deps: fonttools, brotli
 ```
 
 The prototypes are opened directly in a browser; no dev server.
-
-Target CLI (once the package exists): `python -m zonzijde run --edition YYYY-MM-DD`,
-with per-stage entry points and `--from/--until` for resuming (ARCHITECTURE §3).
 
 ## Conventions and hard rules
 
