@@ -13,17 +13,12 @@ and ``60-outline-log.json``.
 
 The call sends ``prompts/brief.md`` (system) + ``prompts/outline.md`` + the
 edition constants (SPEC §5, from config) + the shortlist. The response is
-schema-enforced at the call layer and grounded here: every slot must build on
-``ok`` article ids of matching scope, scope counts and length mix must satisfy
-ED-1/ED-2, ring order and the lokaal front are enforced by construction
-(ED-6), and ``pos``/``role``/``source_date`` are assigned in code — never
-taken from the model. One call, no retry: a call failure or an invalid plan
-fails the run (§6).
-
-ED-1 is not relaxed: a scope that cannot contribute its minimum after the
-S5 drops fails the run up front — the spec's answer to a thin harvest is
-widening the candidate window (SRC-4), a human decision, not a quietly
-thinner edition.
+schema-enforced at the call layer, and the model's editorial choices — how
+many per scope (ED-1), the length mix (ED-2), which sources — are taken as-is
+and judged at the human gate, not validated here. Code still assembles what
+it owns: ring order and the lokaal front (ED-6) by a stable sort, and
+``pos``/``role``/``source_date`` (ED-3, newest source). One call, no retry:
+only a call failure or a structurally unusable response fails the run (§6).
 """
 
 from __future__ import annotations
@@ -40,8 +35,6 @@ from ..contracts import (ArticleText, Candidate, EditionOutline, ScoredItem,
                          load_artifact, save_model)
 
 RING = ["L", "R", "N", "I"]
-SCOPE_NAMES = {"L": "lokaal", "R": "regionaal", "N": "nationaal",
-               "I": "internationaal"}
 
 # JSON schema for the structured-output call. pos/role/source_date/edition
 # are deliberately absent: code derives them (see module docstring).
@@ -168,106 +161,44 @@ def build_prompt(outline_body: str, cfg: dict, candidates: list[Candidate],
 
 def ground(payload: object, edition: date, cfg: dict,
            articles: dict[str, ArticleText],
-           scopes_by_id: dict[str, set[str]],
            published: dict[str, date | None],
            ) -> tuple[EditionOutline | None, list[str]]:
-    """Validate the plan against the contract, the source articles and the
-    ED-1/ED-2 constants. Returns the grounded outline (slots re-sorted into
-    ring order, pos/role/source_date assigned) or the list of problems."""
+    """Build the edition plan from the model's response — no validation of
+    its editorial choices (counts, mix, which sources). Code still assembles
+    what it owns: ring order (ED-6), ``pos``/``role``, ``source_date`` (newest
+    source, ED-3) and the illustration slot. Only the pydantic contract is
+    left as a structural backstop."""
     if not isinstance(payload, dict) or not isinstance(payload.get("slots"), list):
         return None, ["response is not an object with a slots list"]
+    raw_slots = [s for s in payload["slots"] if isinstance(s, dict)]
 
-    problems: list[str] = []
-    raw_slots = payload["slots"]
-    used_ids: set[str] = set()
-    for k, slot in enumerate(raw_slots, start=1):
-        if not isinstance(slot, dict):
-            problems.append(f"slot {k}: not an object")
-            continue
-        if slot.get("scope") not in RING:
-            problems.append(f"slot {k}: invalid scope {slot.get('scope')!r}")
-            continue
-        sids = slot.get("source_ids")
-        if not isinstance(sids, list) or not sids:
-            # Recorded as a problem here so the later slot-construction pass
-            # (which runs only problem-free) can index source_ids safely.
-            problems.append(f"slot {k}: missing source_ids")
-            continue
-        for sid in sids:
-            art = articles.get(sid)
-            if art is None:
-                problems.append(f"slot {k}: unknown source id {sid!r}")
-            elif not art.ok:
-                problems.append(f"slot {k}: source {sid} has no full text "
-                                "(PIPE-5 — not writing material)")
-            elif slot.get("scope") not in scopes_by_id.get(sid, set()):
-                problems.append(f"slot {k}: source {sid} does not back a "
-                                f"{slot.get('scope')} topic")
-            if sid in used_ids:
-                problems.append(f"source {sid} used by more than one slot")
-            used_ids.add(sid)
-
-    # ED-1: per-scope counts, as specified — run() already verified the
-    # surviving topics can satisfy the minimum.
-    scope_cfg = cfg["scope_items"]
-    counts = {s: sum(1 for slot in raw_slots
-                     if isinstance(slot, dict) and slot.get("scope") == s)
-              for s in RING}
-    for s in RING:
-        if counts[s] < scope_cfg["min"]:
-            problems.append(f"scope {SCOPE_NAMES[s]}: {counts[s]} items, "
-                            f"needs at least {scope_cfg['min']} (ED-1)")
-        if counts[s] > scope_cfg["max"]:
-            problems.append(f"scope {SCOPE_NAMES[s]}: {counts[s]} items, "
-                            f"at most {scope_cfg['max']} (ED-1)")
-
-    # ED-2: length mix.
-    for cls, rng in cfg["length_mix"].items():
-        n = sum(1 for slot in raw_slots
-                if isinstance(slot, dict) and slot.get("length") == cls)
-        if not rng["min"] <= n <= rng["max"]:
-            problems.append(f"{n} {cls} articles, needs "
-                            f"{rng['min']}–{rng['max']} (ED-2)")
-
-    if counts["L"] == 0:
-        problems.append("no lokaal slot — the front page leads lokaal (ED-6)")
-    if problems:
-        return None, problems
-
-    # Ring order by construction (ED-6): stable sort keeps the model's order
-    # within each scope, so its first lokaal pick stays the front hero.
-    order = sorted(range(len(raw_slots)),
-                   key=lambda i: RING.index(raw_slots[i]["scope"]))
+    # Ring order (ED-6): stable sort by scope keeps the model's order within
+    # each scope, so its first lokaal pick leads. Unknown scope sorts last.
+    def scope_key(i: int) -> int:
+        sc = raw_slots[i].get("scope")
+        return RING.index(sc) if sc in RING else len(RING)
+    order = sorted(range(len(raw_slots)), key=scope_key)
     pos_of_index = {i: pos for pos, i in enumerate(order, start=1)}
 
     slots = []
     for i in order:
         slot = raw_slots[i]
-        pos = pos_of_index[i]
-        dates = [published.get(sid) for sid in slot["source_ids"]]
-        dates = [d for d in dates if d is not None]
-        try:
-            slots.append({**slot, "pos": pos,
-                          "role": "front-hero" if pos == 1 else "body",
-                          "source_date": max(dates) if dates else None})
-        except (TypeError, AttributeError) as e:
-            problems.append(f"slot {i + 1}: {e}")
+        sids = slot.get("source_ids") or []
+        dates = [published.get(sid) for sid in sids if published.get(sid)]
+        slots.append({**slot, "pos": pos_of_index[i],
+                      "role": "front-hero" if pos_of_index[i] == 1 else "body",
+                      "source_date": max(dates) if dates else None})
 
-    ill = payload.get("illustration") or {}
-    idx = ill.get("slot_index") if isinstance(ill, dict) else None
-    if not isinstance(idx, int) or not 1 <= idx <= len(raw_slots):
-        problems.append(f"illustration.slot_index {idx!r} does not point at "
-                        "a slot")
-    elif not (isinstance(ill.get("subject"), str) and ill["subject"].strip()):
-        problems.append("illustration needs a concrete subject (EL-3)")
-    if problems:
-        return None, problems
+    ill = payload.get("illustration") if isinstance(payload.get("illustration"), dict) else {}
+    idx = ill.get("slot_index")
+    slot_pos = (pos_of_index[idx - 1] if isinstance(idx, int)
+                and 1 <= idx <= len(raw_slots) else 1)
+    subject = ill.get("subject").strip() if isinstance(ill.get("subject"), str) else ""
 
     try:
         outline = EditionOutline.model_validate({
             "edition": edition, "slots": slots,
-            "illustration": {"slot_pos": pos_of_index[idx - 1],
-                             "subject": ill["subject"].strip()},
+            "illustration": {"slot_pos": slot_pos, "subject": subject},
             "optional_element": payload.get("optional_element"),
         })
     except ValidationError as e:
@@ -297,30 +228,12 @@ def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
         (ctx.work_dir / "50-enrich-log.json").read_text(encoding="utf-8"))
     dropped = enrich_log.get("dropped_topics", [])
 
-    # Which candidate topics survived S5 per scope, and which scopes each ok
-    # id may back.
-    scopes_by_id: dict[str, set[str]] = {}
+    # How many topics survived S5 per scope — informational for the log; no
+    # longer a gate (ED-1 counts are the model's call, judged at the gate).
     available: dict[str, int] = {s: 0 for s in RING}
     for cand in candidates:
         if any(articles[r.id].ok for r in cand.items):
             available[cand.scope] += 1
-        for row in cand.items:
-            scopes_by_id.setdefault(row.id, set()).add(cand.scope)
-    if not any(available.values()):
-        raise SystemExit("S6 outline: no topic survived enrichment (PIPE-5)")
-
-    # ED-1 is not relaxed. A scope that cannot reach its minimum after the S5
-    # drops fails the run here — the spec's remedy for a thin harvest is
-    # widening the candidate window (SRC-4, --window-days), a human call, not
-    # a quietly thinner edition.
-    need = ed_cfg["scope_items"]["min"]
-    short = {SCOPE_NAMES[s]: available[s] for s in RING if available[s] < need}
-    if short:
-        raise SystemExit(
-            f"S6 outline: scope(s) below the ED-1 minimum of {need} after S5 "
-            f"drops: {short}. Widen the window (SRC-4, --window-days) and "
-            "re-run from S1, or adjust config — the edition is not thinned "
-            "automatically.")
 
     prompt = build_prompt(outline_prompt.body, ed_cfg, candidates, articles,
                           published, dropped)
@@ -328,10 +241,9 @@ def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
         payload = call(prompt, brief.body)
     except llm.LlmError as e:
         raise SystemExit(f"S6 outline: call failed: {e}")
-    outline, problems = ground(payload, ctx.edition, ed_cfg, articles,
-                               scopes_by_id, published)
-    if problems:
-        raise SystemExit(f"S6 outline: invalid edition plan: {problems}")
+    outline, problems = ground(payload, ctx.edition, ed_cfg, articles, published)
+    if problems:  # only a structural/contract break reaches here now
+        raise SystemExit(f"S6 outline: unusable response: {problems}")
 
     save_model(ctx.work_dir / "60-outline.json", outline)
     words = ed_cfg["words"]

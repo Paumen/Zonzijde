@@ -1,5 +1,6 @@
-"""S8 review: grounding with the loose word backstop, the correction log,
-artifact consistency with the outline."""
+"""S8 review: the reviewed article is built from the model's output as-is
+(no length/title/self-reference checks); only the correction log and the
+pydantic contract stand. Consistency with the outline still guards S6/S7."""
 
 import json
 
@@ -9,10 +10,6 @@ from tests.conftest import make_article, make_slot
 from zonzijde.contracts import (Draft, EditionOutline, ReviewedArticle,
                                 load_artifact, save_artifact, save_model)
 from zonzijde.stages import review
-
-BUDGET = {"min": 250, "max": 500}   # config's standard class
-PARAS = {"min": 3, "max": 11}
-SLACK = 0.5                         # config's backstop
 
 
 def _paragraphs(n_paras: int = 4, words_each: int = 60) -> list[str]:
@@ -32,28 +29,23 @@ def _payload(**overrides) -> dict:
     return payload
 
 
-def test_ground_keeps_review_findings_and_slack():
-    reviewed, problems = review.ground(_payload(), _draft(), BUDGET, PARAS, SLACK)
+def test_ground_keeps_review_findings_and_takes_output_as_is():
+    reviewed, problems = review.ground(_payload(), _draft())
     assert problems == []
     assert reviewed.title == "Betere titel"
     assert reviewed.review.fact_issues == ["aantal gecorrigeerd naar bron"]
     assert reviewed.review.corrections == ["spelfout hersteld"]
 
-    # 200 words: under the guidance minimum but well inside the backstop —
-    # a review trim is not a rewrite.
-    ok = _payload(paragraphs=_paragraphs(4, 50))
-    _, problems = review.ground(ok, _draft(), BUDGET, PARAS, SLACK)
-    assert problems == []
-
-    ballooned = _payload(paragraphs=_paragraphs(9, 100))  # 900 > 500·1.5
-    _, problems = review.ground(ballooned, _draft(), BUDGET, PARAS, SLACK)
-    assert any("correct, don't rewrite" in p for p in problems)
+    # any length is accepted now — no backstop, the human gate judges it.
+    ballooned = _payload(paragraphs=_paragraphs(9, 100))  # 900 words
+    reviewed, problems = review.ground(ballooned, _draft())
+    assert problems == [] and reviewed.words > 800
 
 
 def test_ground_tolerates_null_findings():
     # null instead of [] for the finding lists must not crash the stage.
     payload = _payload(fact_issues=None, corrections=None)
-    reviewed, problems = review.ground(payload, _draft(), BUDGET, PARAS, SLACK)
+    reviewed, problems = review.ground(payload, _draft())
     assert problems == []
     assert reviewed.review.fact_issues == []
     assert reviewed.review.corrections == []

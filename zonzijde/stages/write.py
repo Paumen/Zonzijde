@@ -2,36 +2,31 @@
 
 Reads ``60-outline.json`` + ``50-articles.json``, writes ``70-drafts.json``
 and ``70-write-log.json``. Each call is grounded on the slot's own S5 source
-texts only; the hard writing rules (``prompts/write.md``) are the system
-prompt. The response is schema-enforced at the call layer and grounded here:
-paragraph count per ED-4, a loose word-count backstop around the slot's
-length guidance, and no self-reference to the paper (PIPE-7) — checked in
-code because a regex catches what a prompt merely requests. ``words`` is
-computed, never taken from the model. One call per article, no retry: an
-article that fails its checks leaves a hole, and an edition with holes fails
-the run (§6).
+texts only; the writing rules (``prompts/write.md``) are the system prompt,
+and the length guidance and no-self-reference rule are stated there for the
+model to follow — they are not re-checked in code. The response is
+schema-enforced at the call layer; ``words`` is computed. One call per
+article, no retry: only a structurally unusable response leaves a hole, and
+an edition with holes fails the run (§6).
 
-Word counts are guidance, not gates: good content must be written first, and
-whether the finished edition needs trimming — or a lesser article cut — is a
-compose/gate decision (PIPE-9). The backstop only catches output that
-plainly ignored the plan.
+The model's editorial choices — title, length, paragraphing, whether it
+followed the plan — are not validated here; the human gate judges them. The
+length guidance in the prompt steers the writer; final fit is a compose/gate
+decision (PIPE-9).
 """
 
 from __future__ import annotations
 
 import json
-import re
 from concurrent.futures import ThreadPoolExecutor
 from typing import Callable
+
+from pydantic import ValidationError
 
 from .. import llm, prompts
 from ..context import RunContext
 from ..contracts import (ArticleText, Draft, EditionOutline, OutlineSlot,
                          load_artifact, load_model, save_artifact)
-
-# PIPE-7: the paper never refers to itself. (Image/illustration references
-# need context to judge — that is S8's review, not a regex.)
-SELF_REF_RE = re.compile(r"de zonzijde|deze krant", re.IGNORECASE)
 
 RESPONSE_SCHEMA = {
     "type": "object",
@@ -83,55 +78,38 @@ def build_prompt(slot: OutlineSlot, budget: dict, para_cfg: dict,
     return "\n\n".join(parts)
 
 
-def ground(payload: object, slot: OutlineSlot, budget: dict,
-           para_cfg: dict, slack: float = 0.0) -> tuple[Draft | None, list[str]]:
+def ground(payload: object, slot: OutlineSlot) -> tuple[Draft | None, list[str]]:
+    """Build the draft from the response — no validation of the model's
+    title, length or paragraphing (the human gate judges those). ``words`` is
+    computed; the pydantic contract is the only structural backstop."""
     if not isinstance(payload, dict):
         return None, [f"not a JSON object: {type(payload).__name__}"]
-    title = (payload.get("title") or "").strip() \
+    title = payload.get("title").strip() \
         if isinstance(payload.get("title"), str) else ""
     raw = payload.get("paragraphs")
     paragraphs = [p.strip() for p in raw if isinstance(p, str) and p.strip()] \
         if isinstance(raw, list) else []
-
-    problems = []
-    if not title:
-        problems.append("missing or empty title")
-    if not para_cfg["min"] <= len(paragraphs) <= para_cfg["max"]:
-        problems.append(f"{len(paragraphs)} paragraphs, needs "
-                        f"{para_cfg['min']}–{para_cfg['max']} (ED-4)")
-    # The word range is guidance; slack widens it into the backstop that a
-    # draft must actually clear. Only output that plainly ignored the plan
-    # trips it — fitting the edition happens at compose (PIPE-9).
-    words = word_count(paragraphs)
-    lo = int(budget["min"] * (1 - slack))
-    hi = int(budget["max"] * (1 + slack))
-    if not lo <= words <= hi:
-        problems.append(f"{words} words — far outside the {slot.length} "
-                        f"guidance of {budget['min']}–{budget['max']}")
-    hits = {m.group(0) for m in SELF_REF_RE.finditer(" ".join([title] + paragraphs))}
-    if hits:
-        problems.append("the paper never refers to itself (PIPE-7): "
-                        + ", ".join(sorted(hits)))
-    if problems:
-        return None, problems
-    return Draft(pos=slot.pos, title=title, location=slot.location,
-                 source_date=slot.source_date, paragraphs=paragraphs,
-                 words=words), []
+    try:
+        draft = Draft(pos=slot.pos, title=title, location=slot.location,
+                      source_date=slot.source_date, paragraphs=paragraphs,
+                      words=word_count(paragraphs))
+    except ValidationError as e:
+        return None, [f"invalid draft: {e}"]
+    return draft, []
 
 
 def write_slot(slot: OutlineSlot, articles: dict[str, ArticleText],
                ed_cfg: dict, others: list[OutlineSlot], system: str,
-               call: FrontierCall, slack: float = 0.0
-               ) -> tuple[Draft | None, list[str]]:
+               call: FrontierCall) -> tuple[Draft | None, list[str]]:
     """Write one article with a single call — no retry. Returns the draft
-    (or None if the call failed or the draft missed its checks) plus the
-    problems for the log."""
+    (or None only if the call failed or the response was structurally
+    unusable) plus any problem for the log."""
     budget = ed_cfg["words"][slot.length]
     para_cfg = ed_cfg["paragraphs"]
-    sources = [articles[sid] for sid in slot.source_ids]
+    sources = [articles[sid] for sid in slot.source_ids if sid in articles]
     prompt = build_prompt(slot, budget, para_cfg, sources, others)
     try:
-        return ground(call(prompt, system), slot, budget, para_cfg, slack)
+        return ground(call(prompt, system), slot)
     except llm.LlmError as e:
         return None, [str(e)]
 
@@ -141,7 +119,6 @@ def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
     ed_cfg = ctx.edition_cfg
     stage_cfg = ctx.stage_cfg("write")
     concurrency = int(stage_cfg.get("concurrency", 3))
-    slack = float(stage_cfg.get("budget_slack", 0.5))
     rules = prompts.load_prompt(ctx.root, "write")
     if call is None:
         call = lambda prompt, system: llm.frontier_json(
@@ -154,8 +131,7 @@ def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
 
     def work(slot: OutlineSlot) -> tuple[Draft | None, list[str]]:
         others = [s for s in outline.slots if s.pos != slot.pos]
-        return write_slot(slot, articles, ed_cfg, others, rules.body, call,
-                          slack)
+        return write_slot(slot, articles, ed_cfg, others, rules.body, call)
 
     with ThreadPoolExecutor(max_workers=concurrency) as pool:
         results = list(pool.map(work, outline.slots))

@@ -1,5 +1,6 @@
-"""S6 outline: grounding against ED-1/ED-2/ED-6, ring order by construction,
-code-derived pos/role/source_date, single call, fatal on failure."""
+"""S6 outline: no validation of the model's editorial choices — the plan is
+built as-is. Code still owns ring order (ED-6) and pos/role/source_date;
+only the pydantic contract stands. Single call, fatal on unusable output."""
 
 import json
 from datetime import date
@@ -25,10 +26,6 @@ def _id(n: int) -> str:
 
 def _articles(ok_all: bool = True) -> dict:
     return {_id(n): make_article(n, ok=ok_all or n != 3) for n in SCOPE_OF}
-
-
-def _scopes_by_id() -> dict:
-    return {_id(n): {s} for n, s in SCOPE_OF.items()}
 
 
 def _published() -> dict:
@@ -58,8 +55,7 @@ def _cfg(ctx) -> dict:
 
 def test_ground_sorts_into_ring_order_and_derives_fields(tmp_ctx):
     result, problems = outline.ground(
-        _payload(), EDITION, _cfg(tmp_ctx), _articles(), _scopes_by_id(),
-        _published())
+        _payload(), EDITION, _cfg(tmp_ctx), _articles(), _published())
     assert problems == []
     assert [s.scope for s in result.slots] == list("LLRRNNII")  # ED-6
     assert [s.pos for s in result.slots] == list(range(1, 9))
@@ -72,93 +68,41 @@ def test_ground_sorts_into_ring_order_and_derives_fields(tmp_ctx):
     assert result.illustration.slot_pos == 5
 
 
-def test_ground_rejects_unknown_blocked_or_wrong_scope_sources(tmp_ctx):
-    args = (EDITION, _cfg(tmp_ctx), _articles(ok_all=False),
-            _scopes_by_id(), _published())
-
-    payload = _payload()
-    payload["slots"][0]["source_ids"] = ["ffffffffffff"]
-    _, problems = outline.ground(payload, *args)
-    assert any("unknown source id" in p for p in problems)
-
-    payload = _payload()
-    payload["slots"][1]["source_ids"] = [_id(3)]  # article 3 is not ok
-    _, problems = outline.ground(payload, *args)
-    assert any("no full text" in p for p in problems)
-
-    payload = _payload()
-    payload["slots"][0]["source_ids"] = [_id(1)]  # L article in an R slot
-    _, problems = outline.ground(payload, *args)
-    assert any("does not back a R topic" in p for p in problems)
-
-
-def test_ground_enforces_scope_counts_and_length_mix(tmp_ctx):
-    args = (EDITION, _cfg(tmp_ctx), _articles(), _scopes_by_id(),
-            _published())
-
-    payload = _payload()
-    payload["slots"] += [_slot(3), _slot(3)]  # lokaal now has four slots
-    _, problems = outline.ground(payload, *args)
-    assert any("at most 3 (ED-1)" in p for p in problems)
-
+def test_ground_takes_editorial_choices_as_is(tmp_ctx):
+    # ED-1/ED-2 counts, an unknown source id, a blocked source, a scope
+    # mismatch — none are validated now. The plan builds as the model gave it.
     payload = _payload()
     for s in payload["slots"]:
-        s["length"] = "standard"  # no long, no short, 8 standard
-    _, problems = outline.ground(payload, *args)
-    assert sum("(ED-2)" in p for p in problems) == 3
-
-    payload = _payload()
-    payload["slots"] = [s for s in payload["slots"] if s["scope"] != "I"]
-    _, problems = outline.ground(payload, *args)
-    assert any("internationaal: 0 items" in p for p in problems)
-
-
-def test_run_fatal_when_a_scope_is_below_the_ed1_minimum(tmp_ctx):
-    # ED-1 is not relaxed: a scope short after S5 fails the run up front, with
-    # the SRC-4 window-widening remedy named — not a quietly thinner edition.
-    candidates = [make_candidate(SCOPE_OF[n], (n - 1) % 3 + 1, [n])
-                  for n in SCOPE_OF]
-    save_artifact(tmp_ctx.work_dir / "40-candidates.json", candidates)
-    # Only one internationaal topic delivers full text (ED-1 min is 2).
-    ok_ids = {n for n in SCOPE_OF if not (SCOPE_OF[n] == "I" and n != 11)}
-    save_artifact(tmp_ctx.work_dir / "50-articles.json",
-                  [make_article(n, ok=n in ok_ids) for n in SCOPE_OF])
-    save_artifact(tmp_ctx.work_dir / "30-scored.json",
-                  [make_scored(n, SCOPE_OF[n]) for n in SCOPE_OF])
-    (tmp_ctx.work_dir / "50-enrich-log.json").write_text(
-        json.dumps({"dropped_topics": []}))
-    with pytest.raises(SystemExit, match="below the ED-1 minimum"):
-        outline.run(tmp_ctx, call=lambda p, s: _payload())
+        s["length"] = "standard"                  # ED-2 mix ignored
+    payload["slots"] += [_slot(3), _slot(3)]       # 4 lokaal — ED-1 ignored
+    payload["slots"][0]["source_ids"] = ["ffffffffffff"]  # unknown id, ok
+    result, problems = outline.ground(
+        payload, EDITION, _cfg(tmp_ctx), _articles(ok_all=False), _published())
+    assert problems == []
+    assert len(result.slots) == 10
+    # an unknown/undated source just yields no source_date, never a rejection
+    assert result.slots[0].source_date is None
 
 
-def test_ground_rejects_reused_source_and_bad_illustration(tmp_ctx):
-    args = (EDITION, _cfg(tmp_ctx), _articles(), _scopes_by_id(),
-            _published())
-
-    payload = _payload()
-    payload["slots"][3]["source_ids"] = [_id(4)]  # already used by slot 0
-    _, problems = outline.ground(payload, *args)
-    assert any("more than one slot" in p for p in problems)
-
+def test_ground_defaults_a_bad_illustration_index(tmp_ctx):
+    # Out-of-range illustration slot_index is not rejected — it falls back to
+    # the first slot so the plan still builds.
     payload = _payload()
     payload["illustration"]["slot_index"] = 99
-    _, problems = outline.ground(payload, *args)
-    assert any("does not point at a slot" in p for p in problems)
+    result, problems = outline.ground(
+        payload, EDITION, _cfg(tmp_ctx), _articles(), _published())
+    assert problems == []
+    assert result.illustration.slot_pos == 1
 
 
-def test_ground_rejects_missing_or_null_source_ids(tmp_ctx):
-    # A slot without usable source_ids is a problem, never a crash.
-    args = (EDITION, _cfg(tmp_ctx), _articles(), _scopes_by_id(),
-            _published())
-    for bad in (None, [], "nee"):
-        payload = _payload()
-        payload["slots"][0]["source_ids"] = bad
-        _, problems = outline.ground(payload, *args)
-        assert any("missing source_ids" in p for p in problems), bad
+def test_ground_needs_source_ids_for_the_contract(tmp_ctx):
+    # A slot with no source_ids can't satisfy the OutlineSlot contract
+    # (min_length 1) — that surfaces as an unusable-response problem.
     payload = _payload()
-    del payload["slots"][0]["source_ids"]
-    _, problems = outline.ground(payload, *args)
-    assert any("missing source_ids" in p for p in problems)
+    payload["slots"][0]["source_ids"] = []
+    _, problems = outline.ground(
+        payload, EDITION, _cfg(tmp_ctx), _articles(), _published())
+    assert any("invalid outline" in p for p in problems)
 
 
 def _seed_work(ctx) -> None:
@@ -195,7 +139,7 @@ def test_run_writes_outline_and_log(tmp_ctx):
     assert log["planned_words"]["min"] > 0
 
 
-def test_invalid_plan_is_fatal_single_call(tmp_ctx):
+def test_unusable_response_is_fatal_single_call(tmp_ctx):
     _seed_work(tmp_ctx)
     calls = []
 
@@ -203,18 +147,6 @@ def test_invalid_plan_is_fatal_single_call(tmp_ctx):
         calls.append(prompt)
         return {"slots": "nee"}
 
-    with pytest.raises(SystemExit, match="invalid edition plan"):
+    with pytest.raises(SystemExit, match="unusable response"):
         outline.run(tmp_ctx, call=call)
     assert len(calls) == 1  # one call, no retry
-
-
-def test_run_requires_surviving_topics(tmp_ctx):
-    candidates = [make_candidate("L", 1, [1])]
-    save_artifact(tmp_ctx.work_dir / "40-candidates.json", candidates)
-    save_artifact(tmp_ctx.work_dir / "50-articles.json",
-                  [make_article(1, ok=False)])
-    save_artifact(tmp_ctx.work_dir / "30-scored.json", [make_scored(1, "L")])
-    (tmp_ctx.work_dir / "50-enrich-log.json").write_text(
-        json.dumps({"dropped_topics": ["Topic 1"]}))
-    with pytest.raises(SystemExit, match="no topic survived"):
-        outline.run(tmp_ctx, call=lambda p, s: _payload())

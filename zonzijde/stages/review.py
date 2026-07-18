@@ -4,10 +4,11 @@ Reads ``70-drafts.json`` + ``60-outline.json`` (which sources back which
 slot) + ``50-articles.json``, writes ``80-reviewed.json`` and
 ``80-review-log.json`` — the correction log for the edition PR. Per article
 one frontier call with ``prompts/review.md`` as system prompt; the response
-is schema-enforced and grounded here like S7's, with the same loose word
-backstop: the review corrects facts and language (WR-2), it does not re-plan
-lengths, but it must not balloon or gut an article either. One call per
-article, no retry: a failed article leaves a hole and the run fails (§6).
+is schema-enforced and assembled here (title, paragraphs, and the fact_issues
+/ corrections lists that make the correction log). The model's editorial
+choices are not re-checked in code — the human gate judges them (WR-2 lives
+in the prompt). One call per article, no retry: only a structurally unusable
+response leaves a hole and the run fails (§6).
 """
 
 from __future__ import annotations
@@ -16,12 +17,14 @@ import json
 from concurrent.futures import ThreadPoolExecutor
 from typing import Callable
 
+from pydantic import ValidationError
+
 from .. import llm, prompts
 from ..context import RunContext
 from ..contracts import (ArticleText, Draft, EditionOutline, OutlineSlot,
                          Review, ReviewedArticle, load_artifact, load_model,
                          save_artifact)
-from .write import SELF_REF_RE, word_count
+from .write import word_count
 
 RESPONSE_SCHEMA = {
     "type": "object",
@@ -54,60 +57,47 @@ def build_prompt(draft: Draft, slot: OutlineSlot, budget: dict,
     return "\n\n".join(parts)
 
 
-def ground(payload: object, draft: Draft, budget: dict, para_cfg: dict,
-           slack: float) -> tuple[ReviewedArticle | None, list[str]]:
+def ground(payload: object, draft: Draft) -> tuple[ReviewedArticle | None, list[str]]:
+    """Build the reviewed article from the response — no validation of the
+    model's title, length or paragraphing. The findings lists are kept as the
+    correction log; the pydantic contract is the only structural backstop."""
     if not isinstance(payload, dict):
         return None, [f"not a JSON object: {type(payload).__name__}"]
-    title = (payload.get("title") or "").strip() \
+    title = payload.get("title").strip() \
         if isinstance(payload.get("title"), str) else ""
     raw = payload.get("paragraphs")
     paragraphs = [p.strip() for p in raw if isinstance(p, str) and p.strip()] \
         if isinstance(raw, list) else []
 
-    problems = []
-    if not title:
-        problems.append("missing or empty title")
-    if not para_cfg["min"] <= len(paragraphs) <= para_cfg["max"]:
-        problems.append(f"{len(paragraphs)} paragraphs, needs "
-                        f"{para_cfg['min']}–{para_cfg['max']} (ED-4)")
-    words = word_count(paragraphs)
-    lo = int(budget["min"] * (1 - slack))
-    hi = int(budget["max"] * (1 + slack))
-    if not lo <= words <= hi:
-        problems.append(f"{words} words after review — far outside the "
-                        f"draft's guidance of {budget['min']}–"
-                        f"{budget['max']}; correct, don't rewrite")
-    hits = {m.group(0) for m in SELF_REF_RE.finditer(" ".join([title] + paragraphs))}
-    if hits:
-        problems.append("the paper never refers to itself (PIPE-7): "
-                        + ", ".join(sorted(hits)))
-    if problems:
-        return None, problems
     def _strings(key: str) -> list[str]:
         raw = payload.get(key)  # null instead of [] must not crash the stage
         return [s.strip() for s in raw if isinstance(s, str) and s.strip()] \
             if isinstance(raw, list) else []
 
-    review = Review(fact_issues=_strings("fact_issues"),
-                    corrections=_strings("corrections"))
-    return ReviewedArticle(pos=draft.pos, title=title, location=draft.location,
-                           source_date=draft.source_date,
-                           paragraphs=paragraphs, words=words,
-                           review=review), []
+    try:
+        reviewed = ReviewedArticle(
+            pos=draft.pos, title=title, location=draft.location,
+            source_date=draft.source_date, paragraphs=paragraphs,
+            words=word_count(paragraphs),
+            review=Review(fact_issues=_strings("fact_issues"),
+                          corrections=_strings("corrections")))
+    except ValidationError as e:
+        return None, [f"invalid reviewed article: {e}"]
+    return reviewed, []
 
 
 def review_draft(draft: Draft, slot: OutlineSlot,
-                 articles: dict[str, ArticleText], ed_cfg: dict, slack: float,
+                 articles: dict[str, ArticleText], ed_cfg: dict,
                  system: str, call: FrontierCall
                  ) -> tuple[ReviewedArticle | None, list[str]]:
     """Review one draft with a single call — no retry. Returns the reviewed
-    article (or None on call failure / failed checks) plus the problems."""
+    article (or None only on call failure / a structurally unusable response)
+    plus any problem for the log."""
     budget = ed_cfg["words"][slot.length]
-    para_cfg = ed_cfg["paragraphs"]
-    sources = [articles[sid] for sid in slot.source_ids]
+    sources = [articles[sid] for sid in slot.source_ids if sid in articles]
     prompt = build_prompt(draft, slot, budget, sources)
     try:
-        return ground(call(prompt, system), draft, budget, para_cfg, slack)
+        return ground(call(prompt, system), draft)
     except llm.LlmError as e:
         return None, [str(e)]
 
@@ -117,7 +107,6 @@ def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
     ed_cfg = ctx.edition_cfg
     stage_cfg = ctx.stage_cfg("review")
     concurrency = int(stage_cfg.get("concurrency", 3))
-    slack = float(stage_cfg.get("budget_slack", 0.5))
     rules = prompts.load_prompt(ctx.root, "review")
     if call is None:
         call = lambda prompt, system: llm.frontier_json(
@@ -135,7 +124,7 @@ def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
                 load_artifact(ctx.work_dir / "50-articles.json", ArticleText)}
 
     def work(draft: Draft) -> tuple[ReviewedArticle | None, list[str]]:
-        return review_draft(draft, slots[draft.pos], articles, ed_cfg, slack,
+        return review_draft(draft, slots[draft.pos], articles, ed_cfg,
                             rules.body, call)
 
     with ThreadPoolExecutor(max_workers=concurrency) as pool:

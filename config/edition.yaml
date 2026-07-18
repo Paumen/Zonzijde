@@ -49,18 +49,14 @@ edition:
 # full texts. See prompts/outline.md.
 
 write:
-  # S7 (PIPE-7): one frontier call per article, a few in flight at once.
-  # budget_slack widens the word guidance into the backstop that actually
-  # rejects a draft — at 0.5 only output that plainly ignored the plan
-  # (e.g. a 1,200-word "short") triggers a retry.
+  # S7 (PIPE-7): one frontier call per article, a few in flight at once. The
+  # length guidance is in the prompt only; the model's output is not
+  # validated in code (the human gate judges it).
   concurrency: 3
-  budget_slack: 0.5
 
 review:
-  # S8 (PIPE-8): same shape as write; the backstop keeps a review from
-  # ballooning or gutting an article (review corrects, it does not re-plan).
+  # S8 (PIPE-8): same shape as write.
   concurrency: 3
-  budget_slack: 0.5
 
 llm:
   # ARCHITECTURE §6: two named tiers, both short Claude Agent SDK sessions;
