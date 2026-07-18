@@ -9,8 +9,6 @@ from zoneinfo import ZoneInfo
 import yaml
 from pydantic import BaseModel
 
-from .contracts import Scope
-
 TZ = ZoneInfo("Europe/Amsterdam")
 
 
@@ -19,7 +17,7 @@ class Source(BaseModel):
     bron: str
     url: str | None = None
     builder: str | None = None
-    scopes: list[Scope]
+    scopes: list[str]
 
 
 @dataclass

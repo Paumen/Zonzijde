@@ -17,12 +17,11 @@ RESPONSE_SCHEMA = {
     "type": "object",
     "properties": {
         "title": {"type": "string"},
-        "paragraphs": {"type": "array", "minItems": 1,
-                       "items": {"type": "string"}},
+        "text": {"type": "string"},
         "fact_issues": {"type": "array", "items": {"type": "string"}},
         "corrections": {"type": "array", "items": {"type": "string"}},
     },
-    "required": ["title", "paragraphs", "fact_issues", "corrections"],
+    "required": ["title", "text", "fact_issues", "corrections"],
     "additionalProperties": False,
 }
 
@@ -35,7 +34,7 @@ def build_prompt(draft: Draft, slot: OutlineSlot, budget: dict,
         f"Draft article (slot {draft.pos}, {slot.length}, written to a "
         f"guide of {budget['min']}–{budget['max']} words):",
         f"Titel: {draft.title}",
-        "\n\n".join(draft.paragraphs),
+        draft.text,
         "Source text(s) — the only ground truth (WR-2):",
     ]
     for art in sources:
@@ -48,9 +47,8 @@ def ground(payload: object, draft: Draft) -> tuple[ReviewedArticle | None, list[
         return None, [f"not a JSON object: {type(payload).__name__}"]
     title = payload.get("title").strip() \
         if isinstance(payload.get("title"), str) else ""
-    raw = payload.get("paragraphs")
-    paragraphs = [p.strip() for p in raw if isinstance(p, str) and p.strip()] \
-        if isinstance(raw, list) else []
+    text = payload.get("text").strip() \
+        if isinstance(payload.get("text"), str) else ""
 
     def _strings(key: str) -> list[str]:
         raw = payload.get(key)
@@ -60,8 +58,8 @@ def ground(payload: object, draft: Draft) -> tuple[ReviewedArticle | None, list[
     try:
         reviewed = ReviewedArticle(
             pos=draft.pos, title=title, location=draft.location,
-            source_date=draft.source_date, paragraphs=paragraphs,
-            words=word_count(paragraphs),
+            source_date=draft.source_date, text=text,
+            words=word_count(text),
             review=Review(fact_issues=_strings("fact_issues"),
                           corrections=_strings("corrections")))
     except ValidationError as e:

@@ -138,23 +138,21 @@ def build(ctx: RunContext) -> str:
     if outline_path.is_file():
         outline = load_model(outline_path, EditionOutline)
         parts += ["", "## Edition plan (PIPE-6)", "",
-                  _table(["pos", "scope", "length", "type", "topic",
+                  _table(["pos", "scope", "length", "topic",
                           "location", "source date"],
-                         [[s.pos, s.scope, s.length, s.type, s.topic,
+                         [[s.pos, s.scope, s.length, s.topic,
                            s.location, s.source_date or "—"]
                           for s in outline.slots])]
-        ill = outline.illustration
-        parts += ["", f"Illustration (EL-3): slot {ill.slot_pos} — {ill.subject}"]
 
     if reviewed_path.is_file():
         reviewed = load_artifact(reviewed_path, ReviewedArticle)
         rlog = json.loads(review_log_path.read_text(encoding="utf-8"))
         draft_words = {a["pos"]: a["words"]["draft"] for a in rlog["articles"]}
         parts += ["", "## Articles (PIPE-7/8)", "",
-                  _table(["pos", "title", "words draft → reviewed", "paragraphs"],
+                  _table(["pos", "title", "words draft → reviewed"],
                          [[r.pos, r.title,
-                           f"{draft_words.get(r.pos, '—')} → {r.words}",
-                           len(r.paragraphs)] for r in reviewed])]
+                           f"{draft_words.get(r.pos, '—')} → {r.words}"]
+                          for r in reviewed])]
         correction_lines = []
         for r in reviewed:
             for issue in r.review.fact_issues:

@@ -75,7 +75,7 @@ flowchart TD
 | S3 `score` | PIPE-3 | LLM (light) | `20` → `30-scored.json` | Batched (~80 items/call, concurrent), schema-enforced output, prompt `prompts/score.md`. Unparseable batch → items left unscored and excluded (fail-closed: unscored never advances). |
 | S4 `select` | PIPE-4 | LLM (frontier) | `30` (+1/+2 only) → `40-candidates.json` | Inputs `prompts/brief.md` + `prompts/select.md` + scored titles/summaries; output shape per PIPE-4. |
 | S5 `enrich` | PIPE-5 | code | `40` → `50-articles.json` | `tools/fetch-articles.py` refactored into the package; two-stage fetch (requests, then headless browser). Re-source-or-drop per PIPE-5: the topic's sibling rows in `40-candidates.json` are the only re-source; a topic with no full text is dropped and logged. No model call. |
-| S6 `outline` | PIPE-6 | LLM (frontier) | `40` + `50` (ok flags) + SPEC §5 → `60-outline.json` | A quick pitch: produces the edition plan per PIPE-6 (story picks, length classes, types, illustration subject) from the **shortlist** — titles + RSS summaries, not the full texts. One plain call, no tools, no browsing; the writers (S7) get the texts. The model's editorial choices (ED-1 counts, ED-2 mix, which topics) are taken as-is and judged at the human gate — not validated in code. Code still assembles what it owns: `pos`/`role` and the lokaal front by ring-order sort (ED-6), and `source_date` (ED-3, the *newest* source's date). SRC-3 reference reading is not automated here (OQ-1). |
+| S6 `outline` | PIPE-6 | LLM (frontier) | `40` + `50` (ok flags) + SPEC §5 → `60-outline.json` | A quick pitch: produces the edition plan per PIPE-6 (story picks, length classes) from the **shortlist** — titles + RSS summaries, not the full texts. One plain call, no tools, no browsing; the writers (S7) get the texts. The model's editorial choices (ED-1 counts, ED-2 mix, which topics) are taken as-is and judged at the human gate — not validated in code. Code still assembles what it owns: `pos` and the lokaal front by ring-order sort (ED-6), and `source_date` (ED-3, the *newest* source's date). SRC-3 reference reading is not automated here (OQ-1). |
 | S7 `write` | PIPE-7 | LLM (frontier) | `60` → `70-drafts.json` | One call per article (grounded on its S5 texts only); the rules from PIPE-7 (length guidance, no self-reference) are in the system prompt and not re-checked in code. `words` computed. |
 | S8 `review` | PIPE-8 | LLM (frontier) | `70` → `80-reviewed.json` | Per article, fact-checked against its S5 source text (WR-2) by the model; emits a correction log for the PR. Output taken as-is, not validated in code. |
 | S9 `compose` | PIPE-9 | code (+LLM assist) | `80` → `editions/<date>/krant-A3boekje.pdf` + `edition.json` | Custom-illustration drawing, Typst render, weather baking, typeset checks, booklet imposition — all per §5. Text-LLM assist only to shorten/lengthen a specific paragraph when a check demands it. |
@@ -113,16 +113,14 @@ every printed article traces back to its feed items.
 
 // 60-outline.json (S6) — the edition plan
 { "edition": "2026-07-26", "slots": [
-    { "pos": 1, "scope": "L", "role": "front-hero",
+    { "pos": 1, "scope": "L",
       "topic": "…", "length": "long | standard | short",
-      "type": "news | feature | profile | zoom-out | zoom-in",
       "devices": ["irony"], "source_ids": ["…"],
-      "location": "Wijchen", "source_date": "2026-07-14" } ],
-  "illustration": { "slot_pos": 7, "subject": "…" } }
+      "location": "Wijchen", "source_date": "2026-07-14" } ] }
 
 // 70-drafts.json (S7) / 80-reviewed.json (S8): slot + article text
 { "pos": 1, "title": "…", "location": "Wijchen", "source_date": "2026-07-14",
-  "paragraphs": ["…"], "words": 430,
+  "text": "…", "words": 430,
   "review": { "fact_issues": [], "corrections": ["…"] } }   // S8 only
 
 // editions/<date>/edition.json (S9) — manifest of the published edition
@@ -167,9 +165,10 @@ order, producing the fold-ready `krant-A3boekje.pdf` — the deliverable (OPS-2)
 Weather (EL-2) is fetched from Open-Meteo at compose time and baked into
 `edition.json`, so the rendered edition is a closed artifact (principle 4).
 
-**Illustration (EL-3): drawn anew every edition — no stock library.** S6 proposes the
-subject (tied to its article); S9 has the frontier model draw a fresh one-column SVG in
-the house style — black-and-white, minimalist fine lines, patterns, strokes. The style
+**Illustration (EL-3): drawn anew every edition — no stock library.** Not currently
+wired into the outline stage (S6) — S9 has the frontier model pick a subject and draw a
+fresh one-column SVG in the house style — black-and-white, minimalist fine lines,
+patterns, strokes. The style
 lives in `prompts/illustrate.md` together with two or three reference drawings from
 past editions (references teach the *style*, they are never reused as the drawing).
 Saved as `work/85-illustration.svg`, referenced from `edition.json`, and judged by the
