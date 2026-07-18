@@ -15,26 +15,24 @@ RESPONSE_SCHEMA = {
     "type": "object",
     "properties": {
         "title": {"type": "string"},
-        "paragraphs": {"type": "array", "minItems": 1,
-                       "items": {"type": "string"}},
+        "text": {"type": "string"},
     },
-    "required": ["title", "paragraphs"],
+    "required": ["title", "text"],
     "additionalProperties": False,
 }
 
 FrontierCall = Callable[[str, str], object]
 
 
-def word_count(paragraphs: list[str]) -> int:
-    return len(" ".join(paragraphs).split())
+def word_count(text: str) -> int:
+    return len(text.split())
 
 
 def build_prompt(slot: OutlineSlot, budget: dict, para_cfg: dict,
                  sources: list[ArticleText]) -> str:
     plan = [
-        f"Edition slot {slot.pos} ({'front page hero' if slot.role == 'front-hero' else 'body'}).",
+        f"Edition slot {slot.pos} ({'front page hero' if slot.pos == 1 else 'body'}).",
         f"- topic: {slot.topic}",
-        f"- article type: {slot.type}",
         f"- devices: {', '.join(slot.devices) or 'none'}",
         f"- location (dateline, do not restate in the body): {slot.location}",
         f"- length: {slot.length} — as a guide {budget['min']}–{budget['max']} "
@@ -53,13 +51,12 @@ def ground(payload: object, slot: OutlineSlot) -> tuple[Draft | None, list[str]]
         return None, [f"not a JSON object: {type(payload).__name__}"]
     title = payload.get("title").strip() \
         if isinstance(payload.get("title"), str) else ""
-    raw = payload.get("paragraphs")
-    paragraphs = [p.strip() for p in raw if isinstance(p, str) and p.strip()] \
-        if isinstance(raw, list) else []
+    text = payload.get("text").strip() \
+        if isinstance(payload.get("text"), str) else ""
     try:
         draft = Draft(pos=slot.pos, title=title, location=slot.location,
-                      source_date=slot.source_date, paragraphs=paragraphs,
-                      words=word_count(paragraphs))
+                      source_date=slot.source_date, text=text,
+                      words=word_count(text))
     except ValidationError as e:
         return None, [f"invalid draft: {e}"]
     return draft, []

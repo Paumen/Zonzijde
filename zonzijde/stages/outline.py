@@ -27,29 +27,17 @@ def response_schema(candidate_keys: list[str]) -> dict:
                         "topic": {"type": "string"},
                         "length": {"type": "string",
                                    "enum": ["long", "standard", "short"]},
-                        "type": {"type": "string",
-                                 "enum": ["news", "feature", "profile",
-                                          "zoom-out", "zoom-in"]},
                         "devices": {"type": "array",
                                     "items": {"type": "string"}},
                         "location": {"type": "string"},
                     },
-                    "required": ["candidate", "topic", "length", "type",
+                    "required": ["candidate", "topic", "length",
                                  "devices", "location"],
                     "additionalProperties": False,
                 },
             },
-            "illustration": {
-                "type": "object",
-                "properties": {
-                    "slot_index": {"type": "integer", "minimum": 1},
-                    "subject": {"type": "string"},
-                },
-                "required": ["slot_index", "subject"],
-                "additionalProperties": False,
-            },
         },
-        "required": ["slots", "illustration"],
+        "required": ["slots"],
         "additionalProperties": False,
     }
 
@@ -149,23 +137,15 @@ def ground(payload: object, edition: date,
         dates = [published.get(sid) for sid in sids if published.get(sid)]
         slots.append({
             "pos": pos_of_index[i], "scope": cand.scope,
-            "role": "front-hero" if pos_of_index[i] == 1 else "body",
             "topic": slot.get("topic"), "length": slot.get("length"),
-            "type": slot.get("type"), "devices": slot.get("devices"),
+            "devices": slot.get("devices"),
             "source_ids": sids, "location": slot.get("location"),
             "source_date": max(dates) if dates else None,
         })
 
-    ill = payload.get("illustration") if isinstance(payload.get("illustration"), dict) else {}
-    idx = ill.get("slot_index")
-    slot_pos = (pos_of_index[idx - 1] if isinstance(idx, int)
-                and 1 <= idx <= len(resolved) else 1)
-    subject = ill.get("subject").strip() if isinstance(ill.get("subject"), str) else ""
-
     try:
         outline = EditionOutline.model_validate({
             "edition": edition, "slots": slots,
-            "illustration": {"slot_pos": slot_pos, "subject": subject},
         })
     except ValidationError as e:
         return None, [f"invalid outline: {e}"]

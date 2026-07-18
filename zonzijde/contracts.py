@@ -9,8 +9,6 @@ from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
 from pydantic import BaseModel, Field
 
-Scope = Literal["L", "R", "N", "I"]
-
 _TRACKING_PREFIXES = ("utm_",)
 _TRACKING_KEYS = {"fbclid", "gclid"}
 
@@ -33,7 +31,7 @@ class FeedItem(BaseModel):
     id: str
     source: str
     bron: str
-    scopes: list[Scope]
+    scopes: list[str]
     title: str
     link: str
     summary: str
@@ -58,7 +56,7 @@ class CandidateItem(BaseModel):
 
 
 class Candidate(BaseModel):
-    scope: Scope
+    scope: str
     topic: str
     items: list[CandidateItem] = Field(min_length=1)
 
@@ -76,31 +74,22 @@ class ArticleText(CandidateItem):
 
 
 Length = Literal["long", "standard", "short"]
-ArticleType = Literal["news", "feature", "profile", "zoom-out", "zoom-in"]
 
 
 class OutlineSlot(BaseModel):
     pos: int = Field(ge=1)
-    scope: Scope
-    role: Literal["front-hero", "body"]
+    scope: str
     topic: str
     length: Length
-    type: ArticleType
     devices: list[str]
     source_ids: list[str] = Field(min_length=1)
     location: str
     source_date: date | None
 
 
-class OutlineIllustration(BaseModel):
-    slot_pos: int = Field(ge=1)
-    subject: str
-
-
 class EditionOutline(BaseModel):
     edition: date
     slots: list[OutlineSlot] = Field(min_length=1)
-    illustration: OutlineIllustration
 
 
 class Draft(BaseModel):
@@ -108,7 +97,7 @@ class Draft(BaseModel):
     title: str
     location: str
     source_date: date | None
-    paragraphs: list[str] = Field(min_length=1)
+    text: str
     words: int
 
 
