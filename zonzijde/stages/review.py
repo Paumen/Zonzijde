@@ -4,8 +4,8 @@ Reads ``70-drafts.json`` + ``60-outline.json`` (which sources back which
 slot) + ``50-articles.json``, writes ``80-reviewed.json`` and
 ``80-review-log.json`` — the correction log for the edition PR. Per article
 one frontier call with ``prompts/review.md`` as system prompt; the response
-is schema-enforced and grounded here like S7's, with slack on the word
-budget: the review corrects facts and language (WR-2), it does not re-plan
+is schema-enforced and grounded here like S7's, with the same loose word
+backstop: the review corrects facts and language (WR-2), it does not re-plan
 lengths, but it must not balloon or gut an article either. Retries with
 feedback per article, fatal after 3 (§6).
 """
@@ -47,8 +47,8 @@ FrontierCall = Callable[[str, str], object]
 def build_prompt(draft: Draft, slot: OutlineSlot, budget: dict,
                  sources: list[ArticleText]) -> str:
     parts = [
-        f"Draft article (slot {draft.pos}, {slot.length}, budget "
-        f"{budget['min']}–{budget['max']} words):",
+        f"Draft article (slot {draft.pos}, {slot.length}, written to a "
+        f"guide of {budget['min']}–{budget['max']} words):",
         f"Titel: {draft.title}",
         "\n\n".join(draft.paragraphs),
         "Source text(s) — the only ground truth (WR-2):",
@@ -78,9 +78,9 @@ def ground(payload: object, draft: Draft, budget: dict, para_cfg: dict,
     lo = int(budget["min"] * (1 - slack))
     hi = int(budget["max"] * (1 + slack))
     if not lo <= words <= hi:
-        problems.append(f"{words} words after review — the draft's budget "
-                        f"is {budget['min']}–{budget['max']}; correct, "
-                        "don't rewrite")
+        problems.append(f"{words} words after review — far outside the "
+                        f"draft's guidance of {budget['min']}–"
+                        f"{budget['max']}; correct, don't rewrite")
     hits = {m.group(0) for m in SELF_REF_RE.finditer(" ".join([title] + paragraphs))}
     if hits:
         problems.append("the paper never refers to itself (PIPE-7): "
@@ -135,7 +135,7 @@ def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
     ed_cfg = ctx.edition_cfg
     stage_cfg = ctx.stage_cfg("review")
     concurrency = int(stage_cfg.get("concurrency", 3))
-    slack = float(stage_cfg.get("budget_slack", 0.15))
+    slack = float(stage_cfg.get("budget_slack", 0.5))
     rules = prompts.load_prompt(ctx.root, "review")
     if call is None:
         call = lambda prompt, system: llm.frontier_json(

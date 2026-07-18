@@ -4,10 +4,16 @@ Reads ``60-outline.json`` + ``50-articles.json``, writes ``70-drafts.json``
 and ``70-write-log.json``. Each call is grounded on the slot's own S5 source
 texts only; the hard writing rules (``prompts/write.md``) are the system
 prompt. The response is schema-enforced at the call layer and grounded here:
-paragraph count per ED-4, word count within the slot's length-class budget,
-and no self-reference to the paper (PIPE-7) — checked in code because a
-regex catches what a prompt merely requests. ``words`` is computed, never
-taken from the model. Retries with feedback per article, fatal after 3 (§6).
+paragraph count per ED-4, a loose word-count backstop around the slot's
+length guidance, and no self-reference to the paper (PIPE-7) — checked in
+code because a regex catches what a prompt merely requests. ``words`` is
+computed, never taken from the model. Retries with feedback per article,
+fatal after 3 (§6).
+
+Word counts are guidance, not gates: good content must be written first, and
+whether the finished edition needs trimming — or a lesser article cut — is a
+compose/gate decision (PIPE-9). The backstop only catches output that
+plainly ignored the plan.
 """
 
 from __future__ import annotations
@@ -62,8 +68,9 @@ def build_prompt(slot: OutlineSlot, budget: dict, para_cfg: dict,
         f"- angle: {slot.angle}",
         f"- devices: {', '.join(slot.devices) or 'none'}",
         f"- location (dateline, do not restate in the body): {slot.location}",
-        f"- length: {slot.length} — {budget['min']}–{budget['max']} words, "
-        f"{para_cfg['min']}–{para_cfg['max']} paragraphs",
+        f"- length: {slot.length} — as a guide {budget['min']}–{budget['max']} "
+        f"words, {para_cfg['min']}–{para_cfg['max']} paragraphs; the story "
+        "decides, not the count",
     ]
     parts = ["\n".join(plan)]
     if others:
@@ -95,15 +102,15 @@ def ground(payload: object, slot: OutlineSlot, budget: dict,
     if not para_cfg["min"] <= len(paragraphs) <= para_cfg["max"]:
         problems.append(f"{len(paragraphs)} paragraphs, needs "
                         f"{para_cfg['min']}–{para_cfg['max']} (ED-4)")
-    # The budget is a planning number, not a legal bound — final fit is
-    # S9's typeset check. Without slack a 625-word draft against a 620
-    # budget just thrashes the retry loop.
+    # The word range is guidance; slack widens it into the backstop that a
+    # draft must actually clear. Only output that plainly ignored the plan
+    # trips it — fitting the edition happens at compose (PIPE-9).
     words = word_count(paragraphs)
     lo = int(budget["min"] * (1 - slack))
     hi = int(budget["max"] * (1 + slack))
     if not lo <= words <= hi:
-        problems.append(f"{words} words, budget is "
-                        f"{budget['min']}–{budget['max']} ({slot.length})")
+        problems.append(f"{words} words — far outside the {slot.length} "
+                        f"guidance of {budget['min']}–{budget['max']}")
     hits = {m.group(0) for m in SELF_REF_RE.finditer(" ".join([title] + paragraphs))}
     if hits:
         problems.append("the paper never refers to itself (PIPE-7): "
@@ -152,7 +159,7 @@ def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
     ed_cfg = ctx.edition_cfg
     stage_cfg = ctx.stage_cfg("write")
     concurrency = int(stage_cfg.get("concurrency", 3))
-    slack = float(stage_cfg.get("budget_slack", 0.10))
+    slack = float(stage_cfg.get("budget_slack", 0.5))
     rules = prompts.load_prompt(ctx.root, "write")
     if call is None:
         call = lambda prompt, system: llm.frontier_json(

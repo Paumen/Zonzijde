@@ -1,5 +1,5 @@
-"""S8 review: grounding with budget slack, the correction log, artifact
-consistency with the outline."""
+"""S8 review: grounding with the loose word backstop, the correction log,
+artifact consistency with the outline."""
 
 import json
 
@@ -10,9 +10,9 @@ from zonzijde.contracts import (Draft, EditionOutline, ReviewedArticle,
                                 load_artifact, save_artifact, save_model)
 from zonzijde.stages import review
 
-BUDGET = {"min": 230, "max": 360}   # config's standard class
+BUDGET = {"min": 250, "max": 500}   # config's standard class
 PARAS = {"min": 3, "max": 11}
-SLACK = 0.15
+SLACK = 0.5                         # config's backstop
 
 
 def _paragraphs(n_paras: int = 4, words_each: int = 60) -> list[str]:
@@ -39,13 +39,13 @@ def test_ground_keeps_review_findings_and_slack():
     assert reviewed.review.fact_issues == ["aantal gecorrigeerd naar bron"]
     assert reviewed.review.corrections == ["spelfout hersteld"]
 
-    # 200 words: under budget minimum but within the 15% slack — a review
-    # trim is not a rewrite.
+    # 200 words: under the guidance minimum but well inside the backstop —
+    # a review trim is not a rewrite.
     ok = _payload(paragraphs=_paragraphs(4, 50))
     _, problems = review.ground(ok, _draft(), BUDGET, PARAS, SLACK)
     assert problems == []
 
-    ballooned = _payload(paragraphs=_paragraphs(9, 60))  # 540 > 360·1.15
+    ballooned = _payload(paragraphs=_paragraphs(9, 100))  # 900 > 500·1.5
     _, problems = review.ground(ballooned, _draft(), BUDGET, PARAS, SLACK)
     assert any("correct, don't rewrite" in p for p in problems)
 

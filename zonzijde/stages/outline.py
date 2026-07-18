@@ -115,7 +115,7 @@ def spec_note(cfg: dict) -> str:
         "- Length mix (ED-2): "
         + ", ".join(f"{mix[c]['min']}–{mix[c]['max']} {c}" for c in
                     ("long", "standard", "short"))
-        + " — word budgets: "
+        + " — word guidance (loose, the story decides): "
         + ", ".join(f"{c} {words[c]['min']}–{words[c]['max']}" for c in
                     ("long", "standard", "short")) + ".",
         f"- Edition body total ≈ {body['min']}–{body['max']} words (ED-5).",

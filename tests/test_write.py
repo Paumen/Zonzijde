@@ -1,5 +1,5 @@
-"""S7 write: per-article grounding (ED-4, word budget, no self-reference),
-computed word counts, retry-then-fatal, artifact writing."""
+"""S7 write: per-article grounding (ED-4, the loose word backstop, no
+self-reference), computed word counts, retry-then-fatal, artifact writing."""
 
 import json
 from datetime import date
@@ -11,11 +11,11 @@ from zonzijde.contracts import (Draft, EditionOutline, load_artifact,
                                 save_artifact, save_model)
 from zonzijde.stages import write
 
-BUDGET = {"min": 230, "max": 360}   # config's standard class
+BUDGET = {"min": 250, "max": 500}   # config's standard class
 PARAS = {"min": 3, "max": 11}
 
 
-def _paragraphs(n_paras: int = 4, words_each: int = 60) -> list[str]:
+def _paragraphs(n_paras: int = 4, words_each: int = 75) -> list[str]:
     return [("woord " * words_each).strip() for _ in range(n_paras)]
 
 
@@ -32,7 +32,7 @@ def _slot(pos: int = 1, n: int = 1, length: str = "standard"):
 def test_ground_computes_words_and_carries_slot_fields():
     draft, problems = write.ground(_payload(), _slot(), BUDGET, PARAS)
     assert problems == []
-    assert draft.words == 240                       # computed, not trusted
+    assert draft.words == 300                       # computed, not trusted
     assert (draft.pos, draft.location) == (1, "Wijchen")
     assert draft.source_date == date(2026, 7, 15)   # ED-3, from the outline
 
@@ -44,13 +44,17 @@ def test_ground_rejects_budget_paragraphs_title_and_self_reference():
 
     _, problems = write.ground(_payload(paragraphs=_paragraphs(4, 20)),
                                _slot(), BUDGET, PARAS)
-    assert any("budget" in p for p in problems)
+    assert any("guidance" in p for p in problems)
 
-    # slack: a near miss passes (380 ≤ 360·1.10), a real miss still fails
-    near = _payload(paragraphs=_paragraphs(4, 95))
+    # the word range is guidance widened by slack into a backstop: a draft
+    # a bit over the guide passes, one that plainly ignored the plan fails
+    near = _payload(paragraphs=_paragraphs(4, 130))        # 520 words
     assert write.ground(near, _slot(), BUDGET, PARAS, slack=0.10)[1] == []
     _, problems = write.ground(near, _slot(), BUDGET, PARAS)
-    assert any("budget" in p for p in problems)
+    assert any("guidance" in p for p in problems)
+    wild = _payload(paragraphs=_paragraphs(4, 250))        # 1000 > 500·1.5
+    _, problems = write.ground(wild, _slot(), BUDGET, PARAS, slack=0.5)
+    assert any("guidance" in p for p in problems)
 
     _, problems = write.ground(_payload(title="  "), _slot(), BUDGET, PARAS)
     assert any("title" in p for p in problems)
@@ -90,11 +94,11 @@ def test_run_writes_drafts_per_slot(tmp_ctx):
     write.run(tmp_ctx, call=call)
     drafts = load_artifact(tmp_ctx.work_dir / "70-drafts.json", Draft)
     assert [d.pos for d in drafts] == [1, 2]
-    assert all(d.words == 240 for d in drafts)
+    assert all(d.words == 300 for d in drafts)
     # each prompt names the other slots as context only (WR-1 references)
     assert any("Elsewhere in this edition" in p for p in prompts_seen)
     log = json.loads((tmp_ctx.work_dir / "70-write-log.json").read_text())
-    assert log["words_total"] == 480
+    assert log["words_total"] == 600
     assert log["failed_slots"] == []
 
 

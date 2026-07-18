@@ -31,17 +31,18 @@ enrich:
 
 edition:
   # SPEC §5 constants, consumed by S6's grounding checks and the S7/S8 word
-  # budgets. The per-class word ranges are chosen so that any mix satisfying
-  # ED-1/ED-2 lands the edition body near ED-5's 2,800–3,400 words.
+  # guidance.
   scope_items: {min: 2, max: 3}          # ED-1: items per scope
   length_mix:                            # ED-2: articles per length class
     long: {min: 2, max: 3}
     standard: {min: 3, max: 5}
     short: {min: 2, max: 3}
-  words:                                 # word budget per length class
-    long: {min: 420, max: 620}
-    standard: {min: 230, max: 360}
-    short: {min: 110, max: 200}
+  words:                                 # word guidance per length class —
+    long: {min: 450, max: 800}           # deliberately loose and overlapping:
+    standard: {min: 250, max: 500}       # good content comes first. Fitting
+    short: {min: 150, max: 300}          # the edition (trim some, or cut a
+                                         # lesser article) is a compose/gate
+                                         # decision (PIPE-9), not a writing gate.
   body_words: {min: 2800, max: 3400}     # ED-5: edition body total
   paragraphs: {min: 3, max: 11}          # ED-4: paragraphs per article
 
@@ -54,18 +55,17 @@ outline:
 
 write:
   # S7 (PIPE-7): one frontier call per article, a few in flight at once.
-  # budget_slack: tolerated fraction outside the length-class word budget —
-  # the budget steers the writer; final fit is S9's typeset check. Without
-  # it a draft a handful of words over the line thrashes the retry loop.
+  # budget_slack widens the word guidance into the backstop that actually
+  # rejects a draft — at 0.5 only output that plainly ignored the plan
+  # (e.g. a 1,200-word "short") triggers a retry.
   concurrency: 3
-  budget_slack: 0.10
+  budget_slack: 0.5
 
 review:
-  # S8 (PIPE-8): same shape as write. Slack is the tolerated fraction outside
-  # the word budget after corrections (review fixes facts, it does not
-  # re-plan lengths).
+  # S8 (PIPE-8): same shape as write; the backstop keeps a review from
+  # ballooning or gutting an article (review corrects, it does not re-plan).
   concurrency: 3
-  budget_slack: 0.15
+  budget_slack: 0.5
 
 llm:
   # ARCHITECTURE §6: two named tiers, both short Claude Agent SDK sessions;
