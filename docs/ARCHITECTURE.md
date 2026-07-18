@@ -70,15 +70,15 @@ flowchart TD
 
 | Stage | Spec | Kind | Input → output artifact | Notes |
 |-------|------|------|--------------------------|-------|
-| S1 `fetch` | PIPE-1 | code | `config/sources.yaml` → `10-items.json` | Concurrent feed pull with timeout; per-feed failures recorded in the run report, never fatal (SRC-1/PIPE-1). Window per SRC-4. |
-| S2 `filter` | PIPE-2 | code | `10` → `20-filtered.json` + `20-rejected.json` | Link-dedupe within the batch — the same article arriving via multiple feeds (e.g. NOS algemeen vs NOS economie). Cross-edition repeats are prevented by the SRC-4 date window, not historical lookback. Regex buckets B1–B5 from `config/filters.yaml` (ported from the prototype). Rejections keep their reason for auditability. |
+| S1 `fetch` | PIPE-1 | code | `config/sources.yaml` → `10-items.json` | Concurrent pull with timeout; per-feed failures logged in the run report, never fatal. Window per SRC-4. |
+| S2 `filter` | PIPE-2 | code | `10` → `20-filtered.json` + `20-rejected.json` | Batch dedupe + bucket filtering per PIPE-2; buckets B1–B5 live in `config/filters.yaml` (ported from the prototype). Rejections keep their reason for auditability. |
 | S3 `score` | PIPE-3 | LLM (light) | `20` → `30-scored.json` | Batched (~80 items/call, concurrent), JSON-mode, temperature 0, prompt `prompts/score.md`. Unparseable batch → one retry → items left unscored and excluded (fail-closed: unscored never advances). |
-| S4 `select` | PIPE-4 | LLM (frontier) | `30` (+1/+2 only) → `40-candidates.json` | Brief + titles/summaries in, ranked top-5 topics per scope out; one row per source article. |
-| S5 `enrich` | PIPE-5 | code (+search) | `40` → `50-articles.json` | `tools/fetch-articles.py` refactored into the package; two-stage fetch (requests, then headless browser). No summary fallback: a blocked link is re-sourced via the topic's sibling rows in `40-candidates.json` or a search for alternative coverage; a story still without sufficient full text is dropped and logged. |
-| S6 `outline` | PIPE-6 | LLM (frontier) | `50` + SPEC §5 → `60-outline.json` | Picks final stories per ED-1/ED-2, assigns length class, type, tone/angle (WR-1), sources per story, illustration-subject proposal (EL-3), optional element (EL-5). Works only from stories that survived S5 (sees the drop log so scope counts can rebalance). Uses tool-assisted browsing for SRC-3 reference sources. |
+| S4 `select` | PIPE-4 | LLM (frontier) | `30` (+1/+2 only) → `40-candidates.json` | Inputs `prompts/brief.md` + `prompts/select.md` + scored titles/summaries; output shape per PIPE-4. |
+| S5 `enrich` | PIPE-5 | code (+search) | `40` → `50-articles.json` | `tools/fetch-articles.py` refactored into the package; two-stage fetch (requests, then headless browser). Re-source-or-drop per PIPE-5: the topic's sibling rows in `40-candidates.json` first, then search; drops logged. |
+| S6 `outline` | PIPE-6 | LLM (frontier) | `50` + SPEC §5 → `60-outline.json` | Produces the edition plan per PIPE-6 (story picks, length classes, types, angles, illustration subject, optional element). Works only from stories that survived S5 (sees the drop log so scope counts can rebalance); tool-assisted browsing for the SRC-3 reference sources. |
 | S7 `write` | PIPE-7 | LLM (frontier) | `60` → `70-drafts.json` | One call per article (grounded on its S5 texts only); hard rules from PIPE-7 in the system prompt. |
-| S8 `review` | PIPE-8 | LLM (frontier) | `70` → `80-reviewed.json` | Per-article fact-check against S5 source text (WR-2), NL grammar/spelling, final title; emits a correction log for the PR. |
-| S9 `compose` | PIPE-9 | code (+LLM assist) | `80` → `editions/<date>/krant-A3boekje.pdf` + `edition.json` | Draws the edition's custom illustration (frontier model, house style — §5); Typst render of the krant template from `edition.json`; bakes weather; places illustration + closing landscape; typeset checks and A3 booklet imposition (§5). Text-LLM assist only to shorten/lengthen a specific paragraph when a check demands it. |
+| S8 `review` | PIPE-8 | LLM (frontier) | `70` → `80-reviewed.json` | Per article, checked against its S5 source text (WR-2); emits a correction log for the PR. |
+| S9 `compose` | PIPE-9 | code (+LLM assist) | `80` → `editions/<date>/krant-A3boekje.pdf` + `edition.json` | Custom-illustration drawing, Typst render, weather baking, typeset checks, booklet imposition — all per §5. Text-LLM assist only to shorten/lengthen a specific paragraph when a check demands it. |
 
 Stage contract: every stage is `python -m zonzijde <stage> --edition YYYY-MM-DD`;
 `run` chains them; `--from/--until` re-run a slice against existing artifacts.
@@ -159,12 +159,11 @@ reflow knobs (optional-element position, illustration slot), a review-model trim
 extension of a specific paragraph (addressed by article `pos` + paragraph index) by a
 word budget, dropping the lowest-ranked optional element — max 3 recompiles, then fail
 the run with the violation report; a human decides (the gate exists precisely for
-this). The target is **exactly 4 A4 pages** (LAY-7): content fills 3.5–4 pages and the
-closing landscape (EL-4) absorbs the remaining slack on page 4.
+this). The target is **exactly 4 A4 pages**, closing landscape absorbing the slack
+(LAY-7).
 
-**Booklet imposition (OPS-2).** pypdf imposes the 4 A4 pages onto two A3 landscape
-sheets — outer sheet `4 | 1`, inner sheet `2 | 3` — producing the fold-ready
-`krant-A3boekje.pdf`: the deliverable, matching the editions produced to date.
+**Booklet imposition.** pypdf imposes the 4 A4 pages onto the two A3 sheets in LAY-7's
+order, producing the fold-ready `krant-A3boekje.pdf` — the deliverable (OPS-2).
 
 Weather (EL-2) is fetched from Open-Meteo at compose time and baked into
 `edition.json`, so the rendered edition is a closed artifact (principle 4).
