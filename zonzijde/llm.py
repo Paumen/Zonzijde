@@ -80,11 +80,13 @@ def light_json(prompt: str, model: str, schema: dict | None = None) -> object:
 def frontier_json(prompt: str, system: str, schema: dict, model: str,
                   effort: str | None = None,
                   allowed_tools: list[str] | None = None,
-                  max_turns: int = 1) -> object:
+                  max_turns: int = 2) -> object:
     """One frontier-tier call (S4+). Raises ``LlmError`` on failure — the S4
     caller retries with backoff and is fatal after 3 (§6). ``allowed_tools``/
     ``max_turns`` give a stage tool use — e.g. WebSearch for S5's
-    alternative-coverage search and S6's SRC-3 browsing."""
+    alternative-coverage search and S6's SRC-3 browsing. Two turns minimum
+    for the same reason as the light tier: on a sizeable prompt the model
+    answers in one turn and emits the structured output in the next."""
     return agent_json(prompt, model=model, system=system, schema=schema,
                       effort=effort, allowed_tools=allowed_tools,
                       max_turns=max_turns)
