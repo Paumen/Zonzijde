@@ -1,0 +1,21 @@
+# De Zonzijde — regex buckets B1–B5 (PIPE-2).
+# Ported verbatim from proto_fetchfilter.html (BUCKET1..BUCKET5); these
+# patterns are tuned — change them only with fixture tests (tests/test_filter.py)
+# and, once it exists, a re-run of the scorer eval (ARCHITECTURE §9).
+#
+# Patterns are matched case-insensitively against the item *title* only.
+# Syntax is the JS/PCRE subset used by the prototype; the loader in
+# zonzijde/stages/filter.py translates \p{L} for Python's re module.
+#
+#   B1  Dutch, hard negative (death, violence, crime, disaster, …)
+#   B2  Dutch, broadly negative (accidents, conflict, economic pain, …)
+#   B3  English, hard negative
+#   B4  English, broadly negative
+#   B5  format noise & blocked topics (video/live/112/Musk/Trump/…)
+
+buckets:
+  B1: 'overlij|overled|sterf|omgekomen|gedood|doodgeschoten|doodgestoken|doodgereden|doodreed|dode|moord|doodslag|neergeschoten|neergestoken|geweld(?!ig|enaar)|mishandel|aanrand|verkracht|wurg|ontvoer|gijzel|terreur|terroris|extremis|staatsgreep|steekpartij|steekincident|afpers|verniel|vuurwapen|gewapend|ongeval|aanrijding|verongelukt|neergestort|brand|overstroming|wateroverlast|aardbeving|verdronken|treinongeluk|gaslek|ravage|plofkraak|ingestort|watersnood|dader|arrestatie|gearresteerd|gevangenis|misdaad|misdrijf|crimineel|fraude|witwas|diefstal|gestolen|inbr|zedenzaak|kinderporno|mensenhandel|vervolging|misbruik|smokkel|gewond|trauma|aanslag|luchtaanval|raketaanval|failli|armoede|dakloze|betoging|rellen|relschop|staking|schandaal|sanctie|besmetting|giftig|quarantaine|lockdown|avondklok|asbest|noodweer|tornado|noodtoestand|antisemit|racis|genocide|aanklacht|fata(?:al|le)|misstand|intimid|bloedbad|voortvluchtig|beschuldig|(?<!k)ramp|(?<!\p{L})(?:cel|dood(?:s|elijk|steek|kist)?|wapen(?:s|en|ing)?|bom(?:men)?)(?!\p{L})'
+  B2: 'schiet|geslagen|(?<!ver)slaan|(?<!ver)slaat|overval|slachtoffer|vecht|liquidat|ongeluk|botsing|explosie|ontploff|instort|verwoest|ontruimd|evacu|crash|aardverschuiving|verdachte|aangehouden|aanhouding|opgepakt|(?<!op)gevangen|oplicht|corrupt|drugs|inbraak|stelen|steelt|spion|vermist|straf|veroordeel|levenslang|ambulance|oorlog|aanval|offensief|bombardement|crisis|escalatie|ontslag|schrap|bezuinig|tekort|inflatie|schade|claim|verlies|krimp|werkloos|protest|boycot|opstand|onrust|overlast|ophef|dreig|conflict|waarschuw|ruzie|kritiek|kritisch|uitbraak|virus|vervuil|orkaan|droogte|gevaar|paniek|woede|drama|blunder|somber|schok|discriminat|wraak|vete|aangifte|(?<!g)leed|hekel|dupe(?:er|re)|agress|storing|nabestaande|misleid|(?<!\p{L})(?:rouw\p{L}*|mes(?:sen|steek|wond)?|rel(?:len)?|ziek(?:te|en|melding|enhuis)?|boos(?:aardig|heid)?|angst(?:ig|aanjagend|vallig)?)(?!\p{L})'
+  B3: '(?<!\p{L})(?:dead|deadly|death(?:s)?|died|dies|fatal(?:ly|ity|ities)?|deceased|murder(?:ed|s|er|ers)?|kill(?:ed|ing|er|ers|s)?|homicide(?:s)?|manslaughter|gunman|weapon(?:s|ized)?|firearm(?:s)?|gunshot(?:s)?|stab(?:bed|bing|s)?|rape(?:d|s|ist)?|assault(?:ed|s)?|abuse(?:d|s|rs?)?|terror|explosion(?:s)?|explosive(?:s)?|wildfire(?:s)?|earthquake(?:s)?|quake(?:s)?|tsunami|landslide|wreckage|derail(?:ed|ment)?|fraud|burglar(?:y|s)?|theft|kidnap(?:ped|ping)?|hostage(?:s)?|trafficking|wound(?:ed|s)?|hospitalized|airstrike(?:s)?|bombard(?:ment|ed)?|missile(?:s)?|recession|bankrupt(?:cy)?|layoff(?:s)?|outbreak(?:s)?|infection(?:s)?|epidemic|pandemic|overdose(?:s)?|addiction|hurricane(?:s)?|heatwave|drought|cyclone|riot(?:s|ing)?|scandal(?:s)?|xenophob(?:ia|ic)?|homophob(?:ia|ic)?|hate crime|bigotry|typhoon(?:s)?|arson|inferno(?:s)?|redundanc(?:y|ies)?|job cut(?:s)?|job loss(?:es)?)(?!\p{L})'
+  B4: '(?<!\p{L})(?:shot|shoot(?:ing|s|er)?|blast(?:s)?|flood(?:ing|s|ed)?|stolen|suspect(?:s)?|accused|war(?:s|fare|time)?|offensive|invasion|ceasefire|frontline|shortage(?:s)?|default(?:ed|s)?|collapse(?:d|s)?|strike(?:s)?|unrest|sanction(?:s)?|tension(?:s)?|crackdown|cut|storm(?:s)?|emergency|distress|desperate|plea|fear|panic|anger|grief|despair|tragic|tragedy|outrage|shock(?:ed|ing)?|dismay|fire(?:s|d)?|flame(?:s)?|blaze(?:s)?|sink(?:ing|s)?|sank|arrest(?:ed|s)?|injur(?:ed|y|ies)?)(?!\p{L})'
+  B5: 'Video|Explainer|LIVE|Watch|nieuwswekker|wekdienst|(?<!\d)112(?!\d)|\bMusk\b|\bTrump\b|(?<!\p{L})(?:onwerkelijk|kijk)(?!\p{L})'

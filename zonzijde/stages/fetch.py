@@ -1,0 +1,173 @@
+"""S1 fetch (PIPE-1): pull all configured feeds into ``10-items.json``.
+
+A failing feed never fails the run — it is logged in the fetch log and skipped.
+Items outside the candidate window (SRC-4) are excluded here; duplicates are
+*kept* — dedupe is S2's job, so the rejection is auditable (PIPE-2).
+
+Feed parsing is a port of the prototype's DOM walk (title / link / pubDate /
+dc:date / description) on plain ElementTree, namespace-agnostic so RSS 2.0,
+RDF (DW) and Atom all parse the same way.
+"""
+
+from __future__ import annotations
+
+import html
+import json
+import os
+import re
+from concurrent.futures import ThreadPoolExecutor
+from datetime import datetime
+from email.utils import parsedate_to_datetime
+from urllib.parse import quote
+from xml.etree import ElementTree
+
+import requests
+
+from ..context import TZ, RunContext, Source
+from ..contracts import FeedItem, item_id, save_artifact
+
+UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+      "(KHTML, like Gecko) Chrome/124.0 Safari/537.36")
+
+# requests verifies TLS against this bundle when the agent proxy is in the way;
+# a normal machine has neither the env var nor the file, so verify stays True.
+CA_BUNDLE = (os.environ.get("REQUESTS_CA_BUNDLE")
+             or os.environ.get("CURL_CA_BUNDLE")
+             or "/root/.ccr/ca-bundle.crt")
+VERIFY = CA_BUNDLE if os.path.exists(CA_BUNDLE) else True
+
+_TAG_RE = re.compile(r"<[^>]+>")
+_WS_RE = re.compile(r"\s+")
+
+
+def build_rijksoverheid_url(window_start: datetime, until: datetime) -> str:
+    """The rijksoverheid feed URL embeds its own date window as a JSON query."""
+    q = {
+        "filters": [
+            {"field": "content_type", "values": ["pro:newsDocument"], "type": "all"},
+            {"field": "sort_date", "type": "all",
+             "values": [{"to": until.isoformat(), "from": window_start.isoformat(),
+                         "name": "editionWindow"}]},
+        ],
+        "resultSearchTerm": "", "pageTitle": "Nieuws",
+    }
+    return "https://www.rijksoverheid.nl/api/rss?query=" + quote(json.dumps(q))
+
+URL_BUILDERS = {"rijksoverheid": build_rijksoverheid_url}
+
+
+def strip_html(text: str) -> str:
+    """RSS descriptions often carry markup; extract readable text, as the
+    prototype did via innerHTML/textContent (tags first, entities after)."""
+    return _WS_RE.sub(" ", html.unescape(_TAG_RE.sub(" ", text or ""))).strip()
+
+
+def _local(tag: str) -> str:
+    return tag.rsplit("}", 1)[-1]
+
+
+def parse_date(raw: str) -> datetime | None:
+    raw = (raw or "").strip()
+    if not raw:
+        return None
+    for parse in (parsedate_to_datetime, datetime.fromisoformat):
+        try:
+            dt = parse(raw)
+            # Naive dates are rare; assume feed-local = Amsterdam.
+            return dt if dt.tzinfo else dt.replace(tzinfo=TZ)
+        except ValueError:
+            continue
+    return None
+
+
+def parse_feed(xml_text: str) -> list[dict]:
+    """Return raw entries {title, link, summary, published} from RSS/RDF/Atom."""
+    root = ElementTree.fromstring(xml_text)
+    entries = []
+    for el in root.iter():
+        if _local(el.tag) not in ("item", "entry"):
+            continue
+        fields: dict[str, str] = {}
+        link_href = ""
+        for child in el:
+            name = _local(child.tag)
+            text = (child.text or "").strip()
+            if name == "link" and not text:
+                # Atom: <link rel="alternate" href="…"/>
+                if child.get("rel") in (None, "alternate") and child.get("href"):
+                    link_href = child.get("href")
+            elif name not in fields:
+                fields[name] = text
+        entries.append({
+            "title": strip_html(fields.get("title", "")),
+            "link": fields.get("link") or link_href,
+            "summary": strip_html(fields.get("description") or fields.get("summary", "")),
+            "published": parse_date(fields.get("pubDate") or fields.get("date")
+                                    or fields.get("published") or fields.get("updated", "")),
+        })
+    return entries
+
+
+def fetch_source(source: Source, ctx: RunContext, timeout: float) -> tuple[list[dict], str]:
+    """Fetch and parse one feed. Returns (entries, error) — error is '' on
+    success; any failure is reported, never raised (PIPE-1)."""
+    url = source.url
+    if source.builder:
+        url = URL_BUILDERS[source.builder](ctx.window_start, ctx.now())
+    try:
+        res = requests.get(url, headers={"User-Agent": UA}, timeout=timeout, verify=VERIFY)
+        res.raise_for_status()
+        return parse_feed(res.text), ""
+    except (requests.RequestException, ElementTree.ParseError) as e:
+        return [], f"{type(e).__name__}: {e}"
+
+
+def in_window(published: datetime | None, ctx: RunContext) -> bool:
+    """SRC-4: keep items from the candidate window; the prototype kept undated
+    items visible, so items without a parseable date pass (and are counted)."""
+    return published is None or published >= ctx.window_start
+
+
+def run(ctx: RunContext) -> None:
+    timeout = float(ctx.fetch_cfg.get("timeout_s", 15))
+    concurrency = int(ctx.fetch_cfg.get("concurrency", 6))
+    fetched_at = ctx.now()
+
+    with ThreadPoolExecutor(max_workers=concurrency) as pool:
+        results = list(pool.map(lambda s: fetch_source(s, ctx, timeout), ctx.sources))
+
+    items: list[FeedItem] = []
+    log = {"fetched_at": fetched_at.isoformat(), "window_start": ctx.window_start.isoformat(),
+           "window_days": ctx.window_days, "feeds": []}
+    # Assemble in sources.yaml order so the artifact is deterministic for a
+    # given set of feed responses, regardless of fetch completion order.
+    for source, (entries, error) in zip(ctx.sources, results):
+        kept = no_link = out_of_window = undated = 0
+        for e in entries:
+            if not e["link"]:
+                no_link += 1
+                continue
+            if not in_window(e["published"], ctx):
+                out_of_window += 1
+                continue
+            if e["published"] is None:
+                undated += 1
+            items.append(FeedItem(
+                id=item_id(e["link"]), source=source.id, bron=source.bron,
+                scopes=source.scopes, title=e["title"], link=e["link"],
+                summary=e["summary"], published=e["published"], fetched=fetched_at,
+            ))
+            kept += 1
+        log["feeds"].append({
+            "source": source.id, "bron": source.bron, "error": error,
+            "entries": len(entries), "kept": kept, "out_of_window": out_of_window,
+            "no_link": no_link, "undated": undated,
+        })
+
+    save_artifact(ctx.work_dir / "10-items.json", items)
+    (ctx.work_dir / "10-fetch-log.json").write_text(
+        json.dumps(log, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+
+    failed = [f["source"] for f in log["feeds"] if f["error"]]
+    print(f"S1 fetch: {len(items)} items from {len(ctx.sources) - len(failed)} feeds"
+          + (f"; failed: {', '.join(failed)}" if failed else ""))
