@@ -126,7 +126,8 @@ def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
     select = prompts.load_prompt(ctx.root, "select")
     if call is None:
         call = lambda prompt, system: llm.frontier_json(
-            prompt, system=system, schema=RESPONSE_SCHEMA, model=cfg["model"])
+            prompt, system=system, schema=RESPONSE_SCHEMA,
+            model=cfg["model"], effort=cfg.get("effort"))
 
     scored = load_artifact(ctx.work_dir / "30-scored.json", ScoredItem)
     positive = [i for i in scored if i.score >= 1]

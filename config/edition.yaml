@@ -25,5 +25,8 @@ llm:
     batch_size: 80
     concurrency: 6
   frontier:
-    # S4+ (PIPE-4): short Claude Agent SDK sessions.
-    model: claude-opus-4-8
+    # S4+ (PIPE-4): short Claude Agent SDK sessions. Sonnet at medium effort
+    # keeps the single select call fast; revisit against selection quality at
+    # the editorial gate (phase-2 exit criterion) before locking this in.
+    model: claude-sonnet-5
+    effort: medium  # low | medium | high | xhigh | max (omit = model default)

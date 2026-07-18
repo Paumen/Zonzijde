@@ -65,19 +65,23 @@ def light_json(prompt: str, model: str, timeout: float = 120.0) -> object:
         raise LlmError(f"gemini returned non-JSON: {e}: {text[:200]!r}")
 
 
-def frontier_json(prompt: str, system: str, schema: dict, model: str) -> object:
+def frontier_json(prompt: str, system: str, schema: dict, model: str,
+                  effort: str | None = None) -> object:
     """One short Claude Agent SDK session with schema-enforced structured
     output; returns the parsed JSON. Raises ``LlmError`` on failure —
     the S4 caller retries with backoff and is fatal after 3 (§6).
 
-    ``ANTHROPIC_API_KEY`` is read from env by the SDK itself.
+    ``effort`` trades reasoning depth for latency/cost per call
+    (low…max, None = the model's default). ``ANTHROPIC_API_KEY`` is read
+    from env by the SDK itself.
     """
     import asyncio
 
     from claude_agent_sdk import ClaudeAgentOptions, ResultMessage, query
 
     options = ClaudeAgentOptions(
-        system_prompt=system, model=model, max_turns=1, allowed_tools=[],
+        system_prompt=system, model=model, effort=effort,
+        max_turns=1, allowed_tools=[],
         output_format={"type": "json_schema", "schema": schema})
 
     async def run() -> ResultMessage | None:
