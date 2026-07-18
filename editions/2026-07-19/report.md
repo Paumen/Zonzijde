@@ -7,10 +7,10 @@
 - S2 filter: 385 → 218 candidates (167 rejected)
 - S3 score: 218 scored → 71 at +1/+2
 - S4 select: 20 topics (22 source rows)
-- S5 enrich: 22 source rows → 19 full texts (requests 17, playwright 0, alt-source 2); 3 topics dropped (PIPE-5)
-- S6 outline: 11 slots, planned 2740–4260 words
-- S7 write: 11 articles, 4907 words
-- S8 review: 23 fact issue(s), 16 correction(s), 4843 words body text (ED-5 target 2800–3400)
+- S5 enrich: 22 source rows → 17 full texts (requests 17, playwright 0); 5 topics dropped (PIPE-5)
+- S6 outline: 11 slots, planned 3050–5800 words
+- S7 write: 11 articles, 4354 words
+- S8 review: 23 fact issue(s), 23 correction(s), 4284 words body text (ED-5 target 2800–3400)
 
 ## Feeds
 
@@ -94,16 +94,16 @@ model claude-haiku-4-5-20251001, prompt score.md v1
 |---|---|---|---|---|
 | L | 1 | Lintjes voor Jan en Ingrid van den Brink | 1/1 | ok |
 | L | 2 | Batenburg Baroque Festival groeit verder | 1/1 | ok |
-| L | 3 | Patrijzenfamilie duikt op in tuin in Boven-Leeuwen | 0/1 | **dropped** — no full text on any route |
-| L | 4 | Opvallend weinig schoolverzuim rond vakantie in Wijchen | 0/1 | **dropped** — no full text on any route |
+| L | 3 | Patrijzenfamilie duikt op in tuin in Boven-Leeuwen | 0/1 | **dropped** — no full text on any source row |
+| L | 4 | Opvallend weinig schoolverzuim rond vakantie in Wijchen | 0/1 | **dropped** — no full text on any source row |
 | L | 5 | Zomerpret bij Museum Kasteel Wijchen | 1/1 | ok |
 | R | 1 | Vitesse mag na uitspraak Hoge Raad blijven voetballen | 2/2 | ok |
 | R | 2 | Michelinster voor de oude binnenstad van Zutphen | 1/1 | ok |
 | R | 3 | Arnhemse zanger gaat viraal met campagnelied | 1/1 | ok |
 | R | 4 | Barneveld bouwt nieuwe sporthal | 1/1 | ok |
-| R | 5 | Nieuwe spoorbrug in Molenhoek eindelijk veilig | 1/1 | alt coverage: https://www.spoorpro.nl/spoorbouw/2026/04/22/nieuw-viaduct-in-molenhoek-wordt-op-27-juni-op-zijn-plaats-gelegd/ |
-| N | 1 | Robotpak laat Daan weer lopen door eraan te denken | 1/1 | alt coverage: https://drimble.nl/regio/zuid-holland/delft/107478810/robotpak-zorgt-voor-wereldprimeur-daan-kan-weer-lopen-door-er-alleen-aan-te-denken.html |
-| N | 2 | Pepijn (17) zet zich ondanks beperking in voor anderen | 0/1 | **dropped** — no full text on any route |
+| R | 5 | Nieuwe spoorbrug in Molenhoek eindelijk veilig | 0/1 | **dropped** — no full text on any source row |
+| N | 1 | Robotpak laat Daan weer lopen door eraan te denken | 0/1 | **dropped** — no full text on any source row |
+| N | 2 | Pepijn (17) zet zich ondanks beperking in voor anderen | 0/1 | **dropped** — no full text on any source row |
 | N | 3 | Geroofd Goudstikker-schilderij teruggevonden | 1/1 | ok |
 | N | 4 | Harrie Jekkers ereburger van Den Haag | 1/1 | ok |
 | N | 5 | Arnhemse schuldhulp-proef succesvol, krijgt vervolg | 1/1 | ok |
@@ -113,85 +113,86 @@ model claude-haiku-4-5-20251001, prompt score.md v1
 | I | 4 | Gemarginaliseerde groepen vinden verbinding via voetbal | 1/1 | ok |
 | I | 5 | India lanceert eerste private raket de ruimte in | 1/1 | ok |
 
-Dropped L3 ('Patrijzenfamilie duikt op in tuin in Boven-Leeuwen'): searched 'Na 2,5 jaar wachten: patrijzenfamilie in de tuin', tried 0 alternative(s)
-
-Dropped L4 ('Opvallend weinig schoolverzuim rond vakantie in Wijchen'): searched 'Opvallend weinig kinderen in Wijchen spijbelen voor vakantie', tried 0 alternative(s)
-
-Dropped N2 ('Pepijn (17) zet zich ondanks beperking in voor anderen'): searched 'Pepijn laat zich niet tegenhouden door zijn beperking', tried 0 alternative(s)
-
 ## Edition plan (PIPE-6)
 
 | pos | scope | length | type | topic | location | source date |
 |---|---|---|---|---|---|---|
-| 1 | L | long | feature | Batenburg Baroque Festival trekt meer bezoekers dan ooit | Batenburg | 2026-07-16 |
-| 2 | L | short | profile | Koninklijke onderscheidingen voor Jan en Ingrid van den Brink | Groesbeek | 2026-07-13 |
-| 3 | L | short | news | Zomeractiviteiten bij Museum Kasteel Wijchen | Wijchen | 2026-07-12 |
-| 4 | R | long | news | Hoge Raad stelt Vitesse definitief in het gelijk tegen de KNVB | Arnhem | 2026-07-17 |
-| 5 | R | standard | feature | Michelinster voor de Drogenapstoren en oude binnenstad van Zutphen | Zutphen | 2026-07-16 |
-| 6 | R | short | profile | Arnhemse zanger Tim Koehoorn viraal met campagnelied over een praatje maken | Arnhem | 2026-07-16 |
-| 7 | N | standard | profile | Robotpak laat Daan weer lopen door er alleen aan te denken | Delft | 2026-07-17 |
-| 8 | N | standard | feature | Geroofd Goudstikker-schilderij duikt op na dertig jaar bij grof vuil | Amsterdam | 2026-07-13 |
-| 9 | N | standard | zoom-in | Arnhemse schuldhulp-proef krijgt vervolg na succesvolle resultaten | Arnhem | 2026-07-15 |
-| 10 | I | long | feature | Gemarginaliseerde groepen vinden verbinding via amateurvoetbal | Londen | 2026-07-15 |
-| 11 | I | standard | news | India lanceert eerste privaat ontwikkelde raket de ruimte in | Sriharikota | 2026-07-18 |
+| 1 | L | long | profile | Lintjes voor Jan en Ingrid van den Brink | Groesbeek | 2026-07-13 |
+| 2 | L | standard | feature | Batenburg Baroque Festival groeit verder | Batenburg | 2026-07-16 |
+| 3 | L | short | zoom-in | Zomerpret bij Museum Kasteel Wijchen | Wijchen | 2026-07-12 |
+| 4 | R | standard | news | Vitesse mag na uitspraak Hoge Raad blijven voetballen | Arnhem | 2026-07-17 |
+| 5 | R | standard | profile | Arnhemse zanger gaat viraal met campagnelied | Arnhem | 2026-07-16 |
+| 6 | R | short | news | Barneveld bouwt nieuwe sporthal | Barneveld, Terschuur | 2026-07-16 |
+| 7 | N | long | feature | Geroofd Goudstikker-schilderij teruggevonden | Amsterdam | 2026-07-13 |
+| 8 | N | standard | profile | Harrie Jekkers ereburger van Den Haag | Den Haag | 2026-07-12 |
+| 9 | N | standard | zoom-in | Arnhemse schuldhulp-proef succesvol, krijgt vervolg | Arnhem | 2026-07-15 |
+| 10 | I | long | zoom-out | Steden worden slimmer met water tegen klimaatdruk | diverse steden wereldwijd | 2026-07-17 |
+| 11 | I | short | news | India lanceert eerste private raket de ruimte in | Sriharikota, India | 2026-07-18 |
 
-Illustration (EL-3): slot 5 — De middeleeuwse Drogenapstoren in Zutphen, met een kleine Michelin-ster gemarkeerd op de gevel — hand-getekend, zwart-wit, minimalistische fijne lijnen
-Optional element (EL-5): number — 34% — het percentage van de schuld dat gemiddeld werd afgelost bij de Arnhemse schuldhulp-proef, tegen 5 tot 10 procent bij een reguliere aanpak.
+Illustration (EL-3): slot 7 — Een oud houten schildersdoek-paneel, half tussen grofvuil en teruggevonden, met fijne lijnen die het patina en de scheur in het hout tonen — minimalistisch, zwart-wit, handgetekend
+Optional element (EL-5): number — 34% — het gemiddelde percentage schuld dat de Arnhemse schuldhulp-proef bij kwetsbare gezinnen wist af te lossen (bron N5)
 
 ## Articles (PIPE-7/8)
 
 | pos | title | words draft → reviewed | paragraphs |
 |---|---|---|---|
-| 1 | Batenburg klinkt vijf edities lang steeds voller | 428 → 414 | 7 |
-| 2 | Lintjes voor het echtpaar achter de schermen van de Busband | 199 → 198 | 6 |
-| 3 | Zomerpret bij Museum Kasteel Wijchen: speurtocht, waterbingo of juist even helemaal niets | 260 → 260 | 6 |
-| 4 | Vitesse mag na Hoge Raad-uitspraak eindelijk weer over voetbal praten | 612 → 613 | 8 |
-| 5 | De bewoonster van een toren met een Michelinster | 470 → 467 | 6 |
-| 6 | Arnhemse zanger over de kunst van het praatje | 313 → 290 | 4 |
-| 7 | Daan loopt weer, alleen door eraan te denken | 208 → 211 | 4 |
-| 8 | Onooglijk paneel bij grof vuil blijkt geroofd Goudstikker-schilderij | 464 → 462 | 6 |
-| 9 | In Immerloo II wordt vertrouwen teruggewonnen, schuld voor schuld | 492 → 489 | 6 |
-| 10 | Op het veld van Athenlay speelt iedereen mee | 1039 → 1045 | 8 |
-| 11 | India lanceert eerste privaat ontwikkelde raket de ruimte in | 422 → 394 | 6 |
+| 1 | Jan en Ingrid van den Brink krijgen koninklijke onderscheiding tijdens jubileum Busband | 377 → 351 | 6 |
+| 2 | Batenburg Baroque Festival trekt opnieuw meer publiek | 417 → 398 | 6 |
+| 3 | Zomerprogramma vol spel en geschiedenis bij Museum Kasteel Wijchen | 228 → 229 | 4 |
+| 4 | Vitesse mag blijven voetballen na uitspraak Hoge Raad | 474 → 470 | 6 |
+| 5 | Arnhemse zanger gaat viraal met lied over een praatje | 336 → 342 | 5 |
+| 6 | Raad Barneveld stemt in met sporthal voor Terschuur | 247 → 244 | 5 |
+| 7 | Geroofd Goudstikker-schilderij duikt na dertig jaar in kelder weer op | 507 → 507 | 6 |
+| 8 | Harrie Jekkers ereburger van Den Haag na laatste voorstelling | 452 → 454 | 5 |
+| 9 | Correctie: schuldenproef Arnhem | 568 → 542 | 9 |
+| 10 | Steden leren ademen met water | 485 → 484 | 5 |
+| 11 | India lanceert eerste private raket de ruimte in | 263 → 263 | 4 |
 
 ## Correction log (PIPE-8)
 
-- slot 1 (fact, WR-2): Eerste alinea noemde 'een ring van oude muren' rond Batenburg; dit detail komt niet voor in de brontekst en is verwijderd omdat het niet te verifiëren is (WR-2, geen toegevoegde informatie).
-- slot 1 (fact, WR-2): 'die de ruimte weer liet vollopen met klank' bij het slotoptreden in de Nieuwe Sint-Victorkerk was een niet-brongesteunde toevoeging aan 'trok een groot publiek'; vervangen door een neutralere formulering die dicht bij de bron blijft.
-- slot 1: Zinsconstructie in de laatste zin van de vijfde alinea vereenvoudigd ('trok voor die ene avond een groot publiek dat de ruimte weer liet vollopen met klank' → 'trok voor dat slotoptreden een groot publiek') voor helderheid en om dicht bij de brontekst te blijven.
-- slot 2 (fact, WR-2): "Jan en Ingrid van den Brink uit Groesbeek" suggereerde dat het echtpaar in Groesbeek woont; de bron zegt alleen dat de Busband (en het jubileum) in Groesbeek is. Gecorrigeerd naar "dweilband Busband uit Groesbeek".
-- slot 2 (fact, WR-2): "Zichtbaar op het podium waren ze zelden" was een verzonnen, specifiek beeld (podium) dat niet in de bron staat. Vervangen door de wel onderbouwde term "op de voorgrond", aansluitend bij de bronformulering "achter de schermen".
-- slot 2 (fact, WR-2): "kregen twee mensen die zelden op de foto stonden" bevatte een niet-onderbouwde claim over fotomomenten; aangepast naar "zelden op de voorgrond staan", zonder toevoeging van niet-geverifieerde details.
-- slot 2 (fact, WR-2): De kicker "Veertig jaar lang stille motor" suggereerde dat dit getal voor beiden gold, terwijl Jan veertig jaar lid is en Ingrid ruim vijfentwintig jaar; het getal is uit de kicker gehaald om een feitelijk onjuiste suggestie te voorkomen.
-- slot 2 (fact, WR-2): "koninklijke onderscheiding" (enkelvoud) aangepast naar "onderscheidingen" (meervoud), conform de bron, aangezien beide personen een eigen onderscheiding kregen.
-- slot 2: Kicker als apart, herkenbaar element laten staan maar getal (veertig jaar) verwijderd om overeen te stemmen met de feiten voor beide personen.
-- slot 2: "Ze ontvingen de koninklijke onderscheiding" → "Ze ontvingen de koninklijke onderscheidingen" voor grammaticale/feitelijke consistentie met twee ontvangers.
-- slot 2: "Zichtbaar op het podium waren ze zelden" herschreven naar "Op de voorgrond traden ze zelden" voor een vlottere, minder gekunstelde zin.
-- slot 4 (fact, WR-2): Paragraaf 3: het citaat 'Ik hoop echt dat we na morgen een punt kunnen zetten...' werd door Sturing vooraf uitgesproken (in het bronartikel 'Vitesse wacht op het laatste fluitsignaal', gepubliceerd voor de zitting), niet 'na afloop' zoals het concept suggereerde. De zin 'Na afloop kon hij eindelijk de knoop doorhakken die hij zich al zo lang had gewenst' was een niet-brongesteunde en tegenstrijdige claim (het citaat zelf spreekt nog in de toekomstige/hopende vorm over 'morgen'), en is vervangen door een correcte tijdsaanduiding ('In aanloop naar de uitspraak had hij al gezegd...').
-- slot 4 (fact, WR-2): Paragraaf 1/5: 'drie jaar procederen' en 'drie jaar lang met lede ogen toekeek' zijn in de bron niet als exacte, geverifieerde duur bevestigd (alleen Rozeboom's quote 'Het waren drie vervelende jaren' verwijst losjes naar de hele periode van onzekerheid, niet expliciet naar de duur van de rechtszaak). Om geen ongedekt feit te suggereren zijn deze specifieke tijdsaanduidingen afgezwakt naar 'jaren van procederen' en 'de afgelopen jaren'.
-- slot 4: Paragraaf 3: transitiezin herschreven om de tijdlijn kloppend te maken (zie fact_issues) en 'zei hij' toegevoegd zodat duidelijk is dat het eerste citaat vóór de zitting werd gegeven.
-- slot 4: Paragraaf 4: 'die de dag met een high-five van een supporter begon' vervangen door 'die op het trainingsveld een high-five van een supporter kreeg', om de gebeurtenis correct in de trainingsveld-scène te plaatsen zoals in de bron beschreven.
-- slot 5 (fact, WR-2): "deze week" (paragraaf 1) is niet in de bron terug te vinden — de bron noemt alleen "donderdag" als moment van de sticker-plakactie, geen bevestiging dat de toekenning deze week plaatsvond. Verwijderd om geen ongedekte tijdsclaim te maken.
-- slot 5 (fact, WR-2): "zeker sinds de volledige renovatie in 2023" suggereerde een door de bron niet gelegde causaliteit tussen de renovatie en het beeldbepalende karakter van de toren; de bron noemt beide feiten los van elkaar. Herschreven zonder gesuggereerd causaal verband.
-- slot 5: Lichte herformulering van de zin over de renovatie/beeldbepalendheid voor vloeiendere en feitelijk nauwkeurigere aansluiting op het citaat van Schuitemaker.
-- slot 6 (fact, WR-2): Openingszin '...is de laatste tijd vaak herkend op straat' overdreef de brontekst; Koehoorn zegt alleen 'Ik word wel herkend' (geen frequentie of locatie genoemd) — afgezwakt tot 'wordt wel eens herkend, vertelt hij'.
-- slot 6 (fact, WR-2): 'hoewel hij zelf steeds herkend wordt' overdreef eveneens ('steeds' staat niet in de bron) — verwijderd/afgezwakt tot 'Toch valt het volgens Koehoorn zelf juist mee...'.
-- slot 6 (fact, WR-2): 'In een couplet spreekt Tim...' voegde een songstructuurdetail (couplet) toe dat niet in de bron staat (die spreekt alleen van 'in het liedje') — gewijzigd naar 'In het lied spreekt Tim...'.
-- slot 6 (fact, WR-2): De slotalinea over 'Jan en Ingrid van den Brink' en hun vereniging komt in het geheel niet voor in de brontekst — geen van deze namen of feiten wordt daar genoemd. Omdat dit niet te verifiëren is, is de alinea geschrapt en vervangen door een slot dat wel op de bron is gebaseerd.
-- slot 6: Openingsalinea herschreven om dichter bij de brontekst te blijven (geen onbevestigde details over frequentie/locatie van herkenning).
-- slot 6: 'couplet' vervangen door 'lied' voor consistentie met de brontekst.
-- slot 6: Slotalinea herschreven zonder ongefundeerde feiten, met behoud van de afsluitende toon en strekking van het stuk (aansluitend op het beeld van het gesprek over de hond in de bus).
-- slot 7: Eerste alinea herschreven: 'was dat lange tijd een dovemansoor' was een onjuist gebruikte uitdrukking (het idioom is 'aan dovemans oren praten/gericht zijn', en de zin miste een logisch onderwerp voor de vergelijking); vervangen door 'bleef het echter lange tijd bij die eerste stap', wat aansluit bij het beeld van 'denken is de eerste stap' verderop in de zin.
-- slot 8 (fact, WR-2): Paragraaf 4 stelde dat de nazaten van Goudstikker "al decennia" naar de verdwenen werken zoeken; de bron zegt alleen dat zij dat na de oorlog probeerden, zonder claim over een decennialange, doorlopende zoektocht. Aangepast naar de brontekst.
-- slot 8: Geen verdere taal- of stijlcorrecties nodig; de tekst was grammaticaal correct en de aanpak (scène met citaten, achtergrond over Goudstikker, ontknoping) bleef ongewijzigd.
-- slot 9 (fact, WR-2): Misattributed quote: het origineel liet Petra zeggen dat Shaquina 'een reddende engel' is, maar in de bron noemt Shaquina juist coach Petra 'een reddende engel'. Gecorrigeerd naar de juiste spreker en strekking.
-- slot 9 (fact, WR-2): 'coach Petra toegewezen' gewijzigd naar 'coach Petra' zonder 'toegewezen': de bron zegt alleen dat het gezin ondersteuning kreeg van coach Petra, niet dat die formeel werd 'toegewezen'.
-- slot 9 (fact, WR-2): 'toeslagen waar gezinnen recht op hebben maar geen gebruik van maken' ingekort tot 'toeslagen waar gezinnen recht op hebben': de bron vermeldt niet expliciet dat gezinnen daar geen gebruik van maken, dat was een toegevoegde aanname.
-- slot 9: Eerste alinea herschikt zodat het citaat over de 'reddende engel' aan de juiste spreker (Shaquina) wordt toegeschreven en niet meer als uitspraak van Petra over Shaquina wordt gelezen.
-- slot 10 (fact, WR-2): De afstand tussen Afghanistan en Londen stond in het bronartikel als '4,000 miles' (mijl), niet kilometer. Het concept nam het getal 4.000 over maar veranderde stilzwijgend de eenheid naar kilometer, wat de afstand bijna 40% te klein maakt. Gecorrigeerd naar 'ruim zesduizend kilometer' (4.000 mijl ≈ 6.437 km).
-- slot 10 (fact, WR-2): Het concept schreef 'Op de club staat een foto van haar...' terwijl de bron aangeeft dat de foto op de website van de club (athenlayfootballclub.org.uk) staat, niet fysiek op de clubaccommodatie. Gecorrigeerd naar 'Op de website van de club staat een foto van haar...'
-- slot 10: Typefout 'bij bij de FA aangesloten clubs' hersteld tot 'bij clubs die zijn aangesloten bij de FA' voor correcte grammatica en leesbaarheid.
-- slot 11 (fact, WR-2): Openingszin bevatte een verzonnen fysieke beschrijving ("acht meter minder dan een voetbalveld hoog, in ruim vier seconden weg van de aarde") die niet in de bronnen staat en bovendien in tegenspraak is met het latere, wel gebrande feit dat Vikram-1 circa 22 meter hoog is (een voetbalveld is ruim 100 meter). Verwijderd.
-- slot 11 (fact, WR-2): "het Amerikaanse SpaceX" — de bron noemt SpaceX zonder nationaliteitsaanduiding ("Elon Musk's SpaceX"); "Amerikaanse" was toegevoegde informatie en is geschrapt conform de regel dat geen informatie wordt toegevoegd die niet in de bron staat, ook niet als ze algemeen bekend is.
-- slot 11: Openingsalinea herschreven zonder de verzonnen maat- en tijdsaanduiding, met behoud van de beeldende toon ("zag geschiedenis vertrekken").
-- slot 11: "Amerikaanse" geschrapt bij SpaceX in de slotalinea.
+- slot 1 (fact, WR-2): Verwijderd: 'wisten Jan en Ingrid van den Brink nog van niets' en 'Tussen de feestelijkheden voor de jarige vereniging door werden zij naar voren geroepen' — de bron vermeldt geen verrassingselement of de manier waarop het paar naar voren werd geroepen; dit was een toegevoegde aanname, niet door de bron gedekt (WR-2/ED-4).
+- slot 1 (fact, WR-2): Verwijderd/verzacht: de beschrijving 'met muziek en de sfeer van een vereniging die met zichzelf mag vieren' — de bron bevestigt geen specifieke feestinvulling; vervangen door een neutralere formulering die alleen steunt op wat de bron wél meldt (dat de uitreiking tijdens de jubileumviering plaatsvond).
+- slot 1 (fact, WR-2): In het citaat van Gerrits stond 'binnen de vereniging'; de bron citeert 'binnen de Busband'. Gecorrigeerd naar de letterlijke bronformulering, aangezien het een citaat betreft.
+- slot 1: Eerste alinea herschreven zodat de gebeurtenis (uitreiking tijdens jubileumfeest) chronologisch en feitelijk overeenkomt met de bron, zonder ongedekte aannames over verrassing of het moment van naar voren roepen.
+- slot 1: Tweede alinea aangepast om alleen bronvaste elementen te behouden (de uitreiking vond plaats tijdens de jubileumviering), met behoud van de stijlkeuze (reflectie op wat er te vieren viel).
+- slot 1: Kleine spellingscorrectie: 'evenlang' naar 'even lang'.
+- slot 2 (fact, WR-2): Titel: 'trekt vijfde jaar op rij meer publiek' suggereert vijf opeenvolgende jaren van groei; de bron meldt alleen dat déze (vijfde) editie 5 procent meer bezoekers trok dan vorig jaar. Titel aangepast naar 'trekt opnieuw meer publiek'.
+- slot 2 (fact, WR-2): Alinea 1: 'een van de kleinste vestingstadjes van Nederland' staat niet in de bron (die spreekt alleen van 'het historische stadje Batenburg') en is ongevraagd toegevoegde informatie; verwijderd/vervangen door 'het historische stadje Batenburg'.
+- slot 2 (fact, WR-2): Alinea 2: 'buiten de vestingwallen' veronderstelt vestingwallen die de bron niet vermeldt; vervangen door 'buiten Batenburg zelf'.
+- slot 2 (fact, WR-2): Alinea 2: 'volgens de organisatie' bij de zin over locatie en muziek die naadloos samenkwamen is een toeschrijving die niet in de bron staat (de bron formuleert dit als constatering, niet als citaat/mening van de organisatie); verwijderd.
+- slot 2 (fact, WR-2): Slotalinea: 'een van de kleinste stadjes van het land' is, net als in alinea 1, een ongesourcete superlatief-claim; verwijderd/herformuleerd naar 'ook verder dan Batenburg zelf'.
+- slot 2: Titel herschreven zodat de tijdsclaim overeenkomt met wat de bron daadwerkelijk meldt (groei dit jaar, niet vijf jaar op rij).
+- slot 2: Ongesourcete superlatieven over de grootte/status van Batenburg als vestingstadje verwijderd op twee plekken.
+- slot 2: Toeschrijving 'volgens de organisatie' geschrapt omdat niet in de bron onderbouwd.
+- slot 3: Titel herschreven naar een rustigere, concretere formulering ('Zomerprogramma vol spel en geschiedenis bij Museum Kasteel Wijchen') — de oorspronkelijke titel combineerde 'spel' en 'watersnood' op een grammaticaal onlogische manier ('combineert spel en watersnood van 1926').
+- slot 3: 'kunnen kinderen tijdens de openingstijden bovendien los met speurtochten' herschreven naar 'kunnen kinderen tijdens de openingstijden bovendien zelfstandig deelnemen aan speurtochten' — helderder Nederlands.
+- slot 3: 'wie liever met het hele gezelschap op pad gaat' aangepast naar 'wie liever met familie en vrienden op pad gaat', in lijn met de brontekst ('met familie en vrienden aan de escaperoute').
+- slot 4 (fact, WR-2): "Op Papendal klonk iets na tienen gejuich..." — de bron plaatst dit in het hoofdgebouw van Vitesse, niet op Papendal; gecorrigeerd naar 'In het hoofdgebouw van Vitesse'.
+- slot 4 (fact, WR-2): "Trainer Rüdiger Rehm, die naast de rechtszaal ook gewoon een selectie moest samenstellen..." — dit detail staat niet in de bronnen en is verwijderd.
+- slot 4 (fact, WR-2): De Sturing-quote over het Gerechtshof in september was in de bron langer en bevatte tussenliggende zinnen over Utrecht/Arnhem die al elders in het artikel staan; de quote werd ingekort weergegeven alsof die aaneengesloten is uitgesproken. Aangevuld met '(...)' om de inkorting te markeren en 'in Arnhem' toegevoegd, conform de bron.
+- slot 4: 'kort gedingen' (meervoud) in de slotalinea gewijzigd naar 'een kort geding' (enkelvoud), aangezien de bronnen slechts één kort geding (in Utrecht) noemen.
+- slot 5 (fact, WR-2): Titel 'scoort landelijke hit' overstate de feiten: de bron spreekt van een viraal gaand campagnelied, niet van een (hit)notering. Titel aangepast naar 'Arnhemse zanger gaat viraal met lied over een praatje'.
+- slot 5 (fact, WR-2): Zin 'Het hondje bleek in de praktijk een aanleiding waar mensen makkelijk op afstapten, en dat detail werd de kern van het lied' overstatede: de bron zegt alleen dat het hondje vaak voor aanspraak zorgt, niet dat dit 'de kern van het lied' werd. Herschreven naar wat de bron wel ondersteunt, met het bronscitaat 'Het zijn simpele, uit het leven gegrepen momenten' toegevoegd ter onderbouwing.
+- slot 5: Bindweefsel-quote iets losser geparafraseerd teruggezet dichter bij de brontekst ('het maakt je net wat gelukkiger... na een praatje') in plaats van een vrije samenvatting.
+- slot 5: Slotzin van alinea 3 herschreven om aan te sluiten bij het bronscitaat in plaats van een ongedekte samenvatting.
+- slot 6 (fact, WR-2): Laatste zin oorspronkelijk: 'In de komende periode werken gemeente en initiatiefnemers het ontwerp... verder uit' — de bron noemt geen specifieke uitvoerders ('wordt... verder uitgewerkt'), dus de toegeschreven actoren zijn geschrapt om geen niet-onderbouwde claim te introduceren.
+- slot 6: Laatste zin herschreven naar de lijdende vorm ('worden ... verder uitgewerkt') in plaats van de actieve vorm met specifiek genoemde actoren, om dichter bij de brontekst te blijven.
+- slot 7 (fact, WR-2): Derde alinea: het schilderij zei 'de rest liet veilen' over wat Göring niet zelf hield, terwijl de bron zegt dat hij slechts 'een deel liet veilen'. 'De rest' suggereert dat werkelijk alles wat Göring niet hield geveild werd, wat de bron niet bevestigt. Gecorrigeerd naar 'een deel liet veilen'.
+- slot 7: Titel herschreven: 'Dertig jaar zoek geraakt schilderij komt terug bij erven Goudstikker' bevatte een spelfout ('zoek geraakt' moet 'zoekgeraakt' zijn als het al gebruikt zou worden) en suggereerde bovendien dat het schilderij dertig jaar zoek was, terwijl het dertig jaar in een kelder stond nadat het al veel langer (sinds de roof in 1940) buiten beeld van de Goudstikker-erfgenamen was. Nieuwe titel sluit aan bij de bronkop en is feitelijk preciezer: 'Geroofd Goudstikker-schilderij duikt na dertig jaar in kelder weer op'.
+- slot 8 (fact, WR-2): Geen feitelijke fouten aangetroffen: alle namen, data, cijfers en citaten (leeftijd 75, geboortejaar 1951, Schilderswijk/Moerwijk, oprichting Klein Orkest in 1978, uiteenvallen in 1985, solodebuut in 1988, terugkeer in 2015, opvolging van Paul van Vliet in 2018, citaten van Van Zanen) komen overeen met de bronreportage.
+- slot 8 (fact, WR-2): Kleine precisering: 'waar hij een huis bouwde' is aangepast naar 'waar hij een huis liet bouwen', omdat de bron vermeldt dat Jekkers dit huis samen met een toenmalige partner liet bouwen en na afloop van die relatie aanhield; het artikel noemt die relatie niet expliciet (buiten scope/lengte), maar de herformulering voorkomt de suggestie dat hij het eigenhandig en alleen bouwde.
+- slot 8: Grammaticale verbetering: 'samenwerkingen die zijn hele loopbaan zouden blijven terugkeren' aangevuld tot 'samenwerkingen die gedurende zijn hele loopbaan zouden blijven terugkeren' voor een correcte zinsconstructie.
+- slot 8: Komma toegevoegd na 'Moerwijk' in de eerste bijzin van paragraaf 2 voor de leesbaarheid.
+- slot 8: 'waar hij een huis bouwde' gewijzigd in 'waar hij een huis liet bouwen' om preciezer aan te sluiten bij de bron zonder de omvang van het stuk te vergroten.
+- slot 9 (fact, WR-2): Slotalinea verwijderde: de zin over 'deze editie' en een 'viraal campagnelied van een Arnhemse zanger' verwees naar een ander artikel in de krant zelf en noemde een feit (het lied, de zanger) dat in de brontekst helemaal niet voorkomt — verzonnen informatie. Bovendien is een verwijzing naar de krant/editie zelf niet toegestaan (PIPE-7). De hele zin is geschrapt; niets ter vervanging toegevoegd om de lengte/planning niet te verstoren.
+- slot 9 (fact, WR-2): 'volgens de initiatiefnemers het armste postcodegebied van Nederland' herschreven: de bron plaatst 'het armste postcodegebied van Nederland' tussen aanhalingstekens maar noemt geen 'initiatiefnemers' als bron van die claim — die toeschrijving was verzonnen. Nu als aangehaalde typering zonder onderbouwde bron weergegeven.
+- slot 9 (fact, WR-2): 'volledig schuldenvrij' afgezwakt tot 'schuldenvrij': de bron zegt alleen dat de 21 huishoudens 'schuldenvrij' zijn, niet expliciet 'volledig' schuldenvrij; het woord 'volledig' voegde een nuance toe die niet in de bron staat.
+- slot 9: Tweede alinea: 'kreeg ze steun' aangepast naar 'kreeg het gezin steun', omdat de bron aangeeft dat het gezin (niet alleen Shaquina) steun kreeg ('kregen ze... ondersteuning').
+- slot 9: 'ervan af te komen' verduidelijkt tot 'van de schulden af te komen' voor leesbaarheid, aansluitend bij de bron ('hun schulden af te lossen').
+- slot 10 (fact, WR-2): Paragraaf 1 noemde 'Egyptische koraalriffen', maar de bron spreekt over kustbescherming en zeeschildpadden aan de Rode Zeekust, niet over koraalriffen; dit is gecorrigeerd naar 'de Egyptische Rode Zeekust' zodat het klopt met de rest van het artikel en de bron.
+- slot 10 (fact, WR-2): 'Wat lange tijd gold als een noodoplossing voor uiterste nood' was een uitweiding op de bron ('last-resort solution'); ingekort naar 'laatste redmiddel' om niet meer te claimen dan de bron zegt.
+- slot 10: Kleine stilistische bijstelling in paragraaf 3 voor beknoptheid en aansluiting bij de brontekst ('laatste redmiddel' i.p.v. 'noodoplossing voor uiterste nood').
+- slot 11 (fact, WR-2): Paragraaf 3: het citaat over 'talloze jongeren aanmoedigen groter te dromen' hoort in de bron bij 'this achievement' (de lancering), niet bij 'de groeiende rol van private bedrijven'. De zin is aangepast zodat het duidelijk de prestatie/lancering is die jongeren aanmoedigt, niet de groeiende private sector op zich.
+- slot 11: Titel vereenvoudigd van 'eerste eigen private raket' naar 'eerste private raket' — 'eigen' was overbodig naast 'private' en maakte de titel stroever.
+- slot 11: Eerste zin herschreven om de dubbele herhaling van het woord 'raket' te verwijderen ('met de raket Vikram-1 ... raket de ruimte in' werd 'met de Vikram-1 ... raket de ruimte in').
+- slot 11: Bijstelling 'Mission Aagaman gedoopt naar' herschikt tot 'gedoopt "Mission Aagaman" naar' voor natuurlijker Nederlands.

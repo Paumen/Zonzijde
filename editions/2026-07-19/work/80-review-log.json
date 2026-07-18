@@ -7,227 +7,181 @@
     {
       "pos": 1,
       "words": {
-        "draft": 428,
-        "reviewed": 414
+        "draft": 377,
+        "reviewed": 351
       },
       "fact_issues": [
-        "Eerste alinea noemde 'een ring van oude muren' rond Batenburg; dit detail komt niet voor in de brontekst en is verwijderd omdat het niet te verifiëren is (WR-2, geen toegevoegde informatie).",
-        "'die de ruimte weer liet vollopen met klank' bij het slotoptreden in de Nieuwe Sint-Victorkerk was een niet-brongesteunde toevoeging aan 'trok een groot publiek'; vervangen door een neutralere formulering die dicht bij de bron blijft."
+        "Verwijderd: 'wisten Jan en Ingrid van den Brink nog van niets' en 'Tussen de feestelijkheden voor de jarige vereniging door werden zij naar voren geroepen' — de bron vermeldt geen verrassingselement of de manier waarop het paar naar voren werd geroepen; dit was een toegevoegde aanname, niet door de bron gedekt (WR-2/ED-4).",
+        "Verwijderd/verzacht: de beschrijving 'met muziek en de sfeer van een vereniging die met zichzelf mag vieren' — de bron bevestigt geen specifieke feestinvulling; vervangen door een neutralere formulering die alleen steunt op wat de bron wél meldt (dat de uitreiking tijdens de jubileumviering plaatsvond).",
+        "In het citaat van Gerrits stond 'binnen de vereniging'; de bron citeert 'binnen de Busband'. Gecorrigeerd naar de letterlijke bronformulering, aangezien het een citaat betreft."
       ],
       "corrections": [
-        "Zinsconstructie in de laatste zin van de vijfde alinea vereenvoudigd ('trok voor die ene avond een groot publiek dat de ruimte weer liet vollopen met klank' → 'trok voor dat slotoptreden een groot publiek') voor helderheid en om dicht bij de brontekst te blijven."
+        "Eerste alinea herschreven zodat de gebeurtenis (uitreiking tijdens jubileumfeest) chronologisch en feitelijk overeenkomt met de bron, zonder ongedekte aannames over verrassing of het moment van naar voren roepen.",
+        "Tweede alinea aangepast om alleen bronvaste elementen te behouden (de uitreiking vond plaats tijdens de jubileumviering), met behoud van de stijlkeuze (reflectie op wat er te vieren viel).",
+        "Kleine spellingscorrectie: 'evenlang' naar 'even lang'."
       ],
-      "attempts": [
-        {
-          "attempt": 1,
-          "problems": []
-        }
-      ]
+      "problems": []
     },
     {
       "pos": 2,
       "words": {
-        "draft": 199,
-        "reviewed": 198
+        "draft": 417,
+        "reviewed": 398
       },
       "fact_issues": [
-        "\"Jan en Ingrid van den Brink uit Groesbeek\" suggereerde dat het echtpaar in Groesbeek woont; de bron zegt alleen dat de Busband (en het jubileum) in Groesbeek is. Gecorrigeerd naar \"dweilband Busband uit Groesbeek\".",
-        "\"Zichtbaar op het podium waren ze zelden\" was een verzonnen, specifiek beeld (podium) dat niet in de bron staat. Vervangen door de wel onderbouwde term \"op de voorgrond\", aansluitend bij de bronformulering \"achter de schermen\".",
-        "\"kregen twee mensen die zelden op de foto stonden\" bevatte een niet-onderbouwde claim over fotomomenten; aangepast naar \"zelden op de voorgrond staan\", zonder toevoeging van niet-geverifieerde details.",
-        "De kicker \"Veertig jaar lang stille motor\" suggereerde dat dit getal voor beiden gold, terwijl Jan veertig jaar lid is en Ingrid ruim vijfentwintig jaar; het getal is uit de kicker gehaald om een feitelijk onjuiste suggestie te voorkomen.",
-        "\"koninklijke onderscheiding\" (enkelvoud) aangepast naar \"onderscheidingen\" (meervoud), conform de bron, aangezien beide personen een eigen onderscheiding kregen."
+        "Titel: 'trekt vijfde jaar op rij meer publiek' suggereert vijf opeenvolgende jaren van groei; de bron meldt alleen dat déze (vijfde) editie 5 procent meer bezoekers trok dan vorig jaar. Titel aangepast naar 'trekt opnieuw meer publiek'.",
+        "Alinea 1: 'een van de kleinste vestingstadjes van Nederland' staat niet in de bron (die spreekt alleen van 'het historische stadje Batenburg') en is ongevraagd toegevoegde informatie; verwijderd/vervangen door 'het historische stadje Batenburg'.",
+        "Alinea 2: 'buiten de vestingwallen' veronderstelt vestingwallen die de bron niet vermeldt; vervangen door 'buiten Batenburg zelf'.",
+        "Alinea 2: 'volgens de organisatie' bij de zin over locatie en muziek die naadloos samenkwamen is een toeschrijving die niet in de bron staat (de bron formuleert dit als constatering, niet als citaat/mening van de organisatie); verwijderd.",
+        "Slotalinea: 'een van de kleinste stadjes van het land' is, net als in alinea 1, een ongesourcete superlatief-claim; verwijderd/herformuleerd naar 'ook verder dan Batenburg zelf'."
       ],
       "corrections": [
-        "Kicker als apart, herkenbaar element laten staan maar getal (veertig jaar) verwijderd om overeen te stemmen met de feiten voor beide personen.",
-        "\"Ze ontvingen de koninklijke onderscheiding\" → \"Ze ontvingen de koninklijke onderscheidingen\" voor grammaticale/feitelijke consistentie met twee ontvangers.",
-        "\"Zichtbaar op het podium waren ze zelden\" herschreven naar \"Op de voorgrond traden ze zelden\" voor een vlottere, minder gekunstelde zin."
+        "Titel herschreven zodat de tijdsclaim overeenkomt met wat de bron daadwerkelijk meldt (groei dit jaar, niet vijf jaar op rij).",
+        "Ongesourcete superlatieven over de grootte/status van Batenburg als vestingstadje verwijderd op twee plekken.",
+        "Toeschrijving 'volgens de organisatie' geschrapt omdat niet in de bron onderbouwd."
       ],
-      "attempts": [
-        {
-          "attempt": 1,
-          "problems": []
-        }
-      ]
+      "problems": []
     },
     {
       "pos": 3,
       "words": {
-        "draft": 260,
-        "reviewed": 260
+        "draft": 228,
+        "reviewed": 229
       },
       "fact_issues": [],
-      "corrections": [],
-      "attempts": [
-        {
-          "attempt": 1,
-          "problems": []
-        }
-      ]
+      "corrections": [
+        "Titel herschreven naar een rustigere, concretere formulering ('Zomerprogramma vol spel en geschiedenis bij Museum Kasteel Wijchen') — de oorspronkelijke titel combineerde 'spel' en 'watersnood' op een grammaticaal onlogische manier ('combineert spel en watersnood van 1926').",
+        "'kunnen kinderen tijdens de openingstijden bovendien los met speurtochten' herschreven naar 'kunnen kinderen tijdens de openingstijden bovendien zelfstandig deelnemen aan speurtochten' — helderder Nederlands.",
+        "'wie liever met het hele gezelschap op pad gaat' aangepast naar 'wie liever met familie en vrienden op pad gaat', in lijn met de brontekst ('met familie en vrienden aan de escaperoute')."
+      ],
+      "problems": []
     },
     {
       "pos": 4,
       "words": {
-        "draft": 612,
-        "reviewed": 613
+        "draft": 474,
+        "reviewed": 470
       },
       "fact_issues": [
-        "Paragraaf 3: het citaat 'Ik hoop echt dat we na morgen een punt kunnen zetten...' werd door Sturing vooraf uitgesproken (in het bronartikel 'Vitesse wacht op het laatste fluitsignaal', gepubliceerd voor de zitting), niet 'na afloop' zoals het concept suggereerde. De zin 'Na afloop kon hij eindelijk de knoop doorhakken die hij zich al zo lang had gewenst' was een niet-brongesteunde en tegenstrijdige claim (het citaat zelf spreekt nog in de toekomstige/hopende vorm over 'morgen'), en is vervangen door een correcte tijdsaanduiding ('In aanloop naar de uitspraak had hij al gezegd...').",
-        "Paragraaf 1/5: 'drie jaar procederen' en 'drie jaar lang met lede ogen toekeek' zijn in de bron niet als exacte, geverifieerde duur bevestigd (alleen Rozeboom's quote 'Het waren drie vervelende jaren' verwijst losjes naar de hele periode van onzekerheid, niet expliciet naar de duur van de rechtszaak). Om geen ongedekt feit te suggereren zijn deze specifieke tijdsaanduidingen afgezwakt naar 'jaren van procederen' en 'de afgelopen jaren'."
+        "\"Op Papendal klonk iets na tienen gejuich...\" — de bron plaatst dit in het hoofdgebouw van Vitesse, niet op Papendal; gecorrigeerd naar 'In het hoofdgebouw van Vitesse'.",
+        "\"Trainer Rüdiger Rehm, die naast de rechtszaal ook gewoon een selectie moest samenstellen...\" — dit detail staat niet in de bronnen en is verwijderd.",
+        "De Sturing-quote over het Gerechtshof in september was in de bron langer en bevatte tussenliggende zinnen over Utrecht/Arnhem die al elders in het artikel staan; de quote werd ingekort weergegeven alsof die aaneengesloten is uitgesproken. Aangevuld met '(...)' om de inkorting te markeren en 'in Arnhem' toegevoegd, conform de bron."
       ],
       "corrections": [
-        "Paragraaf 3: transitiezin herschreven om de tijdlijn kloppend te maken (zie fact_issues) en 'zei hij' toegevoegd zodat duidelijk is dat het eerste citaat vóór de zitting werd gegeven.",
-        "Paragraaf 4: 'die de dag met een high-five van een supporter begon' vervangen door 'die op het trainingsveld een high-five van een supporter kreeg', om de gebeurtenis correct in de trainingsveld-scène te plaatsen zoals in de bron beschreven."
+        "'kort gedingen' (meervoud) in de slotalinea gewijzigd naar 'een kort geding' (enkelvoud), aangezien de bronnen slechts één kort geding (in Utrecht) noemen."
       ],
-      "attempts": [
-        {
-          "attempt": 1,
-          "problems": []
-        }
-      ]
+      "problems": []
     },
     {
       "pos": 5,
       "words": {
-        "draft": 470,
-        "reviewed": 467
+        "draft": 336,
+        "reviewed": 342
       },
       "fact_issues": [
-        "\"deze week\" (paragraaf 1) is niet in de bron terug te vinden — de bron noemt alleen \"donderdag\" als moment van de sticker-plakactie, geen bevestiging dat de toekenning deze week plaatsvond. Verwijderd om geen ongedekte tijdsclaim te maken.",
-        "\"zeker sinds de volledige renovatie in 2023\" suggereerde een door de bron niet gelegde causaliteit tussen de renovatie en het beeldbepalende karakter van de toren; de bron noemt beide feiten los van elkaar. Herschreven zonder gesuggereerd causaal verband."
+        "Titel 'scoort landelijke hit' overstate de feiten: de bron spreekt van een viraal gaand campagnelied, niet van een (hit)notering. Titel aangepast naar 'Arnhemse zanger gaat viraal met lied over een praatje'.",
+        "Zin 'Het hondje bleek in de praktijk een aanleiding waar mensen makkelijk op afstapten, en dat detail werd de kern van het lied' overstatede: de bron zegt alleen dat het hondje vaak voor aanspraak zorgt, niet dat dit 'de kern van het lied' werd. Herschreven naar wat de bron wel ondersteunt, met het bronscitaat 'Het zijn simpele, uit het leven gegrepen momenten' toegevoegd ter onderbouwing."
       ],
       "corrections": [
-        "Lichte herformulering van de zin over de renovatie/beeldbepalendheid voor vloeiendere en feitelijk nauwkeurigere aansluiting op het citaat van Schuitemaker."
+        "Bindweefsel-quote iets losser geparafraseerd teruggezet dichter bij de brontekst ('het maakt je net wat gelukkiger... na een praatje') in plaats van een vrije samenvatting.",
+        "Slotzin van alinea 3 herschreven om aan te sluiten bij het bronscitaat in plaats van een ongedekte samenvatting."
       ],
-      "attempts": [
-        {
-          "attempt": 1,
-          "problems": []
-        }
-      ]
+      "problems": []
     },
     {
       "pos": 6,
       "words": {
-        "draft": 313,
-        "reviewed": 290
+        "draft": 247,
+        "reviewed": 244
       },
       "fact_issues": [
-        "Openingszin '...is de laatste tijd vaak herkend op straat' overdreef de brontekst; Koehoorn zegt alleen 'Ik word wel herkend' (geen frequentie of locatie genoemd) — afgezwakt tot 'wordt wel eens herkend, vertelt hij'.",
-        "'hoewel hij zelf steeds herkend wordt' overdreef eveneens ('steeds' staat niet in de bron) — verwijderd/afgezwakt tot 'Toch valt het volgens Koehoorn zelf juist mee...'.",
-        "'In een couplet spreekt Tim...' voegde een songstructuurdetail (couplet) toe dat niet in de bron staat (die spreekt alleen van 'in het liedje') — gewijzigd naar 'In het lied spreekt Tim...'.",
-        "De slotalinea over 'Jan en Ingrid van den Brink' en hun vereniging komt in het geheel niet voor in de brontekst — geen van deze namen of feiten wordt daar genoemd. Omdat dit niet te verifiëren is, is de alinea geschrapt en vervangen door een slot dat wel op de bron is gebaseerd."
+        "Laatste zin oorspronkelijk: 'In de komende periode werken gemeente en initiatiefnemers het ontwerp... verder uit' — de bron noemt geen specifieke uitvoerders ('wordt... verder uitgewerkt'), dus de toegeschreven actoren zijn geschrapt om geen niet-onderbouwde claim te introduceren."
       ],
       "corrections": [
-        "Openingsalinea herschreven om dichter bij de brontekst te blijven (geen onbevestigde details over frequentie/locatie van herkenning).",
-        "'couplet' vervangen door 'lied' voor consistentie met de brontekst.",
-        "Slotalinea herschreven zonder ongefundeerde feiten, met behoud van de afsluitende toon en strekking van het stuk (aansluitend op het beeld van het gesprek over de hond in de bus)."
+        "Laatste zin herschreven naar de lijdende vorm ('worden ... verder uitgewerkt') in plaats van de actieve vorm met specifiek genoemde actoren, om dichter bij de brontekst te blijven."
       ],
-      "attempts": [
-        {
-          "attempt": 1,
-          "problems": []
-        }
-      ]
+      "problems": []
     },
     {
       "pos": 7,
       "words": {
-        "draft": 208,
-        "reviewed": 211
+        "draft": 507,
+        "reviewed": 507
       },
-      "fact_issues": [],
-      "corrections": [
-        "Eerste alinea herschreven: 'was dat lange tijd een dovemansoor' was een onjuist gebruikte uitdrukking (het idioom is 'aan dovemans oren praten/gericht zijn', en de zin miste een logisch onderwerp voor de vergelijking); vervangen door 'bleef het echter lange tijd bij die eerste stap', wat aansluit bij het beeld van 'denken is de eerste stap' verderop in de zin."
+      "fact_issues": [
+        "Derde alinea: het schilderij zei 'de rest liet veilen' over wat Göring niet zelf hield, terwijl de bron zegt dat hij slechts 'een deel liet veilen'. 'De rest' suggereert dat werkelijk alles wat Göring niet hield geveild werd, wat de bron niet bevestigt. Gecorrigeerd naar 'een deel liet veilen'."
       ],
-      "attempts": [
-        {
-          "attempt": 1,
-          "problems": []
-        }
-      ]
+      "corrections": [
+        "Titel herschreven: 'Dertig jaar zoek geraakt schilderij komt terug bij erven Goudstikker' bevatte een spelfout ('zoek geraakt' moet 'zoekgeraakt' zijn als het al gebruikt zou worden) en suggereerde bovendien dat het schilderij dertig jaar zoek was, terwijl het dertig jaar in een kelder stond nadat het al veel langer (sinds de roof in 1940) buiten beeld van de Goudstikker-erfgenamen was. Nieuwe titel sluit aan bij de bronkop en is feitelijk preciezer: 'Geroofd Goudstikker-schilderij duikt na dertig jaar in kelder weer op'."
+      ],
+      "problems": []
     },
     {
       "pos": 8,
       "words": {
-        "draft": 464,
-        "reviewed": 462
+        "draft": 452,
+        "reviewed": 454
       },
       "fact_issues": [
-        "Paragraaf 4 stelde dat de nazaten van Goudstikker \"al decennia\" naar de verdwenen werken zoeken; de bron zegt alleen dat zij dat na de oorlog probeerden, zonder claim over een decennialange, doorlopende zoektocht. Aangepast naar de brontekst."
+        "Geen feitelijke fouten aangetroffen: alle namen, data, cijfers en citaten (leeftijd 75, geboortejaar 1951, Schilderswijk/Moerwijk, oprichting Klein Orkest in 1978, uiteenvallen in 1985, solodebuut in 1988, terugkeer in 2015, opvolging van Paul van Vliet in 2018, citaten van Van Zanen) komen overeen met de bronreportage.",
+        "Kleine precisering: 'waar hij een huis bouwde' is aangepast naar 'waar hij een huis liet bouwen', omdat de bron vermeldt dat Jekkers dit huis samen met een toenmalige partner liet bouwen en na afloop van die relatie aanhield; het artikel noemt die relatie niet expliciet (buiten scope/lengte), maar de herformulering voorkomt de suggestie dat hij het eigenhandig en alleen bouwde."
       ],
       "corrections": [
-        "Geen verdere taal- of stijlcorrecties nodig; de tekst was grammaticaal correct en de aanpak (scène met citaten, achtergrond over Goudstikker, ontknoping) bleef ongewijzigd."
+        "Grammaticale verbetering: 'samenwerkingen die zijn hele loopbaan zouden blijven terugkeren' aangevuld tot 'samenwerkingen die gedurende zijn hele loopbaan zouden blijven terugkeren' voor een correcte zinsconstructie.",
+        "Komma toegevoegd na 'Moerwijk' in de eerste bijzin van paragraaf 2 voor de leesbaarheid.",
+        "'waar hij een huis bouwde' gewijzigd in 'waar hij een huis liet bouwen' om preciezer aan te sluiten bij de bron zonder de omvang van het stuk te vergroten."
       ],
-      "attempts": [
-        {
-          "attempt": 1,
-          "problems": []
-        }
-      ]
+      "problems": []
     },
     {
       "pos": 9,
       "words": {
-        "draft": 492,
-        "reviewed": 489
+        "draft": 568,
+        "reviewed": 542
       },
       "fact_issues": [
-        "Misattributed quote: het origineel liet Petra zeggen dat Shaquina 'een reddende engel' is, maar in de bron noemt Shaquina juist coach Petra 'een reddende engel'. Gecorrigeerd naar de juiste spreker en strekking.",
-        "'coach Petra toegewezen' gewijzigd naar 'coach Petra' zonder 'toegewezen': de bron zegt alleen dat het gezin ondersteuning kreeg van coach Petra, niet dat die formeel werd 'toegewezen'.",
-        "'toeslagen waar gezinnen recht op hebben maar geen gebruik van maken' ingekort tot 'toeslagen waar gezinnen recht op hebben': de bron vermeldt niet expliciet dat gezinnen daar geen gebruik van maken, dat was een toegevoegde aanname."
+        "Slotalinea verwijderde: de zin over 'deze editie' en een 'viraal campagnelied van een Arnhemse zanger' verwees naar een ander artikel in de krant zelf en noemde een feit (het lied, de zanger) dat in de brontekst helemaal niet voorkomt — verzonnen informatie. Bovendien is een verwijzing naar de krant/editie zelf niet toegestaan (PIPE-7). De hele zin is geschrapt; niets ter vervanging toegevoegd om de lengte/planning niet te verstoren.",
+        "'volgens de initiatiefnemers het armste postcodegebied van Nederland' herschreven: de bron plaatst 'het armste postcodegebied van Nederland' tussen aanhalingstekens maar noemt geen 'initiatiefnemers' als bron van die claim — die toeschrijving was verzonnen. Nu als aangehaalde typering zonder onderbouwde bron weergegeven.",
+        "'volledig schuldenvrij' afgezwakt tot 'schuldenvrij': de bron zegt alleen dat de 21 huishoudens 'schuldenvrij' zijn, niet expliciet 'volledig' schuldenvrij; het woord 'volledig' voegde een nuance toe die niet in de bron staat."
       ],
       "corrections": [
-        "Eerste alinea herschikt zodat het citaat over de 'reddende engel' aan de juiste spreker (Shaquina) wordt toegeschreven en niet meer als uitspraak van Petra over Shaquina wordt gelezen."
+        "Tweede alinea: 'kreeg ze steun' aangepast naar 'kreeg het gezin steun', omdat de bron aangeeft dat het gezin (niet alleen Shaquina) steun kreeg ('kregen ze... ondersteuning').",
+        "'ervan af te komen' verduidelijkt tot 'van de schulden af te komen' voor leesbaarheid, aansluitend bij de bron ('hun schulden af te lossen')."
       ],
-      "attempts": [
-        {
-          "attempt": 1,
-          "problems": []
-        }
-      ]
+      "problems": []
     },
     {
       "pos": 10,
       "words": {
-        "draft": 1039,
-        "reviewed": 1045
+        "draft": 485,
+        "reviewed": 484
       },
       "fact_issues": [
-        "De afstand tussen Afghanistan en Londen stond in het bronartikel als '4,000 miles' (mijl), niet kilometer. Het concept nam het getal 4.000 over maar veranderde stilzwijgend de eenheid naar kilometer, wat de afstand bijna 40% te klein maakt. Gecorrigeerd naar 'ruim zesduizend kilometer' (4.000 mijl ≈ 6.437 km).",
-        "Het concept schreef 'Op de club staat een foto van haar...' terwijl de bron aangeeft dat de foto op de website van de club (athenlayfootballclub.org.uk) staat, niet fysiek op de clubaccommodatie. Gecorrigeerd naar 'Op de website van de club staat een foto van haar...'"
+        "Paragraaf 1 noemde 'Egyptische koraalriffen', maar de bron spreekt over kustbescherming en zeeschildpadden aan de Rode Zeekust, niet over koraalriffen; dit is gecorrigeerd naar 'de Egyptische Rode Zeekust' zodat het klopt met de rest van het artikel en de bron.",
+        "'Wat lange tijd gold als een noodoplossing voor uiterste nood' was een uitweiding op de bron ('last-resort solution'); ingekort naar 'laatste redmiddel' om niet meer te claimen dan de bron zegt."
       ],
       "corrections": [
-        "Typefout 'bij bij de FA aangesloten clubs' hersteld tot 'bij clubs die zijn aangesloten bij de FA' voor correcte grammatica en leesbaarheid."
+        "Kleine stilistische bijstelling in paragraaf 3 voor beknoptheid en aansluiting bij de brontekst ('laatste redmiddel' i.p.v. 'noodoplossing voor uiterste nood')."
       ],
-      "attempts": [
-        {
-          "attempt": 1,
-          "problems": []
-        }
-      ]
+      "problems": []
     },
     {
       "pos": 11,
       "words": {
-        "draft": 422,
-        "reviewed": 394
+        "draft": 263,
+        "reviewed": 263
       },
       "fact_issues": [
-        "Openingszin bevatte een verzonnen fysieke beschrijving (\"acht meter minder dan een voetbalveld hoog, in ruim vier seconden weg van de aarde\") die niet in de bronnen staat en bovendien in tegenspraak is met het latere, wel gebrande feit dat Vikram-1 circa 22 meter hoog is (een voetbalveld is ruim 100 meter). Verwijderd.",
-        "\"het Amerikaanse SpaceX\" — de bron noemt SpaceX zonder nationaliteitsaanduiding (\"Elon Musk's SpaceX\"); \"Amerikaanse\" was toegevoegde informatie en is geschrapt conform de regel dat geen informatie wordt toegevoegd die niet in de bron staat, ook niet als ze algemeen bekend is."
+        "Paragraaf 3: het citaat over 'talloze jongeren aanmoedigen groter te dromen' hoort in de bron bij 'this achievement' (de lancering), niet bij 'de groeiende rol van private bedrijven'. De zin is aangepast zodat het duidelijk de prestatie/lancering is die jongeren aanmoedigt, niet de groeiende private sector op zich."
       ],
       "corrections": [
-        "Openingsalinea herschreven zonder de verzonnen maat- en tijdsaanduiding, met behoud van de beeldende toon (\"zag geschiedenis vertrekken\").",
-        "\"Amerikaanse\" geschrapt bij SpaceX in de slotalinea."
+        "Titel vereenvoudigd van 'eerste eigen private raket' naar 'eerste private raket' — 'eigen' was overbodig naast 'private' en maakte de titel stroever.",
+        "Eerste zin herschreven om de dubbele herhaling van het woord 'raket' te verwijderen ('met de raket Vikram-1 ... raket de ruimte in' werd 'met de Vikram-1 ... raket de ruimte in').",
+        "Bijstelling 'Mission Aagaman gedoopt naar' herschikt tot 'gedoopt \"Mission Aagaman\" naar' voor natuurlijker Nederlands."
       ],
-      "attempts": [
-        {
-          "attempt": 1,
-          "problems": []
-        }
-      ]
+      "problems": []
     }
   ],
-  "words_total": 4843,
+  "words_total": 4284,
   "failed_slots": []
 }

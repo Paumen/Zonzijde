@@ -1,10 +1,9 @@
 {
   "rows": 22,
-  "full_text": 19,
+  "full_text": 17,
   "methods": {
     "requests": 17,
-    "playwright": 0,
-    "alt-source": 2
+    "playwright": 0
   },
   "min_words": 120,
   "topics": [
@@ -14,7 +13,6 @@
       "topic": "Lintjes voor Jan en Ingrid van den Brink",
       "rows": 1,
       "ok_rows": 1,
-      "alt_search": null,
       "dropped": false
     },
     {
@@ -23,7 +21,6 @@
       "topic": "Batenburg Baroque Festival groeit verder",
       "rows": 1,
       "ok_rows": 1,
-      "alt_search": null,
       "dropped": false
     },
     {
@@ -32,12 +29,6 @@
       "topic": "Patrijzenfamilie duikt op in tuin in Boven-Leeuwen",
       "rows": 1,
       "ok_rows": 0,
-      "alt_search": {
-        "query": "Na 2,5 jaar wachten: patrijzenfamilie in de tuin",
-        "tried": [],
-        "picked": null,
-        "found": 0
-      },
       "dropped": true
     },
     {
@@ -46,12 +37,6 @@
       "topic": "Opvallend weinig schoolverzuim rond vakantie in Wijchen",
       "rows": 1,
       "ok_rows": 0,
-      "alt_search": {
-        "query": "Opvallend weinig kinderen in Wijchen spijbelen voor vakantie",
-        "tried": [],
-        "picked": null,
-        "found": 0
-      },
       "dropped": true
     },
     {
@@ -60,7 +45,6 @@
       "topic": "Zomerpret bij Museum Kasteel Wijchen",
       "rows": 1,
       "ok_rows": 1,
-      "alt_search": null,
       "dropped": false
     },
     {
@@ -69,7 +53,6 @@
       "topic": "Vitesse mag na uitspraak Hoge Raad blijven voetballen",
       "rows": 2,
       "ok_rows": 2,
-      "alt_search": null,
       "dropped": false
     },
     {
@@ -78,7 +61,6 @@
       "topic": "Michelinster voor de oude binnenstad van Zutphen",
       "rows": 1,
       "ok_rows": 1,
-      "alt_search": null,
       "dropped": false
     },
     {
@@ -87,7 +69,6 @@
       "topic": "Arnhemse zanger gaat viraal met campagnelied",
       "rows": 1,
       "ok_rows": 1,
-      "alt_search": null,
       "dropped": false
     },
     {
@@ -96,7 +77,6 @@
       "topic": "Barneveld bouwt nieuwe sporthal",
       "rows": 1,
       "ok_rows": 1,
-      "alt_search": null,
       "dropped": false
     },
     {
@@ -104,33 +84,16 @@
       "rank": 5,
       "topic": "Nieuwe spoorbrug in Molenhoek eindelijk veilig",
       "rows": 1,
-      "ok_rows": 1,
-      "alt_search": {
-        "query": "Nieuw spoorbruggetje in Molenhoek geopend",
-        "tried": [
-          "https://www.rn7.nl/nieuws/artikel/zo-komt-het-nieuwe-bruggetje-over-het-spoor-bij-molenhoek-eruit-te-zien",
-          "https://www.spoorpro.nl/spoorbouw/2026/04/22/nieuw-viaduct-in-molenhoek-wordt-op-27-juni-op-zijn-plaats-gelegd/"
-        ],
-        "picked": "https://www.spoorpro.nl/spoorbouw/2026/04/22/nieuw-viaduct-in-molenhoek-wordt-op-27-juni-op-zijn-plaats-gelegd/",
-        "found": 5
-      },
-      "dropped": false
+      "ok_rows": 0,
+      "dropped": true
     },
     {
       "scope": "N",
       "rank": 1,
       "topic": "Robotpak laat Daan weer lopen door eraan te denken",
       "rows": 1,
-      "ok_rows": 1,
-      "alt_search": {
-        "query": "Robotpak zorgt voor wereldprimeur: Daan loopt weer",
-        "tried": [
-          "https://drimble.nl/regio/zuid-holland/delft/107478810/robotpak-zorgt-voor-wereldprimeur-daan-kan-weer-lopen-door-er-alleen-aan-te-denken.html"
-        ],
-        "picked": "https://drimble.nl/regio/zuid-holland/delft/107478810/robotpak-zorgt-voor-wereldprimeur-daan-kan-weer-lopen-door-er-alleen-aan-te-denken.html",
-        "found": 3
-      },
-      "dropped": false
+      "ok_rows": 0,
+      "dropped": true
     },
     {
       "scope": "N",
@@ -138,12 +101,6 @@
       "topic": "Pepijn (17) zet zich ondanks beperking in voor anderen",
       "rows": 1,
       "ok_rows": 0,
-      "alt_search": {
-        "query": "Pepijn laat zich niet tegenhouden door zijn beperking",
-        "tried": [],
-        "picked": null,
-        "found": 0
-      },
       "dropped": true
     },
     {
@@ -152,7 +109,6 @@
       "topic": "Geroofd Goudstikker-schilderij teruggevonden",
       "rows": 1,
       "ok_rows": 1,
-      "alt_search": null,
       "dropped": false
     },
     {
@@ -161,7 +117,6 @@
       "topic": "Harrie Jekkers ereburger van Den Haag",
       "rows": 1,
       "ok_rows": 1,
-      "alt_search": null,
       "dropped": false
     },
     {
@@ -170,7 +125,6 @@
       "topic": "Arnhemse schuldhulp-proef succesvol, krijgt vervolg",
       "rows": 1,
       "ok_rows": 1,
-      "alt_search": null,
       "dropped": false
     },
     {
@@ -179,7 +133,6 @@
       "topic": "Wat ging er deze week goed in de wereld",
       "rows": 1,
       "ok_rows": 1,
-      "alt_search": null,
       "dropped": false
     },
     {
@@ -188,7 +141,6 @@
       "topic": "Steden worden slimmer met water tegen klimaatdruk",
       "rows": 2,
       "ok_rows": 2,
-      "alt_search": null,
       "dropped": false
     },
     {
@@ -197,7 +149,6 @@
       "topic": "Forensisch onderzoek helpt strijd tegen wildlife-stroperij",
       "rows": 1,
       "ok_rows": 1,
-      "alt_search": null,
       "dropped": false
     },
     {
@@ -206,7 +157,6 @@
       "topic": "Gemarginaliseerde groepen vinden verbinding via voetbal",
       "rows": 1,
       "ok_rows": 1,
-      "alt_search": null,
       "dropped": false
     },
     {
@@ -215,14 +165,15 @@
       "topic": "India lanceert eerste private raket de ruimte in",
       "rows": 1,
       "ok_rows": 1,
-      "alt_search": null,
       "dropped": false
     }
   ],
   "dropped_topics": [
     "Patrijzenfamilie duikt op in tuin in Boven-Leeuwen",
     "Opvallend weinig schoolverzuim rond vakantie in Wijchen",
+    "Nieuwe spoorbrug in Molenhoek eindelijk veilig",
+    "Robotpak laat Daan weer lopen door eraan te denken",
     "Pepijn (17) zet zich ondanks beperking in voor anderen"
   ],
-  "duration_s": 187.9
+  "duration_s": 3.7
 }

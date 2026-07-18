@@ -7,131 +7,70 @@
     {
       "pos": 1,
       "length": "long",
-      "words": 428,
-      "attempts": [
-        {
-          "attempt": 1,
-          "problems": []
-        }
-      ]
+      "words": 377,
+      "problems": []
     },
     {
       "pos": 2,
-      "length": "short",
-      "words": 199,
-      "attempts": [
-        {
-          "attempt": 1,
-          "problems": []
-        }
-      ]
+      "length": "standard",
+      "words": 417,
+      "problems": []
     },
     {
       "pos": 3,
       "length": "short",
-      "words": 260,
-      "attempts": [
-        {
-          "attempt": 1,
-          "problems": []
-        }
-      ]
+      "words": 228,
+      "problems": []
     },
     {
       "pos": 4,
-      "length": "long",
-      "words": 612,
-      "attempts": [
-        {
-          "attempt": 1,
-          "problems": []
-        }
-      ]
+      "length": "standard",
+      "words": 474,
+      "problems": []
     },
     {
       "pos": 5,
       "length": "standard",
-      "words": 470,
-      "attempts": [
-        {
-          "attempt": 1,
-          "problems": []
-        }
-      ]
+      "words": 336,
+      "problems": []
     },
     {
       "pos": 6,
       "length": "short",
-      "words": 313,
-      "attempts": [
-        {
-          "attempt": 1,
-          "problems": [
-            "the paper never refers to itself (PIPE-7): deze krant"
-          ]
-        },
-        {
-          "attempt": 2,
-          "problems": []
-        }
-      ]
+      "words": 247,
+      "problems": []
     },
     {
       "pos": 7,
-      "length": "standard",
-      "words": 208,
-      "attempts": [
-        {
-          "attempt": 1,
-          "problems": []
-        }
-      ]
+      "length": "long",
+      "words": 507,
+      "problems": []
     },
     {
       "pos": 8,
       "length": "standard",
-      "words": 464,
-      "attempts": [
-        {
-          "attempt": 1,
-          "problems": []
-        }
-      ]
+      "words": 452,
+      "problems": []
     },
     {
       "pos": 9,
       "length": "standard",
-      "words": 492,
-      "attempts": [
-        {
-          "attempt": 1,
-          "problems": []
-        }
-      ]
+      "words": 568,
+      "problems": []
     },
     {
       "pos": 10,
       "length": "long",
-      "words": 1039,
-      "attempts": [
-        {
-          "attempt": 1,
-          "problems": []
-        }
-      ]
+      "words": 485,
+      "problems": []
     },
     {
       "pos": 11,
-      "length": "standard",
-      "words": 422,
-      "attempts": [
-        {
-          "attempt": 1,
-          "problems": []
-        }
-      ]
+      "length": "short",
+      "words": 263,
+      "problems": []
     }
   ],
-  "words_total": 4907,
+  "words_total": 4354,
   "failed_slots": []
 }

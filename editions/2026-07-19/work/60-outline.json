@@ -5,30 +5,13 @@
       "pos": 1,
       "scope": "L",
       "role": "front-hero",
-      "topic": "Batenburg Baroque Festival trekt meer bezoekers dan ooit",
+      "topic": "Lintjes voor Jan en Ingrid van den Brink",
       "length": "long",
-      "type": "feature",
-      "angle": "Het festival als klankbord: hoe een historisch stadje vijf edities lang steeds voller stroomt, met jong talent naast gevestigde namen",
-      "devices": [
-        "analogie (het stadje als resonerende klankkast)",
-        "sfeervolle scene-opbouw met citaten van de initiator"
-      ],
-      "source_ids": [
-        "f1f69f295308"
-      ],
-      "location": "Batenburg",
-      "source_date": "2026-07-16"
-    },
-    {
-      "pos": 2,
-      "scope": "L",
-      "role": "body",
-      "topic": "Koninklijke onderscheidingen voor Jan en Ingrid van den Brink",
-      "length": "short",
       "type": "profile",
-      "angle": "Het echtpaar dat 40 jaar lang de stille motor achter een dweilband was, nu zelf in het zonnetje",
+      "angle": "Warm portret van een echtpaar dat decennia stille inzet nu bekroond ziet met een koninklijke onderscheiding, geopend met een scène op het feest zelf in plaats van het protocol.",
       "devices": [
-        "aforistische kicker"
+        "anekdotische opening",
+        "sfeerbeschrijving van het jubileumfeest"
       ],
       "source_ids": [
         "f259828a70ad"
@@ -37,16 +20,34 @@
       "source_date": "2026-07-13"
     },
     {
+      "pos": 2,
+      "scope": "L",
+      "role": "body",
+      "topic": "Batenburg Baroque Festival groeit verder",
+      "length": "standard",
+      "type": "feature",
+      "angle": "Sfeervolle terugblik op een uitverkocht weekend barokmuziek tussen de muren van het historische stadje, met de groeicijfers als bewijs dat het festival zijn plek heeft veroverd.",
+      "devices": [
+        "sensorische sfeerbeschrijving",
+        "contrast klein stadje - groot festival"
+      ],
+      "source_ids": [
+        "f1f69f295308"
+      ],
+      "location": "Batenburg",
+      "source_date": "2026-07-16"
+    },
+    {
       "pos": 3,
       "scope": "L",
       "role": "body",
-      "topic": "Zomeractiviteiten bij Museum Kasteel Wijchen",
+      "topic": "Zomerpret bij Museum Kasteel Wijchen",
       "length": "short",
-      "type": "news",
-      "angle": "Een luchtige gids langs speurtochten, waterbingo en een prikkelarme middag voor wie liever geen luide zomer wil",
+      "type": "zoom-in",
+      "angle": "Uitnodigende, praktische zoom-in op wat er deze zomer te doen is, met de tentoonstelling over de watersnood van 1926 als onverwachte verdieping.",
       "devices": [
-        "lichte ironie over de escaperoute die je juist opsluit in de zomervakantie",
-        "opsommende, uitnodigende toon"
+        "opsomming van activiteiten",
+        "korte historische haak"
       ],
       "source_ids": [
         "a4c732d96a11"
@@ -58,13 +59,13 @@
       "pos": 4,
       "scope": "R",
       "role": "body",
-      "topic": "Hoge Raad stelt Vitesse definitief in het gelijk tegen de KNVB",
-      "length": "long",
+      "topic": "Vitesse mag na uitspraak Hoge Raad blijven voetballen",
+      "length": "standard",
       "type": "news",
-      "angle": "Na drie jaar juridisch getouwtrek mag de club eindelijk weer gewoon over voetbal zeuren",
+      "angle": "Lichtvoetig en licht ironisch verteld: een jaar vol juristen, zittingen en steekpartijen in de rechtszaal eindigt gewoon met een fluitsignaal en applaus op Papendal, alsof het altijd om voetbal ging.",
       "devices": [
-        "metafoor (het laatste fluitsignaal)",
-        "meerdere stemmen: bestuurslid, trainer, supporters"
+        "ironische toon",
+        "sportmetafoor voor het juridische proces"
       ],
       "source_ids": [
         "58eca471a574",
@@ -77,31 +78,12 @@
       "pos": 5,
       "scope": "R",
       "role": "body",
-      "topic": "Michelinster voor de Drogenapstoren en oude binnenstad van Zutphen",
+      "topic": "Arnhemse zanger gaat viraal met campagnelied",
       "length": "standard",
-      "type": "feature",
-      "angle": "Wonen in een bezienswaardigheid: de bewoonster van de eeuwenoude toren krijgt er ongevraagd een sterrenrestaurant-status bij",
-      "devices": [
-        "analogie (leven in een ansichtkaart)",
-        "historische zijlijn over de naamgever Drogenap"
-      ],
-      "source_ids": [
-        "fa663f875213"
-      ],
-      "location": "Zutphen",
-      "source_date": "2026-07-16"
-    },
-    {
-      "pos": 6,
-      "scope": "R",
-      "role": "body",
-      "topic": "Arnhemse zanger Tim Koehoorn viraal met campagnelied over een praatje maken",
-      "length": "short",
       "type": "profile",
-      "angle": "Een luchtig lied over de kracht van klein contact, van bushalte tot supermarktrij",
+      "angle": "Portret van een lokale zanger die met een simpel liedje over een praatje maken ineens landelijk doorbreekt.",
       "devices": [
-        "verwijzing naar het echtpaar Van den Brink elders in deze krant, wier hele vereniging op een praatje draait",
-        "speelse, ietwat ironische toon"
+        "citaat uit het liedje als kapstok"
       ],
       "source_ids": [
         "b4827979b177"
@@ -110,34 +92,33 @@
       "source_date": "2026-07-16"
     },
     {
+      "pos": 6,
+      "scope": "R",
+      "role": "body",
+      "topic": "Barneveld bouwt nieuwe sporthal",
+      "length": "short",
+      "type": "news",
+      "angle": "Nuchter nieuwsbericht over een unaniem raadsbesluit en een sporthal die over jaren de leegte in Terschuur gaat vullen.",
+      "devices": [
+        "feitelijke, korte toon"
+      ],
+      "source_ids": [
+        "380b5ead2e12"
+      ],
+      "location": "Barneveld, Terschuur",
+      "source_date": "2026-07-16"
+    },
+    {
       "pos": 7,
       "scope": "N",
       "role": "body",
-      "topic": "Robotpak laat Daan weer lopen door er alleen aan te denken",
-      "length": "standard",
-      "type": "profile",
-      "angle": "Een wereldprimeur waarbij gedachte direct beweging wordt, verteld vanuit Daans eigen ervaring",
-      "devices": [
-        "aforistische kicker",
-        "metafoor (denken als eerste stap)"
-      ],
-      "source_ids": [
-        "f7ccaa47fdb2"
-      ],
-      "location": "Delft",
-      "source_date": "2026-07-17"
-    },
-    {
-      "pos": 8,
-      "scope": "N",
-      "role": "body",
-      "topic": "Geroofd Goudstikker-schilderij duikt op na dertig jaar bij grof vuil",
-      "length": "standard",
+      "topic": "Geroofd Goudstikker-schilderij teruggevonden",
+      "length": "long",
       "type": "feature",
-      "angle": "Een lelijk paneel dat niemand wilde weggooien, blijkt een verloren stuk geschiedenis dat nu teruggaat naar de erven",
+      "angle": "Bijna filmisch verteld verhaal van een paneel dat dertig jaar zoek was, ooit bij het grofvuil belandde en nu terugkeert naar de rechtmatige erven — met de herkenning als kantelpunt.",
       "devices": [
-        "ironie (hij vond het schilderij zelf 'oerlelijk')",
-        "tijdlijn-vertelling van vondst naar herkenning"
+        "chronologische opbouw richting het herkenningsmoment",
+        "gevoel van doorleefde tijd"
       ],
       "source_ids": [
         "391b22657d1e"
@@ -146,16 +127,34 @@
       "source_date": "2026-07-13"
     },
     {
+      "pos": 8,
+      "scope": "N",
+      "role": "body",
+      "topic": "Harrie Jekkers ereburger van Den Haag",
+      "length": "standard",
+      "type": "profile",
+      "angle": "Afscheid en eerbetoon als een laatste doek dat valt: de stad bedankt haar zanger na een leven lang verbondenheid, verteld met een theatermetafoor.",
+      "devices": [
+        "theater-/gordijnmetafoor",
+        "tijdspanne levenslang verweven met de stad"
+      ],
+      "source_ids": [
+        "4fd793a063a9"
+      ],
+      "location": "Den Haag",
+      "source_date": "2026-07-12"
+    },
+    {
       "pos": 9,
       "scope": "N",
       "role": "body",
-      "topic": "Arnhemse schuldhulp-proef krijgt vervolg na succesvolle resultaten",
+      "topic": "Arnhemse schuldhulp-proef succesvol, krijgt vervolg",
       "length": "standard",
       "type": "zoom-in",
-      "angle": "Wat een wijk met de armste postcode van Nederland laat zien over vertrouwen herwinnen, knok voor knok",
+      "angle": "Resultaten van een tweejarige proef die laat zien dat intensieve begeleiding echt werkt, met een knipoog naar de andere Arnhemse gezichten verderop in deze krant.",
       "devices": [
-        "cijfer van de week als anker",
-        "persoonlijk citaat van deelnemer Shaquina naast de bredere cijfers"
+        "verwijzing naar andere Arnhemse artikelen in de editie",
+        "cijfermatige onderbouwing"
       ],
       "source_ids": [
         "edfbdda71ce4"
@@ -167,45 +166,45 @@
       "pos": 10,
       "scope": "I",
       "role": "body",
-      "topic": "Gemarginaliseerde groepen vinden verbinding via amateurvoetbal",
+      "topic": "Steden worden slimmer met water tegen klimaatdruk",
       "length": "long",
-      "type": "feature",
-      "angle": "Een grasveld in Londen als tegenwicht voor de dure, uitsluitende top van de sport: iedereen die nooit mocht meespelen, speelt nu wel",
+      "type": "zoom-out",
+      "angle": "Bredere blik op hoe steden wereldwijd zich als levende organismen aanpassen aan hitte en droogte, van sponsachtige infrastructuur tot toeristen die meehelpen aan schildpadbescherming.",
       "devices": [
-        "meerdere portretten die samen één verhaal vormen",
-        "analogie (het veld als vrijplaats)"
+        "spons-/organisme-metafoor voor stedelijke aanpassing",
+        "voorbeelden van verschillende continenten naast elkaar"
       ],
       "source_ids": [
-        "b577c4a79499"
+        "91b9fb23f5d2",
+        "456c421dadb5"
       ],
-      "location": "Londen",
-      "source_date": "2026-07-15"
+      "location": "diverse steden wereldwijd",
+      "source_date": "2026-07-17"
     },
     {
       "pos": 11,
       "scope": "I",
       "role": "body",
-      "topic": "India lanceert eerste privaat ontwikkelde raket de ruimte in",
-      "length": "standard",
+      "topic": "India lanceert eerste private raket de ruimte in",
+      "length": "short",
       "type": "news",
-      "angle": "Een klein eiland bij Chennai wordt het decor van een nationale mijlpaal in de opkomende private ruimtevaart",
+      "angle": "Kort en krachtig mijlpaalbericht over de eerste private raketlancering van India als teken van een groeiende commerciële ruimtevaartmarkt.",
       "devices": [
-        "aforistische kicker",
-        "korte duiding van India's groeiende aandeel in de ruimte-economie"
+        "korte, feitelijke nieuwstoon"
       ],
       "source_ids": [
         "9b7917174ac4"
       ],
-      "location": "Sriharikota",
+      "location": "Sriharikota, India",
       "source_date": "2026-07-18"
     }
   ],
   "illustration": {
-    "slot_pos": 5,
-    "subject": "De middeleeuwse Drogenapstoren in Zutphen, met een kleine Michelin-ster gemarkeerd op de gevel — hand-getekend, zwart-wit, minimalistische fijne lijnen"
+    "slot_pos": 7,
+    "subject": "Een oud houten schildersdoek-paneel, half tussen grofvuil en teruggevonden, met fijne lijnen die het patina en de scheur in het hout tonen — minimalistisch, zwart-wit, handgetekend"
   },
   "optional_element": {
     "kind": "number",
-    "content": "34% — het percentage van de schuld dat gemiddeld werd afgelost bij de Arnhemse schuldhulp-proef, tegen 5 tot 10 procent bij een reguliere aanpak."
+    "content": "34% — het gemiddelde percentage schuld dat de Arnhemse schuldhulp-proef bij kwetsbare gezinnen wist af te lossen (bron N5)"
   }
 }
