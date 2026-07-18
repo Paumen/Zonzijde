@@ -69,6 +69,20 @@ class RunContext:
     def enrich_cfg(self) -> dict:
         return self._edition_cfg.get("enrich", {})
 
+    def stage_cfg(self, name: str) -> dict:
+        """Per-stage knobs (``outline``/``write``/``review``, …)."""
+        return self._edition_cfg.get(name, {})
+
+    @property
+    def edition_cfg(self) -> dict:
+        """SPEC §5 edition constants (ED-1..ED-5) from config/edition.yaml.
+        Required — S6 grounding without the constants would silently accept
+        any plan."""
+        cfg = self._edition_cfg.get("edition")
+        if not cfg:
+            raise SystemExit("edition section missing from config/edition.yaml")
+        return cfg
+
     def llm_cfg(self, tier: str) -> dict:
         """Config for one LLM tier (``light``/``frontier``, ARCHITECTURE §6).
         The model is required — a silently defaulted model would make output

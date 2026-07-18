@@ -1,4 +1,5 @@
-"""S5 enrich: two-stage fetch, no summary fallback, re-source-or-drop."""
+"""S5 enrich: two-stage fetch, no summary fallback, re-source-or-drop.
+Pure code — no model, no alternative-coverage search."""
 
 import json
 
@@ -36,10 +37,6 @@ def _no_render(blocked, timeout, min_words):
     return 0
 
 
-def _no_search(query, timeout, max_results):
-    return []
-
-
 def test_extract_returns_text_and_in_article_links():
     body = BODY + '<p>Lees ook <a href="https://voorbeeld.nl/x">dit verhaal</a>.</p>'
     text, links = enrich.extract(_html(body), "https://site1.nl/artikel-1")
@@ -55,8 +52,7 @@ def test_run_happy_path_writes_articles_and_log(tmp_ctx):
     def boom(*a):
         raise AssertionError("nothing was blocked — render must not run")
 
-    enrich.run(tmp_ctx, fetch=lambda url, t: (200, _html()),
-               render=boom, search=_no_search)
+    enrich.run(tmp_ctx, fetch=lambda url, t: (200, _html()), render=boom)
     arts = load_artifact(tmp_ctx.work_dir / "50-articles.json", ArticleText)
     assert [a.ok for a in arts] == [True, True]
     assert all(a.method == "requests" and a.words >= 120 for a in arts)
@@ -80,7 +76,7 @@ def test_blocked_link_goes_to_browser_render(tmp_ctx):
     def fetch(url, t):  # site1 blocks the plain client, site2 doesn't
         return (403, "<html>verboden</html>") if "site1" in url else (200, _html())
 
-    enrich.run(tmp_ctx, fetch=fetch, render=render, search=_no_search)
+    enrich.run(tmp_ctx, fetch=fetch, render=render)
     assert seen == ["000000000001"]  # only the blocked row went to the browser
     arts = {a.id: a for a in
             load_artifact(tmp_ctx.work_dir / "50-articles.json", ArticleText)}
@@ -91,51 +87,28 @@ def test_blocked_link_goes_to_browser_render(tmp_ctx):
 def test_fully_blocked_topic_is_dropped_without_summary_fallback(tmp_ctx):
     save_artifact(tmp_ctx.work_dir / "40-candidates.json", [_cand()])
     enrich.run(tmp_ctx, fetch=lambda url, t: (403, "<html>nee</html>"),
-               render=_no_render, search=_no_search)
+               render=_no_render)
     (art,) = load_artifact(tmp_ctx.work_dir / "50-articles.json", ArticleText)
     assert not art.ok
     assert art.text == ""  # PIPE-5: the RSS samenvatting never becomes text
     assert "topic dropped (PIPE-5)" in art.note
     log = json.loads((tmp_ctx.work_dir / "50-enrich-log.json").read_text())
     assert log["dropped_topics"] == ["Onderwerp"]
-    assert log["topics"][0]["alt_search"]["query"] == "Titel 1"
 
 
-def test_surviving_sibling_row_skips_the_search(tmp_ctx):
+def test_surviving_sibling_row_keeps_the_topic(tmp_ctx):
+    # One row blocked, its sibling delivers full text → topic stays (the
+    # sibling row is the only re-source; there is no search).
     save_artifact(tmp_ctx.work_dir / "40-candidates.json",
                   [_cand(items=[_item(1), _item(2)])])
 
     def fetch(url, t):
         return (200, _html()) if "site2" in url else (403, "")
 
-    def boom(*a):
-        raise AssertionError("sibling row has full text — no search needed")
-
-    enrich.run(tmp_ctx, fetch=fetch, render=_no_render, search=boom)
+    enrich.run(tmp_ctx, fetch=fetch, render=_no_render)
     log = json.loads((tmp_ctx.work_dir / "50-enrich-log.json").read_text())
     topic = log["topics"][0]
-    assert (topic["ok_rows"], topic["dropped"], topic["alt_search"]) == (1, False, None)
-
-
-def test_alt_source_recovers_a_blocked_topic(tmp_ctx):
-    save_artifact(tmp_ctx.work_dir / "40-candidates.json", [_cand()])
-    alt = "https://andere-krant.nl/zelfde-verhaal"
-
-    def fetch(url, t):
-        return (200, _html()) if url == alt else (403, "")
-
-    def search(query, timeout, max_results):
-        assert query == "Titel 1"
-        return ["https://site1.nl/andere-pagina", alt]  # own host first
-
-    enrich.run(tmp_ctx, fetch=fetch, render=_no_render, search=search)
-    (art,) = load_artifact(tmp_ctx.work_dir / "50-articles.json", ArticleText)
-    assert art.ok and art.method == "alt-source"
-    assert alt in art.note
-    log = json.loads((tmp_ctx.work_dir / "50-enrich-log.json").read_text())
-    assert log["topics"][0]["dropped"] is False
-    assert log["topics"][0]["alt_search"]["tried"] == [alt]  # own host skipped
-    assert log["topics"][0]["alt_search"]["picked"] == alt
+    assert (topic["ok_rows"], topic["dropped"]) == (1, False)
 
 
 def test_extraction_crash_blocks_the_row_not_the_stage(tmp_ctx, monkeypatch):
@@ -145,19 +118,9 @@ def test_extraction_crash_blocks_the_row_not_the_stage(tmp_ctx, monkeypatch):
         raise ValueError("kapotte HTML")
 
     monkeypatch.setattr(enrich, "extract", broken_extract)
-    enrich.run(tmp_ctx, fetch=lambda u, t: (200, "<html>"),
-               render=_no_render, search=_no_search)
+    enrich.run(tmp_ctx, fetch=lambda u, t: (200, "<html>"), render=_no_render)
     (art,) = load_artifact(tmp_ctx.work_dir / "50-articles.json", ArticleText)
     assert not art.ok and "extraction failed: ValueError" in art.note
-
-
-def test_alt_source_skips_www_variant_of_own_host(tmp_ctx):
-    save_artifact(tmp_ctx.work_dir / "40-candidates.json",
-                  [_cand(items=[_item(1, host="www.site1.nl")])])
-    enrich.run(tmp_ctx, fetch=lambda u, t: (403, ""), render=_no_render,
-               search=lambda q, t, n: ["https://SITE1.nl/andere-pagina"])
-    log = json.loads((tmp_ctx.work_dir / "50-enrich-log.json").read_text())
-    assert log["topics"][0]["alt_search"]["tried"] == []  # same host, skipped
 
 
 def test_shared_item_is_fetched_once(tmp_ctx):
@@ -171,7 +134,7 @@ def test_shared_item_is_fetched_once(tmp_ctx):
         calls.append(url)
         return 200, _html()
 
-    enrich.run(tmp_ctx, fetch=fetch, render=_no_render, search=_no_search)
+    enrich.run(tmp_ctx, fetch=fetch, render=_no_render)
     assert calls == [shared.link]
     arts = load_artifact(tmp_ctx.work_dir / "50-articles.json", ArticleText)
     assert len(arts) == 1
@@ -180,38 +143,4 @@ def test_shared_item_is_fetched_once(tmp_ctx):
 def test_empty_candidates_is_fatal(tmp_ctx):
     (tmp_ctx.work_dir / "40-candidates.json").write_text("[]")
     with pytest.raises(SystemExit, match="empty"):
-        enrich.run(tmp_ctx, fetch=lambda u, t: (200, ""),
-                   render=_no_render, search=_no_search)
-
-
-def test_make_search_uses_websearch_and_filters_urls(monkeypatch):
-    seen = {}
-
-    def fake_frontier(prompt, system, schema, model, effort=None,
-                      allowed_tools=None, max_turns=1):
-        seen.update(prompt=prompt, tools=allowed_tools, turns=max_turns,
-                    model=model)
-        return {"urls": ["https://nos.nl/artikel/1", "niet-http",
-                         "https://nos.nl/artikel/1",
-                         "https://nl.wikipedia.org/wiki/Achtergrond",
-                         "https://nu.nl/artikel/2"]}
-
-    monkeypatch.setattr(enrich.llm, "frontier_json", fake_frontier)
-    search = enrich.make_search({"model": "claude-sonnet-5", "effort": "medium"})
-    assert search("Titel 1", 25, 5) == [
-        "https://nos.nl/artikel/1", "https://nu.nl/artikel/2"]
-    assert "Titel 1" in seen["prompt"]
-    assert seen["tools"] == ["WebSearch"] and seen["turns"] > 1
-
-
-def test_search_failure_is_logged_and_topic_drops(tmp_ctx):
-    save_artifact(tmp_ctx.work_dir / "40-candidates.json", [_cand()])
-
-    def search(query, timeout, max_results):
-        raise enrich.llm.LlmError("no ANTHROPIC_API_KEY")
-
-    enrich.run(tmp_ctx, fetch=lambda u, t: (403, ""),
-               render=_no_render, search=search)
-    log = json.loads((tmp_ctx.work_dir / "50-enrich-log.json").read_text())
-    assert log["dropped_topics"] == ["Onderwerp"]
-    assert "no ANTHROPIC_API_KEY" in log["topics"][0]["alt_search"]["error"]
+        enrich.run(tmp_ctx, fetch=lambda u, t: (200, ""), render=_no_render)

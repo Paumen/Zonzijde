@@ -14,7 +14,8 @@ from pathlib import Path
 
 from . import report
 from .context import RunContext
-from .stages import enrich, fetch, filter as filter_stage, score, select
+from .stages import (enrich, fetch, filter as filter_stage, outline, review,
+                     score, select, write)
 
 # S1–S9 in funnel order; None marks stages of a later build phase (§11).
 STAGES: dict[str, object] = {
@@ -23,9 +24,9 @@ STAGES: dict[str, object] = {
     "score": score.run,         # S3  phase 2
     "select": select.run,       # S4  phase 2
     "enrich": enrich.run,       # S5  phase 3
-    "outline": None,            # S6  phase 4
-    "write": None,              # S7  phase 4
-    "review": None,             # S8  phase 4
+    "outline": outline.run,     # S6  phase 4
+    "write": write.run,         # S7  phase 4
+    "review": review.run,       # S8  phase 4
     "compose": None,            # S9  phase 5
 }
 STAGE_NAMES = list(STAGES)
@@ -68,7 +69,7 @@ def build_parser() -> argparse.ArgumentParser:
 def run_stage(name: str, ctx: RunContext) -> None:
     fn = STAGES[name]
     if fn is None:
-        phase = {"outline": 4, "write": 4, "review": 4, "compose": 5}[name]
+        phase = {"compose": 5}[name]
         raise SystemExit(
             f"stage '{name}' is not implemented yet — build phase {phase} "
             f"(docs/ARCHITECTURE.md §11)")

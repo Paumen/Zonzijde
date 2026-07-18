@@ -17,17 +17,46 @@ fetch:
   timeout_s: 15
 
 enrich:
-  # S5 (PIPE-5): two-stage full-text fetch; values mirror the tuned
-  # tools/fetch-articles.py prototype. Below min_words a fetch counts as
-  # blocked (consent wall / JS shell / bot block, not an article).
+  # S5 (PIPE-5): two-stage full-text fetch, pure code — no model. Values
+  # mirror the tuned tools/fetch-articles.py prototype. Below min_words a
+  # fetch counts as blocked (consent wall / JS shell / bot block, not an
+  # article). A topic with no full text on any row is dropped and logged;
+  # there is no alternative-coverage search.
   concurrency: 8
   timeout_s: 25
   min_words: 120
   browser: true        # Playwright render for links the plain fetch left blocked
-  # Alternative-coverage candidates per fully-blocked topic; found via one
-  # frontier WebSearch session (llm.frontier), so this path needs
-  # ANTHROPIC_API_KEY — without it the topic drops and the drop is logged.
-  search_results: 5
+
+edition:
+  # SPEC §5 constants, consumed by S6's grounding checks and the S7/S8 word
+  # guidance.
+  scope_items: {min: 2, max: 3}          # ED-1: items per scope
+  length_mix:                            # ED-2: articles per length class
+    long: {min: 2, max: 3}
+    standard: {min: 3, max: 5}
+    short: {min: 2, max: 3}
+  words:                                 # word guidance per length class —
+    long: {min: 450, max: 800}           # deliberately loose and overlapping:
+    standard: {min: 250, max: 500}       # good content comes first. Fitting
+    short: {min: 150, max: 300}          # the edition (trim some, or cut a
+                                         # lesser article) is a compose/gate
+                                         # decision (PIPE-9), not a writing gate.
+  body_words: {min: 2800, max: 3400}     # ED-5: edition body total
+  paragraphs: {min: 3, max: 11}          # ED-4: paragraphs per article
+
+# S6 outline (PIPE-6) takes no stage config: one plain frontier call, no
+# tools, working from the shortlist (titles + summaries) — no browsing, no
+# full texts. See prompts/outline.md.
+
+write:
+  # S7 (PIPE-7): one frontier call per article, a few in flight at once. The
+  # length guidance is in the prompt only; the model's output is not
+  # validated in code (the human gate judges it).
+  concurrency: 3
+
+review:
+  # S8 (PIPE-8): same shape as write.
+  concurrency: 3
 
 llm:
   # ARCHITECTURE §6: two named tiers, both short Claude Agent SDK sessions;

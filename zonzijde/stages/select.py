@@ -5,13 +5,13 @@ Reads ``30-scored.json`` (only +1/+2 items advance), writes
 ``prompts/brief.md`` (as system prompt) + ``prompts/select.md`` + the scored
 titles/summaries; the response is schema-enforced at the call layer and then
 grounded here: every row must reference an input item by id, with a scope
-that item actually carries. Retries with backoff, fatal after 3 (§6).
+that item actually carries. One call, no retry: a call failure or an
+invalid selection fails the run (§6).
 """
 
 from __future__ import annotations
 
 import json
-import time
 from typing import Callable
 
 from pydantic import ValidationError
@@ -19,9 +19,6 @@ from pydantic import ValidationError
 from .. import llm, prompts
 from ..context import RunContext
 from ..contracts import Candidate, ScoredItem, load_artifact, save_artifact
-
-MAX_ATTEMPTS = 3
-BACKOFF_S = 2.0
 
 # JSON schema for the structured-output call; mirrors the Candidate contract.
 RESPONSE_SCHEMA = {
@@ -136,38 +133,24 @@ def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
     by_id = {i.id: i for i in positive}
 
     prompt = build_prompt(select.body, positive)
-    attempts = []
-    for attempt in range(1, MAX_ATTEMPTS + 1):
-        call_failed = False
-        try:
-            payload = call(prompt, brief.body)
-            candidates, problems = ground(payload, by_id)
-        except llm.LlmError as e:
-            candidates, problems = [], [str(e)]
-            call_failed = True
-        attempts.append({"attempt": attempt, "problems": problems})
-        if not problems:
-            break
-        if attempt < MAX_ATTEMPTS:
-            time.sleep(BACKOFF_S * 2 ** (attempt - 1))
-            prompt = build_prompt(select.body, positive)
-            if not call_failed:  # only grounding feedback goes to the model
-                prompt += ("\n\nJe vorige antwoord was ongeldig:\n- "
-                           + "\n- ".join(problems) + "\nCorrigeer dit.")
-    else:
-        raise SystemExit("S4 select: no valid selection after "
-                         f"{MAX_ATTEMPTS} attempts: {problems}")
+    try:
+        payload = call(prompt, brief.body)
+    except llm.LlmError as e:
+        raise SystemExit(f"S4 select: call failed: {e}")
+    candidates, problems = ground(payload, by_id)
+    if problems:
+        raise SystemExit(f"S4 select: invalid selection: {problems}")
 
     candidates.sort(key=lambda c: (["L", "R", "N", "I"].index(c.scope), c.rank))
     save_artifact(ctx.work_dir / "40-candidates.json", candidates)
     log = {
         "model": cfg["model"],
         "prompt_versions": {"brief": brief.version, "select": select.version},
-        "input_items": len(positive), "attempts": attempts,
+        "input_items": len(positive),
     }
     (ctx.work_dir / "40-select-log.json").write_text(
         json.dumps(log, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
     rows = sum(len(c.items) for c in candidates)
     print(f"S4 select: {len(positive)} +1/+2 items → {len(candidates)} topics"
-          f" ({rows} rows) in {len(attempts)} attempt(s)")
+          f" ({rows} rows)")

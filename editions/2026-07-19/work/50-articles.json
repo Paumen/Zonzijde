@@ -38,11 +38,11 @@
     "samenvatting": "Martijn van der Horst (38) uit Boven-Leeuwen kwam met zijn dochter thuis van zwemles en trof tot zijn verrassing een patrijzenfamilie op de oprit aan, na twee en een half jaar hopen en wachten.",
     "link": "https://www.gelderlander.nl/west-maas-en-waal/na-2-5-jaar-wachten-zijn-ze-ineens-daar-patrijzenfamilie-duikt-op-in-de-tuin-van-martijn-38~a557cbb0/",
     "ok": false,
-    "method": "playwright",
+    "method": "requests",
     "text": "",
     "words": 0,
     "links": [],
-    "note": "browser render failed: Error: Page.goto: net::ERR_CONNECTION_RESET at https://www.gelderlander.nl/west-maas-en-waal/na-2-5-jaar-wa; topic dropped (PIPE-5)"
+    "note": "HTTP 403 (error page, not the article); playwright not installed; topic dropped (PIPE-5)"
   },
   {
     "id": "0a89569066be",
@@ -51,11 +51,11 @@
     "samenvatting": "Vorig schooljaar lieten in Wijchen maar negen kinderen de school missen om eerder op vakantie te gaan. Daarmee scoort de gemeente opvallend laag vergeleken met andere gemeenten.",
     "link": "https://www.gelderlander.nl/wijchen/opvallend-weinig-kinderen-in-wijchen-spijbelen-om-eerder-op-vakantie-te-gaan~a291680a/",
     "ok": false,
-    "method": "playwright",
+    "method": "requests",
     "text": "",
     "words": 0,
     "links": [],
-    "note": "browser render failed: Error: Page.goto: net::ERR_CONNECTION_RESET at https://www.gelderlander.nl/wijchen/opvallend-weinig-kindere; topic dropped (PIPE-5)"
+    "note": "HTTP 403 (error page, not the article); playwright not installed; topic dropped (PIPE-5)"
   },
   {
     "id": "a4c732d96a11",
@@ -147,15 +147,12 @@
     "titel": "Nieuw spoorbruggetje in Molenhoek geopend",
     "samenvatting": "Tientallen mensen kwamen af op de opening van de nieuwe spoorbrug in Molenhoek. Bewoners zijn opgelucht: 'Het lijkt erop dat het hier eindelijk veilig is.'",
     "link": "https://www.gelderlander.nl/mook-en-middelaar/zo-ziet-het-nieuwe-spoorbruggetje-in-molenhoek-eruit-het-lijkt-erop-dat-het-eindelijk-veilig-is~ae31d31a/",
-    "ok": true,
-    "method": "alt-source",
-    "text": "Nieuw viaduct in Molenhoek wordt op 27 juni op zijn plaats gelegd\nOp 27 juni wordt het nieuwe viaduct ingehesen aan de Heumensebaan in het dorp Molenhoek, deel uitmakend van de Limburgse gemeente Mook en Middelaar. Daarmee wordt vrijwel zeker de belofte ingelost dat het nieuwe viaduct in juli 2026 klaar is, vlak voor de start van de Vierdaagsefeesten.\nAbonneer nu voor toegang tot al het nieuws\nHeeft u al een abonnement? [Log in](https://www.spoorpro.nl/login/?redirect_to=%2Fspoorbouw%2F2026%2F04%2F22%2Fnieuw-viaduct-in-molenhoek-wordt-op-27-juni-op-zijn-plaats-gelegd%2F).\nKies uw abonnement\nInteresse in een bedrijfsabonnement? Neem [contact](https://www.spoorpro.nl/abonneren/premium-bedrijfsabonnement/) met ons op voor de mogelijkheden.\nOf\nDit artikel gratis lezen?\nU kunt gratis een artikel per maand lezen. Vul uw e-mailadres in en we sturen u een link waarlangs u het volledige artikel kunt lezen. Geen betaling benodigd.",
-    "words": 122,
-    "links": [
-      "https://www.spoorpro.nl/login/?redirect_to=%2Fspoorbouw%2F2026%2F04%2F22%2Fnieuw-viaduct-in-molenhoek-wordt-op-27-juni-op-zijn-plaats-gelegd%2F",
-      "https://www.spoorpro.nl/abonneren/premium-bedrijfsabonnement/"
-    ],
-    "note": "alt coverage: https://www.spoorpro.nl/spoorbouw/2026/04/22/nieuw-viaduct-in-molenhoek-wordt-op-27-juni-op-zijn-plaats-gelegd/"
+    "ok": false,
+    "method": "requests",
+    "text": "",
+    "words": 0,
+    "links": [],
+    "note": "HTTP 403 (error page, not the article); playwright not installed; topic dropped (PIPE-5)"
   },
   {
     "id": "f7ccaa47fdb2",
@@ -163,36 +160,12 @@
     "titel": "Robotpak zorgt voor wereldprimeur: Daan loopt weer",
     "samenvatting": "Daan van der Heyden (34) heeft een dwarslaesie, maar loopt weer dankzij een robotpak dat zijn hersensignalen herkent en omzet in beweging. Volgens de TU Delft een wereldprimeur.",
     "link": "https://www.gelderlander.nl/gezond/robotpak-zorgt-voor-wereldprimeur-daan-kan-weer-lopen-door-er-alleen-aan-te-denken~ad45f57ae/",
-    "ok": true,
-    "method": "alt-source",
-    "text": "Robotpak zorgt voor wereldprimeur: Daan kan weer lopen door er alleen aan te denken\n[AD | Nederland](https://drimble.nl/binnenlands-nieuws/ad-nederland.html)\nDelft - Lopen door er simpelweg aan te denken? Voor Daan van der Heyden (34) is dat niet vanzelfsprekend, maar in zijn robotpak lukt hem dat wel, ondanks zijn dwarslaesie. Het apparaat herkent zijn hersensignalen en zet die vervolgens om in beweging. Een wereldprimeur, volgens de TU Delft, de universiteit achter...\n[Jongeren gooien watermeloen van brug en deze komt terecht op hoofd van vrouw:...](https://drimble.nl/regio/zuid-holland/delft/107479186/jongeren-gooien-watermeloen-van-brug-en-deze-komt-terecht-op-hoofd-van-vrouw-dit-is-geen-kwajongensstreek-meer.html)\n[Robotpak zorgt voor wereldprimeur: Daan kan weer lopen door er alleen aan te den ►](https://drimble.nl/regio/zuid-holland/delft/107478790/robotpak-zorgt-voor-wereldprimeur-daan-kan-weer-lopen-door-er-alleen-aan-te-denken.html)\n04:08 [Brandweerman Cock (67) breekt bíjna record, maar stopt toch, ondanks...](https://drimble.nl/regio/zuid-holland/delft/107487089/brandweerman-cock-67-breekt-bijna-record-maar-stopt-toch-ondanks-dat-hij-makkelijk-verder-zou-kunnen.html)\n17-07 [Robotpak zorgt voor wereldprimeur: Daan kan weer lopen door er alleen...](https://drimble.nl/regio/zuid-holland/delft/107486390/robotpak-zorgt-voor-wereldprimeur-daan-kan-weer-lopen-door-er-alleen-aan-te-denken.html)\n17-07 [Nederlands duo ontwikkelt NFC-blokkeerder tegen telefoonverslaving](https://drimble.nl/regio/zuid-holland/delft/107485833/nederlands-duo-ontwikkelt-nfc-blokkeerder-tegen-telefoonverslaving.html)\n17-07 [Geen uitzonderingen voor het afsteken van vuurwerk in Pijnacker-Nootdorp](https://drimble.nl/regio/zuid-holland/delft/107485799/geen-uitzonderingen-voor-het-afsteken-van-vuurwerk-in-pijnacker-nootdorp.html)\n17-07 [43 BSN-nummers van inwoners uit Pijnacker-Nootdorp online gepubliceerd](https://drimble.nl/regio/zuid-holland/delft/107485796/43-bsn-nummers-van-inwoners-uit-pijnacker-nootdorp-online-gepubliceerd.html)\n17-07 [Bijen brengen leven in de Natuurtuin: \"Bijen zijn onmisbaar voor onze...](https://drimble.nl/regio/zuid-holland/delft/107485442/bijen-brengen-leven-in-de-natuurtuin-bijen-zijn-onmisbaar-voor-onze-voedselvoorziening.html)\n17-07 [Vlammen tegen de gevel bij Kindcentrum BuitenRijck](https://drimble.nl/regio/zuid-holland/delft/107485441/vlammen-tegen-de-gevel-bij-kindcentrum-buitenrijck.html)\n17-07 [Samen koken voor een duurzame toekomst: Rijswijk zet stap naar aardgasvrij...](https://drimble.nl/regio/zuid-holland/delft/107485437/samen-koken-voor-een-duurzame-toekomst-rijswijk-zet-stap-naar-aardgasvrij-wonen.html)\n17-07 [Delft erkent overlast rond opvanglocatie Campanile: meldingen van diefstal...](https://drimble.nl/regio/zuid-holland/delft/107483314/delft-erkent-overlast-rond-opvanglocatie-campanile-meldingen-van-diefstal-en-inbraak.html)\n17-07 [HTM legt alle buslijnen rest van de avond stil uit voorzorg na vinden...](https://drimble.nl/regio/zuid-holland/delft/107482840/htm-legt-alle-buslijnen-rest-van-de-avond-stil-uit-voorzorg-na-vinden-van-technisch-probleem.html)\n17-07 [Raad akkoord met 2000 studentenwoningen bij sportvelden Kruithuisweg,...](https://drimble.nl/regio/zuid-holland/delft/107482334/raad-akkoord-met-2000-studentenwoningen-bij-sportvelden-kruithuisweg-ondanks-felle-kritiek.html)\n17-07 [Bovengemiddeld aantal kinderen in Delft spijbelt om eerder op vakantie...](https://drimble.nl/regio/zuid-holland/delft/107482333/bovengemiddeld-aantal-kinderen-in-delft-spijbelt-om-eerder-op-vakantie-te-gaan.html)\n17-07 [Van boeken tot koopjes: 6 x zomerse markten in Delft](https://drimble.nl/regio/zuid-holland/delft/107482086/van-boeken-tot-koopjes-6-x-zomerse-markten-in-delft.html)\n17-07 [Datalek bij de gemeente Pijnacker-Nootdorp](https://drimble.nl/regio/zuid-holland/delft/107481734/datalek-bij-de-gemeente-pijnacker-nootdorp.html)\n17-07 [Verdachte (18) van schietpartij in Zuidoost gearresteerd in Delft](https://drimble.nl/regio/zuid-holland/delft/107481669/verdachte-18-van-schietpartij-in-zuidoost-gearresteerd-in-delft.html)\n17-07 [Zes zomerfoto`s strijden om een prijs: wie wordt de weekwinnaar?](https://drimble.nl/regio/zuid-holland/delft/107481482/zes-zomerfotos-strijden-om-een-prijs-wie-wordt-de-weekwinnaar.html)\n17-07 [Seksfilmpjes met vriendin verraden man (21) die opdracht gaf voor...](https://drimble.nl/regio/zuid-holland/delft/107481285/seksfilmpjes-met-vriendin-verraden-man-21-die-opdracht-gaf-voor-schieten-op-huis-in-alphen-acht-jaar-cel.html)\n17-07 [Raadslid speelt verwijt aan stadsbestuur letterlijk uit met opvallende...](https://drimble.nl/regio/zuid-holland/delft/107481148/raadslid-speelt-verwijt-aan-stadsbestuur-letterlijk-uit-met-opvallende-stunt.html)\n17-07 [Met echte oogkleppen maakt politica haar punt: Delft kijkt volgens...](https://drimble.nl/regio/zuid-holland/delft/107480976/met-echte-oogkleppen-maakt-politica-haar-punt-delft-kijkt-volgens-haar-slechts-naar-studentenwoningen.html)\n17-07 [Strandtent Het Puntje biedt een oase van rust aan zee, maar in de keuken...](https://drimble.nl/regio/zuid-holland/delft/107480735/strandtent-het-puntje-biedt-een-oase-van-rust-aan-zee-maar-in-de-keuken-strandt-dat-idee.html)",
-    "words": 306,
-    "links": [
-      "https://drimble.nl/binnenlands-nieuws/ad-nederland.html",
-      "https://drimble.nl/regio/zuid-holland/delft/107479186/jongeren-gooien-watermeloen-van-brug-en-deze-komt-terecht-op-hoofd-van-vrouw-dit-is-geen-kwajongensstreek-meer.html",
-      "https://drimble.nl/regio/zuid-holland/delft/107478790/robotpak-zorgt-voor-wereldprimeur-daan-kan-weer-lopen-door-er-alleen-aan-te-denken.html",
-      "https://drimble.nl/regio/zuid-holland/delft/107487089/brandweerman-cock-67-breekt-bijna-record-maar-stopt-toch-ondanks-dat-hij-makkelijk-verder-zou-kunnen.html",
-      "https://drimble.nl/regio/zuid-holland/delft/107486390/robotpak-zorgt-voor-wereldprimeur-daan-kan-weer-lopen-door-er-alleen-aan-te-denken.html",
-      "https://drimble.nl/regio/zuid-holland/delft/107485833/nederlands-duo-ontwikkelt-nfc-blokkeerder-tegen-telefoonverslaving.html",
-      "https://drimble.nl/regio/zuid-holland/delft/107485799/geen-uitzonderingen-voor-het-afsteken-van-vuurwerk-in-pijnacker-nootdorp.html",
-      "https://drimble.nl/regio/zuid-holland/delft/107485796/43-bsn-nummers-van-inwoners-uit-pijnacker-nootdorp-online-gepubliceerd.html",
-      "https://drimble.nl/regio/zuid-holland/delft/107485442/bijen-brengen-leven-in-de-natuurtuin-bijen-zijn-onmisbaar-voor-onze-voedselvoorziening.html",
-      "https://drimble.nl/regio/zuid-holland/delft/107485441/vlammen-tegen-de-gevel-bij-kindcentrum-buitenrijck.html",
-      "https://drimble.nl/regio/zuid-holland/delft/107485437/samen-koken-voor-een-duurzame-toekomst-rijswijk-zet-stap-naar-aardgasvrij-wonen.html",
-      "https://drimble.nl/regio/zuid-holland/delft/107483314/delft-erkent-overlast-rond-opvanglocatie-campanile-meldingen-van-diefstal-en-inbraak.html",
-      "https://drimble.nl/regio/zuid-holland/delft/107482840/htm-legt-alle-buslijnen-rest-van-de-avond-stil-uit-voorzorg-na-vinden-van-technisch-probleem.html",
-      "https://drimble.nl/regio/zuid-holland/delft/107482334/raad-akkoord-met-2000-studentenwoningen-bij-sportvelden-kruithuisweg-ondanks-felle-kritiek.html",
-      "https://drimble.nl/regio/zuid-holland/delft/107482333/bovengemiddeld-aantal-kinderen-in-delft-spijbelt-om-eerder-op-vakantie-te-gaan.html",
-      "https://drimble.nl/regio/zuid-holland/delft/107482086/van-boeken-tot-koopjes-6-x-zomerse-markten-in-delft.html",
-      "https://drimble.nl/regio/zuid-holland/delft/107481734/datalek-bij-de-gemeente-pijnacker-nootdorp.html",
-      "https://drimble.nl/regio/zuid-holland/delft/107481669/verdachte-18-van-schietpartij-in-zuidoost-gearresteerd-in-delft.html",
-      "https://drimble.nl/regio/zuid-holland/delft/107481482/zes-zomerfotos-strijden-om-een-prijs-wie-wordt-de-weekwinnaar.html",
-      "https://drimble.nl/regio/zuid-holland/delft/107481285/seksfilmpjes-met-vriendin-verraden-man-21-die-opdracht-gaf-voor-schieten-op-huis-in-alphen-acht-jaar-cel.html",
-      "https://drimble.nl/regio/zuid-holland/delft/107481148/raadslid-speelt-verwijt-aan-stadsbestuur-letterlijk-uit-met-opvallende-stunt.html",
-      "https://drimble.nl/regio/zuid-holland/delft/107480976/met-echte-oogkleppen-maakt-politica-haar-punt-delft-kijkt-volgens-haar-slechts-naar-studentenwoningen.html",
-      "https://drimble.nl/regio/zuid-holland/delft/107480735/strandtent-het-puntje-biedt-een-oase-van-rust-aan-zee-maar-in-de-keuken-strandt-dat-idee.html"
-    ],
-    "note": "alt coverage: https://drimble.nl/regio/zuid-holland/delft/107478810/robotpak-zorgt-voor-wereldprimeur-daan-kan-weer-lopen-door-er-alleen-aan-te-denken.html"
+    "ok": false,
+    "method": "requests",
+    "text": "",
+    "words": 0,
+    "links": [],
+    "note": "HTTP 403 (error page, not the article); playwright not installed; topic dropped (PIPE-5)"
   },
   {
     "id": "0124defd20be",
@@ -201,11 +174,11 @@
     "samenvatting": "Pepijn Stratmann wordt zaterdag 18 en laat zijn handicap hem niet weerhouden zich in te zetten: hij bakt cake, verzamelt eieren voor het goede doel en vermaakt de stad met zijn draaiorgel.",
     "link": "https://www.gelderlander.nl/binnenland/pepijn-17-laat-zich-niet-tegenhouden-door-zijn-beperking-en-helpt-iedereen-een-brok-vrolijkheid~a9ccd357/",
     "ok": false,
-    "method": "playwright",
+    "method": "requests",
     "text": "",
     "words": 0,
     "links": [],
-    "note": "browser render failed: Error: Page.goto: net::ERR_CONNECTION_RESET at https://www.gelderlander.nl/binnenland/pepijn-17-laat-zich-n; topic dropped (PIPE-5)"
+    "note": "HTTP 403 (error page, not the article); playwright not installed; topic dropped (PIPE-5)"
   },
   {
     "id": "391b22657d1e",

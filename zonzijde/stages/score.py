@@ -2,10 +2,9 @@
 
 Reads ``20-filtered.json``, writes ``30-scored.json`` and ``30-score-log.json``.
 Batched (~80 items/call, concurrent), schema-enforced structured output on
-the light tier, prompt ``config/prompts/score.md``. A batch whose response is
-unusable gets one retry; items still without a valid score after that are
-left unscored and excluded from the artifact — fail-closed, unscored never
-advances.
+the light tier, prompt ``config/prompts/score.md``. One call per batch, no
+retry: any item without a valid score is left unscored and excluded from the
+artifact — fail-closed, unscored never advances.
 
 The batch prompt format is a port of the tuned prototype: numbered lines of
 ``title — summary``, whitespace collapsed, capped at 500 characters.
@@ -111,18 +110,14 @@ def parse_scores(payload: object, n: int) -> tuple[dict[int, int], list[str]]:
 
 def score_batch(prompt_body: str, batch: list[FeedItem],
                 call: LightCall) -> tuple[dict[int, int], list[str]]:
-    """Score one batch with one retry. First a clean response is demanded;
-    on the retry whatever valid scores remain are kept, and the leftover
-    problems mark the still-unscored items (fail-closed)."""
+    """Score one batch with a single call — no retry. Whatever valid scores
+    come back are kept; the leftover problems mark the unscored items, which
+    are then excluded (fail-closed)."""
     prompt = build_batch_prompt(prompt_body, batch)
-    for attempt in (1, 2):
-        try:
-            scores, problems = parse_scores(call(prompt), len(batch))
-        except llm.LlmError as e:
-            scores, problems = {}, [str(e)]
-        if not problems or attempt == 2:
-            return scores, problems
-    raise AssertionError("unreachable")
+    try:
+        return parse_scores(call(prompt), len(batch))
+    except llm.LlmError as e:
+        return {}, [str(e)]
 
 
 def run(ctx: RunContext, call: LightCall | None = None) -> None:

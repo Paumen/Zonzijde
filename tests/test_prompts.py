@@ -6,7 +6,8 @@ from tests.conftest import REPO_ROOT
 from zonzijde.prompts import load_prompt
 
 
-@pytest.mark.parametrize("name", ["brief", "score", "select", "outline", "write"])
+@pytest.mark.parametrize("name", ["brief", "score", "select", "outline",
+                                  "write", "review"])
 def test_real_prompts_have_version_headers(name):
     prompt = load_prompt(REPO_ROOT, name)
     assert prompt.version >= 1

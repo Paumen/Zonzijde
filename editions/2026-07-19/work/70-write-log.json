@@ -1,0 +1,76 @@
+{
+  "model": "claude-sonnet-5",
+  "prompt_versions": {
+    "write": 4
+  },
+  "slots": [
+    {
+      "pos": 1,
+      "length": "long",
+      "words": 377,
+      "problems": []
+    },
+    {
+      "pos": 2,
+      "length": "standard",
+      "words": 417,
+      "problems": []
+    },
+    {
+      "pos": 3,
+      "length": "short",
+      "words": 228,
+      "problems": []
+    },
+    {
+      "pos": 4,
+      "length": "standard",
+      "words": 474,
+      "problems": []
+    },
+    {
+      "pos": 5,
+      "length": "standard",
+      "words": 336,
+      "problems": []
+    },
+    {
+      "pos": 6,
+      "length": "short",
+      "words": 247,
+      "problems": []
+    },
+    {
+      "pos": 7,
+      "length": "long",
+      "words": 507,
+      "problems": []
+    },
+    {
+      "pos": 8,
+      "length": "standard",
+      "words": 452,
+      "problems": []
+    },
+    {
+      "pos": 9,
+      "length": "standard",
+      "words": 568,
+      "problems": []
+    },
+    {
+      "pos": 10,
+      "length": "long",
+      "words": 485,
+      "problems": []
+    },
+    {
+      "pos": 11,
+      "length": "short",
+      "words": 263,
+      "problems": []
+    }
+  ],
+  "words_total": 4354,
+  "failed_slots": []
+}

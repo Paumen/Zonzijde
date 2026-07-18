@@ -11,7 +11,8 @@ import json
 from collections import Counter
 
 from .context import RunContext
-from .contracts import Candidate, FeedItem, RejectedItem, ScoredItem, load_artifact
+from .contracts import (Candidate, EditionOutline, FeedItem, RejectedItem,
+                        ReviewedArticle, ScoredItem, load_artifact, load_model)
 
 
 def _table(headers: list[str], rows: list[list]) -> str:
@@ -31,6 +32,10 @@ def build(ctx: RunContext) -> str:
     score_log_path = work / "30-score-log.json"
     candidates_path = work / "40-candidates.json"
     enrich_log_path = work / "50-enrich-log.json"
+    outline_path = work / "60-outline.json"
+    write_log_path = work / "70-write-log.json"
+    review_log_path = work / "80-review-log.json"
+    reviewed_path = work / "80-reviewed.json"
 
     if log_path.is_file():
         log = json.loads(log_path.read_text(encoding="utf-8"))
@@ -66,10 +71,28 @@ def build(ctx: RunContext) -> str:
             m = elog["methods"]
             parts += [f"- S5 enrich: {elog['rows']} source rows → "
                       f"{elog['full_text']} full texts"
-                      f" (requests {m['requests']}, playwright {m['playwright']},"
-                      f" alt-source {m['alt-source']})"
+                      f" (requests {m['requests']}, playwright {m['playwright']})"
                       + (f"; {len(elog['dropped_topics'])} topics dropped (PIPE-5)"
                          if elog["dropped_topics"] else "")]
+        if outline_path.is_file():
+            outline = load_model(outline_path, EditionOutline)
+            olog = json.loads((work / "60-outline-log.json")
+                              .read_text(encoding="utf-8"))
+            planned = olog["planned_words"]
+            parts += [f"- S6 outline: {len(outline.slots)} slots, planned "
+                      f"{planned['min']}–{planned['max']} words"]
+        if write_log_path.is_file():
+            wlog = json.loads(write_log_path.read_text(encoding="utf-8"))
+            parts += [f"- S7 write: {len(wlog['slots'])} articles, "
+                      f"{wlog['words_total']} words"]
+        if review_log_path.is_file():
+            rlog = json.loads(review_log_path.read_text(encoding="utf-8"))
+            issues = sum(len(a["fact_issues"]) for a in rlog["articles"])
+            corr = sum(len(a["corrections"]) for a in rlog["articles"])
+            body = ctx.edition_cfg["body_words"]
+            parts += [f"- S8 review: {issues} fact issue(s), {corr} "
+                      f"correction(s), {rlog['words_total']} words body text"
+                      f" (ED-5 target {body['min']}–{body['max']})"]
         parts += ["", "## Feeds", "",
                   _table(["bron", "items", "in window", "undated", "error"],
                          [[f["bron"], f["entries"], f["kept"], f["undated"],
@@ -113,24 +136,44 @@ def build(ctx: RunContext) -> str:
         elog = json.loads(enrich_log_path.read_text(encoding="utf-8"))
         rows = []
         for t in elog["topics"]:
-            alt = t.get("alt_search") or {}
-            if t["dropped"]:
-                status = "**dropped** — no full text on any route"
-            elif alt.get("picked"):
-                status = f"alt coverage: {alt['picked']}"
-            else:
-                status = "ok"
+            status = ("**dropped** — no full text on any source row"
+                      if t["dropped"] else "ok")
             rows.append([t["scope"], t["rank"], t["topic"],
                          f"{t['ok_rows']}/{t['rows']}", status])
         parts += ["", "## Full text (PIPE-5)", "",
                   _table(["scope", "rank", "topic", "full text", "status"], rows)]
-        for t in elog["topics"]:
-            alt = t.get("alt_search")
-            if t["dropped"] and alt:
-                parts += ["", f"Dropped {t['scope']}{t['rank']} "
-                              f"({t['topic']!r}): searched {alt['query']!r}, "
-                              f"tried {len(alt['tried'])} alternative(s)"
-                          + (f" — {alt['error']}" if alt.get("error") else "")]
+
+    if outline_path.is_file():
+        outline = load_model(outline_path, EditionOutline)
+        parts += ["", "## Edition plan (PIPE-6)", "",
+                  _table(["pos", "scope", "length", "type", "topic",
+                          "location", "source date"],
+                         [[s.pos, s.scope, s.length, s.type, s.topic,
+                           s.location, s.source_date or "—"]
+                          for s in outline.slots])]
+        ill = outline.illustration
+        parts += ["", f"Illustration (EL-3): slot {ill.slot_pos} — {ill.subject}"]
+        el = outline.optional_element
+        if el.kind != "none":
+            parts += [f"Optional element (EL-5): {el.kind} — {el.content}"]
+
+    if reviewed_path.is_file():
+        reviewed = load_artifact(reviewed_path, ReviewedArticle)
+        rlog = json.loads(review_log_path.read_text(encoding="utf-8"))
+        draft_words = {a["pos"]: a["words"]["draft"] for a in rlog["articles"]}
+        parts += ["", "## Articles (PIPE-7/8)", "",
+                  _table(["pos", "title", "words draft → reviewed", "paragraphs"],
+                         [[r.pos, r.title,
+                           f"{draft_words.get(r.pos, '—')} → {r.words}",
+                           len(r.paragraphs)] for r in reviewed])]
+        correction_lines = []
+        for r in reviewed:
+            for issue in r.review.fact_issues:
+                correction_lines.append(f"- slot {r.pos} (fact, WR-2): {issue}")
+            for corr in r.review.corrections:
+                correction_lines.append(f"- slot {r.pos}: {corr}")
+        parts += ["", "## Correction log (PIPE-8)", ""]
+        parts += correction_lines or ["No corrections — clean review."]
 
     return "\n".join(parts) + "\n"
 

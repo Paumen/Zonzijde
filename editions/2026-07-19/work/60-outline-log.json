@@ -1,0 +1,24 @@
+{
+  "model": "claude-sonnet-5",
+  "prompt_versions": {
+    "brief": 1,
+    "outline": 3
+  },
+  "input_topics": {
+    "L": 3,
+    "R": 4,
+    "N": 3,
+    "I": 5
+  },
+  "dropped_topics": [
+    "Patrijzenfamilie duikt op in tuin in Boven-Leeuwen",
+    "Opvallend weinig schoolverzuim rond vakantie in Wijchen",
+    "Nieuwe spoorbrug in Molenhoek eindelijk veilig",
+    "Robotpak laat Daan weer lopen door eraan te denken",
+    "Pepijn (17) zet zich ondanks beperking in voor anderen"
+  ],
+  "planned_words": {
+    "min": 3050,
+    "max": 5800
+  }
+}
