@@ -1,0 +1,259 @@
+{
+  "model": "claude-sonnet-5",
+  "prompt_versions": {
+    "review": 1
+  },
+  "articles": [
+    {
+      "pos": 1,
+      "words": {
+        "draft": 448,
+        "reviewed": 358
+      },
+      "fact_issues": [
+        "Titel en openingszin claimden dat het festival dit jaar 'meer publiek dan ooit' trok, alsof dit een record over alle vijf edities was. De bron vermeldt alleen dat het festival 5 procent meer bezoekers trok dan vorig jaar — geen vergelijking met eerdere edities. Titel en tekst zijn hierop aangepast.",
+        "De openingsalinea bevatte een uitgebreide, verzonnen 'klankkast'-metafoor (het stadje dat als klankkast werkt en noten 'tot ver buiten de eigen muren' laat naklinken). Dit staat niet in de bron en is als niet-onderbouwde toevoeging geschrapt/vervangen door een alinea die dicht bij de brontekst blijft.",
+        "De titel suggereerde met 'na vijf edities nog altijd' een groeitrend over meerdere jaren; de bron onderbouwt alleen de vergelijking met het voorgaande jaar. Titel aangepast zodat deze exact aansluit bij het onderbouwde feit (5 procent meer bezoekers, vijfde editie)."
+      ],
+      "corrections": [
+        "Openingsalinea herschreven: de verzonnen sfeerschets over de 'klankkast' van Batenburg is vervangen door een feitelijke intro die dicht bij de brontekst blijft.",
+        "'Al bij het openingsconcert klonk hoe de klankkast zou gaan resoneren' vereenvoudigd tot 'Al bij het openingsconcert wist de muziek het publiek te verrassen', aansluitend bij de brontekst en zonder de weggehaalde metafoor.",
+        "Alinea's over de vrijwilligers en het openingsconcert samengevoegd/ingekort zodat de alineastructuur logisch blijft na het schrappen van de ongefundeerde zinnen."
+      ],
+      "attempts": [
+        {
+          "attempt": 1,
+          "problems": []
+        }
+      ]
+    },
+    {
+      "pos": 2,
+      "words": {
+        "draft": 177,
+        "reviewed": 195
+      },
+      "fact_issues": [
+        "Draft stelde dat beiden 'veertig jaar lang' de stille motor achter Busband waren; de bron zegt dat alleen Jan al 40 jaar lid is, Ingrid pas ruim 25 jaar. Aangepast naar 'jarenlang' om geen onjuist getal aan Ingrid toe te schrijven.",
+        "Draft noemde het echtpaar 'uit Groesbeek'; de bron zegt alleen dat dweilband Busband in Groesbeek zit, niet dat het echtpaar daar woont. Herformuleerd zodat 'Groesbeek' bij de dweilband hoort, niet bij hun woonplaats.",
+        "Draft sprak van 'de koninklijke onderscheiding' (enkelvoud) terwijl beiden ieder een eigen onderscheiding ontvingen ('onderscheidingen', bron: meervoud); gecorrigeerd naar meervoud.",
+        "Rol van Jan bij Busband was in de draft herschikt (vervoer/techniek gekoppeld aan 'organiseert activiteiten'); hersteld conform bronvolgorde: bestuurslid/archief/organisator van activiteiten als één groep, vervoer/techniek/hand- en spandiensten als aparte taken."
+      ],
+      "corrections": [
+        "Zin over het echtpaar als 'stille motor' herschreven om overdreven precisie (veertig jaar voor beiden) te vermijden.",
+        "Herstructurering van de zin over Jans taken voor betere aansluiting bij de brontekst.",
+        "Enkelvoud 'onderscheiding' naar meervoud 'onderscheidingen' gecorrigeerd."
+      ],
+      "attempts": [
+        {
+          "attempt": 1,
+          "problems": []
+        }
+      ]
+    },
+    {
+      "pos": 3,
+      "words": {
+        "draft": 169,
+        "reviewed": 170
+      },
+      "fact_issues": [
+        "De zin 'een ontsnapping die, hoe je het ook wendt of keert, toch mooi binnen de kasteelmuren blijft' is een verzonnen, niet door de bron ondersteunde toevoeging (grapje over de escaperoute) en is geschrapt.",
+        "'in de veertiende eeuw' aangepast naar 'in de eerste helft van de veertiende eeuw', conform de bron ('het ontstaan in de eerste helft van de 14e eeuw')."
+      ],
+      "corrections": [
+        "Slotalinea aangevuld met 'bedoeld voor volwassenen en kinderen die een rustige omgeving nodig hebben' zodat duidelijk is voor wie de prikkelarme middag is (uit de bron), en de laatste zin iets gestroomlijnd."
+      ],
+      "attempts": [
+        {
+          "attempt": 1,
+          "problems": []
+        }
+      ]
+    },
+    {
+      "pos": 4,
+      "words": {
+        "draft": 527,
+        "reviewed": 521
+      },
+      "fact_issues": [
+        "'...alsof het seizoen zelf al gewonnen was' (slot 1) is niet in de bronnen te vinden en is verwijderd; het is een verzonnen sfeerbeeld.",
+        "'vermeend patroon van misleiding en ondermijning' is aangepast naar 'stelselmatig patroon van misleiding en ondermijning', de exacte formulering uit de bron; 'vermeend' (= naar verluidt onterecht) staat niet in de bron en verandert de lading van het verwijt.",
+        "De zin 'Na afloop was zijn opluchting groot' bij het citaat van Sturing klopt niet: dat citaat ('Ik hoop dat we nu een punt kunnen zetten...') komt uit het artikel van vóór de uitspraak, waarin Sturing vooraf zijn hoop uitspreekt over de afloop ('na morgen'). De draft presenteerde dit ten onrechte als een reactie na afloop; dit is gecorrigeerd door het citaat expliciet als vooraf uitgesproken te markeren en 'na morgen' logisch te actualiseren naar 'na vandaag', aangezien de uitspraak inmiddels bekend is.",
+        "'oud-verdediger Alexander Büttner' bevat een toevoeging (zijn functie als voormalig verdediger) die niet in de bronnen over dit moment staat; verwijderd conform de regel dat geen informatie mag worden toegevoegd, ook niet als die overigens bekend is."
+      ],
+      "corrections": [
+        "Slot 1: 'en supporters feliciteerden hen alsof het seizoen zelf al gewonnen was' ingekort tot een feitelijke zin zonder ongefundeerde toevoeging.",
+        "Slot 3: herschreven zodat duidelijk is dat het citaat van Sturing vooraf werd uitgesproken, niet na afloop.",
+        "Kleine woordkeuze aangepast ('vermeend' naar 'stelselmatig') voor aansluiting bij brontekst."
+      ],
+      "attempts": [
+        {
+          "attempt": 1,
+          "problems": []
+        }
+      ]
+    },
+    {
+      "pos": 5,
+      "words": {
+        "draft": 386,
+        "reviewed": 358
+      },
+      "fact_issues": [
+        "Verwijderd: 'Wonen in de toren voelt een beetje als leven in een ansichtkaart... alleen woont zij er middenin, met haar eigen sleutel' — deze metafoor en de suggestie dat de buurt precies zo pittoresk is als bezoekers verwachten, staan niet in de bron en zijn verzonnen sfeerbeschrijving.",
+        "Gecorrigeerd: het jaartal 1446 werd in het concept gekoppeld aan het begin van de functies gevangenis/opslag/watertoren ('Sinds 1446 diende de toren achtereenvolgens als gevangenis...'). Volgens de bron werd de toren in 1446 in gebruik genomen als middeleeuwse stadspoort; de gevangenisfunctie dateert van 1571. Dit is hersteld met de juiste jaartallen en volgorde.",
+        "Verwijderd/aangepast: de verzonnen toevoeging 'al wordt ook wel gezegd dat hij zo arm was dat er nooit iets in zijn nap zat' is niet in de bron te vinden (die zegt alleen dat hij 'heel arm was'); de tekst is teruggebracht tot wat de bron meldt.",
+        "Verwijderd: 'ongevraagd' bij 'sterrenstatus' — de bron suggereert nergens dat de bekroning ongewenst is; Koppel is er juist trots op.",
+        "De locatieomschrijving 'midden in de oude binnenstad van Zutphen' bij Koppels woning in de eerste alinea is niet letterlijk zo in de bron te vinden; vervangen door de wel bevestigde omschrijving dat de toren een middeleeuwse toren in Zutphen is."
+      ],
+      "corrections": [
+        "Titel herschreven voor betere grammatica en rustigere toon: 'krijgt haar huis met Michelinster' klonk grammaticaal onhandig; nu 'woont voortaan in een huis met Michelinster'.",
+        "Overbodige/onduidelijke zinsconstructie in de laatste alinea van het concept (indirecte parafrase gepresenteerd als samenvatting van een citaat) verduidelijkt zodat helder is wat parafrase en wat citaat is."
+      ],
+      "attempts": [
+        {
+          "attempt": 1,
+          "problems": []
+        }
+      ]
+    },
+    {
+      "pos": 6,
+      "words": {
+        "draft": 204,
+        "reviewed": 199
+      },
+      "fact_issues": [
+        "Slotalinea over 'het echtpaar Van den Brink' en hun 'vereniging' die al jaren op niets anders draait dan een praatje maken: dit staat nergens in de bron en is verzonnen. Verwijderd.",
+        "Bewering dat Koehoorn 'onbedoeld' viraal ging: de bron zegt alleen dat het lied/de video viraal gaat, niet dat dit onbedoeld was. 'Onbedoeld' verwijderd.",
+        "Openingszin ('Tim komt nooit als vreemdeling een bushalte binnen...') is een niet-onderbouwde, verzonnen bewering (dat mensen hem herkennen als iemand die 'zo een liedje over je schrijft') en bovendien beeldspraak die niet klopt (een bushalte heeft geen 'binnen'). Vervangen door een feitelijke intro op basis van de bron.",
+        "Leeftijd van de hond: het concept noemde haar stellig 'veertienjarig', de bron zegt 'ongeveer 14'. Aangepast naar 'ongeveer veertien jaar oud' om niet stelliger te zijn dan de bron."
+      ],
+      "corrections": [
+        "Titel aangepast van clickbait-achtig 'scoort viral hit' naar de neutralere, bij de bron aansluitende formulering 'gaat viraal'.",
+        "Awkward beeldspraak in de openingszin herschreven tot een directe, feitelijke intro.",
+        "'de tong uit de bek' vervangen door 'tongetje uit haar mond' om dichter bij de brontekst en toon van het artikel te blijven.",
+        "Alinea over onderzoekscijfers en herkenning samengevoegd/herschikt voor een vloeiendere opbouw nu de verzonnen slotalinea is verwijderd."
+      ],
+      "attempts": [
+        {
+          "attempt": 1,
+          "problems": []
+        }
+      ]
+    },
+    {
+      "pos": 7,
+      "words": {
+        "draft": 252,
+        "reviewed": 203
+      },
+      "fact_issues": [
+        "Draft stelde dat de route van gedachte naar beweging bij Daan 'halverwege, ergens tussen hoofd en benen' stopte — dit is een niet-brongedekte precisering van hoe/waar de dwarslaesie de signaaloverdracht blokkeert. Vervangen door een neutralere formulering ('het signaal kwam niet meer aan') die dichter bij de brontekst blijft.",
+        "Draft voegde een uitleg toe over wat de wereldprimeur precies inhoudt ('nooit eerder werd het denken aan een beweging zo direct vertaald in die beweging zelf, zonder dat het lichaam de opdracht zelf nog hoefde door te geven') — de bron meldt alleen dát de TU Delft het een wereldprimeur noemt, niet waarom. Deze toevoeging is verwijderd.",
+        "Draft beschreef specifieke, niet-brongedekte handelingen ('Hij staat, hij verplaatst zijn gewicht, hij zet de ene voet voor de andere') — de bron zegt alleen dat Daan weer kan lopen, niet hoe dat er stap voor stap uitziet. Deze details zijn geschrapt."
+      ],
+      "corrections": [
+        "'uit Delft' toegevoegd bij de introductie van Daan, overeenkomstig de dateline 'Delft -' in de brontekst, voor duidelijkheid.",
+        "Zinsbouw in de eerste en derde alinea licht vereenvoudigd voor leesbaarheid en om dichter bij de brontekst te blijven."
+      ],
+      "attempts": [
+        {
+          "attempt": 1,
+          "problems": []
+        }
+      ]
+    },
+    {
+      "pos": 8,
+      "words": {
+        "draft": 353,
+        "reviewed": 349
+      },
+      "fact_issues": [
+        "Verwijderd: \"Hij nam het tweeluik mee naar huis.\" — de bronnen vermelden nergens expliciet dat hij het paneel meenam; dit was een niet-onderbouwde toevoeging.",
+        "Aangepast: het andere Goudstikker-werk bij de nazaat van de SS'er was niet 'opgedoken' (nieuw gevonden), maar hing er volgens de bron al jaren aan de muur en werd pas nu door De Telegraaf naar buiten gebracht. Tekst aangepast naar 'bleek te hangen'."
+      ],
+      "corrections": [
+        "Kleine stilistische stroomlijning bij de aanpassing van de zin over het andere Goudstikker-werk, verder geen grammatica- of spellingsfouten aangetroffen."
+      ],
+      "attempts": [
+        {
+          "attempt": 1,
+          "problems": []
+        }
+      ]
+    },
+    {
+      "pos": 9,
+      "words": {
+        "draft": 366,
+        "reviewed": 361
+      },
+      "fact_issues": [
+        "Laatste alinea: het origineel zegt dat de aanpak wordt uitgebreid naar 'nog ten minste honderd huishoudens' (dus honderd huishoudens bovenop de bestaande ~40), niet naar in totaal honderd. De draft liet 'nog' weg, waardoor het leek alsof honderd het totaal zou zijn; hersteld naar 'nog eens ten minste honderd huishoudens'.",
+        "'Het cijfer van de week is 34' was een verzonnen rubrieksformulering die niet in de bron voorkomt; het cijfer (34 procent) zelf klopte wel, maar de framing is verwijderd/herschreven tot lopende tekst.",
+        "'de wijk met naar eigen zeggen de armste postcode van Nederland' suggereerde ten onrechte dat de wijk zelf die claim maakt; de bron omschrijft Immerloo II als 'het armste postcodegebied van Nederland' zonder die zelftoeschrijving. Herschreven naar 'de wijk die geldt als het armste postcodegebied van Nederland'."
+      ],
+      "corrections": [
+        "Zin 'Het cijfer van de week is 34: gemiddeld werd 34 procent...' herschreven tot een vloeiende zin zonder rubrieksaanduiding, en de dubbele vermelding van '34' verwijderd.",
+        "'postcode' gecorrigeerd naar 'postcodegebied', conform de bronformulering.",
+        "Kleine stilistische gladstrijking in de derde alinea (puntkomma i.p.v. nieuwe zin) voor leesbaarheid."
+      ],
+      "attempts": [
+        {
+          "attempt": 1,
+          "problems": []
+        }
+      ]
+    },
+    {
+      "pos": 10,
+      "words": {
+        "draft": 559,
+        "reviewed": 561
+      },
+      "fact_issues": [
+        "\"felrode aanvoerdersband\" was onjuist: de bron spreekt van een \"bright red bib\" (een hesje), niet van een aanvoerdersband. Dit suggereerde ten onrechte dat Farishta aanvoerder is; gecorrigeerd naar \"felrood hesje\".",
+        "\"tot ze besefte dat alle vrouwen om haar heen hetzelfde overwonnen\" week af van de bron, die spreekt van het comfort dat alle vrouwen er samen voor stonden ('the comfort of knowing that all the women there were with me'), niet dat ze 'hetzelfde overwonnen'; herformuleerd naar een dichtere weergave van het citaat."
+      ],
+      "corrections": [
+        "\"fans zich steeds vaker priceout voelen\" bevatte een onjuiste Engelse leenvorm; gecorrigeerd naar \"fans zich steeds vaker buitengeprijsd voelen\"."
+      ],
+      "attempts": [
+        {
+          "attempt": 1,
+          "problems": []
+        }
+      ]
+    },
+    {
+      "pos": 11,
+      "words": {
+        "draft": 357,
+        "reviewed": 341
+      },
+      "fact_issues": [
+        "Openingszin ('Wie zaterdagochtend naar het eiland Sriharikota keek, zag geschiedenis vertrekken: klein begin, groot verschil.') was een niet door de bron gedekte, clickbait-achtige framing zonder feitelijke inhoud; verwijderd/vervangen door een feitelijke openingszin.",
+        "'navigatiesystemen' is aangepast naar 'geleidingssystemen' — de bron noemt 'guidance systems', wat niet hetzelfde is als navigatie.",
+        "'gegevens voor toekomstige missies' is gecorrigeerd naar 'gegevens voor toekomstige commerciële lanceringen', conform de bron ('future commercial launches').",
+        "'ruim 22 meter hoog' is gecorrigeerd naar 'ongeveer 22 meter hoog' — de bron zegt 'about 22 meters', niet 'iets meer dan'.",
+        "De zin over de Vikram-S ('is een vervolg op de kleinere Vikram-S') suggereerde een expliciete opvolgersrelatie die de bron niet zo stelt; herschreven tot een neutralere, door de bron gedekte formulering."
+      ],
+      "corrections": [
+        "Titel aangevuld met 'zijn' voor correcte grammatica: 'India lanceert zijn eerste privaat ontwikkelde raket de ruimte in'.",
+        "Eerste alinea herschreven in rustigere, feitelijke toon passend bij het karakter van het artikel."
+      ],
+      "attempts": [
+        {
+          "attempt": 1,
+          "problems": []
+        }
+      ]
+    }
+  ],
+  "words_total": 3616,
+  "failed_slots": []
+}
