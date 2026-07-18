@@ -44,9 +44,12 @@ class RunContext:
             raise SystemExit(
                 f"config/edition.yaml not found under {self.root} — run from the repo root."
             )
-        self._edition_cfg = yaml.safe_load(cfg_path.read_text(encoding="utf-8"))
+        self._edition_cfg = yaml.safe_load(cfg_path.read_text(encoding="utf-8")) or {}
         if self.window_days is None:
-            self.window_days = int(self._edition_cfg["window"]["days"])
+            try:
+                self.window_days = int(self._edition_cfg["window"]["days"])
+            except (KeyError, TypeError, ValueError) as e:
+                raise SystemExit(f"invalid or missing window.days in config/edition.yaml: {e}")
 
     @cached_property
     def sources(self) -> list[Source]:

@@ -17,18 +17,18 @@ from .context import RunContext
 from .stages import fetch, filter as filter_stage
 
 # S1–S9 in funnel order; None marks stages of a later build phase (§11).
-STAGES: list[tuple[str, object]] = [
-    ("fetch", fetch.run),       # S1  phase 1
-    ("filter", filter_stage.run),  # S2  phase 1
-    ("score", None),            # S3  phase 2
-    ("select", None),           # S4  phase 2
-    ("enrich", None),           # S5  phase 3
-    ("outline", None),          # S6  phase 4
-    ("write", None),            # S7  phase 4
-    ("review", None),           # S8  phase 4
-    ("compose", None),          # S9  phase 5
-]
-STAGE_NAMES = [name for name, _ in STAGES]
+STAGES: dict[str, object] = {
+    "fetch": fetch.run,         # S1  phase 1
+    "filter": filter_stage.run,  # S2  phase 1
+    "score": None,              # S3  phase 2
+    "select": None,             # S4  phase 2
+    "enrich": None,             # S5  phase 3
+    "outline": None,            # S6  phase 4
+    "write": None,              # S7  phase 4
+    "review": None,             # S8  phase 4
+    "compose": None,            # S9  phase 5
+}
+STAGE_NAMES = list(STAGES)
 
 
 def parse_edition(value: str) -> date:
@@ -59,14 +59,14 @@ def build_parser() -> argparse.ArgumentParser:
     run_p.add_argument("--until", dest="until_stage", choices=STAGE_NAMES,
                        default=STAGE_NAMES[-1], help="stop after this stage")
 
-    for name, _ in STAGES:
+    for name in STAGE_NAMES:
         common(sub.add_parser(name, help=f"run stage {name} only"))
     common(sub.add_parser("report", help="regenerate the run report"))
     return parser
 
 
 def run_stage(name: str, ctx: RunContext) -> None:
-    fn = dict(STAGES)[name]
+    fn = STAGES[name]
     if fn is None:
         phase = {"score": 2, "select": 2, "enrich": 3,
                  "outline": 4, "write": 4, "review": 4, "compose": 5}[name]

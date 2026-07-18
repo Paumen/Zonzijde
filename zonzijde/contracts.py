@@ -12,7 +12,7 @@ import hashlib
 import json
 from datetime import datetime
 from pathlib import Path
-from typing import Literal
+from typing import Literal, TypeVar
 from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
 from pydantic import BaseModel
@@ -21,7 +21,8 @@ Scope = Literal["L", "R", "N", "I"]
 
 # Query parameters that vary per referrer without changing the article; kept
 # out of the canonical link so the same article dedupes across feeds (PIPE-2).
-_TRACKING_PARAMS = ("utm_", "fbclid", "gclid")
+_TRACKING_PREFIXES = ("utm_",)
+_TRACKING_KEYS = {"fbclid", "gclid"}
 
 
 def canonical_link(url: str) -> str:
@@ -32,7 +33,7 @@ def canonical_link(url: str) -> str:
     query = [
         (k, v)
         for k, v in parse_qsl(parts.query, keep_blank_values=True)
-        if not k.startswith(_TRACKING_PARAMS[0]) and k not in _TRACKING_PARAMS[1:]
+        if not (k.startswith(_TRACKING_PREFIXES) or k in _TRACKING_KEYS)
     ]
     return urlunsplit((parts.scheme, parts.netloc, parts.path, urlencode(query), ""))
 
@@ -68,6 +69,9 @@ def save_artifact(path: Path, items: list[BaseModel]) -> None:
     path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
 
-def load_artifact(path: Path, model: type[BaseModel]) -> list[BaseModel]:
+M = TypeVar("M", bound=BaseModel)
+
+
+def load_artifact(path: Path, model: type[M]) -> list[M]:
     data = json.loads(path.read_text(encoding="utf-8"))
     return [model.model_validate(d) for d in data]
