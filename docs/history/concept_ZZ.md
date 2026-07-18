@@ -1,5 +1,11 @@
 # De Zonzijde
 
+> **Archived** — this is the original concept/brainstorm, kept for history. It is
+> superseded by [`docs/SPEC.md`](../SPEC.md) (normative requirements) and
+> [`docs/ARCHITECTURE.md`](../ARCHITECTURE.md) (system design); where they differ from
+> this document, they win. The prompt texts and the brief below were lifted verbatim
+> into [`config/prompts/`](../../config/prompts/), which is canonical from now on.
+
 ## 1. Brief
 
 People are worn out by negative news. It pours in non-stop through every channel — traditional, social, digital, and now AI-generated — and it is nearly impossible not to be dragged along. Negativity is partly wired into us, which is why "why is news always bad?" never gets a satisfying answer. But there is a saturation point, and more and more people are reaching it: consumed by everything going wrong everywhere, all the time, and numbed by fake news, clickbait, deepfakes, and sensationalism. The odd thing is that on many fronts life is measurably better than it was ten, twenty, or thirty years ago — yet people don't feel it, see it, or believe it. That is the negativity spiral. The rise of podcasts shows a desire to slow down and step out of the drama; growing numbers are breaking lifelong habits — switching off the TV news, sighing at yet another morning-paper page of violence, death, and war.

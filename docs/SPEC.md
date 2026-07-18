@@ -1,6 +1,7 @@
 # De Zonzijde — Product & Editorial Specification
 
-Status: **draft v1** — distilled from `concept_ZZ.md` and the working prototypes
+Status: **draft v1** — distilled from the original concept (archived at
+`docs/history/concept_ZZ.md`) and the working prototypes
 (`proto_fetchfilter.html`, `proto_index.html`, `proto_krant.html`, `tools/fetch-articles.py`).
 This document is the *what*: the rules an edition must satisfy. The *how* — components,
 data contracts, orchestration — lives in [`ARCHITECTURE.md`](ARCHITECTURE.md).
@@ -60,7 +61,7 @@ throughout the edition (GEO-1).
   tagged with the scopes it can serve (see `config/sources.yaml` in the target layout;
   the current list lives in `proto_fetchfilter.html`).
 - SRC-2: The source list must cover all four scopes every edition.
-- SRC-3: Deep-dive reference sources are consulted while outlining (per current concept):
+- SRC-3: Deep-dive reference sources are consulted while outlining (`config/prompts/outline.md`):
   earlier reporting by the same bron on the topic/person/organisation; lokaal:
   `www.wegwijs.nl`; internationaal: `www.aljazeera.com`. Regionaal and nationaal
   reference sources: **open** (OQ-1).
@@ -143,7 +144,7 @@ not published as-is.
 
 | ID | Question | Current stance |
 |----|----------|----------------|
-| OQ-1 | Regionaal and nationaal deep-dive reference sources (TODO in concept §3.5). | Outline stage consults only same-bron history until decided. |
+| OQ-1 | Regionaal and nationaal deep-dive reference sources ([TODO] in `config/prompts/outline.md`). | Outline stage consults only same-bron history until decided. |
 | OQ-2 | ~~Illustration sourcing~~ **Resolved**: each edition's illustration is a custom drawing for that edition — not picked from a library of generic illustrations. The pipeline draws a new SVG in the house style per edition; the editor judges it at the gate and can redraw or replace it. |
 | OQ-3 | Cadence: weekly Sunday is inferred from the three existing editions, not stated in the concept. | Weekly Sunday assumed. |
 | OQ-4 | Attribution policy: articles are rewritten from source reporting — is a source credit line (bron) printed per article beyond ED-3's date+location? | Provenance is kept in the edition manifest either way; print attribution undecided. |

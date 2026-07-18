@@ -243,8 +243,9 @@ config/
   sources.yaml             # feed list + scope tags (from proto_fetchfilter.html)
   filters.yaml             # regex buckets B1–B5
   edition.yaml             # ED/LAY constants, cadence, model tiers
-  prompts/                 # score.md select.md outline.md write.md review.md
-                           # illustrate.md (versioned)
+  prompts/                 # brief.md score.md select.md outline.md write.md
+                           # review.md illustrate.md (versioned; brief…write exist,
+                           # seeded verbatim from the archived concept)
 templates/krant.typ        # Typst print template (design per proto_krant.html)
 assets/art/                # fixed art: masthead sunflower, closing landscape;
                            # style-reference drawings for prompts/illustrate.md
@@ -293,7 +294,7 @@ Each phase lands as a normal PR and leaves the current manual workflow usable.
    MD-table flow.*
 3. **S5** — absorb `tools/fetch-articles.py` as a stage. *Exit: `50-articles.json` for a
    real candidate set.*
-4. **S6–S8** — outline/write/review prompts (ported from concept §3.5–3.6 and hardened);
+4. **S6–S8** — outline/write/review prompts (seeded from `config/prompts/`, hardened);
    correction log. *Exit: a full `80-reviewed.json` a human judges publishable-with-edits.*
 5. **S9 + template** — re-create the `proto_krant.html` design as `templates/krant.typ`
    (side-by-side against a printed prototype edition until visually equivalent);
