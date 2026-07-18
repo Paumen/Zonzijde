@@ -127,8 +127,8 @@ def build(ctx: RunContext) -> str:
     if candidates_path.is_file():
         candidates = load_artifact(candidates_path, Candidate)
         parts += ["", "## Selected topics (PIPE-4)", "",
-                  _table(["scope", "rank", "topic", "bronnen"],
-                         [[c.scope, c.rank, c.topic,
+                  _table(["scope", "topic", "bronnen"],
+                         [[c.scope, c.topic,
                            ", ".join(r.bron for r in c.items)]
                           for c in candidates])]
 
@@ -153,9 +153,6 @@ def build(ctx: RunContext) -> str:
                           for s in outline.slots])]
         ill = outline.illustration
         parts += ["", f"Illustration (EL-3): slot {ill.slot_pos} — {ill.subject}"]
-        el = outline.optional_element
-        if el.kind != "none":
-            parts += [f"Optional element (EL-5): {el.kind} — {el.content}"]
 
     if reviewed_path.is_file():
         reviewed = load_artifact(reviewed_path, ReviewedArticle)

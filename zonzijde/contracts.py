@@ -82,11 +82,10 @@ class CandidateItem(BaseModel):
 
 
 class Candidate(BaseModel):
-    """``40-candidates.json`` entry (S4): one ranked topic per scope, with one
+    """``40-candidates.json`` entry (S4): one selected topic per scope, with one
     row per source article covering it (PIPE-4)."""
 
     scope: Scope
-    rank: int = Field(ge=1, le=5)
     topic: str
     items: list[CandidateItem] = Field(min_length=1)
 
@@ -111,14 +110,14 @@ class ArticleText(CandidateItem):
 
 Length = Literal["long", "standard", "short"]
 ArticleType = Literal["news", "feature", "profile", "zoom-out", "zoom-in"]
-OptionalKind = Literal["quote", "number", "side-story", "none"]
 
 
 class OutlineSlot(BaseModel):
-    """One planned article of ``60-outline.json`` (S6/PIPE-6). ``pos`` and
-    ``role`` are assigned in code from the plan's ring order (ED-6), and
-    ``source_date`` is derived from the sources' published dates (ED-3) —
-    the model never dictates any of the three."""
+    """One planned article of ``60-outline.json`` (S6/PIPE-6). ``scope``,
+    ``source_ids`` and ``source_date`` are assigned in code from the candidate
+    the model picked (its scope, its ok source rows, and their newest date,
+    ED-3); ``pos``/``role`` from the plan's ring order (ED-6) — the model
+    dictates none of these."""
 
     pos: int = Field(ge=1)
     scope: Scope
@@ -126,7 +125,6 @@ class OutlineSlot(BaseModel):
     topic: str
     length: Length
     type: ArticleType
-    angle: str
     devices: list[str]
     source_ids: list[str] = Field(min_length=1)
     location: str
@@ -141,21 +139,12 @@ class OutlineIllustration(BaseModel):
     subject: str
 
 
-class OptionalElement(BaseModel):
-    """EL-5: at most one per edition — quote, number of the week, or side
-    story; ``kind: none`` with empty content when the edition carries none."""
-
-    kind: OptionalKind
-    content: str
-
-
 class EditionOutline(BaseModel):
     """``60-outline.json`` (S6): the edition plan per PIPE-6."""
 
     edition: date
     slots: list[OutlineSlot] = Field(min_length=1)
     illustration: OutlineIllustration
-    optional_element: OptionalElement
 
 
 class Draft(BaseModel):
