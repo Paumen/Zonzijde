@@ -82,7 +82,7 @@ A funnel: each step narrows the stream. Normative behaviour per step; implementa
 | PIPE-6 | Outline | With brief + edition spec + full texts: pick the stories per scope in the §5 numbers, assign length class, article type, tone/angle, and sources per story; front page led by the best lokaal story; identify which stories carry the longer pieces; consult SRC-3 reference sources. |
 | PIPE-7 | Write | Produce full Dutch article texts per the outline. Never refer to accompanying images/illustrations; never refer to De Zonzijde itself, "deze krant", its intent, or why a story is included. |
 | PIPE-8 | Review | Fact-check against the fetched source texts, correct grammar/spelling, finalise titles. |
-| PIPE-9 | Editorial & compose | Consolidate into the paper: cut/shorten, final ordering, overall balance and variety; typeset into the edition HTML satisfying §6; validated against LAY/EL rules before publication. |
+| PIPE-9 | Editorial & compose | Consolidate into the paper: cut/shorten, final ordering, overall balance and variety; typeset into the edition PDF satisfying §6; validated against LAY/EL rules before publication. |
 
 Writing-variety rules (apply across PIPE-6..9):
 
@@ -112,7 +112,7 @@ Writing-variety rules (apply across PIPE-6..9):
 | LAY-3 | No line consists of a single word. |
 | LAY-4 | No column runs three lines or fewer. |
 | LAY-5 | No stretch of white space grows taller than three lines. |
-| LAY-6 | Typography per the established prototype: Fraunces (heads), Newsreader (body), Archivo (labels/meta), self-hosted (`fonts/`, `fonts.css`) so print/PDF renders correctly offline. |
+| LAY-6 | Typography per the established prototype: Fraunces (heads), Newsreader (body), Archivo (labels/meta) — self-hosted font files embedded in the PDF, no runtime font dependencies. |
 | LAY-7 | The printed edition is exactly **4 A4 pages**, imposed as an A3 booklet: two A3 landscape sheets (420×297 mm), outer sheet pages 4\|1, inner sheet pages 2\|3 — fold once to an A4 booklet. Content fills 3.5–4 pages (LAY-1); the closing landscape (EL-4) absorbs the slack on page 4. |
 
 LAY-3..5 are hard gates: an edition that violates them is re-composed (cut/shorten/reflow),
@@ -134,7 +134,7 @@ not published as-is.
 | ID | Requirement |
 |----|-------------|
 | OPS-1 | Cadence: weekly, edition dated Sunday (matches editions of 28 juni, 12 juli, 19 juli 2026). Confirmation: OQ-3. |
-| OPS-2 | Delivery: the primary deliverable is a **print-ready PDF in A3 booklet imposition** (LAY-7), as with the editions produced to date. It is rendered from a static, self-contained, A4-print-faithful HTML edition; both are published via GitHub Pages. |
+| OPS-2 | Delivery: the deliverable is a **print-ready PDF in A3 booklet imposition** (LAY-7), as with the editions produced to date, typeset directly from the edition data — there is no HTML edition. The PDF archive is served via GitHub Pages. |
 | OPS-3 | A human editorial gate reviews each edition before publication (see ARCHITECTURE §7); the pipeline must make that review cheap: full provenance from every article back to its sources. |
 | OPS-4 | Every run produces an inspectable trail: per-stage artifacts, a funnel report (counts in/out per stage), sources used, stories dropped or re-sourced, and LLM cost. |
 | OPS-5 | All API keys are server-side secrets. No key ships in client HTML or the repo. (The Gemini key currently embedded in `proto_fetchfilter.html` must be rotated and moved — see ARCHITECTURE §10.) |

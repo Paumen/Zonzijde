@@ -15,8 +15,8 @@ Today the edition is produced by hand-driving three prototypes:
 | `proto_fetchfilter.html` | Browser app: fetch RSS via CORS proxy, regex buckets, Gemini scoring, copy MD table | Source list, regex buckets, and scoring logic migrate into pipeline stages S1–S4. App remains as a manual inspection/debug UI. |
 | `tools/fetch-articles.py` | Fetch full article text behind selected links (requests+trafilatura, Playwright fallback) | Becomes stage S5, minus its RSS-summary fallback: blocked stories are re-sourced or dropped instead. |
 | `proto_index.html` | Early in-browser generator (client-side Anthropic key) | Superseded; kept for reference. |
-| `proto_krant.html` | Hand-built edition — the target look & feel | Becomes the Jinja template `templates/krant.html.j2` + per-edition data. |
-| `.github/workflows/pages.yml` | Deploys repo root to GitHub Pages | Extended: deploys `editions/` + archive index. |
+| `proto_krant.html` | Hand-built edition — the target look & feel | Design reference only. The layout it established (grid, fonts, masthead, kickers) is re-created once in the Typst print template; the HTML edition itself is retired — prototypes are prototypes, not products. |
+| `.github/workflows/pages.yml` | Deploys repo root to GitHub Pages | Kept only to serve the PDF archive (direct links); no HTML edition is published. |
 
 Target: one command — `python -m zonzijde run --edition 2026-07-26` — executes the whole
 funnel and opens an edition PR; a human reviews and merges; Pages publishes.
@@ -34,8 +34,10 @@ funnel and opens an edition PR; a human reviews and merges; Pages publishes.
    validation are plain code. LLMs do only what code can't: judge direction, select,
    outline, write, review. Every LLM step has a versioned prompt and a schema-validated
    output.
-4. **The edition is a static artifact.** Weather and all content are baked at compose
-   time; the published HTML has no runtime API dependencies and no keys (OPS-5).
+4. **The data is the source of truth; the PDF is the product.** `edition.json` holds
+   the finished edition; the booklet PDF is a deterministic rendering of it. There is
+   no HTML edition. Weather and all content are baked at compose time; the published
+   artifact has no runtime dependencies and no keys (OPS-5).
 5. **Human gate before the world sees it.** The pipeline proposes; the editor disposes
    (merge = publish). Nothing in the design assumes unattended publication.
 
@@ -57,7 +59,7 @@ flowchart TD
     subgraph produce [Produce - frontier LLM + code]
         S7[S7 write\nDutch articles]
         S8[S8 review\nfact-check, language, titles]
-        S9[S9 compose\ntemplate + typeset loop]
+        S9[S9 compose\nTypst render + booklet PDF]
     end
     S2 --> S3 --> S4 --> S5 --> S6 --> S7 --> S8 --> S9
     S9 --> PR[Edition PR\nhuman editorial gate]
@@ -76,7 +78,7 @@ flowchart TD
 | S6 `outline` | PIPE-6 | LLM (frontier) | `50` + SPEC §5 → `60-outline.json` | Picks final stories per ED-1/ED-2, assigns length class, type, tone/angle (WR-1), sources per story, illustration-subject proposal (EL-3), optional element (EL-5). Works only from stories that survived S5 (sees the drop log so scope counts can rebalance). Uses tool-assisted browsing for SRC-3 reference sources. |
 | S7 `write` | PIPE-7 | LLM (frontier) | `60` → `70-drafts.json` | One call per article (grounded on its S5 texts only); hard rules from PIPE-7 in the system prompt. |
 | S8 `review` | PIPE-8 | LLM (frontier) | `70` → `80-reviewed.json` | Per-article fact-check against S5 source text (WR-2), NL grammar/spelling, final title; emits a correction log for the PR. |
-| S9 `compose` | PIPE-9 | code (+LLM assist) | `80` → `editions/<date>/krant.html` + `krant-A3boekje.pdf` + `edition.json` | Jinja render of the krant template; bakes weather; places illustration + closing landscape; then the typeset loop and PDF export with A3 booklet imposition (§5). LLM is only called to shorten/lengthen a specific paragraph when the loop demands it. |
+| S9 `compose` | PIPE-9 | code (+LLM assist) | `80` → `editions/<date>/krant-A3boekje.pdf` + `edition.json` | Typst render of the krant template from `edition.json`; bakes weather; places illustration + closing landscape; typeset checks and A3 booklet imposition (§5). LLM is only called to shorten/lengthen a specific paragraph when a check demands it. |
 
 Stage contract: every stage is `python -m zonzijde <stage> --edition YYYY-MM-DD`;
 `run` chains them; `--from/--until` re-run a slice against existing artifacts.
@@ -133,36 +135,39 @@ every printed article traces back to its feed items.
   "pipeline": { "run": "…", "prompt_versions": { "score": "v3", … } } }
 ```
 
-## 5. Compose & the typeset loop
+## 5. Compose: Typst typesetting, checks & booklet imposition
 
-LAY-1..5 can only be judged on a *rendered* page, so S9 validates with headless
-Chromium (Playwright is already a dependency):
+**Engine choice: Typst, not a browser.** The prototypes printed HTML from Chromium;
+that stays a prototype. Browsers break lines greedily, one line at a time — which is
+exactly what produces single-word lines, short columns, and whitespace holes (LAY-3..5)
+in narrow justified columns — and their layout shifts across browser versions. Typst
+typesets like LaTeX (whole-paragraph line-break optimisation, real widow/orphan
+control, Dutch hyphenation), outputs PDF directly, is deterministic when pinned to a
+version, and its templates are plain text that both humans and LLMs edit well. The
+LAY rules go from "detect and repair" to mostly "cannot occur".
 
-1. Render `krant.html` with print CSS at A4 and measure per column: line boxes,
-   single-word lines (LAY-3), short columns (LAY-4), whitespace runs (LAY-5), and
-   total page count (LAY-1).
-2. If violations: apply the cheapest sufficient remedy, in order —
-   a. reflow knobs (swap optional element position, nudge illustration slot,
-      hyphenation hints);
-   b. ask the review model to trim or extend a specific paragraph — addressed by
-      article `pos` + paragraph index in the `paragraphs` array — by a word budget;
-   c. drop the lowest-ranked optional element.
-3. Re-render; max 3 iterations, then fail the run with the violation report — a human
-   decides (the gate exists precisely for this).
+`templates/krant.typ` re-creates the design established by `proto_krant.html` — the
+A4 three-column grid, 12 mm margins, 6 mm gutters, 9.5/11 pt body (LAY-1/2), Fraunces /
+Newsreader / Archivo, masthead, kickers, weather strip — and renders `edition.json`
+straight to a 4-page A4 PDF. (Typst consumes ttf/otf; `tools/build-fonts.py` gains a
+step to emit those alongside the woff2 subsets that only the prototypes needed.)
 
-The loop targets **exactly 4 A4 pages** (LAY-7): content fills 3.5–4 pages and the
+**Typeset checks.** Compile, then verify LAY-1..5 and LAY-7 against the compiled
+layout (Typst's introspection/query where possible, PDF text extraction otherwise).
+Violations should be rare; when one occurs, remedies in order of cheapness —
+reflow knobs (optional-element position, illustration slot), a review-model trim or
+extension of a specific paragraph (addressed by article `pos` + paragraph index) by a
+word budget, dropping the lowest-ranked optional element — max 3 recompiles, then fail
+the run with the violation report; a human decides (the gate exists precisely for
+this). The target is **exactly 4 A4 pages** (LAY-7): content fills 3.5–4 pages and the
 closing landscape (EL-4) absorbs the remaining slack on page 4.
 
-**PDF export & booklet imposition (OPS-2).** Once the loop passes, the same Chromium
-instance prints the HTML to a 4-page A4 PDF, and pypdf imposes those pages onto two A3
-landscape sheets — outer sheet `4 | 1`, inner sheet `2 | 3` — producing the fold-ready
-`krant-A3boekje.pdf`, the primary print deliverable (matching the editions produced to
-date). The HTML remains the source artifact and the web-readable edition.
+**Booklet imposition (OPS-2).** pypdf imposes the 4 A4 pages onto two A3 landscape
+sheets — outer sheet `4 | 1`, inner sheet `2 | 3` — producing the fold-ready
+`krant-A3boekje.pdf`: the deliverable, matching the editions produced to date.
 
-Weather (EL-2) is fetched from Open-Meteo at compose time and baked into the HTML —
-the published page stays static and dependency-free (principle 4; the prototype's
-client-side fetch remains only as a progressive enhancement that overwrites the baked
-strip when online).
+Weather (EL-2) is fetched from Open-Meteo at compose time and baked into
+`edition.json`, so the rendered edition is a closed artifact (principle 4).
 
 Illustrations (EL-3/EL-4, OQ-2): `assets/illustrations/` is a small library of
 hand-drawn-style SVGs tagged by theme. S6 proposes a subject; S9 picks the best tag
@@ -200,18 +205,19 @@ need no agent loop.
 
 1. `edition.yml` — cron early Sunday morning (Europe/Amsterdam) + `workflow_dispatch`
    (inputs: `edition_date`, `from_stage` for resume). Steps: checkout → install
-   (Python deps **plus Playwright Chromium and its system libraries** — `playwright
-   install --with-deps chromium` — needed by S5's browser-render fetch and S9's typeset
-   loop) → `python -m zonzijde run` → commit `editions/<date>/` to branch
-   `edition/<date>` → open the **edition PR**.
+   (Python deps, **Playwright Chromium with its system libraries** — `playwright
+   install --with-deps chromium`, needed by S5's browser-render fetch — and the
+   **pinned Typst binary** for S9) → `python -m zonzijde run` → commit
+   `editions/<date>/` to branch `edition/<date>` → open the **edition PR**.
 2. `pages.yml` (existing) — on merge to `main`, deploy. Extended to (re)generate the
-   archive index (`index.html`: latest edition + list of previous ones).
+   archive listing (latest edition + previous ones, direct PDF links).
 
 **The edition PR is the editorial gate (OPS-3).** Its body is the run report: the funnel
 (fetched → filtered → scored → selected → written), scores distribution, sources used,
 stories re-sourced or dropped (blocked fetches, widened lokaal window), correction
-log from S8, typeset-loop outcome, and LLM cost. The editor reads the rendered edition
-(PR preview or local open), optionally edits artifacts/HTML in place, merges to publish.
+log from S8, typeset-check outcome, and LLM cost. The editor opens the booklet PDF from
+the PR, optionally edits `edition.json`/artifacts in place (S9 re-renders), merges to
+publish.
 Nothing auto-merges (OQ-5).
 
 Secrets: `GEMINI_API_KEY`, `ANTHROPIC_API_KEY` as Actions secrets, read from env by
@@ -226,18 +232,18 @@ zonzijde/                  # Python package (the pipeline)
                            # outline.py write.py review.py compose.py
   contracts.py             # pydantic models for all artifacts (§4)
   llm.py                   # provider adapters, tiers, schema-validated calls
-  typeset.py               # headless-chromium measurement (§5)
+  typeset.py               # Typst compile, LAY checks, booklet imposition (§5)
   report.py                # run report for the edition PR
 config/
   sources.yaml             # feed list + scope tags (from proto_fetchfilter.html)
   filters.yaml             # regex buckets B1–B5
   edition.yaml             # ED/LAY constants, cadence, model tiers
   prompts/                 # score.md select.md outline.md write.md review.md (versioned)
-templates/krant.html.j2    # from proto_krant.html
+templates/krant.typ        # Typst print template (design per proto_krant.html)
 assets/illustrations/      # tagged SVG library + masthead + closing landscape
 fonts/  fonts.css          # unchanged
-editions/<YYYY-MM-DD>/     # work/ (stage artifacts), krant.html,
-                           # krant-A3boekje.pdf, edition.json, report.md
+editions/<YYYY-MM-DD>/     # work/ (stage artifacts), krant-A3boekje.pdf,
+                           # edition.json, report.md
 tools/                     # prototypes & one-off utilities (proto_* stay for debugging)
 docs/                      # SPEC.md  ARCHITECTURE.md
 tests/                     # unit + golden-run + evals (§9)
@@ -282,9 +288,10 @@ Each phase lands as a normal PR and leaves the current manual workflow usable.
    real candidate set.*
 4. **S6–S8** — outline/write/review prompts (ported from concept §3.5–3.6 and hardened);
    correction log. *Exit: a full `80-reviewed.json` a human judges publishable-with-edits.*
-5. **S9 + template** — extract `krant.html.j2` from `proto_krant.html`; weather baking;
-   illustration slot; typeset loop; print-to-PDF and A3 booklet imposition. *Exit:
-   golden run produces a valid edition (HTML + booklet PDF) end-to-end.*
+5. **S9 + template** — re-create the `proto_krant.html` design as `templates/krant.typ`
+   (side-by-side against a printed prototype edition until visually equivalent);
+   ttf/otf font subsets; weather baking; illustration slot; typeset checks; A3 booklet
+   imposition. *Exit: golden run produces a fold-ready booklet PDF end-to-end.*
 6. **Orchestration** — `edition.yml`, edition PR with report, archive index in Pages
    deploy. *Exit: one Sunday edition produced by cron, reviewed, merged, published.*
 7. **Hardening** — eval gates in CI, cost tracking, prompt versioning discipline; then
