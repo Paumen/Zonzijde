@@ -66,13 +66,17 @@ def light_json(prompt: str, model: str, timeout: float = 120.0) -> object:
 
 
 def frontier_json(prompt: str, system: str, schema: dict, model: str,
-                  effort: str | None = None) -> object:
+                  effort: str | None = None,
+                  allowed_tools: list[str] | None = None,
+                  max_turns: int = 1) -> object:
     """One short Claude Agent SDK session with schema-enforced structured
     output; returns the parsed JSON. Raises ``LlmError`` on failure —
     the S4 caller retries with backoff and is fatal after 3 (§6).
 
     ``effort`` trades reasoning depth for latency/cost per call
-    (low…max, None = the model's default). ``ANTHROPIC_API_KEY`` is read
+    (low…max, None = the model's default). ``allowed_tools``/``max_turns``
+    give a stage tool use — e.g. WebSearch for S5's alternative-coverage
+    search and S6's SRC-3 browsing (§6). ``ANTHROPIC_API_KEY`` is read
     from env by the SDK itself.
     """
     import asyncio
@@ -81,7 +85,7 @@ def frontier_json(prompt: str, system: str, schema: dict, model: str,
 
     options = ClaudeAgentOptions(
         system_prompt=system, model=model, effort=effort,
-        max_turns=1, allowed_tools=[],
+        max_turns=max_turns, allowed_tools=allowed_tools or [],
         output_format={"type": "json_schema", "schema": schema})
 
     async def run() -> ResultMessage | None:

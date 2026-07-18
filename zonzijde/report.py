@@ -30,6 +30,7 @@ def build(ctx: RunContext) -> str:
     rejected_path = work / "20-rejected.json"
     score_log_path = work / "30-score-log.json"
     candidates_path = work / "40-candidates.json"
+    enrich_log_path = work / "50-enrich-log.json"
 
     if log_path.is_file():
         log = json.loads(log_path.read_text(encoding="utf-8"))
@@ -60,6 +61,15 @@ def build(ctx: RunContext) -> str:
             candidates = load_artifact(candidates_path, Candidate)
             rows = sum(len(c.items) for c in candidates)
             parts += [f"- S4 select: {len(candidates)} topics ({rows} source rows)"]
+        if enrich_log_path.is_file():
+            elog = json.loads(enrich_log_path.read_text(encoding="utf-8"))
+            m = elog["methods"]
+            parts += [f"- S5 enrich: {elog['rows']} source rows → "
+                      f"{elog['full_text']} full texts"
+                      f" (requests {m['requests']}, playwright {m['playwright']},"
+                      f" alt-source {m['alt-source']})"
+                      + (f"; {len(elog['dropped_topics'])} topics dropped (PIPE-5)"
+                         if elog["dropped_topics"] else "")]
         parts += ["", "## Feeds", "",
                   _table(["bron", "items", "in window", "undated", "error"],
                          [[f["bron"], f["entries"], f["kept"], f["undated"],
@@ -98,6 +108,29 @@ def build(ctx: RunContext) -> str:
                          [[c.scope, c.rank, c.topic,
                            ", ".join(r.bron for r in c.items)]
                           for c in candidates])]
+
+    if enrich_log_path.is_file():
+        elog = json.loads(enrich_log_path.read_text(encoding="utf-8"))
+        rows = []
+        for t in elog["topics"]:
+            alt = t.get("alt_search") or {}
+            if t["dropped"]:
+                status = "**dropped** — no full text on any route"
+            elif alt.get("picked"):
+                status = f"alt coverage: {alt['picked']}"
+            else:
+                status = "ok"
+            rows.append([t["scope"], t["rank"], t["topic"],
+                         f"{t['ok_rows']}/{t['rows']}", status])
+        parts += ["", "## Full text (PIPE-5)", "",
+                  _table(["scope", "rank", "topic", "full text", "status"], rows)]
+        for t in elog["topics"]:
+            alt = t.get("alt_search")
+            if t["dropped"] and alt:
+                parts += ["", f"Dropped {t['scope']}{t['rank']} "
+                              f"({t['topic']!r}): searched {alt['query']!r}, "
+                              f"tried {len(alt['tried'])} alternative(s)"
+                          + (f" — {alt['error']}" if alt.get("error") else "")]
 
     return "\n".join(parts) + "\n"
 

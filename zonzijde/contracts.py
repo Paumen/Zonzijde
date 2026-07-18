@@ -91,6 +91,24 @@ class Candidate(BaseModel):
     items: list[CandidateItem] = Field(min_length=1)
 
 
+FetchMethod = Literal["requests", "playwright", "alt-source"]
+
+
+class ArticleText(CandidateItem):
+    """``50-articles.json`` entry (S5): candidate item + full text (PIPE-5).
+    ``ok=False`` means all fetch routes were exhausted; the row stays in the
+    file for the run report but never becomes writing material — there is no
+    summary fallback, ``samenvatting`` is metadata here. ``method`` is the
+    last route tried; for ``alt-source`` the substitute URL is in ``note``."""
+
+    ok: bool
+    method: FetchMethod
+    text: str
+    words: int
+    links: list[str]
+    note: str
+
+
 def save_artifact(path: Path, items: list[BaseModel]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     data = [i.model_dump(mode="json") for i in items]
