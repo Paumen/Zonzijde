@@ -36,67 +36,49 @@ from ..contracts import (ArticleText, Candidate, EditionOutline, ScoredItem,
 
 RING = ["L", "R", "N", "I"]
 
-# JSON schema for the structured-output call. pos/role/source_date/edition
-# are deliberately absent: code derives them (see module docstring).
-RESPONSE_SCHEMA = {
-    "type": "object",
-    "properties": {
-        "slots": {
-            "type": "array", "minItems": 1,
-            "items": {
+
+def response_schema(candidate_keys: list[str]) -> dict:
+    """The structured-output schema for one run. Each slot names the
+    ``candidate`` it is built from (constrained to the shortlist keys, so the
+    pick is always resolvable); scope/source_ids/source_date/pos/role/edition
+    are absent because code derives them (see module docstring)."""
+    return {
+        "type": "object",
+        "properties": {
+            "slots": {
+                "type": "array", "minItems": 1,
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "candidate": {"type": "string", "enum": candidate_keys},
+                        "topic": {"type": "string"},
+                        "length": {"type": "string",
+                                   "enum": ["long", "standard", "short"]},
+                        "type": {"type": "string",
+                                 "enum": ["news", "feature", "profile",
+                                          "zoom-out", "zoom-in"]},
+                        "devices": {"type": "array",
+                                    "items": {"type": "string"}},
+                        "location": {"type": "string"},
+                    },
+                    "required": ["candidate", "topic", "length", "type",
+                                 "devices", "location"],
+                    "additionalProperties": False,
+                },
+            },
+            "illustration": {
                 "type": "object",
                 "properties": {
-                    "scope": {"type": "string", "enum": RING},
-                    "topic": {"type": "string"},
-                    "length": {"type": "string",
-                               "enum": ["long", "standard", "short"]},
-                    "type": {"type": "string",
-                             "enum": ["news", "feature", "profile",
-                                      "zoom-out", "zoom-in"]},
-                    "angle": {"type": "string"},
-                    "devices": {"type": "array", "items": {"type": "string"}},
-                    "source_ids": {"type": "array", "minItems": 1,
-                                   "items": {"type": "string"}},
-                    "location": {"type": "string"},
+                    "slot_index": {"type": "integer", "minimum": 1},
+                    "subject": {"type": "string"},
                 },
-                "required": ["scope", "topic", "length", "type", "angle",
-                             "devices", "source_ids", "location"],
+                "required": ["slot_index", "subject"],
                 "additionalProperties": False,
             },
         },
-        "illustration": {
-            "type": "object",
-            "properties": {
-                "slot_index": {"type": "integer", "minimum": 1},
-                "subject": {"type": "string"},
-            },
-            "required": ["slot_index", "subject"],
-            "additionalProperties": False,
-        },
-        "optional_element": {
-            "type": "object",
-            "properties": {
-                "kind": {"type": "string",
-                         "enum": ["quote", "number", "side-story", "none"]},
-                "content": {"type": "string"},
-            },
-            "required": ["kind", "content"],
-            "additionalProperties": False,
-        },
-    },
-    "required": ["slots", "illustration", "optional_element"],
-    "additionalProperties": False,
-}
-
-# The output-shape half of the instruction (editorial wording stays in
-# prompts/outline.md — same split as S4's SHAPE_NOTE).
-SHAPE_NOTE = (
-    "Answer as JSON per the given schema: slots in reading order (the slots "
-    "are re-sorted into strict ring order afterwards, so order within a scope "
-    "is what you control), each with the exact source id(s) from the story "
-    "blocks below — only ids marked ok are usable. illustration.slot_index "
-    "is the 1-based index into your own slots array. Give optional_element "
-    "kind 'none' with empty content if the edition carries none.")
+        "required": ["slots", "illustration"],
+        "additionalProperties": False,
+    }
 
 # call(prompt, system) -> parsed JSON; injectable for tests.
 FrontierCall = Callable[[str, str], object]
@@ -125,81 +107,110 @@ def spec_note(cfg: dict) -> str:
     return "\n".join(lines)
 
 
-def story_blocks(candidates: list[Candidate], articles: dict[str, ArticleText],
-                 published: dict[str, date | None]) -> str:
-    """The shortlist: each candidate topic with its rows as titel + RSS
-    samenvatting (not the full text — this is the pitch, the writers get the
-    texts). ``ok=false`` rows had no full text in S5, so a slot must not be
-    built on them (PIPE-5)."""
-    blocks = []
+def eligible_candidates(candidates: list[Candidate],
+                        articles: dict[str, ArticleText],
+                        ) -> list[tuple[str, Candidate]]:
+    """The shortlist the model may pick from: candidates with at least one ok
+    source (PIPE-5), each given a stable ``scope+index`` key (L1, L2, R1…) in
+    the candidates' file order. The key is what the model references and how
+    code re-attaches the topic's sources."""
+    keyed: list[tuple[str, Candidate]] = []
+    counters: dict[str, int] = {}
     for cand in candidates:
-        lines = [f"## {cand.scope}{cand.rank} — {cand.topic}"]
+        if any(articles[r.id].ok for r in cand.items):
+            n = counters.get(cand.scope, 0) + 1
+            counters[cand.scope] = n
+            keyed.append((f"{cand.scope}{n}", cand))
+    return keyed
+
+
+def story_blocks(keyed: list[tuple[str, Candidate]],
+                 articles: dict[str, ArticleText],
+                 published: dict[str, date | None]) -> str:
+    """Each shortlisted topic under its key, with its usable source rows as
+    titel + RSS samenvatting (not the full text — this is the pitch, the
+    writers get the texts)."""
+    blocks = []
+    for key, cand in keyed:
+        lines = [f"## {key} — {cand.topic}"]
         for row in cand.items:
-            art = articles[row.id]
+            if not articles[row.id].ok:
+                continue
             pub = published.get(row.id)
             summary = " ".join(row.samenvatting.split())
-            lines.append(f"- id={row.id} | ok={str(art.ok).lower()} | "
-                         f"bron={row.bron} | published={pub or 'unknown'} | "
+            lines.append(f"- bron={row.bron} | published={pub or 'unknown'} | "
                          f"titel={row.titel} | samenvatting={summary}")
         blocks.append("\n".join(lines))
     return "\n\n".join(blocks)
 
 
-def build_prompt(outline_body: str, cfg: dict, candidates: list[Candidate],
+def build_prompt(outline_body: str, cfg: dict,
+                 keyed: list[tuple[str, Candidate]],
                  articles: dict[str, ArticleText],
                  published: dict[str, date | None],
                  dropped: list[str]) -> str:
-    parts = [outline_body, SHAPE_NOTE, spec_note(cfg)]
+    parts = [outline_body, spec_note(cfg)]
     if dropped:
         parts.append("Topics dropped in enrichment (no full text — rebalance "
                      "around them):\n"
                      + "\n".join(f"- {t}" for t in dropped))
     parts.append("Shortlist:\n\n"
-                 + story_blocks(candidates, articles, published))
+                 + story_blocks(keyed, articles, published))
     return "\n\n".join(parts)
 
 
-def ground(payload: object, edition: date, cfg: dict,
+def ground(payload: object, edition: date,
+           by_key: dict[str, Candidate],
            articles: dict[str, ArticleText],
            published: dict[str, date | None],
            ) -> tuple[EditionOutline | None, list[str]]:
-    """Build the edition plan from the model's response — no validation of
-    its editorial choices (counts, mix, which sources). Code still assembles
-    what it owns: ring order (ED-6), ``pos``/``role``, ``source_date`` (newest
-    source, ED-3) and the illustration slot. Only the pydantic contract is
-    left as a structural backstop."""
+    """Build the edition plan from the model's response — no validation of its
+    editorial choices (counts, mix, which topics). Code assembles what it owns
+    from the picked candidate: ``scope``, ``source_ids`` (its ok rows) and
+    ``source_date`` (newest, ED-3), plus ring order (ED-6), ``pos``/``role``
+    and the illustration slot. Only the pydantic contract is a structural
+    backstop."""
     if not isinstance(payload, dict) or not isinstance(payload.get("slots"), list):
         return None, ["response is not an object with a slots list"]
     raw_slots = [s for s in payload["slots"] if isinstance(s, dict)]
 
-    # Ring order (ED-6): stable sort by scope keeps the model's order within
-    # each scope, so its first lokaal pick leads. Unknown scope sorts last.
-    def scope_key(i: int) -> int:
-        sc = raw_slots[i].get("scope")
-        return RING.index(sc) if sc in RING else len(RING)
-    order = sorted(range(len(raw_slots)), key=scope_key)
+    resolved: list[tuple[dict, Candidate]] = []
+    for slot in raw_slots:
+        cand = by_key.get(slot.get("candidate"))
+        if cand is None:
+            return None, [f"unknown candidate {slot.get('candidate')!r}"]
+        resolved.append((slot, cand))
+
+    # Ring order (ED-6): stable sort by the candidate's scope keeps the model's
+    # order within each scope, so its first lokaal pick leads.
+    order = sorted(range(len(resolved)),
+                   key=lambda i: RING.index(resolved[i][1].scope))
     pos_of_index = {i: pos for pos, i in enumerate(order, start=1)}
 
     slots = []
     for i in order:
-        slot = raw_slots[i]
-        sids = slot.get("source_ids") or []
+        slot, cand = resolved[i]
+        sids = [r.id for r in cand.items if articles[r.id].ok]
         dates = [published.get(sid) for sid in sids if published.get(sid)]
-        slots.append({**slot, "pos": pos_of_index[i],
-                      "role": "front-hero" if pos_of_index[i] == 1 else "body",
-                      "source_date": max(dates) if dates else None})
+        slots.append({
+            "pos": pos_of_index[i], "scope": cand.scope,
+            "role": "front-hero" if pos_of_index[i] == 1 else "body",
+            "topic": slot.get("topic"), "length": slot.get("length"),
+            "type": slot.get("type"), "devices": slot.get("devices"),
+            "source_ids": sids, "location": slot.get("location"),
+            "source_date": max(dates) if dates else None,
+        })
 
     ill = payload.get("illustration") if isinstance(payload.get("illustration"), dict) else {}
     idx = ill.get("slot_index")
     slot_pos = (pos_of_index[idx - 1] if isinstance(idx, int)
-                and 1 <= idx <= len(raw_slots) else 1)
+                and 1 <= idx <= len(resolved) else 1)
     subject = ill.get("subject").strip() if isinstance(ill.get("subject"), str) else ""
 
     try:
         outline = EditionOutline.model_validate({
             "edition": edition, "slots": slots,
             "illustration": {"slot_pos": slot_pos, "subject": subject},
-            "optional_element": payload.get("optional_element"),
         })
     except ValidationError as e:
         return None, [f"invalid outline: {e}"]
@@ -211,12 +222,6 @@ def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
     ed_cfg = ctx.edition_cfg
     brief = prompts.load_prompt(ctx.root, "brief")
     outline_prompt = prompts.load_prompt(ctx.root, "outline")
-    if call is None:
-        # Plain prompt-in/JSON-out, no tools: the outline is a quick pitch
-        # from the shortlist, not a research session.
-        call = lambda prompt, system: llm.frontier_json(
-            prompt, system=system, schema=RESPONSE_SCHEMA,
-            model=cfg["model"], effort=cfg.get("effort"))
 
     candidates = load_artifact(ctx.work_dir / "40-candidates.json", Candidate)
     articles = {a.id: a for a in
@@ -228,20 +233,31 @@ def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
         (ctx.work_dir / "50-enrich-log.json").read_text(encoding="utf-8"))
     dropped = enrich_log.get("dropped_topics", [])
 
+    keyed = eligible_candidates(candidates, articles)
+    if not keyed:
+        raise SystemExit("S6 outline: no candidate has usable source text (PIPE-5)")
+    by_key = {key: cand for key, cand in keyed}
+    if call is None:
+        # Plain prompt-in/JSON-out, no tools: the outline is a quick pitch
+        # from the shortlist, not a research session.
+        schema = response_schema([key for key, _ in keyed])
+        call = lambda prompt, system: llm.frontier_json(
+            prompt, system=system, schema=schema,
+            model=cfg["model"], effort=cfg.get("effort"))
+
     # How many topics survived S5 per scope — informational for the log; no
     # longer a gate (ED-1 counts are the model's call, judged at the gate).
     available: dict[str, int] = {s: 0 for s in RING}
-    for cand in candidates:
-        if any(articles[r.id].ok for r in cand.items):
-            available[cand.scope] += 1
+    for _, cand in keyed:
+        available[cand.scope] += 1
 
-    prompt = build_prompt(outline_prompt.body, ed_cfg, candidates, articles,
+    prompt = build_prompt(outline_prompt.body, ed_cfg, keyed, articles,
                           published, dropped)
     try:
         payload = call(prompt, brief.body)
     except llm.LlmError as e:
         raise SystemExit(f"S6 outline: call failed: {e}")
-    outline, problems = ground(payload, ctx.edition, ed_cfg, articles, published)
+    outline, problems = ground(payload, ctx.edition, by_key, articles, published)
     if problems:  # only a structural/contract break reaches here now
         raise SystemExit(f"S6 outline: unusable response: {problems}")
 

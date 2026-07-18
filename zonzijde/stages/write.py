@@ -2,9 +2,10 @@
 
 Reads ``60-outline.json`` + ``50-articles.json``, writes ``70-drafts.json``
 and ``70-write-log.json``. Each call is grounded on the slot's own S5 source
-texts only; the writing rules (``prompts/write.md``) are the system prompt,
-and the length guidance and no-self-reference rule are stated there for the
-model to follow — they are not re-checked in code. The response is
+texts only; the brief + writing rules (``prompts/brief.md`` +
+``prompts/write.md``) are the system prompt, and the length guidance and
+no-self-reference rule are stated there for the model to follow — they are
+not re-checked in code. The response is
 schema-enforced at the call layer; ``words`` is computed. One call per
 article, no retry: only a structurally unusable response leaves a hole, and
 an edition with holes fails the run (§6).
@@ -48,16 +49,12 @@ def word_count(paragraphs: list[str]) -> int:
 
 
 def build_prompt(slot: OutlineSlot, budget: dict, para_cfg: dict,
-                 sources: list[ArticleText],
-                 others: list[OutlineSlot]) -> str:
-    """The plan for this one article + its source texts. The other slots
-    appear as titles only, so a 'refer to another article' device (WR-1) has
-    something to refer to — never as writing material."""
+                 sources: list[ArticleText]) -> str:
+    """The plan for this one article + its source texts."""
     plan = [
         f"Edition slot {slot.pos} ({'front page hero' if slot.role == 'front-hero' else 'body'}).",
         f"- topic: {slot.topic}",
         f"- article type: {slot.type}",
-        f"- angle: {slot.angle}",
         f"- devices: {', '.join(slot.devices) or 'none'}",
         f"- location (dateline, do not restate in the body): {slot.location}",
         f"- length: {slot.length} — as a guide {budget['min']}–{budget['max']} "
@@ -65,13 +62,6 @@ def build_prompt(slot: OutlineSlot, budget: dict, para_cfg: dict,
         "decides, not the count",
     ]
     parts = ["\n".join(plan)]
-    if others:
-        parts.append("Elsewhere in this edition (context only):\n"
-                     + "\n".join(f"- slot {o.pos} ({o.scope}): {o.topic}"
-                                 for o in others)
-                     + "\nA reference device points at such an article by its "
-                       "subject — never as 'deze krant' or 'elders in deze "
-                       "krant' (PIPE-7).")
     parts.append("Source text(s) — the only writing material:")
     for art in sources:
         parts.append(f"### {art.bron} — {art.titel}\n\n{art.text}")
@@ -99,7 +89,7 @@ def ground(payload: object, slot: OutlineSlot) -> tuple[Draft | None, list[str]]
 
 
 def write_slot(slot: OutlineSlot, articles: dict[str, ArticleText],
-               ed_cfg: dict, others: list[OutlineSlot], system: str,
+               ed_cfg: dict, system: str,
                call: FrontierCall) -> tuple[Draft | None, list[str]]:
     """Write one article with a single call — no retry. Returns the draft
     (or None only if the call failed or the response was structurally
@@ -107,7 +97,7 @@ def write_slot(slot: OutlineSlot, articles: dict[str, ArticleText],
     budget = ed_cfg["words"][slot.length]
     para_cfg = ed_cfg["paragraphs"]
     sources = [articles[sid] for sid in slot.source_ids if sid in articles]
-    prompt = build_prompt(slot, budget, para_cfg, sources, others)
+    prompt = build_prompt(slot, budget, para_cfg, sources)
     try:
         return ground(call(prompt, system), slot)
     except llm.LlmError as e:
@@ -119,7 +109,9 @@ def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
     ed_cfg = ctx.edition_cfg
     stage_cfg = ctx.stage_cfg("write")
     concurrency = int(stage_cfg.get("concurrency", 3))
+    brief = prompts.load_prompt(ctx.root, "brief")
     rules = prompts.load_prompt(ctx.root, "write")
+    system = f"{brief.body}\n\n{rules.body}"
     if call is None:
         call = lambda prompt, system: llm.frontier_json(
             prompt, system=system, schema=RESPONSE_SCHEMA,
@@ -130,8 +122,7 @@ def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
                 load_artifact(ctx.work_dir / "50-articles.json", ArticleText)}
 
     def work(slot: OutlineSlot) -> tuple[Draft | None, list[str]]:
-        others = [s for s in outline.slots if s.pos != slot.pos]
-        return write_slot(slot, articles, ed_cfg, others, rules.body, call)
+        return write_slot(slot, articles, ed_cfg, system, call)
 
     with ThreadPoolExecutor(max_workers=concurrency) as pool:
         results = list(pool.map(work, outline.slots))
@@ -140,7 +131,7 @@ def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
     failed = [s.pos for s, (d, _) in zip(outline.slots, results) if d is None]
     log = {
         "model": cfg["model"],
-        "prompt_versions": {"write": rules.version},
+        "prompt_versions": {"brief": brief.version, "write": rules.version},
         "slots": [{"pos": s.pos, "length": s.length,
                    "words": d.words if d else None, "problems": p}
                   for s, (d, p) in zip(outline.slots, results)],

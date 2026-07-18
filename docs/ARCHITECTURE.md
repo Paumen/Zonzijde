@@ -75,7 +75,7 @@ flowchart TD
 | S3 `score` | PIPE-3 | LLM (light) | `20` → `30-scored.json` | Batched (~80 items/call, concurrent), schema-enforced output, prompt `prompts/score.md`. Unparseable batch → items left unscored and excluded (fail-closed: unscored never advances). |
 | S4 `select` | PIPE-4 | LLM (frontier) | `30` (+1/+2 only) → `40-candidates.json` | Inputs `prompts/brief.md` + `prompts/select.md` + scored titles/summaries; output shape per PIPE-4. |
 | S5 `enrich` | PIPE-5 | code | `40` → `50-articles.json` | `tools/fetch-articles.py` refactored into the package; two-stage fetch (requests, then headless browser). Re-source-or-drop per PIPE-5: the topic's sibling rows in `40-candidates.json` are the only re-source; a topic with no full text is dropped and logged. No model call. |
-| S6 `outline` | PIPE-6 | LLM (frontier) | `40` + `50` (ok flags) + SPEC §5 → `60-outline.json` | A quick pitch: produces the edition plan per PIPE-6 (story picks, length classes, types, angles, illustration subject, optional element) from the **shortlist** — titles + RSS summaries, not the full texts. One plain call, no tools, no browsing; the writers (S7) get the texts. The model's editorial choices (ED-1 counts, ED-2 mix, which sources) are taken as-is and judged at the human gate — not validated in code. Code still assembles what it owns: `pos`/`role` and the lokaal front by ring-order sort (ED-6), and `source_date` (ED-3, the *newest* source's date). SRC-3 reference reading is not automated here (OQ-1). |
+| S6 `outline` | PIPE-6 | LLM (frontier) | `40` + `50` (ok flags) + SPEC §5 → `60-outline.json` | A quick pitch: produces the edition plan per PIPE-6 (story picks, length classes, types, illustration subject) from the **shortlist** — titles + RSS summaries, not the full texts. One plain call, no tools, no browsing; the writers (S7) get the texts. The model's editorial choices (ED-1 counts, ED-2 mix, which topics) are taken as-is and judged at the human gate — not validated in code. Code still assembles what it owns: `pos`/`role` and the lokaal front by ring-order sort (ED-6), and `source_date` (ED-3, the *newest* source's date). SRC-3 reference reading is not automated here (OQ-1). |
 | S7 `write` | PIPE-7 | LLM (frontier) | `60` → `70-drafts.json` | One call per article (grounded on its S5 texts only); the rules from PIPE-7 (length guidance, no self-reference) are in the system prompt and not re-checked in code. `words` computed. |
 | S8 `review` | PIPE-8 | LLM (frontier) | `70` → `80-reviewed.json` | Per article, fact-checked against its S5 source text (WR-2) by the model; emits a correction log for the PR. Output taken as-is, not validated in code. |
 | S9 `compose` | PIPE-9 | code (+LLM assist) | `80` → `editions/<date>/krant-A3boekje.pdf` + `edition.json` | Custom-illustration drawing, Typst render, weather baking, typeset checks, booklet imposition — all per §5. Text-LLM assist only to shorten/lengthen a specific paragraph when a check demands it. |
@@ -103,7 +103,7 @@ every printed article traces back to its feed items.
 // 30-scored.json (S3): item + { "score": -2..2 }        // absent = excluded, fail-closed
 
 // 40-candidates.json (S4)
-{ "scope": "L", "rank": 1, "topic": "…",
+{ "scope": "L", "topic": "…",
   "items": [ { "id": "…", "bron": "…", "titel": "…", "samenvatting": "…", "link": "…" } ] }
 
 // 50-articles.json (S5): candidate item + full text
@@ -116,10 +116,9 @@ every printed article traces back to its feed items.
     { "pos": 1, "scope": "L", "role": "front-hero",
       "topic": "…", "length": "long | standard | short",
       "type": "news | feature | profile | zoom-out | zoom-in",
-      "angle": "…", "devices": ["irony"], "source_ids": ["…"],
+      "devices": ["irony"], "source_ids": ["…"],
       "location": "Wijchen", "source_date": "2026-07-14" } ],
-  "illustration": { "slot_pos": 7, "subject": "…" },
-  "optional_element": { "kind": "quote | number | side-story | none", "content": "…" } }
+  "illustration": { "slot_pos": 7, "subject": "…" } }
 
 // 70-drafts.json (S7) / 80-reviewed.json (S8): slot + article text
 { "pos": 1, "title": "…", "location": "Wijchen", "source_date": "2026-07-14",
@@ -155,9 +154,9 @@ step to emit those alongside the woff2 subsets that only the prototypes needed.)
 **Typeset checks.** Compile, then verify LAY-1..5 and LAY-7 against the compiled
 layout (Typst's introspection/query where possible, PDF text extraction otherwise).
 Violations should be rare; when one occurs, remedies in order of cheapness —
-reflow knobs (optional-element position, illustration slot), a review-model trim or
+reflow knobs (illustration slot), a review-model trim or
 extension of a specific paragraph (addressed by article `pos` + paragraph index) by a
-word budget, dropping the lowest-ranked optional element — max 3 recompiles, then fail
+word budget — max 3 recompiles, then fail
 the run with the violation report; a human decides (the gate exists precisely for
 this). The target is **exactly 4 A4 pages**, closing landscape absorbing the slack
 (LAY-7).
@@ -267,8 +266,7 @@ tests/                     # unit + golden-run + evals (§9)
   stable edition; catches template and plumbing regressions in CI on every PR.
 - **Scorer eval**: a hand-labelled set (~100–200 real items) with two tracked numbers:
   *negativity leakage* (items ≤0 labelled that score ≥+1 — the trust-killer, keep ~0)
-  and *positive recall*. Any change to `prompts/score.md`, the light model, or the
-  buckets must re-run the eval and post the numbers in its PR.
+  and *positive recall*.
 - **Typeset check** doubles as a test: the golden edition must pass LAY-1..5.
 
 ## 10. Security & operational notes

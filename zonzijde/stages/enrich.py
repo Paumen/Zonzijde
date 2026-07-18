@@ -216,7 +216,7 @@ def run(ctx: RunContext, fetch: Fetch | None = None,
     topics_log: list[dict] = []
     for cand in candidates:
         ok_rows = sum(1 for r in cand.items if articles[r.id].ok)
-        entry = {"scope": cand.scope, "rank": cand.rank, "topic": cand.topic,
+        entry = {"scope": cand.scope, "topic": cand.topic,
                  "rows": len(cand.items), "ok_rows": ok_rows,
                  "dropped": ok_rows == 0}
         if entry["dropped"]:

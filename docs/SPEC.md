@@ -78,9 +78,9 @@ A funnel: each step narrows the stream. Normative behaviour per step; implementa
 | PIPE-1 | Fetch | Pull all configured feeds; a failing feed never fails the run — it is logged and skipped. |
 | PIPE-2 | Fixed filter | Remove exact duplicates by link *within the fetched batch* — the same article often arrives via multiple feeds (e.g. NOS algemeen and NOS economie). Repeats across editions are prevented by the candidate window (SRC-4), not by historical lookback. Strip blatantly negative items and promo via the maintained regex buckets (B1–B5). Deliberate double filter with PIPE-3's promo cap. |
 | PIPE-3 | Score | A lightweight LLM scores each remaining item −2…+2 on the **direction** of the news only — not size or reach. Promo/marketing/product items cap at 0. The canonical scoring prompt is versioned in `config/prompts/`. |
-| PIPE-4 | Select | Items scoring +1/+2 go to a frontier LLM with the brief; output is a ranked top-5 of *topics* per scope, one row per source article (a topic covered by multiple sources gets multiple rows), columns: bron, scope, titel, samenvatting, link. |
+| PIPE-4 | Select | Items scoring +1/+2 go to a frontier LLM with the brief; output is 5 *topics* per scope (unranked), one row per source article (a topic covered by multiple sources gets multiple rows), columns: bron, scope, titel, samenvatting, link. |
 | PIPE-5 | Enrich | Fetch the full article text behind every selected link (two-stage: plain fetch, then headless-browser render). **No summary fallback**: a short RSS blurb is never writing material (WR-2). If a link stays blocked, the topic's other source articles stand in (the candidate table lists one row per source). A topic with no usable full text on any of its rows is dropped and logged in the run report. Enrichment is plain code — no model call. |
-| PIPE-6 | Outline | With brief + edition spec + full texts: pick the stories per scope in the §5 numbers, assign length class, article type, tone/angle, and sources per story; front page led by the best lokaal story; identify which stories carry the longer pieces; consult SRC-3 reference sources. |
+| PIPE-6 | Outline | With brief + edition spec + shortlist: pick the stories per scope in the §5 numbers, assign length class and article type; the picked topic carries its own sources (from PIPE-4); front page led by the best lokaal story; identify which stories carry the longer pieces; consult SRC-3 reference sources. |
 | PIPE-7 | Write | Produce full Dutch article texts per the outline. Never refer to accompanying images/illustrations; never refer to De Zonzijde itself, "deze krant", its intent, or why a story is included. |
 | PIPE-8 | Review | Fact-check against the fetched source texts, correct grammar/spelling, finalise titles. |
 | PIPE-9 | Editorial & compose | Consolidate into the paper: cut/shorten, final ordering, overall balance and variety; typeset into the edition PDF satisfying §6; validated against LAY/EL rules before publication. |
@@ -88,8 +88,7 @@ A funnel: each step narrows the stream. Normative behaviour per step; implementa
 Writing-variety rules (apply across PIPE-6..9):
 
 - WR-1: Vary article forms across the edition — not all aphoristic kickers; at least
-  one piece somewhat funnier/more ironic; use devices like an analogy or metaphor; one
-  piece may refer to another article in the same edition.
+  one piece somewhat funnier/more ironic; use devices like an analogy or metaphor.
 - WR-2: Every article is grounded in its fetched source text(s); no invented facts,
   names, numbers, or quotes (enforced by PIPE-8).
 
@@ -119,7 +118,7 @@ Writing-variety rules (apply across PIPE-6..9):
 LAY-3..5 are hard gates: an edition that violates them is re-composed (cut/shorten/reflow),
 not published as-is.
 
-## 7. Fixed & optional elements
+## 7. Fixed elements
 
 | ID | Requirement |
 |----|-------------|
@@ -127,7 +126,6 @@ not published as-is.
 | EL-2 | Weather strip directly after the lokaal news, typically landing on page 2 (Wijchen; today + 5 days; max/min temperature and precipitation chance; source Open-Meteo). |
 | EL-3 | One custom illustration per edition, **drawn anew for that edition's article** — never picked from a stock set. Set with an article, preferably on page 3 or 4, usually regional or national. Hand-drawn style, one column wide, fits the Zonzijde theme and/or the article's topic; no colour — minimalist fine lines, patterns, strokes. |
 | EL-4 | The edition closes with the hand-drawn landscape at the bottom of the last page — flowers, a village in the distance, and a sun. |
-| EL-5 | Optional per edition: a quote, a number of the week, or a side story set in a light grey block. |
 | EL-6 | Articles never reference the illustrations, and illustrations carry no colour (BR-5). |
 
 ## 8. Cadence, delivery & operations
