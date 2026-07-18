@@ -53,6 +53,12 @@ def _dedupe(seq: list[str]) -> list[str]:
     return [x for x in seq if not (x in seen or seen.add(x))]
 
 
+def _host(url: str) -> str:
+    """Hostname normalised for comparison: hostnames are case-insensitive and
+    a site may serve the same pages with and without ``www.``."""
+    return urlsplit(url).netloc.lower().removeprefix("www.")
+
+
 # ----- fetch + extraction ---------------------------------------------------
 
 def fetch_html(url: str, timeout: float) -> tuple[int, str]:
@@ -84,7 +90,11 @@ def _stage1(item: CandidateItem, fetch: Fetch, timeout: float,
     if status != 200:  # 403/404/500 bodies are error pages, not the article
         art.note = f"HTTP {status} (error page, not the article)"
         return art
-    art.text, art.links = extract(html, item.link)
+    try:
+        art.text, art.links = extract(html, item.link)
+    except Exception as e:  # broken markup must not kill the whole stage
+        art.note = f"extraction failed: {type(e).__name__}: {e}"
+        return art
     art.words = len(art.text.split())
     art.ok = art.words >= min_words
     if not art.ok:
@@ -141,9 +151,10 @@ def render_blocked(blocked: list[ArticleText], timeout: float,
         browser = p.chromium.launch(**launch)
         for art in blocked:
             art.method = "playwright"
-            ctx = browser.new_context(user_agent=UA, locale="nl-NL")
-            page = ctx.new_page()
+            ctx = None
             try:
+                ctx = browser.new_context(user_agent=UA, locale="nl-NL")
+                page = ctx.new_page()
                 resp = page.goto(art.link, wait_until="domcontentloaded",
                                  timeout=timeout * 1000)
                 if resp and resp.status != 200:  # don't extract an error page
@@ -169,7 +180,11 @@ def render_blocked(blocked: list[ArticleText], timeout: float,
                 detail = str(e).splitlines()[0][:100] if str(e) else ""
                 art.note = f"browser render failed: {type(e).__name__}: {detail}"
             finally:
-                ctx.close()
+                if ctx is not None:
+                    try:
+                        ctx.close()
+                    except Exception:
+                        pass
         browser.close()
     return recovered
 
@@ -219,7 +234,7 @@ def make_search(cfg: dict) -> Search:
         if not isinstance(urls, list):
             raise llm.LlmError(f"search returned no urls list: {payload!r:.200}")
         def news(u: str) -> bool:
-            host = urlsplit(u).netloc
+            host = _host(u)
             return not any(host == h or host.endswith("." + h)
                            for h in _NON_NEWS_HOSTS)
         return _dedupe([u for u in urls if isinstance(u, str)
@@ -234,7 +249,7 @@ def _alt_source(cand: Candidate, articles: dict[str, ArticleText],
     the text lands on the topic's first row as ``method: alt-source``.
     Returns the log entry either way."""
     query = cand.items[0].titel  # the headline finds same-story coverage
-    own_hosts = {urlsplit(r.link).netloc for r in cand.items}
+    own_hosts = {_host(r.link) for r in cand.items}
     log: dict = {"query": query, "tried": [], "picked": None}
     try:
         results = search(query, timeout, max_results)
@@ -243,16 +258,16 @@ def _alt_source(cand: Candidate, articles: dict[str, ArticleText],
         return log
     log["found"] = len(results)
     for url in results:
-        if urlsplit(url).netloc in own_hosts:  # those hosts just blocked us
+        if _host(url) in own_hosts:  # those hosts just blocked us
             continue
         log["tried"].append(url)
-        try:
+        try:  # best-effort per URL: one bad page must not kill the run
             status, html = fetch(url, timeout)
-        except requests.RequestException:
+            if status != 200:
+                continue
+            text, links = extract(html, url)
+        except Exception:
             continue
-        if status != 200:
-            continue
-        text, links = extract(html, url)
         words = len(text.split())
         if words >= min_words:
             art = articles[cand.items[0].id]

@@ -138,6 +138,28 @@ def test_alt_source_recovers_a_blocked_topic(tmp_ctx):
     assert log["topics"][0]["alt_search"]["picked"] == alt
 
 
+def test_extraction_crash_blocks_the_row_not_the_stage(tmp_ctx, monkeypatch):
+    save_artifact(tmp_ctx.work_dir / "40-candidates.json", [_cand()])
+
+    def broken_extract(html, url):
+        raise ValueError("kapotte HTML")
+
+    monkeypatch.setattr(enrich, "extract", broken_extract)
+    enrich.run(tmp_ctx, fetch=lambda u, t: (200, "<html>"),
+               render=_no_render, search=_no_search)
+    (art,) = load_artifact(tmp_ctx.work_dir / "50-articles.json", ArticleText)
+    assert not art.ok and "extraction failed: ValueError" in art.note
+
+
+def test_alt_source_skips_www_variant_of_own_host(tmp_ctx):
+    save_artifact(tmp_ctx.work_dir / "40-candidates.json",
+                  [_cand(items=[_item(1, host="www.site1.nl")])])
+    enrich.run(tmp_ctx, fetch=lambda u, t: (403, ""), render=_no_render,
+               search=lambda q, t, n: ["https://SITE1.nl/andere-pagina"])
+    log = json.loads((tmp_ctx.work_dir / "50-enrich-log.json").read_text())
+    assert log["topics"][0]["alt_search"]["tried"] == []  # same host, skipped
+
+
 def test_shared_item_is_fetched_once(tmp_ctx):
     shared = _item(1)
     save_artifact(tmp_ctx.work_dir / "40-candidates.json",
