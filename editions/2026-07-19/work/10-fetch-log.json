@@ -1,0 +1,237 @@
+{
+  "fetched_at": "2026-07-18T12:47:51.985876+02:00",
+  "window_start": "2026-07-12T00:00:00+02:00",
+  "window_days": 7,
+  "feeds": [
+    {
+      "source": "gem_wijchen",
+      "bron": "Gem Wijchen",
+      "error": "",
+      "entries": 20,
+      "kept": 1,
+      "out_of_window": 19,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "nieuws_nl",
+      "bron": "nieuws.nl",
+      "error": "",
+      "entries": 54,
+      "kept": 13,
+      "out_of_window": 41,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "dg_wijchen",
+      "bron": "DG Wijchen",
+      "error": "",
+      "entries": 30,
+      "kept": 30,
+      "out_of_window": 0,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "gld",
+      "bron": "Gld",
+      "error": "",
+      "entries": 50,
+      "kept": 50,
+      "out_of_window": 0,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "gld_rvn",
+      "bron": "Gld RvN",
+      "error": "",
+      "entries": 50,
+      "kept": 27,
+      "out_of_window": 23,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "dg",
+      "bron": "DG",
+      "error": "",
+      "entries": 30,
+      "kept": 30,
+      "out_of_window": 0,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "dg_binnen",
+      "bron": "DG Binnen",
+      "error": "",
+      "entries": 30,
+      "kept": 30,
+      "out_of_window": 0,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "rijksoverheid",
+      "bron": "Overheid",
+      "error": "",
+      "entries": 12,
+      "kept": 12,
+      "out_of_window": 0,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "nos_jeugd",
+      "bron": "NOS J",
+      "error": "",
+      "entries": 20,
+      "kept": 20,
+      "out_of_window": 0,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "nos_algemeen",
+      "bron": "NOS Alg",
+      "error": "",
+      "entries": 20,
+      "kept": 20,
+      "out_of_window": 0,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "nos_binnenland",
+      "bron": "NOS Binnen",
+      "error": "",
+      "entries": 20,
+      "kept": 20,
+      "out_of_window": 0,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "nos_buitenland",
+      "bron": "NOS Buiten",
+      "error": "",
+      "entries": 20,
+      "kept": 20,
+      "out_of_window": 0,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "nos_economie",
+      "bron": "NOS Econ",
+      "error": "",
+      "entries": 20,
+      "kept": 20,
+      "out_of_window": 0,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "nos_sport",
+      "bron": "NOS Sport",
+      "error": "",
+      "entries": 20,
+      "kept": 20,
+      "out_of_window": 0,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "nos_opmerkelijk",
+      "bron": "NOS Opm",
+      "error": "",
+      "entries": 20,
+      "kept": 6,
+      "out_of_window": 14,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "nos_cultuur",
+      "bron": "NOS Cultuur",
+      "error": "",
+      "entries": 20,
+      "kept": 6,
+      "out_of_window": 14,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "ftm",
+      "bron": "FTM",
+      "error": "",
+      "entries": 10,
+      "kept": 10,
+      "out_of_window": 0,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "ew",
+      "bron": "EW",
+      "error": "",
+      "entries": 10,
+      "kept": 10,
+      "out_of_window": 0,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "hp",
+      "bron": "HP",
+      "error": "",
+      "entries": 50,
+      "kept": 6,
+      "out_of_window": 44,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "dw",
+      "bron": "DW",
+      "error": "",
+      "entries": 21,
+      "kept": 21,
+      "out_of_window": 0,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "dw_env",
+      "bron": "DW Env",
+      "error": "",
+      "entries": 20,
+      "kept": 6,
+      "out_of_window": 14,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "dw_science",
+      "bron": "DW Science",
+      "error": "",
+      "entries": 2,
+      "kept": 2,
+      "out_of_window": 0,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "positive_news",
+      "bron": "Positive",
+      "error": "",
+      "entries": 10,
+      "kept": 5,
+      "out_of_window": 5,
+      "no_link": 0,
+      "undated": 0
+    }
+  ]
+}
