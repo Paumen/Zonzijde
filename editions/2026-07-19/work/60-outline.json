@@ -1,0 +1,211 @@
+{
+  "edition": "2026-07-19",
+  "slots": [
+    {
+      "pos": 1,
+      "scope": "L",
+      "role": "front-hero",
+      "topic": "Batenburg Baroque Festival trekt meer bezoekers dan ooit",
+      "length": "long",
+      "type": "feature",
+      "angle": "Het festival als klankbord: hoe een historisch stadje vijf edities lang steeds voller stroomt, met jong talent naast gevestigde namen",
+      "devices": [
+        "analogie (het stadje als resonerende klankkast)",
+        "sfeervolle scene-opbouw met citaten van de initiator"
+      ],
+      "source_ids": [
+        "f1f69f295308"
+      ],
+      "location": "Batenburg",
+      "source_date": "2026-07-16"
+    },
+    {
+      "pos": 2,
+      "scope": "L",
+      "role": "body",
+      "topic": "Koninklijke onderscheidingen voor Jan en Ingrid van den Brink",
+      "length": "short",
+      "type": "profile",
+      "angle": "Het echtpaar dat 40 jaar lang de stille motor achter een dweilband was, nu zelf in het zonnetje",
+      "devices": [
+        "aforistische kicker"
+      ],
+      "source_ids": [
+        "f259828a70ad"
+      ],
+      "location": "Groesbeek",
+      "source_date": "2026-07-13"
+    },
+    {
+      "pos": 3,
+      "scope": "L",
+      "role": "body",
+      "topic": "Zomeractiviteiten bij Museum Kasteel Wijchen",
+      "length": "short",
+      "type": "news",
+      "angle": "Een luchtige gids langs speurtochten, waterbingo en een prikkelarme middag voor wie liever geen luide zomer wil",
+      "devices": [
+        "lichte ironie over de escaperoute die je juist opsluit in de zomervakantie",
+        "opsommende, uitnodigende toon"
+      ],
+      "source_ids": [
+        "a4c732d96a11"
+      ],
+      "location": "Wijchen",
+      "source_date": "2026-07-12"
+    },
+    {
+      "pos": 4,
+      "scope": "R",
+      "role": "body",
+      "topic": "Hoge Raad stelt Vitesse definitief in het gelijk tegen de KNVB",
+      "length": "long",
+      "type": "news",
+      "angle": "Na drie jaar juridisch getouwtrek mag de club eindelijk weer gewoon over voetbal zeuren",
+      "devices": [
+        "metafoor (het laatste fluitsignaal)",
+        "meerdere stemmen: bestuurslid, trainer, supporters"
+      ],
+      "source_ids": [
+        "58eca471a574",
+        "7d8b7993ab13"
+      ],
+      "location": "Arnhem",
+      "source_date": "2026-07-17"
+    },
+    {
+      "pos": 5,
+      "scope": "R",
+      "role": "body",
+      "topic": "Michelinster voor de Drogenapstoren en oude binnenstad van Zutphen",
+      "length": "standard",
+      "type": "feature",
+      "angle": "Wonen in een bezienswaardigheid: de bewoonster van de eeuwenoude toren krijgt er ongevraagd een sterrenrestaurant-status bij",
+      "devices": [
+        "analogie (leven in een ansichtkaart)",
+        "historische zijlijn over de naamgever Drogenap"
+      ],
+      "source_ids": [
+        "fa663f875213"
+      ],
+      "location": "Zutphen",
+      "source_date": "2026-07-16"
+    },
+    {
+      "pos": 6,
+      "scope": "R",
+      "role": "body",
+      "topic": "Arnhemse zanger Tim Koehoorn viraal met campagnelied over een praatje maken",
+      "length": "short",
+      "type": "profile",
+      "angle": "Een luchtig lied over de kracht van klein contact, van bushalte tot supermarktrij",
+      "devices": [
+        "verwijzing naar het echtpaar Van den Brink elders in deze krant, wier hele vereniging op een praatje draait",
+        "speelse, ietwat ironische toon"
+      ],
+      "source_ids": [
+        "b4827979b177"
+      ],
+      "location": "Arnhem",
+      "source_date": "2026-07-16"
+    },
+    {
+      "pos": 7,
+      "scope": "N",
+      "role": "body",
+      "topic": "Robotpak laat Daan weer lopen door er alleen aan te denken",
+      "length": "standard",
+      "type": "profile",
+      "angle": "Een wereldprimeur waarbij gedachte direct beweging wordt, verteld vanuit Daans eigen ervaring",
+      "devices": [
+        "aforistische kicker",
+        "metafoor (denken als eerste stap)"
+      ],
+      "source_ids": [
+        "f7ccaa47fdb2"
+      ],
+      "location": "Delft",
+      "source_date": "2026-07-17"
+    },
+    {
+      "pos": 8,
+      "scope": "N",
+      "role": "body",
+      "topic": "Geroofd Goudstikker-schilderij duikt op na dertig jaar bij grof vuil",
+      "length": "standard",
+      "type": "feature",
+      "angle": "Een lelijk paneel dat niemand wilde weggooien, blijkt een verloren stuk geschiedenis dat nu teruggaat naar de erven",
+      "devices": [
+        "ironie (hij vond het schilderij zelf 'oerlelijk')",
+        "tijdlijn-vertelling van vondst naar herkenning"
+      ],
+      "source_ids": [
+        "391b22657d1e"
+      ],
+      "location": "Amsterdam",
+      "source_date": "2026-07-13"
+    },
+    {
+      "pos": 9,
+      "scope": "N",
+      "role": "body",
+      "topic": "Arnhemse schuldhulp-proef krijgt vervolg na succesvolle resultaten",
+      "length": "standard",
+      "type": "zoom-in",
+      "angle": "Wat een wijk met de armste postcode van Nederland laat zien over vertrouwen herwinnen, knok voor knok",
+      "devices": [
+        "cijfer van de week als anker",
+        "persoonlijk citaat van deelnemer Shaquina naast de bredere cijfers"
+      ],
+      "source_ids": [
+        "edfbdda71ce4"
+      ],
+      "location": "Arnhem",
+      "source_date": "2026-07-15"
+    },
+    {
+      "pos": 10,
+      "scope": "I",
+      "role": "body",
+      "topic": "Gemarginaliseerde groepen vinden verbinding via amateurvoetbal",
+      "length": "long",
+      "type": "feature",
+      "angle": "Een grasveld in Londen als tegenwicht voor de dure, uitsluitende top van de sport: iedereen die nooit mocht meespelen, speelt nu wel",
+      "devices": [
+        "meerdere portretten die samen één verhaal vormen",
+        "analogie (het veld als vrijplaats)"
+      ],
+      "source_ids": [
+        "b577c4a79499"
+      ],
+      "location": "Londen",
+      "source_date": "2026-07-15"
+    },
+    {
+      "pos": 11,
+      "scope": "I",
+      "role": "body",
+      "topic": "India lanceert eerste privaat ontwikkelde raket de ruimte in",
+      "length": "standard",
+      "type": "news",
+      "angle": "Een klein eiland bij Chennai wordt het decor van een nationale mijlpaal in de opkomende private ruimtevaart",
+      "devices": [
+        "aforistische kicker",
+        "korte duiding van India's groeiende aandeel in de ruimte-economie"
+      ],
+      "source_ids": [
+        "9b7917174ac4"
+      ],
+      "location": "Sriharikota",
+      "source_date": "2026-07-18"
+    }
+  ],
+  "illustration": {
+    "slot_pos": 5,
+    "subject": "De middeleeuwse Drogenapstoren in Zutphen, met een kleine Michelin-ster gemarkeerd op de gevel — hand-getekend, zwart-wit, minimalistische fijne lijnen"
+  },
+  "optional_element": {
+    "kind": "number",
+    "content": "34% — het percentage van de schuld dat gemiddeld werd afgelost bij de Arnhemse schuldhulp-proef, tegen 5 tot 10 procent bij een reguliere aanpak."
+  }
+}

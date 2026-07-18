@@ -1,0 +1,143 @@
+{
+  "model": "claude-sonnet-5",
+  "prompt_versions": {
+    "write": 2
+  },
+  "slots": [
+    {
+      "pos": 1,
+      "length": "long",
+      "words": 448,
+      "attempts": [
+        {
+          "attempt": 1,
+          "problems": []
+        }
+      ]
+    },
+    {
+      "pos": 2,
+      "length": "short",
+      "words": 177,
+      "attempts": [
+        {
+          "attempt": 1,
+          "problems": []
+        }
+      ]
+    },
+    {
+      "pos": 3,
+      "length": "short",
+      "words": 169,
+      "attempts": [
+        {
+          "attempt": 1,
+          "problems": []
+        }
+      ]
+    },
+    {
+      "pos": 4,
+      "length": "long",
+      "words": 527,
+      "attempts": [
+        {
+          "attempt": 1,
+          "problems": []
+        }
+      ]
+    },
+    {
+      "pos": 5,
+      "length": "standard",
+      "words": 386,
+      "attempts": [
+        {
+          "attempt": 1,
+          "problems": []
+        }
+      ]
+    },
+    {
+      "pos": 6,
+      "length": "short",
+      "words": 204,
+      "attempts": [
+        {
+          "attempt": 1,
+          "problems": []
+        }
+      ]
+    },
+    {
+      "pos": 7,
+      "length": "standard",
+      "words": 252,
+      "attempts": [
+        {
+          "attempt": 1,
+          "problems": [
+            "202 words, budget is 230–360 (standard)"
+          ]
+        },
+        {
+          "attempt": 2,
+          "problems": []
+        }
+      ]
+    },
+    {
+      "pos": 8,
+      "length": "standard",
+      "words": 353,
+      "attempts": [
+        {
+          "attempt": 1,
+          "problems": []
+        }
+      ]
+    },
+    {
+      "pos": 9,
+      "length": "standard",
+      "words": 366,
+      "attempts": [
+        {
+          "attempt": 1,
+          "problems": []
+        }
+      ]
+    },
+    {
+      "pos": 10,
+      "length": "long",
+      "words": 559,
+      "attempts": [
+        {
+          "attempt": 1,
+          "problems": [
+            "830 words, budget is 420–620 (long)"
+          ]
+        },
+        {
+          "attempt": 2,
+          "problems": []
+        }
+      ]
+    },
+    {
+      "pos": 11,
+      "length": "standard",
+      "words": 357,
+      "attempts": [
+        {
+          "attempt": 1,
+          "problems": []
+        }
+      ]
+    }
+  ],
+  "words_total": 3798,
+  "failed_slots": []
+}

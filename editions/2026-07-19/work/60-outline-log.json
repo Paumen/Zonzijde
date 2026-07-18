@@ -1,0 +1,28 @@
+{
+  "model": "claude-sonnet-5",
+  "prompt_versions": {
+    "brief": 1,
+    "outline": 2
+  },
+  "input_topics": {
+    "L": 3,
+    "R": 5,
+    "N": 4,
+    "I": 5
+  },
+  "dropped_topics": [
+    "Patrijzenfamilie duikt op in tuin in Boven-Leeuwen",
+    "Opvallend weinig schoolverzuim rond vakantie in Wijchen",
+    "Pepijn (17) zet zich ondanks beperking in voor anderen"
+  ],
+  "planned_words": {
+    "min": 2740,
+    "max": 4260
+  },
+  "attempts": [
+    {
+      "attempt": 1,
+      "problems": []
+    }
+  ]
+}
