@@ -20,7 +20,7 @@ import json
 
 class LlmError(RuntimeError):
     """A call failed or returned something unusable; the caller decides
-    whether to retry, exclude (fail-closed) or abort."""
+    whether to exclude (fail-closed) or abort."""
 
 
 def agent_json(prompt: str, *, model: str, system: str | None = None,
@@ -56,7 +56,7 @@ def agent_json(prompt: str, *, model: str, system: str | None = None,
 
     try:
         result = asyncio.run(run())
-    except Exception as e:  # SDK/transport errors are all retryable here
+    except Exception as e:  # SDK/transport errors surface as LlmError
         raise LlmError(f"agent call failed: {type(e).__name__}: {e}")
     if result is None or getattr(result, "is_error", False):
         raise LlmError(f"agent session errored: {result!r:.500}")
@@ -72,8 +72,8 @@ def agent_json(prompt: str, *, model: str, system: str | None = None,
 def light_json(prompt: str, model: str, schema: dict | None = None) -> object:
     """One light-tier call (S3 scoring): single prompt, no tools. Two turns —
     a Haiku-class model needs one to answer and one to emit the structured
-    output. Raises ``LlmError``; the S3 caller retries once and then leaves
-    the batch unscored (fail-closed, PIPE-3)."""
+    output. Raises ``LlmError`` on failure; the batch is then left unscored
+    (fail-closed, PIPE-3)."""
     return agent_json(prompt, model=model, schema=schema, max_turns=2)
 
 
@@ -81,12 +81,11 @@ def frontier_json(prompt: str, system: str, schema: dict, model: str,
                   effort: str | None = None,
                   allowed_tools: list[str] | None = None,
                   max_turns: int = 2) -> object:
-    """One frontier-tier call (S4+). Raises ``LlmError`` on failure — the S4
-    caller retries with backoff and is fatal after 3 (§6). ``allowed_tools``/
-    ``max_turns`` give a stage tool use — e.g. WebSearch for S5's
-    alternative-coverage search and S6's SRC-3 browsing. Two turns minimum
-    for the same reason as the light tier: on a sizeable prompt the model
-    answers in one turn and emits the structured output in the next."""
+    """One frontier-tier call (S4+). Raises ``LlmError`` on failure — the
+    stage fails the run (§6). ``allowed_tools``/``max_turns`` give a stage
+    tool use — e.g. WebSearch for S6's SRC-3 browsing. Two turns minimum:
+    on a sizeable prompt the model answers in one turn and emits the
+    structured output in the next."""
     return agent_json(prompt, model=model, system=system, schema=schema,
                       effort=effort, allowed_tools=allowed_tools,
                       max_turns=max_turns)

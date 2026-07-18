@@ -1,5 +1,5 @@
 """S7 write: per-article grounding (ED-4, the loose word backstop, no
-self-reference), computed word counts, retry-then-fatal, artifact writing."""
+self-reference), computed word counts, single call, fatal on failure."""
 
 import json
 from datetime import date
@@ -102,19 +102,18 @@ def test_run_writes_drafts_per_slot(tmp_ctx):
     assert log["failed_slots"] == []
 
 
-def test_run_retries_with_feedback_then_fatal(tmp_ctx, monkeypatch):
-    monkeypatch.setattr(write.time, "sleep", lambda s: None)
+def test_failed_slot_is_fatal_single_call(tmp_ctx):
     _seed_work(tmp_ctx, lengths=("standard",))
     calls = []
 
     def call(prompt, system):
         calls.append(prompt)
-        return _payload(paragraphs=_paragraphs(2))  # always too few (ED-4)
+        return _payload(paragraphs=_paragraphs(2))  # too few (ED-4)
 
     with pytest.raises(SystemExit, match="slot\\(s\\) \\[1\\]"):
         write.run(tmp_ctx, call=call)
-    assert len(calls) == 3
-    assert "previous draft was invalid" in calls[1]
+    assert len(calls) == 1  # one call per slot, no retry
     # the log survives the failure for diagnosis
     log = json.loads((tmp_ctx.work_dir / "70-write-log.json").read_text())
     assert log["failed_slots"] == [1]
+    assert log["slots"][0]["problems"]  # why it failed is recorded

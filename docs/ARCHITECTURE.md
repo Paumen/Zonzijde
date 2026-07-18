@@ -72,7 +72,7 @@ flowchart TD
 |-------|------|------|--------------------------|-------|
 | S1 `fetch` | PIPE-1 | code | `config/sources.yaml` → `10-items.json` | Concurrent pull with timeout; per-feed failures logged in the run report, never fatal. Window per SRC-4. |
 | S2 `filter` | PIPE-2 | code | `10` → `20-filtered.json` + `20-rejected.json` | Batch dedupe + bucket filtering per PIPE-2; buckets B1–B5 live in `config/filters.yaml` (ported from the prototype). Rejections keep their reason for auditability. |
-| S3 `score` | PIPE-3 | LLM (light) | `20` → `30-scored.json` | Batched (~80 items/call, concurrent), schema-enforced output, prompt `prompts/score.md`. Unparseable batch → one retry → items left unscored and excluded (fail-closed: unscored never advances). |
+| S3 `score` | PIPE-3 | LLM (light) | `20` → `30-scored.json` | Batched (~80 items/call, concurrent), schema-enforced output, prompt `prompts/score.md`. Unparseable batch → items left unscored and excluded (fail-closed: unscored never advances). |
 | S4 `select` | PIPE-4 | LLM (frontier) | `30` (+1/+2 only) → `40-candidates.json` | Inputs `prompts/brief.md` + `prompts/select.md` + scored titles/summaries; output shape per PIPE-4. |
 | S5 `enrich` | PIPE-5 | code (+search) | `40` → `50-articles.json` | `tools/fetch-articles.py` refactored into the package; two-stage fetch (requests, then headless browser). Re-source-or-drop per PIPE-5: the topic's sibling rows in `40-candidates.json` first, then search; drops logged. |
 | S6 `outline` | PIPE-6 | LLM (frontier) | `50` + SPEC §5 → `60-outline.json` | Produces the edition plan per PIPE-6 (story picks, length classes, types, angles, illustration subject, optional element). Works only from stories that survived S5 (sees the drop log). **ED-1 is a hard gate, not relaxed:** if the S5 drops leave a scope below its minimum, S6 fails the run and names the SRC-4 remedy (widen the window) — a human decision, never a quietly thinner edition. `pos`/`role` follow ring order by construction (ED-6); `source_date` (ED-3) is the *newest* source's publication date when a topic has several. Each source text is truncated to `outline.article_chars` (10,000 chars ≈ 1,600 words) in the prompt — the `50-articles.json` artifact keeps the full text. Tool-assisted browsing for the SRC-3 reference sources. |
@@ -181,16 +181,17 @@ sunflower and the closing landscape (EL-1/EL-4) are fixed assets.
 
 | Stage | Model class | Calls/edition | Tokens (rough) | Failure policy |
 |-------|-------------|---------------|----------------|----------------|
-| S3 score | light (e.g. Claude Haiku) | ~15–25 batches | ~150k in / 5k out | retry once/batch; unscored = excluded |
-| S4 select | frontier | 1 | ~30k in / 2k out | retry w/ backoff; fatal after 3 |
+| S3 score | light (e.g. Claude Haiku) | ~15–25 batches | ~150k in / 5k out | no retry; unscored = excluded (fail-closed) |
+| S4 select | frontier | 1 | ~30k in / 2k out | no retry; fatal on failure or invalid output |
 | S6 outline | frontier (+ web tool) | 1 | ~50k in / 3k out | idem |
-| S7 write | frontier | ~10–12 (per article) | ~6k in / 1k out each | retry per article |
+| S7 write | frontier | ~10–12 (per article) | ~6k in / 1k out each | no retry; a failed article fails the run |
 | S8 review | frontier | ~10–12 | ~5k in / 1k out each | idem |
-| S9 illustration | frontier | 1 (+retries) | ~5k in / 5k out | redraw on invalid SVG; editor judges at the gate |
-| S9 trim assist | frontier | 0–4 | small | idem |
+| S9 illustration | frontier | 1 | ~5k in / 5k out | invalid SVG surfaces at the gate; editor judges |
+| S9 trim assist | frontier | 0–4 | small | one call per typeset violation (§5) |
 
 Order of magnitude: a few dollars per edition, dominated by S6–S8. Every response that
-feeds a later stage is JSON-schema-validated at the call layer (retry on mismatch).
+feeds a later stage is JSON-schema-validated at the call layer; an invalid response is
+not retried — the stage excludes the item (S3) or fails the run (S4+).
 Prompts are files in `config/prompts/` with a version header; `edition.json` records the
 versions used, so output changes are attributable to prompt changes.
 
@@ -200,7 +201,7 @@ touching stages. **Both tiers are driven through the Claude Agent SDK, not raw A
 calls**: each stage invocation is a short agent session, which is what gives S6 its
 browsing/tool use for the SRC-3 reference sources (and S5 its alternative-coverage
 search), gives S9's trim assist file context, and provides schema-enforced structured
-output and retries out of the box. The light tier (S3 scoring) runs the same sessions
+output out of the box. The light tier (S3 scoring) runs the same sessions
 on a Haiku-class model — single prompt, no tools — so one auth path covers the whole
 pipeline.
 

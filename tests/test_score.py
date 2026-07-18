@@ -49,25 +49,30 @@ def test_parse_scores_flags_contract_violations():
     assert problems == ["not a JSON object: list"]
 
 
-def test_score_batch_retries_once_then_keeps_valid_subset():
-    responses = iter([llm.LlmError("boom"), {"1": 2, "2": "hoog"}])
-
+def test_score_batch_single_call_keeps_valid_subset():
+    # One call, no retry: the valid scores are kept and the rest reported.
     def call(prompt):
-        r = next(responses)
-        if isinstance(r, Exception):
-            raise r
-        return r
+        return {"1": 2, "2": "hoog"}
 
     scores, problems = score_batch("P", [_item(1), _item(2)], call)
-    assert scores == {1: 2}          # valid subset of the retry survives
+    assert scores == {1: 2}          # valid subset survives
     assert problems                  # …and the leftover problem is reported
+
+
+def test_score_batch_call_failure_leaves_batch_unscored():
+    def call(prompt):
+        raise llm.LlmError("boom")
+
+    scores, problems = score_batch("P", [_item(1), _item(2)], call)
+    assert scores == {}              # nothing scored — fail-closed
+    assert problems == ["boom"]
 
 
 def test_run_is_fail_closed(tmp_ctx):
     items = [_item(1, "Goed nieuws"), _item(2, "Twijfel"), _item(3, "Meer")]
     save_artifact(tmp_ctx.work_dir / "20-filtered.json", items)
 
-    # Both attempts return item 2 unscored; 1 and 3 valid.
+    # The call returns item 2 unscored; 1 and 3 valid.
     def call(prompt):
         return {"1": 2, "3": -1}
 

@@ -6,14 +6,13 @@ slot) + ``50-articles.json``, writes ``80-reviewed.json`` and
 one frontier call with ``prompts/review.md`` as system prompt; the response
 is schema-enforced and grounded here like S7's, with the same loose word
 backstop: the review corrects facts and language (WR-2), it does not re-plan
-lengths, but it must not balloon or gut an article either. Retries with
-feedback per article, fatal after 3 (§6).
+lengths, but it must not balloon or gut an article either. One call per
+article, no retry: a failed article leaves a hole and the run fails (§6).
 """
 
 from __future__ import annotations
 
 import json
-import time
 from concurrent.futures import ThreadPoolExecutor
 from typing import Callable
 
@@ -23,9 +22,6 @@ from ..contracts import (ArticleText, Draft, EditionOutline, OutlineSlot,
                          Review, ReviewedArticle, load_artifact, load_model,
                          save_artifact)
 from .write import SELF_REF_RE, word_count
-
-MAX_ATTEMPTS = 3
-BACKOFF_S = 2.0
 
 RESPONSE_SCHEMA = {
     "type": "object",
@@ -103,31 +99,17 @@ def ground(payload: object, draft: Draft, budget: dict, para_cfg: dict,
 def review_draft(draft: Draft, slot: OutlineSlot,
                  articles: dict[str, ArticleText], ed_cfg: dict, slack: float,
                  system: str, call: FrontierCall
-                 ) -> tuple[ReviewedArticle | None, list[dict]]:
+                 ) -> tuple[ReviewedArticle | None, list[str]]:
+    """Review one draft with a single call — no retry. Returns the reviewed
+    article (or None on call failure / failed checks) plus the problems."""
     budget = ed_cfg["words"][slot.length]
     para_cfg = ed_cfg["paragraphs"]
     sources = [articles[sid] for sid in slot.source_ids]
     prompt = build_prompt(draft, slot, budget, sources)
-    attempts = []
-    reviewed = None
-    for attempt in range(1, MAX_ATTEMPTS + 1):
-        call_failed = False
-        try:
-            reviewed, problems = ground(call(prompt, system), draft, budget,
-                                        para_cfg, slack)
-        except llm.LlmError as e:
-            reviewed, problems = None, [str(e)]
-            call_failed = True
-        attempts.append({"attempt": attempt, "problems": problems})
-        if not problems:
-            break
-        if attempt < MAX_ATTEMPTS:
-            time.sleep(BACKOFF_S * 2 ** (attempt - 1))
-            prompt = build_prompt(draft, slot, budget, sources)
-            if not call_failed:
-                prompt += ("\n\nYour previous review was invalid:\n- "
-                           + "\n- ".join(problems) + "\nCorrect this.")
-    return reviewed, attempts
+    try:
+        return ground(call(prompt, system), draft, budget, para_cfg, slack)
+    except llm.LlmError as e:
+        return None, [str(e)]
 
 
 def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
@@ -152,7 +134,7 @@ def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
     articles = {a.id: a for a in
                 load_artifact(ctx.work_dir / "50-articles.json", ArticleText)}
 
-    def work(draft: Draft) -> tuple[ReviewedArticle | None, list[dict]]:
+    def work(draft: Draft) -> tuple[ReviewedArticle | None, list[str]]:
         return review_draft(draft, slots[draft.pos], articles, ed_cfg, slack,
                             rules.body, call)
 
@@ -169,8 +151,8 @@ def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
                                 "reviewed": r.words if r else None},
                       "fact_issues": r.review.fact_issues if r else [],
                       "corrections": r.review.corrections if r else [],
-                      "attempts": a}
-                     for d, (r, a) in zip(drafts, results)],
+                      "problems": p}
+                     for d, (r, p) in zip(drafts, results)],
         "words_total": sum(r.words for r in reviewed),
         "failed_slots": failed,
     }
@@ -179,8 +161,8 @@ def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
 
     if failed:
         raise SystemExit(
-            f"S8 review: no valid review after {MAX_ATTEMPTS} attempts for "
-            f"slot(s) {failed} — see 80-review-log.json")
+            f"S8 review: no valid review for slot(s) {failed} "
+            "— see 80-review-log.json")
 
     reviewed.sort(key=lambda r: r.pos)
     save_artifact(ctx.work_dir / "80-reviewed.json", reviewed)

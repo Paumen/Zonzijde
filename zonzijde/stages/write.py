@@ -7,8 +7,9 @@ prompt. The response is schema-enforced at the call layer and grounded here:
 paragraph count per ED-4, a loose word-count backstop around the slot's
 length guidance, and no self-reference to the paper (PIPE-7) — checked in
 code because a regex catches what a prompt merely requests. ``words`` is
-computed, never taken from the model. Retries with feedback per article,
-fatal after 3 (§6).
+computed, never taken from the model. One call per article, no retry: an
+article that fails its checks leaves a hole, and an edition with holes fails
+the run (§6).
 
 Word counts are guidance, not gates: good content must be written first, and
 whether the finished edition needs trimming — or a lesser article cut — is a
@@ -20,7 +21,6 @@ from __future__ import annotations
 
 import json
 import re
-import time
 from concurrent.futures import ThreadPoolExecutor
 from typing import Callable
 
@@ -28,9 +28,6 @@ from .. import llm, prompts
 from ..context import RunContext
 from ..contracts import (ArticleText, Draft, EditionOutline, OutlineSlot,
                          load_artifact, load_model, save_artifact)
-
-MAX_ATTEMPTS = 3
-BACKOFF_S = 2.0
 
 # PIPE-7: the paper never refers to itself. (Image/illustration references
 # need context to judge — that is S8's review, not a regex.)
@@ -125,33 +122,18 @@ def ground(payload: object, slot: OutlineSlot, budget: dict,
 def write_slot(slot: OutlineSlot, articles: dict[str, ArticleText],
                ed_cfg: dict, others: list[OutlineSlot], system: str,
                call: FrontierCall, slack: float = 0.0
-               ) -> tuple[Draft | None, list[dict]]:
-    """Write one article with the per-article retry policy. Returns the
-    draft (or None after MAX_ATTEMPTS) plus the attempt log."""
+               ) -> tuple[Draft | None, list[str]]:
+    """Write one article with a single call — no retry. Returns the draft
+    (or None if the call failed or the draft missed its checks) plus the
+    problems for the log."""
     budget = ed_cfg["words"][slot.length]
     para_cfg = ed_cfg["paragraphs"]
     sources = [articles[sid] for sid in slot.source_ids]
     prompt = build_prompt(slot, budget, para_cfg, sources, others)
-    attempts = []
-    draft = None
-    for attempt in range(1, MAX_ATTEMPTS + 1):
-        call_failed = False
-        try:
-            draft, problems = ground(call(prompt, system), slot, budget,
-                                     para_cfg, slack)
-        except llm.LlmError as e:
-            draft, problems = None, [str(e)]
-            call_failed = True
-        attempts.append({"attempt": attempt, "problems": problems})
-        if not problems:
-            break
-        if attempt < MAX_ATTEMPTS:
-            time.sleep(BACKOFF_S * 2 ** (attempt - 1))
-            prompt = build_prompt(slot, budget, para_cfg, sources, others)
-            if not call_failed:
-                prompt += ("\n\nYour previous draft was invalid:\n- "
-                           + "\n- ".join(problems) + "\nCorrect this.")
-    return draft, attempts
+    try:
+        return ground(call(prompt, system), slot, budget, para_cfg, slack)
+    except llm.LlmError as e:
+        return None, [str(e)]
 
 
 def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
@@ -170,7 +152,7 @@ def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
     articles = {a.id: a for a in
                 load_artifact(ctx.work_dir / "50-articles.json", ArticleText)}
 
-    def work(slot: OutlineSlot) -> tuple[Draft | None, list[dict]]:
+    def work(slot: OutlineSlot) -> tuple[Draft | None, list[str]]:
         others = [s for s in outline.slots if s.pos != slot.pos]
         return write_slot(slot, articles, ed_cfg, others, rules.body, call,
                           slack)
@@ -184,8 +166,8 @@ def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
         "model": cfg["model"],
         "prompt_versions": {"write": rules.version},
         "slots": [{"pos": s.pos, "length": s.length,
-                   "words": d.words if d else None, "attempts": a}
-                  for s, (d, a) in zip(outline.slots, results)],
+                   "words": d.words if d else None, "problems": p}
+                  for s, (d, p) in zip(outline.slots, results)],
         "words_total": sum(d.words for d in drafts),
         "failed_slots": failed,
     }
@@ -194,8 +176,8 @@ def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
 
     if failed:  # an edition with holes never advances — the plan counts on
         raise SystemExit(  # every slot (ED-1/ED-2)
-            f"S7 write: no valid draft after {MAX_ATTEMPTS} attempts for "
-            f"slot(s) {failed} — see 70-write-log.json")
+            f"S7 write: no valid draft for slot(s) {failed} "
+            "— see 70-write-log.json")
 
     drafts.sort(key=lambda d: d.pos)
     save_artifact(ctx.work_dir / "70-drafts.json", drafts)

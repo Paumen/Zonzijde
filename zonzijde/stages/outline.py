@@ -12,7 +12,8 @@ the call layer and grounded here: every slot must build on ``ok`` article
 ids of matching scope, scope counts and length mix must satisfy ED-1/ED-2,
 ring order and the lokaal front are enforced by construction (ED-6), and
 ``pos``/``role``/``source_date`` are assigned in code — never taken from
-the model. Retries with backoff, fatal after 3 (§6).
+the model. One call, no retry: a call failure or an invalid plan fails the
+run (§6).
 
 ED-1 is not relaxed: a scope that cannot contribute its minimum after the
 S5 drops fails the run up front — the spec's answer to a thin harvest is
@@ -23,7 +24,6 @@ thinner edition.
 from __future__ import annotations
 
 import json
-import time
 from datetime import date
 from typing import Callable
 
@@ -34,8 +34,6 @@ from ..context import RunContext
 from ..contracts import (ArticleText, Candidate, EditionOutline, ScoredItem,
                          load_artifact, save_model)
 
-MAX_ATTEMPTS = 3
-BACKOFF_S = 2.0
 RING = ["L", "R", "N", "I"]
 SCOPE_NAMES = {"L": "lokaal", "R": "regionaal", "N": "nationaal",
                "I": "internationaal"}
@@ -327,29 +325,14 @@ def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
 
     prompt = build_prompt(outline_prompt.body, ed_cfg, candidates, articles,
                           published, dropped, max_chars)
-    attempts = []
-    for attempt in range(1, MAX_ATTEMPTS + 1):
-        call_failed = False
-        try:
-            payload = call(prompt, brief.body)
-            outline, problems = ground(payload, ctx.edition, ed_cfg, articles,
-                                       scopes_by_id, published)
-        except llm.LlmError as e:
-            outline, problems = None, [str(e)]
-            call_failed = True
-        attempts.append({"attempt": attempt, "problems": problems})
-        if not problems:
-            break
-        if attempt < MAX_ATTEMPTS:
-            time.sleep(BACKOFF_S * 2 ** (attempt - 1))
-            prompt = build_prompt(outline_prompt.body, ed_cfg, candidates,
-                                  articles, published, dropped, max_chars)
-            if not call_failed:
-                prompt += ("\n\nYour previous plan was invalid:\n- "
-                           + "\n- ".join(problems) + "\nCorrect this.")
-    else:
-        raise SystemExit("S6 outline: no valid edition plan after "
-                         f"{MAX_ATTEMPTS} attempts: {problems}")
+    try:
+        payload = call(prompt, brief.body)
+    except llm.LlmError as e:
+        raise SystemExit(f"S6 outline: call failed: {e}")
+    outline, problems = ground(payload, ctx.edition, ed_cfg, articles,
+                               scopes_by_id, published)
+    if problems:
+        raise SystemExit(f"S6 outline: invalid edition plan: {problems}")
 
     save_model(ctx.work_dir / "60-outline.json", outline)
     words = ed_cfg["words"]
@@ -364,7 +347,6 @@ def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
         "input_topics": {s: available[s] for s in RING},
         "dropped_topics": dropped,
         "planned_words": planned,
-        "attempts": attempts,
     }
     (ctx.work_dir / "60-outline-log.json").write_text(
         json.dumps(log, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
@@ -373,5 +355,4 @@ def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
            for cls in ("long", "standard", "short")}
     print(f"S6 outline: {len(outline.slots)} slots "
           f"({mix['long']} long, {mix['standard']} standard, {mix['short']} "
-          f"short; planned {planned['min']}–{planned['max']} words) "
-          f"in {len(attempts)} attempt(s)")
+          f"short; planned {planned['min']}–{planned['max']} words)")

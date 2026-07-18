@@ -1,5 +1,5 @@
 """S6 outline: grounding against ED-1/ED-2/ED-6, ring order by construction,
-code-derived pos/role/source_date, retry-then-fatal, artifact writing."""
+code-derived pos/role/source_date, single call, fatal on failure."""
 
 import json
 from datetime import date
@@ -192,11 +192,9 @@ def test_run_writes_outline_and_log(tmp_ctx):
     log = json.loads((tmp_ctx.work_dir / "60-outline-log.json").read_text())
     assert log["prompt_versions"]["outline"] >= 2
     assert log["planned_words"]["min"] > 0
-    assert [a["attempt"] for a in log["attempts"]] == [1]
 
 
-def test_run_feeds_problems_back_then_fatal(tmp_ctx, monkeypatch):
-    monkeypatch.setattr(outline.time, "sleep", lambda s: None)
+def test_invalid_plan_is_fatal_single_call(tmp_ctx):
     _seed_work(tmp_ctx)
     calls = []
 
@@ -204,10 +202,9 @@ def test_run_feeds_problems_back_then_fatal(tmp_ctx, monkeypatch):
         calls.append(prompt)
         return {"slots": "nee"}
 
-    with pytest.raises(SystemExit, match="no valid edition plan after 3"):
+    with pytest.raises(SystemExit, match="invalid edition plan"):
         outline.run(tmp_ctx, call=call)
-    assert len(calls) == 3
-    assert "previous plan was invalid" in calls[1]
+    assert len(calls) == 1  # one call, no retry
 
 
 def test_run_requires_surviving_topics(tmp_ctx):

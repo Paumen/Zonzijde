@@ -1,4 +1,4 @@
-"""S4 select: grounding validation, retry-then-fatal, artifact writing."""
+"""S4 select: grounding validation, single call, fatal on failure/invalid."""
 
 from datetime import datetime
 
@@ -76,50 +76,33 @@ def test_run_writes_sorted_candidates(tmp_ctx):
     assert len(candidates[0].items) == 2                # multi-source topic
 
 
-def test_run_retries_on_problems_then_succeeds(tmp_ctx, monkeypatch):
-    monkeypatch.setattr(select.time, "sleep", lambda s: None)
+def test_run_is_single_call(tmp_ctx):
     item = _scored(1, ["L"])
     save_artifact(tmp_ctx.work_dir / "30-scored.json", [item])
     calls = []
 
     def call(prompt, system):
         calls.append(prompt)
-        if len(calls) == 1:
-            return {"candidates": [{"scope": "L", "rank": 1, "topic": "X",
-                    "items": [{"id": "ffffffffffff", "titel": "T",
-                               "samenvatting": "S"}]}]}
         return _payload()
 
     select.run(tmp_ctx, call=call)
-    assert len(calls) == 2
-    assert "ongeldig" in calls[1]  # retry carries the validation feedback
-    import json
-    log = json.loads((tmp_ctx.work_dir / "40-select-log.json").read_text())
-    assert [a["attempt"] for a in log["attempts"]] == [1, 2]
-    assert log["attempts"][0]["problems"]
+    assert len(calls) == 1  # one call, no retry
 
 
-def test_transport_error_is_not_fed_back_as_model_feedback(tmp_ctx, monkeypatch):
-    monkeypatch.setattr(select.time, "sleep", lambda s: None)
+def test_invalid_selection_is_fatal(tmp_ctx):
     save_artifact(tmp_ctx.work_dir / "30-scored.json", [_scored(1, ["L"])])
-    calls = []
+    with pytest.raises(SystemExit, match="invalid selection"):
+        select.run(tmp_ctx, call=lambda p, s: {"candidates": "nee"})
+
+
+def test_call_failure_is_fatal(tmp_ctx):
+    save_artifact(tmp_ctx.work_dir / "30-scored.json", [_scored(1, ["L"])])
 
     def call(prompt, system):
-        calls.append(prompt)
-        if len(calls) == 1:
-            raise select.llm.LlmError("transport down")
-        return _payload()
+        raise select.llm.LlmError("transport down")
 
-    select.run(tmp_ctx, call=call)
-    assert len(calls) == 2
-    assert "ongeldig" not in calls[1]  # the model never saw an invalid answer
-
-
-def test_run_is_fatal_after_max_attempts(tmp_ctx, monkeypatch):
-    monkeypatch.setattr(select.time, "sleep", lambda s: None)
-    save_artifact(tmp_ctx.work_dir / "30-scored.json", [_scored(1, ["L"])])
-    with pytest.raises(SystemExit, match="no valid selection after 3"):
-        select.run(tmp_ctx, call=lambda p, s: {"candidates": "nee"})
+    with pytest.raises(SystemExit, match="call failed"):
+        select.run(tmp_ctx, call=call)
 
 
 def test_run_requires_positive_items(tmp_ctx):

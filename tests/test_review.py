@@ -97,8 +97,7 @@ def test_run_rejects_drafts_not_in_outline(tmp_ctx):
         review.run(tmp_ctx, call=lambda p, s: _payload())
 
 
-def test_run_is_fatal_after_retries(tmp_ctx, monkeypatch):
-    monkeypatch.setattr(review.time, "sleep", lambda s: None)
+def test_call_failure_is_fatal_single_call(tmp_ctx):
     _seed_work(tmp_ctx, n_drafts=1)
     calls = []
 
@@ -108,5 +107,4 @@ def test_run_is_fatal_after_retries(tmp_ctx, monkeypatch):
 
     with pytest.raises(SystemExit, match="slot\\(s\\) \\[1\\]"):
         review.run(tmp_ctx, call=call)
-    assert len(calls) == 3
-    assert "previous review was invalid" not in calls[1]  # transport ≠ feedback
+    assert len(calls) == 1  # one call per draft, no retry
