@@ -54,7 +54,11 @@ outline:
 
 write:
   # S7 (PIPE-7): one frontier call per article, a few in flight at once.
+  # budget_slack: tolerated fraction outside the length-class word budget —
+  # the budget steers the writer; final fit is S9's typeset check. Without
+  # it a draft a handful of words over the line thrashes the retry loop.
   concurrency: 3
+  budget_slack: 0.10
 
 review:
   # S8 (PIPE-8): same shape as write. Slack is the tolerated fraction outside

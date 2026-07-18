@@ -184,7 +184,13 @@ def ground(payload: object, edition: date, cfg: dict,
         if slot.get("scope") not in RING:
             problems.append(f"slot {k}: invalid scope {slot.get('scope')!r}")
             continue
-        for sid in slot.get("source_ids", []):
+        sids = slot.get("source_ids")
+        if not isinstance(sids, list) or not sids:
+            # Recorded as a problem here so the later slot-construction pass
+            # (which runs only problem-free) can index source_ids safely.
+            problems.append(f"slot {k}: missing source_ids")
+            continue
+        for sid in sids:
             art = articles.get(sid)
             if art is None:
                 problems.append(f"slot {k}: unknown source id {sid!r}")

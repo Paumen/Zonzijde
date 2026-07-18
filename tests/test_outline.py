@@ -146,6 +146,21 @@ def test_ground_rejects_reused_source_and_bad_illustration(tmp_ctx):
     assert any("does not point at a slot" in p for p in problems)
 
 
+def test_ground_rejects_missing_or_null_source_ids(tmp_ctx):
+    # A slot without usable source_ids is a problem, never a crash.
+    args = (EDITION, _cfg(tmp_ctx), _articles(), _scopes_by_id(),
+            _published(), _available())
+    for bad in (None, [], "nee"):
+        payload = _payload()
+        payload["slots"][0]["source_ids"] = bad
+        _, problems = outline.ground(payload, *args)
+        assert any("missing source_ids" in p for p in problems), bad
+    payload = _payload()
+    del payload["slots"][0]["source_ids"]
+    _, problems = outline.ground(payload, *args)
+    assert any("missing source_ids" in p for p in problems)
+
+
 def _seed_work(ctx) -> None:
     candidates = [make_candidate(SCOPE_OF[n], (n - 1) % 3 + 1, [n])
                   for n in SCOPE_OF]

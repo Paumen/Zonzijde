@@ -50,6 +50,15 @@ def test_ground_keeps_review_findings_and_slack():
     assert any("correct, don't rewrite" in p for p in problems)
 
 
+def test_ground_tolerates_null_findings():
+    # null instead of [] for the finding lists must not crash the stage.
+    payload = _payload(fact_issues=None, corrections=None)
+    reviewed, problems = review.ground(payload, _draft(), BUDGET, PARAS, SLACK)
+    assert problems == []
+    assert reviewed.review.fact_issues == []
+    assert reviewed.review.corrections == []
+
+
 def _seed_work(ctx, n_drafts: int = 2) -> None:
     slots = [make_slot(pos, "L", pos) for pos in range(1, n_drafts + 1)]
     outline = EditionOutline(

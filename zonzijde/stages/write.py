@@ -69,7 +69,10 @@ def build_prompt(slot: OutlineSlot, budget: dict, para_cfg: dict,
     if others:
         parts.append("Elsewhere in this edition (context only):\n"
                      + "\n".join(f"- slot {o.pos} ({o.scope}): {o.topic}"
-                                 for o in others))
+                                 for o in others)
+                     + "\nA reference device points at such an article by its "
+                       "subject — never as 'deze krant' or 'elders in deze "
+                       "krant' (PIPE-7).")
     parts.append("Source text(s) — the only writing material:")
     for art in sources:
         parts.append(f"### {art.bron} — {art.titel}\n\n{art.text}")
@@ -77,7 +80,7 @@ def build_prompt(slot: OutlineSlot, budget: dict, para_cfg: dict,
 
 
 def ground(payload: object, slot: OutlineSlot, budget: dict,
-           para_cfg: dict) -> tuple[Draft | None, list[str]]:
+           para_cfg: dict, slack: float = 0.0) -> tuple[Draft | None, list[str]]:
     if not isinstance(payload, dict):
         return None, [f"not a JSON object: {type(payload).__name__}"]
     title = (payload.get("title") or "").strip() \
@@ -92,8 +95,13 @@ def ground(payload: object, slot: OutlineSlot, budget: dict,
     if not para_cfg["min"] <= len(paragraphs) <= para_cfg["max"]:
         problems.append(f"{len(paragraphs)} paragraphs, needs "
                         f"{para_cfg['min']}–{para_cfg['max']} (ED-4)")
+    # The budget is a planning number, not a legal bound — final fit is
+    # S9's typeset check. Without slack a 625-word draft against a 620
+    # budget just thrashes the retry loop.
     words = word_count(paragraphs)
-    if not budget["min"] <= words <= budget["max"]:
+    lo = int(budget["min"] * (1 - slack))
+    hi = int(budget["max"] * (1 + slack))
+    if not lo <= words <= hi:
         problems.append(f"{words} words, budget is "
                         f"{budget['min']}–{budget['max']} ({slot.length})")
     hits = {m.group(0) for m in SELF_REF_RE.finditer(" ".join([title] + paragraphs))}
@@ -109,7 +117,8 @@ def ground(payload: object, slot: OutlineSlot, budget: dict,
 
 def write_slot(slot: OutlineSlot, articles: dict[str, ArticleText],
                ed_cfg: dict, others: list[OutlineSlot], system: str,
-               call: FrontierCall) -> tuple[Draft | None, list[dict]]:
+               call: FrontierCall, slack: float = 0.0
+               ) -> tuple[Draft | None, list[dict]]:
     """Write one article with the per-article retry policy. Returns the
     draft (or None after MAX_ATTEMPTS) plus the attempt log."""
     budget = ed_cfg["words"][slot.length]
@@ -121,7 +130,8 @@ def write_slot(slot: OutlineSlot, articles: dict[str, ArticleText],
     for attempt in range(1, MAX_ATTEMPTS + 1):
         call_failed = False
         try:
-            draft, problems = ground(call(prompt, system), slot, budget, para_cfg)
+            draft, problems = ground(call(prompt, system), slot, budget,
+                                     para_cfg, slack)
         except llm.LlmError as e:
             draft, problems = None, [str(e)]
             call_failed = True
@@ -140,7 +150,9 @@ def write_slot(slot: OutlineSlot, articles: dict[str, ArticleText],
 def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
     cfg = ctx.llm_cfg("frontier")
     ed_cfg = ctx.edition_cfg
-    concurrency = int(ctx.stage_cfg("write").get("concurrency", 3))
+    stage_cfg = ctx.stage_cfg("write")
+    concurrency = int(stage_cfg.get("concurrency", 3))
+    slack = float(stage_cfg.get("budget_slack", 0.10))
     rules = prompts.load_prompt(ctx.root, "write")
     if call is None:
         call = lambda prompt, system: llm.frontier_json(
@@ -153,7 +165,8 @@ def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
 
     def work(slot: OutlineSlot) -> tuple[Draft | None, list[dict]]:
         others = [s for s in outline.slots if s.pos != slot.pos]
-        return write_slot(slot, articles, ed_cfg, others, rules.body, call)
+        return write_slot(slot, articles, ed_cfg, others, rules.body, call,
+                          slack)
 
     with ThreadPoolExecutor(max_workers=concurrency) as pool:
         results = list(pool.map(work, outline.slots))

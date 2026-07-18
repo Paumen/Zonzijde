@@ -46,6 +46,12 @@ def test_ground_rejects_budget_paragraphs_title_and_self_reference():
                                _slot(), BUDGET, PARAS)
     assert any("budget" in p for p in problems)
 
+    # slack: a near miss passes (380 ≤ 360·1.10), a real miss still fails
+    near = _payload(paragraphs=_paragraphs(4, 95))
+    assert write.ground(near, _slot(), BUDGET, PARAS, slack=0.10)[1] == []
+    _, problems = write.ground(near, _slot(), BUDGET, PARAS)
+    assert any("budget" in p for p in problems)
+
     _, problems = write.ground(_payload(title="  "), _slot(), BUDGET, PARAS)
     assert any("title" in p for p in problems)
 

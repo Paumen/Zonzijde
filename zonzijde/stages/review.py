@@ -87,11 +87,13 @@ def ground(payload: object, draft: Draft, budget: dict, para_cfg: dict,
                         + ", ".join(sorted(hits)))
     if problems:
         return None, problems
-    review = Review(
-        fact_issues=[s.strip() for s in payload.get("fact_issues", [])
-                     if isinstance(s, str) and s.strip()],
-        corrections=[s.strip() for s in payload.get("corrections", [])
-                     if isinstance(s, str) and s.strip()])
+    def _strings(key: str) -> list[str]:
+        raw = payload.get(key)  # null instead of [] must not crash the stage
+        return [s.strip() for s in raw if isinstance(s, str) and s.strip()] \
+            if isinstance(raw, list) else []
+
+    review = Review(fact_issues=_strings("fact_issues"),
+                    corrections=_strings("corrections"))
     return ReviewedArticle(pos=draft.pos, title=title, location=draft.location,
                            source_date=draft.source_date,
                            paragraphs=paragraphs, words=words,
