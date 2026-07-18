@@ -137,19 +137,22 @@ def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
     prompt = build_prompt(select.body, positive)
     attempts = []
     for attempt in range(1, MAX_ATTEMPTS + 1):
+        call_failed = False
         try:
             payload = call(prompt, brief.body)
             candidates, problems = ground(payload, by_id)
         except llm.LlmError as e:
             candidates, problems = [], [str(e)]
+            call_failed = True
         attempts.append({"attempt": attempt, "problems": problems})
         if not problems:
             break
         if attempt < MAX_ATTEMPTS:
             time.sleep(BACKOFF_S * 2 ** (attempt - 1))
-            prompt = build_prompt(select.body, positive) + (
-                "\n\nJe vorige antwoord was ongeldig:\n- "
-                + "\n- ".join(problems) + "\nCorrigeer dit.")
+            prompt = build_prompt(select.body, positive)
+            if not call_failed:  # only grounding feedback goes to the model
+                prompt += ("\n\nJe vorige antwoord was ongeldig:\n- "
+                           + "\n- ".join(problems) + "\nCorrigeer dit.")
     else:
         raise SystemExit("S4 select: no valid selection after "
                          f"{MAX_ATTEMPTS} attempts: {problems}")

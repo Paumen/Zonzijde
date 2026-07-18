@@ -86,10 +86,13 @@ def main() -> None:
     confusion = Counter((r["label"], scores.get(r["id"], "·")) for r in rows)
     print(f"\n## Scorer eval — score.md v{prompt.version}, model {cfg['model']},"
           f" {len(rows)} labelled items")
+    def pct(part: int, whole: int) -> str:
+        return f" ({part / whole:.1%})" if whole else ""
+
     print(f"\n- negativity leakage: {len(leaked)}/{len(labelled_neg)}"
-          f" ({len(leaked) / len(labelled_neg):.1%}) — keep ~0")
+          f"{pct(len(leaked), len(labelled_neg))} — keep ~0")
     print(f"- positive recall:    {len(recalled)}/{len(labelled_pos)}"
-          f" ({len(recalled) / len(labelled_pos):.1%})")
+          f"{pct(len(recalled), len(labelled_pos))}")
     print(f"- unscored (fail-closed): {len(unscored)}")
 
     print("\n| label \\ score | -2 | -1 | 0 | +1 | +2 | unscored |")

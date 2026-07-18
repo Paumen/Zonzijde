@@ -54,10 +54,11 @@ def light_json(prompt: str, model: str, timeout: float = 120.0) -> object:
             json=body, timeout=timeout, verify=VERIFY)
         res.raise_for_status()
         data = res.json()
-    except (requests.RequestException, ValueError) as e:
+        parts = ((data.get("candidates") or [{}])[0].get("content") or {}).get("parts") or []
+        text = "".join(p.get("text", "") for p in parts)
+    except (requests.RequestException, ValueError, LookupError,
+            AttributeError, TypeError) as e:  # incl. unexpected response shapes
         raise LlmError(f"gemini call failed: {type(e).__name__}: {e}")
-    parts = ((data.get("candidates") or [{}])[0].get("content") or {}).get("parts") or []
-    text = "".join(p.get("text", "") for p in parts)
     try:
         return json.loads(text)
     except ValueError as e:

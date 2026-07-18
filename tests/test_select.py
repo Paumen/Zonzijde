@@ -99,6 +99,22 @@ def test_run_retries_on_problems_then_succeeds(tmp_ctx, monkeypatch):
     assert log["attempts"][0]["problems"]
 
 
+def test_transport_error_is_not_fed_back_as_model_feedback(tmp_ctx, monkeypatch):
+    monkeypatch.setattr(select.time, "sleep", lambda s: None)
+    save_artifact(tmp_ctx.work_dir / "30-scored.json", [_scored(1, ["L"])])
+    calls = []
+
+    def call(prompt, system):
+        calls.append(prompt)
+        if len(calls) == 1:
+            raise select.llm.LlmError("transport down")
+        return _payload()
+
+    select.run(tmp_ctx, call=call)
+    assert len(calls) == 2
+    assert "ongeldig" not in calls[1]  # the model never saw an invalid answer
+
+
 def test_run_is_fatal_after_max_attempts(tmp_ctx, monkeypatch):
     monkeypatch.setattr(select.time, "sleep", lambda s: None)
     save_artifact(tmp_ctx.work_dir / "30-scored.json", [_scored(1, ["L"])])
