@@ -69,14 +69,14 @@ flowchart TD
 | Stage | Spec | Kind | Input → output artifact | Notes |
 |-------|------|------|--------------------------|-------|
 | S1 `fetch` | PIPE-1 | code | `config/sources.yaml` → `10-items.json` | Concurrent feed pull with timeout; per-feed failures recorded in the run report, never fatal (SRC-1/PIPE-1). Window per SRC-4. |
-| S2 `filter` | PIPE-2 | code | `10` → `20-filtered.json` + `20-rejected.json` | Link-dedupe; regex buckets B1–B5 from `config/filters.yaml` (ported from the prototype). Rejections keep their reason for auditability. |
+| S2 `filter` | PIPE-2 | code | `10` → `20-filtered.json` + `20-rejected.json` | Link-dedupe, both within the batch and against links already published in past `editions/*/edition.json` manifests (a story never repeats across editions); regex buckets B1–B5 from `config/filters.yaml` (ported from the prototype). Rejections keep their reason for auditability. |
 | S3 `score` | PIPE-3 | LLM (light) | `20` → `30-scored.json` | Batched (~80 items/call, concurrent), JSON-mode, temperature 0, prompt `prompts/score.md`. Unparseable batch → one retry → items left unscored and excluded (fail-closed: unscored never advances). |
 | S4 `select` | PIPE-4 | LLM (frontier) | `30` (+1/+2 only) → `40-candidates.json` | Brief + titles/summaries in, ranked top-5 topics per scope out; one row per source article. |
 | S5 `enrich` | PIPE-5 | code | `40` → `50-articles.json` | `tools/fetch-articles.py` refactored into the package; two-stage fetch with flagged RSS-summary fallback. |
-| S6 `outline` | PIPE-6 | LLM (frontier) | `50` + SPEC §5 → `60-outline.json` | Picks final stories per ED-1/ED-2, assigns length class, type, tone/angle (WR-1), sources per story, illustration-subject proposal (EL-3), optional element (EL-5). Uses tool-assisted browsing for SRC-3 reference sources. |
+| S6 `outline` | PIPE-6 | LLM (frontier) | `50` + SPEC §5 → `60-outline.json` | Picks final stories per ED-1/ED-2, assigns length class, type, tone/angle (WR-1), sources per story, illustration-subject proposal (EL-3), optional element (EL-5). Stories grounded only in an RSS-summary fallback are capped at the short length class or swapped out (PIPE-5). Uses tool-assisted browsing for SRC-3 reference sources. |
 | S7 `write` | PIPE-7 | LLM (frontier) | `60` → `70-drafts.json` | One call per article (grounded on its S5 texts only); hard rules from PIPE-7 in the system prompt. |
 | S8 `review` | PIPE-8 | LLM (frontier) | `70` → `80-reviewed.json` | Per-article fact-check against S5 source text (WR-2), NL grammar/spelling, final title; emits a correction log for the PR. |
-| S9 `compose` | PIPE-9 | code (+LLM assist) | `80` → `editions/<date>/krant.html` + `edition.json` | Jinja render of the krant template; bakes weather; places illustration + closing landscape; then the typeset loop (§5). LLM is only called to shorten/lengthen a named paragraph when the loop demands it. |
+| S9 `compose` | PIPE-9 | code (+LLM assist) | `80` → `editions/<date>/krant.html` + `krant-A3boekje.pdf` + `edition.json` | Jinja render of the krant template; bakes weather; places illustration + closing landscape; then the typeset loop and PDF export with A3 booklet imposition (§5). LLM is only called to shorten/lengthen a specific paragraph when the loop demands it. |
 
 Stage contract: every stage is `python -m zonzijde <stage> --edition YYYY-MM-DD`;
 `run` chains them; `--from/--until` re-run a slice against existing artifacts.
@@ -127,6 +127,7 @@ every printed article traces back to its feed items.
 { "edition": "2026-07-26", "nr": 3, "articles": [ …final texts + provenance ids… ],
   "weather": { …baked Open-Meteo snapshot… },
   "illustration": "assets/illustrations/….svg",
+  "pdf": "krant-A3boekje.pdf",
   "counts": { "words_body": 3120, "pages": 4 },
   "pipeline": { "run": "…", "prompt_versions": { "score": "v3", … } } }
 ```
@@ -142,10 +143,20 @@ Chromium (Playwright is already a dependency):
 2. If violations: apply the cheapest sufficient remedy, in order —
    a. reflow knobs (swap optional element position, nudge illustration slot,
       hyphenation hints);
-   b. ask the review model to trim or extend a *named* paragraph by a word budget;
+   b. ask the review model to trim or extend a specific paragraph — addressed by
+      article `pos` + paragraph index in the `paragraphs` array — by a word budget;
    c. drop the lowest-ranked optional element.
 3. Re-render; max 3 iterations, then fail the run with the violation report — a human
    decides (the gate exists precisely for this).
+
+The loop targets **exactly 4 A4 pages** (LAY-7): content fills 3.5–4 pages and the
+closing landscape (EL-4) absorbs the remaining slack on page 4.
+
+**PDF export & booklet imposition (OPS-2).** Once the loop passes, the same Chromium
+instance prints the HTML to a 4-page A4 PDF, and pypdf imposes those pages onto two A3
+landscape sheets — outer sheet `4 | 1`, inner sheet `2 | 3` — producing the fold-ready
+`krant-A3boekje.pdf`, the primary print deliverable (matching the editions produced to
+date). The HTML remains the source artifact and the web-readable edition.
 
 Weather (EL-2) is fetched from Open-Meteo at compose time and baked into the HTML —
 the published page stays static and dependency-free (principle 4; the prototype's
@@ -175,16 +186,23 @@ versions used, so output changes are attributable to prompt changes.
 
 Provider access goes through a thin adapter (`zonzijde/llm.py`) with two named tiers
 (`light`, `frontier`) configured in `config/edition.yaml` — models are swappable without
-touching stages.
+touching stages. The **frontier tier is driven through the Claude Agent SDK, not raw
+Claude API calls**: each stage invocation is a short agent session, which is what gives
+S6 its browsing/tool use for the SRC-3 reference sources, gives S9's trim assist file
+context, and provides schema-enforced structured output and retries out of the box. The
+light tier (S3 scoring) calls the Gemini API directly — plain batched JSON-mode calls
+need no agent loop.
 
 ## 7. Orchestration
 
 **GitHub Actions, two workflows:**
 
 1. `edition.yml` — cron early Sunday morning (Europe/Amsterdam) + `workflow_dispatch`
-   (inputs: `edition_date`, `from_stage` for resume). Steps: checkout → install →
-   `python -m zonzijde run` → commit `editions/<date>/` to branch `edition/<date>` →
-   open the **edition PR**.
+   (inputs: `edition_date`, `from_stage` for resume). Steps: checkout → install
+   (Python deps **plus Playwright Chromium and its system libraries** — `playwright
+   install --with-deps chromium` — needed by S5's fallback fetch and S9's typeset
+   loop) → `python -m zonzijde run` → commit `editions/<date>/` to branch
+   `edition/<date>` → open the **edition PR**.
 2. `pages.yml` (existing) — on merge to `main`, deploy. Extended to (re)generate the
    archive index (`index.html`: latest edition + list of previous ones).
 
@@ -217,7 +235,8 @@ config/
 templates/krant.html.j2    # from proto_krant.html
 assets/illustrations/      # tagged SVG library + masthead + closing landscape
 fonts/  fonts.css          # unchanged
-editions/<YYYY-MM-DD>/     # work/ (stage artifacts), krant.html, edition.json, report.md
+editions/<YYYY-MM-DD>/     # work/ (stage artifacts), krant.html,
+                           # krant-A3boekje.pdf, edition.json, report.md
 tools/                     # prototypes & one-off utilities (proto_* stay for debugging)
 docs/                      # SPEC.md  ARCHITECTURE.md
 tests/                     # unit + golden-run + evals (§9)
@@ -263,7 +282,8 @@ Each phase lands as a normal PR and leaves the current manual workflow usable.
 4. **S6–S8** — outline/write/review prompts (ported from concept §3.5–3.6 and hardened);
    correction log. *Exit: a full `80-reviewed.json` a human judges publishable-with-edits.*
 5. **S9 + template** — extract `krant.html.j2` from `proto_krant.html`; weather baking;
-   illustration slot; typeset loop. *Exit: golden run produces a valid edition end-to-end.*
+   illustration slot; typeset loop; print-to-PDF and A3 booklet imposition. *Exit:
+   golden run produces a valid edition (HTML + booklet PDF) end-to-end.*
 6. **Orchestration** — `edition.yml`, edition PR with report, archive index in Pages
    deploy. *Exit: one Sunday edition produced by cron, reviewed, merged, published.*
 7. **Hardening** — eval gates in CI, cost tracking, prompt versioning discipline; then
