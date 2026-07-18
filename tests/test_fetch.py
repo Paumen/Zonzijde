@@ -100,5 +100,5 @@ def test_rijksoverheid_url_embeds_window():
 def test_unimplemented_stage_fails_closed(ctx):
     import pytest
     from zonzijde.cli import run_stage
-    with pytest.raises(SystemExit, match="phase 3"):
-        run_stage("enrich", ctx)
+    with pytest.raises(SystemExit, match="phase 4"):
+        run_stage("outline", ctx)

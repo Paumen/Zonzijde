@@ -1,0 +1,14 @@
+{
+  "model": "claude-sonnet-5",
+  "prompt_versions": {
+    "brief": 1,
+    "select": 1
+  },
+  "input_items": 71,
+  "attempts": [
+    {
+      "attempt": 1,
+      "problems": []
+    }
+  ]
+}

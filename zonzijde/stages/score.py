@@ -1,10 +1,11 @@
 """S3 score (PIPE-3): a light LLM scores each item −2…+2 on direction only.
 
 Reads ``20-filtered.json``, writes ``30-scored.json`` and ``30-score-log.json``.
-Batched (~80 items/call, concurrent), JSON mode, temperature 0, prompt
-``config/prompts/score.md``. A batch whose response is unusable gets one
-retry; items still without a valid score after that are left unscored and
-excluded from the artifact — fail-closed, unscored never advances.
+Batched (~80 items/call, concurrent), schema-enforced structured output on
+the light tier, prompt ``config/prompts/score.md``. A batch whose response is
+unusable gets one retry; items still without a valid score after that are
+left unscored and excluded from the artifact — fail-closed, unscored never
+advances.
 
 The batch prompt format is a port of the tuned prototype: numbered lines of
 ``title — summary``, whitespace collapsed, capped at 500 characters.
@@ -26,6 +27,48 @@ _WS_RE = re.compile(r"\s+")
 
 # call(prompt) -> parsed JSON; injectable for tests and the scorer eval.
 LightCall = Callable[[str], object]
+
+# Structured-output schema: the API only takes *closed* schemas, so scores
+# come back as rows instead of the prompt's {"1": -1} object; _unwrap_scores
+# converts, and parse_scores stays the single fail-closed validator.
+RESPONSE_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "scores": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "i": {"type": "integer"},
+                    "score": {"type": "integer", "minimum": -2, "maximum": 2},
+                },
+                "required": ["i", "score"],
+                "additionalProperties": False,
+            },
+        },
+    },
+    "required": ["scores"],
+    "additionalProperties": False,
+}
+
+
+def _unwrap_scores(payload: object) -> object:
+    """``{"scores": [{"i": 1, "score": -1}, …]}`` → ``{"1": -1, …}``; anything
+    else passes through for parse_scores to report."""
+    if not (isinstance(payload, dict) and isinstance(payload.get("scores"), list)):
+        return payload
+    out: dict = {}
+    for row in payload["scores"]:
+        if isinstance(row, dict) and "i" in row:
+            out[str(row["i"])] = row.get("score")
+    return out
+
+
+def make_call(cfg: dict) -> LightCall:
+    """The real light-tier call — shared with ``tests/eval_score.py`` so the
+    eval measures exactly what the stage does."""
+    return lambda p: _unwrap_scores(
+        llm.light_json(p, model=cfg["model"], schema=RESPONSE_SCHEMA))
 
 
 def item_line(index: int, item: FeedItem) -> str:
@@ -88,7 +131,7 @@ def run(ctx: RunContext, call: LightCall | None = None) -> None:
     concurrency = int(cfg.get("concurrency", 6))
     prompt = prompts.load_prompt(ctx.root, "score")
     if call is None:
-        call = lambda p: llm.light_json(p, model=cfg["model"])
+        call = make_call(cfg)
 
     items = load_artifact(ctx.work_dir / "20-filtered.json", FeedItem)
     batches = [items[off:off + batch_size] for off in range(0, len(items), batch_size)]

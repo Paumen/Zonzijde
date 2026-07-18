@@ -65,6 +65,10 @@ class RunContext:
     def fetch_cfg(self) -> dict:
         return self._edition_cfg.get("fetch", {})
 
+    @property
+    def enrich_cfg(self) -> dict:
+        return self._edition_cfg.get("enrich", {})
+
     def llm_cfg(self, tier: str) -> dict:
         """Config for one LLM tier (``light``/``frontier``, ARCHITECTURE §6).
         The model is required — a silently defaulted model would make output

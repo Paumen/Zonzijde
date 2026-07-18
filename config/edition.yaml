@@ -16,12 +16,27 @@ fetch:
   concurrency: 6
   timeout_s: 15
 
+enrich:
+  # S5 (PIPE-5): two-stage full-text fetch; values mirror the tuned
+  # tools/fetch-articles.py prototype. Below min_words a fetch counts as
+  # blocked (consent wall / JS shell / bot block, not an article).
+  concurrency: 8
+  timeout_s: 25
+  min_words: 120
+  browser: true        # Playwright render for links the plain fetch left blocked
+  # Alternative-coverage candidates per fully-blocked topic; found via one
+  # frontier WebSearch session (llm.frontier), so this path needs
+  # ANTHROPIC_API_KEY — without it the topic drops and the drop is logged.
+  search_results: 5
+
 llm:
-  # ARCHITECTURE §6: two named tiers, models swappable here without touching
-  # stages. Keys live in env only (GEMINI_API_KEY / ANTHROPIC_API_KEY, OPS-5).
+  # ARCHITECTURE §6: two named tiers, both short Claude Agent SDK sessions;
+  # models swappable here without touching stages. Auth via ANTHROPIC_API_KEY
+  # in env (OPS-5) or ambient Claude Code credentials.
   light:
-    # S3 (PIPE-3): batch scoring; values mirror the tuned prototype.
-    model: gemini-3.1-flash-lite
+    # S3 (PIPE-3): batch scoring; batch size/concurrency mirror the tuned
+    # prototype. Model change → re-run tests/eval_score.py (ARCHITECTURE §9).
+    model: claude-haiku-4-5-20251001
     batch_size: 80
     concurrency: 6
   frontier:

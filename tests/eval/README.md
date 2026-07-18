@@ -10,10 +10,11 @@ the pipeline (phase 2), **not yet reviewed by the editor**. ARCHITECTURE §9
 calls for a hand-labelled set: treat these labels as a seed to correct, not
 as ground truth. Editing a `label` value is enough; the harness picks it up.
 
-Run the eval (live Gemini call, ~3 batches):
+Run the eval (live light-tier calls, ~3 batches; auth via ANTHROPIC_API_KEY
+or ambient Claude Code credentials):
 
 ```bash
-GEMINI_API_KEY=... python3 tests/eval_score.py
+python3 tests/eval_score.py
 ```
 
 Two tracked numbers (§9): **negativity leakage** (labelled ≤0 scoring ≥+1 —
