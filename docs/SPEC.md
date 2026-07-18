@@ -75,10 +75,10 @@ A funnel: each step narrows the stream. Normative behaviour per step; implementa
 | ID | Stage | Rule |
 |----|-------|------|
 | PIPE-1 | Fetch | Pull all configured feeds; a failing feed never fails the run — it is logged and skipped. |
-| PIPE-2 | Fixed filter | Remove exact duplicates (by link). Strip blatantly negative items and promo via the maintained regex buckets (B1–B5). Deliberate double filter with PIPE-3's promo cap. |
+| PIPE-2 | Fixed filter | Remove exact duplicates by link *within the fetched batch* — the same article often arrives via multiple feeds (e.g. NOS algemeen and NOS economie). Repeats across editions are prevented by the candidate window (SRC-4), not by historical lookback. Strip blatantly negative items and promo via the maintained regex buckets (B1–B5). Deliberate double filter with PIPE-3's promo cap. |
 | PIPE-3 | Score | A lightweight LLM scores each remaining item −2…+2 on the **direction** of the news only — not size or reach. Promo/marketing/product items cap at 0. The canonical scoring prompt is versioned in `config/prompts/`. |
 | PIPE-4 | Select | Items scoring +1/+2 go to a frontier LLM with the brief; output is a ranked top-5 of *topics* per scope, one row per source article (a topic covered by multiple sources gets multiple rows), columns: bron, scope, titel, samenvatting, link. |
-| PIPE-5 | Enrich | Fetch the full article text behind every selected link (two-stage: plain fetch, then headless-browser fallback). A blocked source falls back to its RSS summary, clearly flagged — never silently dropped. A story whose *only* material is such a flagged summary carries too little grounding for a full article (WR-2): the outline stage must restrict it to the short length class, find an alternative source, or swap in a better-sourced story. |
+| PIPE-5 | Enrich | Fetch the full article text behind every selected link (two-stage: plain fetch, then headless-browser render). **No summary fallback**: a short RSS blurb is never writing material (WR-2). If a link stays blocked, fetch the topic's other source articles (the candidate table lists one row per source) and/or search for alternative coverage. A story that still lacks sufficient full text is dropped and logged in the run report. |
 | PIPE-6 | Outline | With brief + edition spec + full texts: pick the stories per scope in the §5 numbers, assign length class, article type, tone/angle, and sources per story; front page led by the best lokaal story; identify which stories carry the longer pieces; consult SRC-3 reference sources. |
 | PIPE-7 | Write | Produce full Dutch article texts per the outline. Never refer to accompanying images/illustrations; never refer to De Zonzijde itself, "deze krant", its intent, or why a story is included. |
 | PIPE-8 | Review | Fact-check against the fetched source texts, correct grammar/spelling, finalise titles. |
@@ -136,7 +136,7 @@ not published as-is.
 | OPS-1 | Cadence: weekly, edition dated Sunday (matches editions of 28 juni, 12 juli, 19 juli 2026). Confirmation: OQ-3. |
 | OPS-2 | Delivery: the primary deliverable is a **print-ready PDF in A3 booklet imposition** (LAY-7), as with the editions produced to date. It is rendered from a static, self-contained, A4-print-faithful HTML edition; both are published via GitHub Pages. |
 | OPS-3 | A human editorial gate reviews each edition before publication (see ARCHITECTURE §7); the pipeline must make that review cheap: full provenance from every article back to its sources. |
-| OPS-4 | Every run produces an inspectable trail: per-stage artifacts, a funnel report (counts in/out per stage), sources used, fallbacks hit, and LLM cost. |
+| OPS-4 | Every run produces an inspectable trail: per-stage artifacts, a funnel report (counts in/out per stage), sources used, stories dropped or re-sourced, and LLM cost. |
 | OPS-5 | All API keys are server-side secrets. No key ships in client HTML or the repo. (The Gemini key currently embedded in `proto_fetchfilter.html` must be rotated and moved — see ARCHITECTURE §10.) |
 
 ## 9. Open questions

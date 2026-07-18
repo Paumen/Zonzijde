@@ -13,7 +13,7 @@ Today the edition is produced by hand-driving three prototypes:
 | Asset | Role today | Fate |
 |-------|-----------|------|
 | `proto_fetchfilter.html` | Browser app: fetch RSS via CORS proxy, regex buckets, Gemini scoring, copy MD table | Source list, regex buckets, and scoring logic migrate into pipeline stages S1–S4. App remains as a manual inspection/debug UI. |
-| `tools/fetch-articles.py` | Fetch full article text behind selected links (requests+trafilatura, Playwright fallback) | Becomes stage S5 nearly as-is. |
+| `tools/fetch-articles.py` | Fetch full article text behind selected links (requests+trafilatura, Playwright fallback) | Becomes stage S5, minus its RSS-summary fallback: blocked stories are re-sourced or dropped instead. |
 | `proto_index.html` | Early in-browser generator (client-side Anthropic key) | Superseded; kept for reference. |
 | `proto_krant.html` | Hand-built edition — the target look & feel | Becomes the Jinja template `templates/krant.html.j2` + per-edition data. |
 | `.github/workflows/pages.yml` | Deploys repo root to GitHub Pages | Extended: deploys `editions/` + archive index. |
@@ -69,11 +69,11 @@ flowchart TD
 | Stage | Spec | Kind | Input → output artifact | Notes |
 |-------|------|------|--------------------------|-------|
 | S1 `fetch` | PIPE-1 | code | `config/sources.yaml` → `10-items.json` | Concurrent feed pull with timeout; per-feed failures recorded in the run report, never fatal (SRC-1/PIPE-1). Window per SRC-4. |
-| S2 `filter` | PIPE-2 | code | `10` → `20-filtered.json` + `20-rejected.json` | Link-dedupe, both within the batch and against links already published in past `editions/*/edition.json` manifests (a story never repeats across editions); regex buckets B1–B5 from `config/filters.yaml` (ported from the prototype). Rejections keep their reason for auditability. |
+| S2 `filter` | PIPE-2 | code | `10` → `20-filtered.json` + `20-rejected.json` | Link-dedupe within the batch — the same article arriving via multiple feeds (e.g. NOS algemeen vs NOS economie). Cross-edition repeats are prevented by the SRC-4 date window, not historical lookback. Regex buckets B1–B5 from `config/filters.yaml` (ported from the prototype). Rejections keep their reason for auditability. |
 | S3 `score` | PIPE-3 | LLM (light) | `20` → `30-scored.json` | Batched (~80 items/call, concurrent), JSON-mode, temperature 0, prompt `prompts/score.md`. Unparseable batch → one retry → items left unscored and excluded (fail-closed: unscored never advances). |
 | S4 `select` | PIPE-4 | LLM (frontier) | `30` (+1/+2 only) → `40-candidates.json` | Brief + titles/summaries in, ranked top-5 topics per scope out; one row per source article. |
-| S5 `enrich` | PIPE-5 | code | `40` → `50-articles.json` | `tools/fetch-articles.py` refactored into the package; two-stage fetch with flagged RSS-summary fallback. |
-| S6 `outline` | PIPE-6 | LLM (frontier) | `50` + SPEC §5 → `60-outline.json` | Picks final stories per ED-1/ED-2, assigns length class, type, tone/angle (WR-1), sources per story, illustration-subject proposal (EL-3), optional element (EL-5). Stories grounded only in an RSS-summary fallback are capped at the short length class or swapped out (PIPE-5). Uses tool-assisted browsing for SRC-3 reference sources. |
+| S5 `enrich` | PIPE-5 | code (+search) | `40` → `50-articles.json` | `tools/fetch-articles.py` refactored into the package; two-stage fetch (requests, then headless browser). No summary fallback: a blocked link is re-sourced via the topic's sibling rows in `40-candidates.json` or a search for alternative coverage; a story still without sufficient full text is dropped and logged. |
+| S6 `outline` | PIPE-6 | LLM (frontier) | `50` + SPEC §5 → `60-outline.json` | Picks final stories per ED-1/ED-2, assigns length class, type, tone/angle (WR-1), sources per story, illustration-subject proposal (EL-3), optional element (EL-5). Works only from stories that survived S5 (sees the drop log so scope counts can rebalance). Uses tool-assisted browsing for SRC-3 reference sources. |
 | S7 `write` | PIPE-7 | LLM (frontier) | `60` → `70-drafts.json` | One call per article (grounded on its S5 texts only); hard rules from PIPE-7 in the system prompt. |
 | S8 `review` | PIPE-8 | LLM (frontier) | `70` → `80-reviewed.json` | Per-article fact-check against S5 source text (WR-2), NL grammar/spelling, final title; emits a correction log for the PR. |
 | S9 `compose` | PIPE-9 | code (+LLM assist) | `80` → `editions/<date>/krant.html` + `krant-A3boekje.pdf` + `edition.json` | Jinja render of the krant template; bakes weather; places illustration + closing landscape; then the typeset loop and PDF export with A3 booklet imposition (§5). LLM is only called to shorten/lengthen a specific paragraph when the loop demands it. |
@@ -105,8 +105,9 @@ every printed article traces back to its feed items.
   "items": [ { "id": "…", "bron": "…", "titel": "…", "samenvatting": "…", "link": "…" } ] }
 
 // 50-articles.json (S5): candidate item + full text
-{ "id": "…", "ok": true, "method": "requests | playwright | rss-fallback",
+{ "id": "…", "ok": true, "method": "requests | playwright | alt-source",
   "text": "…", "words": 812, "links": ["…"], "note": "" }
+// ok:false = dropped (all fetch routes exhausted); kept in the file for the run report
 
 // 60-outline.json (S6) — the edition plan
 { "edition": "2026-07-26", "slots": [
@@ -200,7 +201,7 @@ need no agent loop.
 1. `edition.yml` — cron early Sunday morning (Europe/Amsterdam) + `workflow_dispatch`
    (inputs: `edition_date`, `from_stage` for resume). Steps: checkout → install
    (Python deps **plus Playwright Chromium and its system libraries** — `playwright
-   install --with-deps chromium` — needed by S5's fallback fetch and S9's typeset
+   install --with-deps chromium` — needed by S5's browser-render fetch and S9's typeset
    loop) → `python -m zonzijde run` → commit `editions/<date>/` to branch
    `edition/<date>` → open the **edition PR**.
 2. `pages.yml` (existing) — on merge to `main`, deploy. Extended to (re)generate the
@@ -208,7 +209,7 @@ need no agent loop.
 
 **The edition PR is the editorial gate (OPS-3).** Its body is the run report: the funnel
 (fetched → filtered → scored → selected → written), scores distribution, sources used,
-fallbacks hit (blocked fetches, RSS-summary articles, widened lokaal window), correction
+stories re-sourced or dropped (blocked fetches, widened lokaal window), correction
 log from S8, typeset-loop outcome, and LLM cost. The editor reads the rendered edition
 (PR preview or local open), optionally edits artifacts/HTML in place, merges to publish.
 Nothing auto-merges (OQ-5).
