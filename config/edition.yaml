@@ -1,76 +1,43 @@
-# De Zonzijde — edition constants (SPEC §5/§6/§8, ARCHITECTURE §8).
-# Grows with the pipeline; phases 1–2 need cadence, the fetch window and the
-# LLM tiers.
-
 cadence:
-  # OPS-1 (OQ-3): weekly, edition dated Sunday.
   weekday: sunday
 
 window:
-  # SRC-4: candidate window in days before the edition date; may be widened
-  # for lokaal when the local harvest is thin (not yet automated).
   days: 7
 
 fetch:
-  # S1 (PIPE-1): concurrent feed pull; values mirror the tuned prototype.
   concurrency: 6
   timeout_s: 15
 
 enrich:
-  # S5 (PIPE-5): two-stage full-text fetch, pure code — no model. Values
-  # mirror the tuned tools/fetch-articles.py prototype. Below min_words a
-  # fetch counts as blocked (consent wall / JS shell / bot block, not an
-  # article). A topic with no full text on any row is dropped and logged;
-  # there is no alternative-coverage search.
   concurrency: 8
   timeout_s: 25
   min_words: 120
-  browser: true        # Playwright render for links the plain fetch left blocked
+  browser: true
 
 edition:
-  # SPEC §5 constants, consumed by S6's grounding checks and the S7/S8 word
-  # guidance.
-  scope_items: {min: 2, max: 3}          # ED-1: items per scope
-  length_mix:                            # ED-2: articles per length class
+  scope_items: {min: 2, max: 3}
+  length_mix:
     long: {min: 2, max: 3}
     standard: {min: 3, max: 5}
     short: {min: 2, max: 3}
-  words:                                 # word guidance per length class —
-    long: {min: 450, max: 800}           # deliberately loose and overlapping:
-    standard: {min: 250, max: 500}       # good content comes first. Fitting
-    short: {min: 150, max: 300}          # the edition (trim some, or cut a
-                                         # lesser article) is a compose/gate
-                                         # decision (PIPE-9), not a writing gate.
-  body_words: {min: 2800, max: 3400}     # ED-5: edition body total
-  paragraphs: {min: 3, max: 11}          # ED-4: paragraphs per article
-
-# S6 outline (PIPE-6) takes no stage config: one plain frontier call, no
-# tools, working from the shortlist (titles + summaries) — no browsing, no
-# full texts. See prompts/outline.md.
+  words:
+    long: {min: 450, max: 800}
+    standard: {min: 250, max: 500}
+    short: {min: 150, max: 300}
+  body_words: {min: 2800, max: 3400}
+  paragraphs: {min: 3, max: 11}
 
 write:
-  # S7 (PIPE-7): one frontier call per article, a few in flight at once. The
-  # length guidance is in the prompt only; the model's output is not
-  # validated in code (the human gate judges it).
   concurrency: 3
 
 review:
-  # S8 (PIPE-8): same shape as write.
   concurrency: 3
 
 llm:
-  # ARCHITECTURE §6: two named tiers, both short Claude Agent SDK sessions;
-  # models swappable here without touching stages. Auth via ANTHROPIC_API_KEY
-  # in env (OPS-5) or ambient Claude Code credentials.
   light:
-    # S3 (PIPE-3): batch scoring; batch size/concurrency mirror the tuned
-    # prototype. Model change → re-run tests/eval_score.py (ARCHITECTURE §9).
     model: claude-haiku-4-5-20251001
     batch_size: 80
     concurrency: 6
   frontier:
-    # S4+ (PIPE-4): short Claude Agent SDK sessions. Sonnet at medium effort
-    # keeps the single select call fast; revisit against selection quality at
-    # the editorial gate (phase-2 exit criterion) before locking this in.
     model: claude-sonnet-5
-    effort: medium  # low | medium | high | xhigh | max (omit = model default)
+    effort: medium
