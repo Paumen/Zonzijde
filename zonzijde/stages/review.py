@@ -1,16 +1,3 @@
-"""S8 review (PIPE-8): fact-check each draft against its own source texts.
-
-Reads ``70-drafts.json`` + ``60-outline.json`` (which sources back which
-slot) + ``50-articles.json``, writes ``80-reviewed.json`` and
-``80-review-log.json`` — the correction log for the edition PR. Per article
-one frontier call with ``prompts/review.md`` as system prompt; the response
-is schema-enforced and assembled here (title, paragraphs, and the fact_issues
-/ corrections lists that make the correction log). The model's editorial
-choices are not re-checked in code — the human gate judges them (WR-2 lives
-in the prompt). One call per article, no retry: only a structurally unusable
-response leaves a hole and the run fails (§6).
-"""
-
 from __future__ import annotations
 
 import json
@@ -39,7 +26,6 @@ RESPONSE_SCHEMA = {
     "additionalProperties": False,
 }
 
-# call(prompt, system) -> parsed JSON; injectable for tests.
 FrontierCall = Callable[[str, str], object]
 
 
@@ -58,9 +44,6 @@ def build_prompt(draft: Draft, slot: OutlineSlot, budget: dict,
 
 
 def ground(payload: object, draft: Draft) -> tuple[ReviewedArticle | None, list[str]]:
-    """Build the reviewed article from the response — no validation of the
-    model's title, length or paragraphing. The findings lists are kept as the
-    correction log; the pydantic contract is the only structural backstop."""
     if not isinstance(payload, dict):
         return None, [f"not a JSON object: {type(payload).__name__}"]
     title = payload.get("title").strip() \
@@ -70,7 +53,7 @@ def ground(payload: object, draft: Draft) -> tuple[ReviewedArticle | None, list[
         if isinstance(raw, list) else []
 
     def _strings(key: str) -> list[str]:
-        raw = payload.get(key)  # null instead of [] must not crash the stage
+        raw = payload.get(key)
         return [s.strip() for s in raw if isinstance(s, str) and s.strip()] \
             if isinstance(raw, list) else []
 
@@ -90,9 +73,6 @@ def review_draft(draft: Draft, slot: OutlineSlot,
                  articles: dict[str, ArticleText], ed_cfg: dict,
                  system: str, call: FrontierCall
                  ) -> tuple[ReviewedArticle | None, list[str]]:
-    """Review one draft with a single call — no retry. Returns the reviewed
-    article (or None only on call failure / a structurally unusable response)
-    plus any problem for the log."""
     budget = ed_cfg["words"][slot.length]
     sources = [articles[sid] for sid in slot.source_ids if sid in articles]
     prompt = build_prompt(draft, slot, budget, sources)

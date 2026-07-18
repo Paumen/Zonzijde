@@ -1,10 +1,3 @@
-"""Run context: repo paths, config loading, and the candidate window.
-
-Every stage receives one ``RunContext``; the CLI builds it once. Runs are
-anchored to the repo root (``config/`` and ``editions/`` live there), which is
-the directory the CLI is invoked from — same convention as ``tools/``.
-"""
-
 from __future__ import annotations
 
 from dataclasses import dataclass, field
@@ -22,8 +15,6 @@ TZ = ZoneInfo("Europe/Amsterdam")
 
 
 class Source(BaseModel):
-    """One entry of ``config/sources.yaml`` (SRC-1)."""
-
     id: str
     bron: str
     url: str | None = None
@@ -35,7 +26,7 @@ class Source(BaseModel):
 class RunContext:
     root: Path
     edition: date
-    window_days: int | None = None  # None = config default (SRC-4)
+    window_days: int | None = None
     _edition_cfg: dict = field(init=False, default_factory=dict)
 
     def __post_init__(self) -> None:
@@ -70,23 +61,16 @@ class RunContext:
         return self._edition_cfg.get("enrich", {})
 
     def stage_cfg(self, name: str) -> dict:
-        """Per-stage knobs (``outline``/``write``/``review``, …)."""
         return self._edition_cfg.get(name, {})
 
     @property
     def edition_cfg(self) -> dict:
-        """SPEC §5 edition constants (ED-1..ED-5) from config/edition.yaml.
-        Required — S6 grounding without the constants would silently accept
-        any plan."""
         cfg = self._edition_cfg.get("edition")
         if not cfg:
             raise SystemExit("edition section missing from config/edition.yaml")
         return cfg
 
     def llm_cfg(self, tier: str) -> dict:
-        """Config for one LLM tier (``light``/``frontier``, ARCHITECTURE §6).
-        The model is required — a silently defaulted model would make output
-        changes unattributable."""
         cfg = (self._edition_cfg.get("llm") or {}).get(tier)
         if not cfg or "model" not in cfg:
             raise SystemExit(f"llm.{tier}.model missing from config/edition.yaml")
@@ -102,8 +86,6 @@ class RunContext:
 
     @property
     def window_start(self) -> datetime:
-        """Start of the candidate window (SRC-4): midnight Amsterdam time,
-        ``window_days`` before the edition date."""
         d = self.edition - timedelta(days=self.window_days)
         return datetime(d.year, d.month, d.day, tzinfo=TZ)
 

@@ -1,11 +1,3 @@
-"""Data contracts for the stage artifacts (ARCHITECTURE §4).
-
-Artifacts live in ``editions/<date>/work/``, are pretty-printed JSON with a
-stable key order (the field order defined here), and validate against these
-models. Item identity: ``id = sha1(canonical_link)[:12]``, assigned at S1 and
-carried through the funnel.
-"""
-
 from __future__ import annotations
 
 import hashlib
@@ -19,16 +11,11 @@ from pydantic import BaseModel, Field
 
 Scope = Literal["L", "R", "N", "I"]
 
-# Query parameters that vary per referrer without changing the article; kept
-# out of the canonical link so the same article dedupes across feeds (PIPE-2).
 _TRACKING_PREFIXES = ("utm_",)
 _TRACKING_KEYS = {"fbclid", "gclid"}
 
 
 def canonical_link(url: str) -> str:
-    """Normalise a link just enough for identity: trim, drop the fragment and
-    tracking parameters. Anything more aggressive risks merging distinct
-    articles, so we stop here."""
     parts = urlsplit(url.strip())
     query = [
         (k, v)
@@ -43,8 +30,6 @@ def item_id(link: str) -> str:
 
 
 class FeedItem(BaseModel):
-    """One feed item — shape of ``10-items.json`` and ``20-filtered.json``."""
-
     id: str
     source: str
     bron: str
@@ -57,23 +42,14 @@ class FeedItem(BaseModel):
 
 
 class RejectedItem(FeedItem):
-    """``20-rejected.json`` entry: the item plus why it was rejected,
-    e.g. ``duplicate`` or ``bucket:B2`` (PIPE-2, kept for auditability)."""
-
     reason: str
 
 
 class ScoredItem(FeedItem):
-    """``30-scored.json`` entry: item + direction score (PIPE-3). Items the
-    scorer could not score are *absent* from the artifact — fail-closed."""
-
     score: int = Field(ge=-2, le=2)
 
 
 class CandidateItem(BaseModel):
-    """One source article backing a selected topic (PIPE-4 row). Dutch field
-    names per the spec's column contract; ``id`` traces back to S1."""
-
     id: str
     bron: str
     titel: str
@@ -82,9 +58,6 @@ class CandidateItem(BaseModel):
 
 
 class Candidate(BaseModel):
-    """``40-candidates.json`` entry (S4): one selected topic per scope, with one
-    row per source article covering it (PIPE-4)."""
-
     scope: Scope
     topic: str
     items: list[CandidateItem] = Field(min_length=1)
@@ -94,12 +67,6 @@ FetchMethod = Literal["requests", "playwright"]
 
 
 class ArticleText(CandidateItem):
-    """``50-articles.json`` entry (S5): candidate item + full text (PIPE-5).
-    ``ok=False`` means both fetch routes (plain request, then headless
-    browser) were exhausted; the row stays in the file for the run report but
-    never becomes writing material — there is no summary fallback,
-    ``samenvatting`` is metadata here. ``method`` is the last route tried."""
-
     ok: bool
     method: FetchMethod
     text: str
@@ -113,12 +80,6 @@ ArticleType = Literal["news", "feature", "profile", "zoom-out", "zoom-in"]
 
 
 class OutlineSlot(BaseModel):
-    """One planned article of ``60-outline.json`` (S6/PIPE-6). ``scope``,
-    ``source_ids`` and ``source_date`` are assigned in code from the candidate
-    the model picked (its scope, its ok source rows, and their newest date,
-    ED-3); ``pos``/``role`` from the plan's ring order (ED-6) — the model
-    dictates none of these."""
-
     pos: int = Field(ge=1)
     scope: Scope
     role: Literal["front-hero", "body"]
@@ -132,26 +93,17 @@ class OutlineSlot(BaseModel):
 
 
 class OutlineIllustration(BaseModel):
-    """The custom-illustration pick (EL-3): which slot it accompanies and a
-    concrete drawable subject. S9 draws it; the editor judges it at the gate."""
-
     slot_pos: int = Field(ge=1)
     subject: str
 
 
 class EditionOutline(BaseModel):
-    """``60-outline.json`` (S6): the edition plan per PIPE-6."""
-
     edition: date
     slots: list[OutlineSlot] = Field(min_length=1)
     illustration: OutlineIllustration
 
 
 class Draft(BaseModel):
-    """``70-drafts.json`` entry (S7/PIPE-7): one written article. ``words``
-    is computed from ``paragraphs`` in code, never taken from the model;
-    ``location``/``source_date`` carry over from the outline slot (ED-3)."""
-
     pos: int = Field(ge=1)
     title: str
     location: str
@@ -161,18 +113,11 @@ class Draft(BaseModel):
 
 
 class Review(BaseModel):
-    """S8's findings for one article: unsupported facts found (and fixed or
-    flagged, WR-2) plus language/title corrections — the correction log for
-    the edition PR (PIPE-8)."""
-
     fact_issues: list[str]
     corrections: list[str]
 
 
 class ReviewedArticle(Draft):
-    """``80-reviewed.json`` entry (S8/PIPE-8): the corrected article + what
-    the review changed."""
-
     review: Review
 
 
@@ -191,7 +136,6 @@ def load_artifact(path: Path, model: type[M]) -> list[M]:
 
 
 def save_model(path: Path, model: BaseModel) -> None:
-    """Like ``save_artifact`` for the single-object artifacts (the outline)."""
     path.parent.mkdir(parents=True, exist_ok=True)
     data = model.model_dump(mode="json")
     path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")

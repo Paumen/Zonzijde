@@ -1,23 +1,3 @@
-"""S5 enrich (PIPE-5): fetch the full article text behind every selected link.
-
-Reads ``40-candidates.json``, writes ``50-articles.json`` and
-``50-enrich-log.json``. Ported from ``tools/fetch-articles.py`` (the fetch,
-extraction and browser-render logic is tuned — see CLAUDE.md), minus its
-RSS-summary fallback: **a blurb is never writing material** (PIPE-5/WR-2).
-
-Two-stage fetch, because a few of the sources block plain HTTP clients:
-  1. requests + trafilatura — fast, gets most sources cleanly.
-  2. Playwright (headless Chromium) — only for links stage 1 left blocked or
-     too thin (consent gates, JS-rendered bodies).
-
-Pure code, no model: re-source-or-drop, per topic. A topic whose other source
-rows delivered full text needs nothing more (the sibling rows *are* the
-re-source). A topic with no full text on any of its rows is dropped and
-logged — S6 sees the drop log so scope counts can rebalance (ARCHITECTURE §3).
-There is no summary fallback (a blurb is never writing material) and no
-alternative-coverage search: enrichment stays deterministic plain code.
-"""
-
 from __future__ import annotations
 
 import json
@@ -39,9 +19,7 @@ UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
 
 MD_LINK_RE = re.compile(r"\[[^\]]+\]\((https?://[^)]+)\)")
 
-# fetch(url, timeout) -> (status, html); injectable for tests.
 Fetch = Callable[[str, float], tuple[int, str]]
-# render(blocked_articles, timeout, min_words) -> recovered count; mutates.
 Render = Callable[[list[ArticleText], float, int], int]
 
 
@@ -50,8 +28,6 @@ def _dedupe(seq: list[str]) -> list[str]:
     return [x for x in seq if not (x in seen or seen.add(x))]
 
 
-# ----- fetch + extraction ---------------------------------------------------
-
 def fetch_html(url: str, timeout: float) -> tuple[int, str]:
     res = requests.get(url, headers={"User-Agent": UA},
                        timeout=timeout, verify=VERIFY)
@@ -59,7 +35,6 @@ def fetch_html(url: str, timeout: float) -> tuple[int, str]:
 
 
 def extract(html: str, url: str) -> tuple[str, list[str]]:
-    """Clean body text + in-article links from raw HTML."""
     data = trafilatura.extract(html, url=url, output_format="json",
                                include_links=True, with_metadata=True,
                                favor_recall=True)
@@ -78,12 +53,12 @@ def _stage1(item: CandidateItem, fetch: Fetch, timeout: float,
     except requests.RequestException as e:
         art.note = f"{type(e).__name__}: {e}"
         return art
-    if status != 200:  # 403/404/500 bodies are error pages, not the article
+    if status != 200:
         art.note = f"HTTP {status} (error page, not the article)"
         return art
     try:
         art.text, art.links = extract(html, item.link)
-    except Exception as e:  # broken markup must not kill the whole stage
+    except Exception as e:
         art.note = f"extraction failed: {type(e).__name__}: {e}"
         return art
     art.words = len(art.text.split())
@@ -92,8 +67,6 @@ def _stage1(item: CandidateItem, fetch: Fetch, timeout: float,
         art.note = "too thin for plain fetch (likely consent wall / JS / bot block)"
     return art
 
-
-# ----- Playwright fallback for the blocked handful --------------------------
 
 CONSENT_SELECTORS = [
     "button:has-text('Accepteren')", "button:has-text('Accepteer')",
@@ -116,12 +89,6 @@ def _find_chromium() -> str | None:
 
 def render_blocked(blocked: list[ArticleText], timeout: float,
                    min_words: int) -> int:
-    """Render the still-blocked articles in a headless browser, re-extract.
-
-    Mutates the records in place, returns the count recovered. Without
-    Playwright installed the records stay blocked (noted) — PIPE-5's
-    re-source-or-drop takes over from there, never a summary fallback.
-    """
     try:
         from playwright.sync_api import sync_playwright
     except ImportError:
@@ -134,7 +101,7 @@ def render_blocked(blocked: list[ArticleText], timeout: float,
     if exe:
         launch["executable_path"] = exe
     proxy = os.environ.get("HTTPS_PROXY") or os.environ.get("https_proxy")
-    if proxy:  # route through the agent proxy if present
+    if proxy:
         launch["proxy"] = {"server": proxy}
 
     recovered = 0
@@ -148,10 +115,10 @@ def render_blocked(blocked: list[ArticleText], timeout: float,
                 page = ctx.new_page()
                 resp = page.goto(art.link, wait_until="domcontentloaded",
                                  timeout=timeout * 1000)
-                if resp and resp.status != 200:  # don't extract an error page
+                if resp and resp.status != 200:
                     art.note = f"browser got HTTP {resp.status}"
                     continue
-                page.wait_for_timeout(2500)  # let JS + consent settle
+                page.wait_for_timeout(2500)
                 for sel in CONSENT_SELECTORS:
                     try:
                         page.click(sel, timeout=1200)
@@ -180,8 +147,6 @@ def render_blocked(blocked: list[ArticleText], timeout: float,
     return recovered
 
 
-# ----- the stage ------------------------------------------------------------
-
 def run(ctx: RunContext, fetch: Fetch | None = None,
         render: Render | None = None) -> None:
     cfg = ctx.enrich_cfg
@@ -195,7 +160,6 @@ def run(ctx: RunContext, fetch: Fetch | None = None,
     if not candidates:
         raise SystemExit("S5 enrich: 40-candidates.json is empty (PIPE-5)")
 
-    # One fetch per unique item — the same article can back several topics.
     rows: dict[str, CandidateItem] = {}
     for cand in candidates:
         for row in cand.items:
@@ -211,8 +175,6 @@ def run(ctx: RunContext, fetch: Fetch | None = None,
     if blocked and cfg.get("browser", True):
         render(blocked, timeout, min_words)
 
-    # A topic is dropped when none of its source rows delivered full text
-    # (the sibling rows are the only re-source; no search fallback).
     topics_log: list[dict] = []
     for cand in candidates:
         ok_rows = sum(1 for r in cand.items if articles[r.id].ok)

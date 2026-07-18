@@ -1,14 +1,3 @@
-"""S2 filter (PIPE-2): batch dedupe + regex bucket filtering.
-
-Reads ``10-items.json``, writes ``20-filtered.json`` and ``20-rejected.json``.
-Duplicates by canonical link *within the batch* are removed (the same article
-often arrives via multiple feeds); repeats across editions are prevented by the
-candidate window (SRC-4), not by historical lookback. Buckets B1–B5 match
-against the title only, exactly as the prototype did; rejections keep their
-reason for auditability. This is a deliberate double filter with PIPE-3's
-promo cap.
-"""
-
 from __future__ import annotations
 
 import re
@@ -16,9 +5,6 @@ import re
 from ..context import RunContext
 from ..contracts import FeedItem, RejectedItem, load_artifact, save_artifact
 
-# The bucket patterns in config/filters.yaml are kept verbatim from the tuned
-# prototype (JS syntax); Python's re has no \p{L}, but [^\W\d_] matches
-# exactly a unicode letter, and all lookbehinds stay fixed-width.
 _PL = r"[^\W\d_]"
 
 

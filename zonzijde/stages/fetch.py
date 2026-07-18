@@ -1,14 +1,3 @@
-"""S1 fetch (PIPE-1): pull all configured feeds into ``10-items.json``.
-
-A failing feed never fails the run — it is logged in the fetch log and skipped.
-Items outside the candidate window (SRC-4) are excluded here; duplicates are
-*kept* — dedupe is S2's job, so the rejection is auditable (PIPE-2).
-
-Feed parsing is a port of the prototype's DOM walk (title / link / pubDate /
-dc:date / description) on plain ElementTree, namespace-agnostic so RSS 2.0,
-RDF (DW) and Atom all parse the same way.
-"""
-
 from __future__ import annotations
 
 import html
@@ -34,7 +23,6 @@ _WS_RE = re.compile(r"\s+")
 
 
 def build_rijksoverheid_url(window_start: datetime, until: datetime) -> str:
-    """The rijksoverheid feed URL embeds its own date window as a JSON query."""
     q = {
         "filters": [
             {"field": "content_type", "values": ["pro:newsDocument"], "type": "all"},
@@ -50,8 +38,6 @@ URL_BUILDERS = {"rijksoverheid": build_rijksoverheid_url}
 
 
 def strip_html(text: str) -> str:
-    """RSS descriptions often carry markup; extract readable text, as the
-    prototype did via innerHTML/textContent (tags first, entities after)."""
     return _WS_RE.sub(" ", html.unescape(_TAG_RE.sub(" ", text or ""))).strip()
 
 
@@ -66,7 +52,6 @@ def parse_date(raw: str) -> datetime | None:
     for parse in (parsedate_to_datetime, datetime.fromisoformat):
         try:
             dt = parse(raw)
-            # Naive dates are rare; assume feed-local = Amsterdam.
             return dt if dt.tzinfo else dt.replace(tzinfo=TZ)
         except ValueError:
             continue
@@ -74,7 +59,6 @@ def parse_date(raw: str) -> datetime | None:
 
 
 def parse_feed(xml_text: str) -> list[dict]:
-    """Return raw entries {title, link, summary, published} from RSS/RDF/Atom."""
     root = ElementTree.fromstring(xml_text)
     entries = []
     for el in root.iter():
@@ -86,7 +70,6 @@ def parse_feed(xml_text: str) -> list[dict]:
             name = _local(child.tag)
             text = (child.text or "").strip()
             if name == "link" and not text:
-                # Atom: <link rel="alternate" href="…"/>
                 if child.get("rel") in (None, "alternate") and child.get("href"):
                     link_href = child.get("href")
             elif name not in fields:
@@ -102,8 +85,6 @@ def parse_feed(xml_text: str) -> list[dict]:
 
 
 def fetch_source(source: Source, ctx: RunContext, timeout: float) -> tuple[list[dict], str]:
-    """Fetch and parse one feed. Returns (entries, error) — error is '' on
-    success; any failure is reported, never raised (PIPE-1)."""
     url = source.url
     if source.builder:
         url = URL_BUILDERS[source.builder](ctx.window_start, ctx.now())
@@ -116,8 +97,6 @@ def fetch_source(source: Source, ctx: RunContext, timeout: float) -> tuple[list[
 
 
 def in_window(published: datetime | None, ctx: RunContext) -> bool:
-    """SRC-4: keep items from the candidate window; the prototype kept undated
-    items visible, so items without a parseable date pass (and are counted)."""
     return published is None or published >= ctx.window_start
 
 
@@ -132,8 +111,6 @@ def run(ctx: RunContext) -> None:
     items: list[FeedItem] = []
     log = {"fetched_at": fetched_at.isoformat(), "window_start": ctx.window_start.isoformat(),
            "window_days": ctx.window_days, "feeds": []}
-    # Assemble in sources.yaml order so the artifact is deterministic for a
-    # given set of feed responses, regardless of fetch completion order.
     for source, (entries, error) in zip(ctx.sources, results):
         kept = no_link = out_of_window = undated = 0
         for e in entries:

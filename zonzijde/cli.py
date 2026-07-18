@@ -1,11 +1,3 @@
-"""CLI: ``python -m zonzijde <stage>|run|report --edition YYYY-MM-DD``.
-
-``run`` chains the stages; ``--from``/``--until`` re-run a slice against
-existing artifacts (ARCHITECTURE §3). Stages beyond the current build phase
-(§11) exist in the registry but are not implemented yet — hitting one stops
-the run with a clear message instead of guessing.
-"""
-
 from __future__ import annotations
 
 import argparse
@@ -17,17 +9,16 @@ from .context import RunContext
 from .stages import (enrich, fetch, filter as filter_stage, outline, review,
                      score, select, write)
 
-# S1–S9 in funnel order; None marks stages of a later build phase (§11).
 STAGES: dict[str, object] = {
-    "fetch": fetch.run,         # S1  phase 1
-    "filter": filter_stage.run,  # S2  phase 1
-    "score": score.run,         # S3  phase 2
-    "select": select.run,       # S4  phase 2
-    "enrich": enrich.run,       # S5  phase 3
-    "outline": outline.run,     # S6  phase 4
-    "write": write.run,         # S7  phase 4
-    "review": review.run,       # S8  phase 4
-    "compose": None,            # S9  phase 5
+    "fetch": fetch.run,
+    "filter": filter_stage.run,
+    "score": score.run,
+    "select": select.run,
+    "enrich": enrich.run,
+    "outline": outline.run,
+    "write": write.run,
+    "review": review.run,
+    "compose": None,
 }
 STAGE_NAMES = list(STAGES)
 

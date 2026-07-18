@@ -1,10 +1,3 @@
-"""Run report (OPS-4): the inspectable trail for the edition PR.
-
-Regenerates ``editions/<date>/report.md`` from whatever stage artifacts exist
-in ``work/`` — the funnel counts, per-feed results, and rejection breakdown.
-Later phases extend it (scores distribution, drops, corrections, LLM cost).
-"""
-
 from __future__ import annotations
 
 import json
@@ -105,7 +98,6 @@ def build(ctx: RunContext) -> str:
             if r.reason == "duplicate":
                 reasons["duplicate"] += 1
             else:
-                # bucket:B1,B3 → count every matched bucket
                 for b in r.reason.removeprefix("bucket:").split(","):
                     reasons[b] += 1
         parts += ["", "## Rejected (PIPE-2)", "",

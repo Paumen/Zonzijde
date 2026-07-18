@@ -1,11 +1,3 @@
-"""Versioned prompt files in ``config/prompts/`` (ARCHITECTURE §6).
-
-Each prompt is a markdown file with a YAML front-matter header carrying at
-least ``version``. The body is the canonical prompt text; the version is
-recorded in stage logs (and later ``edition.json``) so output changes are
-attributable to prompt changes.
-"""
-
 from __future__ import annotations
 
 from pathlib import Path

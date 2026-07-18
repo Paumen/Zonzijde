@@ -1,42 +1,4 @@
 #!/usr/bin/env python3
-"""Read the full article text behind the selected links for De Zonzijde.
-
-Where this fits in the pipeline (§3.5 of the brief). The web app (index.html)
-fetches RSS, scores and selects, and the "MD" button copies a top-5 table with
-columns  bron | scope | titel | samenvatting | link.  RSS only carries a short
-summary, but the writing steps need the *full* article. This tool takes that
-table (or a bare list of URLs), fetches every link concurrently, and extracts
-clean body text plus the in-article links, so the outline/writing LLM can read
-real content instead of RSS blurbs.
-
-Two-stage fetch, because a few of the sources block plain HTTP clients:
-  1. requests + trafilatura  — fast, gets ~10 of 12 sources cleanly.
-  2. Playwright (headless Chromium) — only for links stage 1 left blocked or
-     too thin (DPG/Gelderlander's consent gate, EW's JS-rendered body).
-Anything still blocked keeps its RSS `samenvatting` from the table as a clearly
-flagged fallback, so a source is never silently dropped.
-
-Input (any of):
-    python3 tools/fetch-articles.py < table.md        # paste from the app's MD button
-    python3 tools/fetch-articles.py table.md          # a saved markdown table
-    python3 tools/fetch-articles.py urls.txt          # one URL per line
-    python3 tools/fetch-articles.py URL1 URL2 ...      # URLs as arguments
-
-Output (written next to the repo root, override with --out-dir):
-    articles.md    readable: title, meta, full body, in-article links  (feed to the LLM)
-    articles.json  structured: same data as records, for further tooling
-
-Options:
-    --no-browser        skip the Playwright fallback (stage 1 only)
-    --concurrency N     parallel fetches (default 8)
-    --min-words N       below this a fetch counts as "blocked/too thin" (default 120)
-    --timeout S         per-request timeout in seconds (default 25)
-
-Run from the repo root.
-Requires:  requests, trafilatura       (pip install requests trafilatura)
-Optional:  playwright                  (pip install playwright)  for blocked sources
-"""
-
 import argparse
 import json
 import os
@@ -53,8 +15,6 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0 Safari/537.36")
 
-# requests verifies TLS against this bundle when the agent proxy is in the way;
-# a normal machine has neither the env var nor the file, so verify stays True.
 CA_BUNDLE = (os.environ.get("REQUESTS_CA_BUNDLE")
              or os.environ.get("CURL_CA_BUNDLE")
              or "/root/.ccr/ca-bundle.crt")
@@ -64,14 +24,7 @@ URL_RE = re.compile(r"https?://[^\s)\]|>]+")
 MD_LINK_RE = re.compile(r"\[[^\]]*\]\((https?://[^)]+)\)")
 
 
-# ----- input parsing --------------------------------------------------------
-
 def read_input(args):
-    """Return a list of {link, bron, scope, titel, samenvatting} records.
-
-    Accepts a markdown table (uses its link column and carries the other
-    columns through), or a plain list of URLs from files / arguments / stdin.
-    """
     blobs = []
     for a in args:
         if os.path.isfile(a):
@@ -118,7 +71,7 @@ def parse_md_table(text):
     idx = {name: header.index(name) for name in
            ("bron", "scope", "titel", "samenvatting", "link") if name in header}
     records, seen = [], set()
-    for line in rows[2:]:                       # skip header + separator row
+    for line in rows[2:]:
         col = cells(line)
         raw = col[idx["link"]] if "link" in idx and idx["link"] < len(col) else line
         m_link = MD_LINK_RE.search(raw)
@@ -140,10 +93,7 @@ def parse_md_table(text):
     return records
 
 
-# ----- extraction -----------------------------------------------------------
-
 def extract(html, url):
-    """Return (title, author, date, text, links) from raw HTML, or Nones."""
     data = trafilatura.extract(html, url=url, output_format="json",
                                include_links=True, with_metadata=True,
                                favor_recall=True)
@@ -158,7 +108,7 @@ def extract(html, url):
 def fetch_requests(rec, timeout):
     r = requests.get(rec["link"], headers={"User-Agent": UA},
                      timeout=timeout, verify=VERIFY)
-    if r.status_code != 200:            # 403/404/500 bodies are error pages, not the article
+    if r.status_code != 200:
         return (None, None, None, "", []), r.status_code
     return extract(r.text, rec["link"]), r.status_code
 
@@ -182,8 +132,6 @@ def process(rec, timeout, min_words):
     return out
 
 
-# ----- Playwright fallback for the blocked handful --------------------------
-
 def find_chromium():
     base = os.environ.get("PLAYWRIGHT_BROWSERS_PATH", "")
     for root in (base, os.path.expanduser("~/.cache/ms-playwright")):
@@ -204,11 +152,6 @@ CONSENT_SELECTORS = [
 
 
 def render_blocked(recs, timeout, min_words):
-    """Render the still-blocked records in a headless browser and re-extract.
-
-    Returns the count actually recovered. Modifies records in place. Silently
-    no-ops (leaving RSS-summary fallback in place) if Playwright is unavailable.
-    """
     try:
         from playwright.sync_api import sync_playwright
     except ImportError:
@@ -221,7 +164,7 @@ def render_blocked(recs, timeout, min_words):
     if exe:
         launch["executable_path"] = exe
     proxy = os.environ.get("HTTPS_PROXY") or os.environ.get("https_proxy")
-    if proxy:                                   # route through the agent proxy if present
+    if proxy:
         launch["proxy"] = {"server": proxy}
 
     recovered = 0
@@ -233,11 +176,11 @@ def render_blocked(recs, timeout, min_words):
             page = ctx.new_page()
             try:
                 resp = page.goto(r["link"], wait_until="domcontentloaded", timeout=timeout * 1000)
-                if resp and resp.status != 200:     # don't extract an error page
+                if resp and resp.status != 200:
                     r["method"] = "playwright"
                     r["note"] = f"browser got HTTP {resp.status}; using RSS summary"
                     continue
-                page.wait_for_timeout(2500)     # let JS + consent settle
+                page.wait_for_timeout(2500)
                 for sel in CONSENT_SELECTORS:
                     try:
                         page.click(sel, timeout=1200)
@@ -265,8 +208,6 @@ def render_blocked(recs, timeout, min_words):
     return recovered
 
 
-# ----- output ---------------------------------------------------------------
-
 def write_outputs(recs, out_dir):
     os.makedirs(out_dir, exist_ok=True)
     json_path = os.path.join(out_dir, "articles.json")
@@ -290,7 +231,7 @@ def write_outputs(recs, out_dir):
         lines.append("")
         if r.get("ok") and r.get("text"):
             lines.append(r["text"])
-        else:                                   # fallback: the RSS summary we started with
+        else:
             summary = r.get("samenvatting") or "—"
             quoted = "\n".join(f"> {ln}" for ln in summary.splitlines() or ["—"])
             lines.append(f"> _(brontekst geblokkeerd — RSS-samenvatting)_\n>\n{quoted}")
@@ -302,8 +243,6 @@ def write_outputs(recs, out_dir):
         fh.write("\n".join(lines) + "\n")
     return json_path, md_path
 
-
-# ----- main -----------------------------------------------------------------
 
 def main():
     ap = argparse.ArgumentParser(description="Fetch full article text behind the selected links.")
