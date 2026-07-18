@@ -1,17 +1,8 @@
-# De Zonzijde — regex buckets B1–B5 (PIPE-2).
-# Ported verbatim from proto_fetchfilter.html (BUCKET1..BUCKET5); these
-# patterns are tuned — change them only with fixture tests (tests/test_filter.py)
-# and, once it exists, a re-run of the scorer eval (ARCHITECTURE §9).
-#
-# Patterns are matched case-insensitively against the item *title* only.
-# Syntax is the JS/PCRE subset used by the prototype; the loader in
-# zonzijde/stages/filter.py translates \p{L} for Python's re module.
-#
-#   B1  Dutch, hard negative (death, violence, crime, disaster, …)
-#   B2  Dutch, broadly negative (accidents, conflict, economic pain, …)
+#   B1  Dutch, hard negative 
+#   B2  Dutch, broadly negative 
 #   B3  English, hard negative
 #   B4  English, broadly negative
-#   B5  format noise & blocked topics (video/live/112/Musk/Trump/…)
+#   B5  format noise & blocked topics
 
 buckets:
   B1: 'overlij|overled|sterf|omgekomen|gedood|doodgeschoten|doodgestoken|doodgereden|doodreed|dode|moord|doodslag|neergeschoten|neergestoken|geweld(?!ig|enaar)|mishandel|aanrand|verkracht|wurg|ontvoer|gijzel|terreur|terroris|extremis|staatsgreep|steekpartij|steekincident|afpers|verniel|vuurwapen|gewapend|ongeval|aanrijding|verongelukt|neergestort|brand|overstroming|wateroverlast|aardbeving|verdronken|treinongeluk|gaslek|ravage|plofkraak|ingestort|watersnood|dader|arrestatie|gearresteerd|gevangenis|misdaad|misdrijf|crimineel|fraude|witwas|diefstal|gestolen|inbr|zedenzaak|kinderporno|mensenhandel|vervolging|misbruik|smokkel|gewond|trauma|aanslag|luchtaanval|raketaanval|failli|armoede|dakloze|betoging|rellen|relschop|staking|schandaal|sanctie|besmetting|giftig|quarantaine|lockdown|avondklok|asbest|noodweer|tornado|noodtoestand|antisemit|racis|genocide|aanklacht|fata(?:al|le)|misstand|intimid|bloedbad|voortvluchtig|beschuldig|(?<!k)ramp|(?<!\p{L})(?:cel|dood(?:s|elijk|steek|kist)?|wapen(?:s|en|ing)?|bom(?:men)?)(?!\p{L})'
