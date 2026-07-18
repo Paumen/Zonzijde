@@ -1,0 +1,105 @@
+# De Zonzijde — feed list with scope tags (SRC-1/SRC-2).
+# Ported from proto_fetchfilter.html (SOURCE_DEFS); the prototype remains a
+# manual inspection/debug UI, this file is now the canonical list.
+#
+# Fields per source:
+#   id      stable slug, referenced from artifacts ("source" in 10-items.json)
+#   bron    short display name, printed in tables and the run report
+#   url     RSS/Atom/RDF feed URL
+#   builder instead of url: a named URL builder in stages/fetch.py, for feeds
+#           whose URL embeds the candidate window (SRC-4)
+#   scopes  which rings this source can serve: L R N I (GEO-1)
+
+sources:
+  - id: gem_wijchen
+    bron: Gem Wijchen
+    url: https://www.wijchen.nl/feeds/2/laatste-nieuws-gemeente-wijchen.rss
+    scopes: [L]
+  - id: nieuws_nl
+    bron: nieuws.nl
+    url: https://wijchen.nieuws.nl/feed/
+    scopes: [L, R]
+  - id: dg_wijchen
+    bron: DG Wijchen
+    url: https://www.gelderlander.nl/wijchen/rss.xml
+    scopes: [L, R, N]
+  - id: gld
+    bron: Gld
+    url: https://www.gld.nl/rss
+    scopes: [R]
+  - id: gld_rvn
+    bron: Gld RvN
+    url: https://www.gld.nl/rss/rijk-van-nijmegen.xml
+    scopes: [L, R]
+  - id: dg
+    bron: DG
+    url: https://www.gelderlander.nl/home/rss.xml
+    scopes: [N, I]
+  - id: dg_binnen
+    bron: DG Binnen
+    url: https://www.gelderlander.nl/binnenland/rss.xml
+    scopes: [N]
+  - id: rijksoverheid
+    bron: Overheid
+    builder: rijksoverheid
+    scopes: [N]
+  - id: nos_jeugd
+    bron: NOS J
+    url: https://feeds.nos.nl/jeugdjournaal
+    scopes: [N, I]
+  - id: nos_algemeen
+    bron: NOS Alg
+    url: https://feeds.nos.nl/nosnieuwsalgemeen
+    scopes: [N, I]
+  - id: nos_binnenland
+    bron: NOS Binnen
+    url: https://feeds.nos.nl/nosnieuwsbinnenland
+    scopes: [N]
+  - id: nos_buitenland
+    bron: NOS Buiten
+    url: https://feeds.nos.nl/nosnieuwsbuitenland
+    scopes: [I]
+  - id: nos_economie
+    bron: NOS Econ
+    url: https://feeds.nos.nl/nosnieuwseconomie
+    scopes: [N, I]
+  - id: nos_sport
+    bron: NOS Sport
+    url: https://feeds.nos.nl/nossportalgemeen
+    scopes: [N]
+  - id: nos_opmerkelijk
+    bron: NOS Opm
+    url: https://feeds.nos.nl/nosnieuwsopmerkelijk
+    scopes: [N, I]
+  - id: nos_cultuur
+    bron: NOS Cultuur
+    url: https://feeds.nos.nl/nosnieuwscultuurenmedia
+    scopes: [N, I]
+  - id: ftm
+    bron: FTM
+    url: https://ftm.nl/feed
+    scopes: [N, I]
+  - id: ew
+    bron: EW
+    url: https://ewmagazine.nl/feed/
+    scopes: [N, I]
+  - id: hp
+    bron: HP
+    url: https://www.hpdetijd.nl/rss
+    scopes: [N]
+  - id: dw
+    bron: DW
+    url: https://rss.dw.com/rdf/rss-en-top
+    scopes: [I]
+  - id: dw_env
+    bron: DW Env
+    url: https://rss.dw.com/xml/rss_en_environment
+    scopes: [I]
+  - id: dw_science
+    bron: DW Science
+    url: https://rss.dw.com/xml/rss_en_science
+    scopes: [I]
+  - id: positive_news
+    bron: Positive
+    url: https://www.positive.news/feed
+    scopes: [I]
