@@ -1,14 +1,3 @@
-"""S4 select (PIPE-4): a frontier LLM picks the 5 topics per scope.
-
-Reads ``30-scored.json`` (only +1/+2 items advance), writes
-``40-candidates.json`` and ``40-select-log.json``. The call sends
-``prompts/brief.md`` (as system prompt) + ``prompts/select.md`` + the scored
-titles/summaries; the response is schema-enforced at the call layer and then
-grounded here: every row must reference an input item by id, with a scope
-that item actually carries. One call, no retry: a call failure or an
-invalid selection fails the run (§6).
-"""
-
 from __future__ import annotations
 
 import json
@@ -20,7 +9,6 @@ from .. import llm, prompts
 from ..context import RunContext
 from ..contracts import Candidate, ScoredItem, load_artifact, save_artifact
 
-# JSON schema for the structured-output call; mirrors the Candidate contract.
 RESPONSE_SCHEMA = {
     "type": "object",
     "properties": {
@@ -54,7 +42,6 @@ RESPONSE_SCHEMA = {
     "additionalProperties": False,
 }
 
-# call(prompt, system) -> parsed JSON; injectable for tests.
 FrontierCall = Callable[[str, str], object]
 
 
@@ -74,9 +61,6 @@ def build_prompt(select_body: str, items: list[ScoredItem]) -> str:
 
 
 def ground(payload: object, by_id: dict[str, ScoredItem]) -> tuple[list[Candidate], list[str]]:
-    """Validate the response against the contract and the input items.
-    ``bron`` and ``link`` are taken from the referenced item, never from the
-    model, so every candidate row provably traces back to S1."""
     raw = payload.get("candidates") if isinstance(payload, dict) else None
     if not isinstance(raw, list):
         return [], ["response is not an object with a candidates list"]

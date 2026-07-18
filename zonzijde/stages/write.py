@@ -1,21 +1,3 @@
-"""S7 write (PIPE-7): one frontier call per article, per the outline.
-
-Reads ``60-outline.json`` + ``50-articles.json``, writes ``70-drafts.json``
-and ``70-write-log.json``. Each call is grounded on the slot's own S5 source
-texts only; the brief + writing rules (``prompts/brief.md`` +
-``prompts/write.md``) are the system prompt, and the length guidance and
-no-self-reference rule are stated there for the model to follow — they are
-not re-checked in code. The response is
-schema-enforced at the call layer; ``words`` is computed. One call per
-article, no retry: only a structurally unusable response leaves a hole, and
-an edition with holes fails the run (§6).
-
-The model's editorial choices — title, length, paragraphing, whether it
-followed the plan — are not validated here; the human gate judges them. The
-length guidance in the prompt steers the writer; final fit is a compose/gate
-decision (PIPE-9).
-"""
-
 from __future__ import annotations
 
 import json
@@ -40,7 +22,6 @@ RESPONSE_SCHEMA = {
     "additionalProperties": False,
 }
 
-# call(prompt, system) -> parsed JSON; injectable for tests.
 FrontierCall = Callable[[str, str], object]
 
 
@@ -50,7 +31,6 @@ def word_count(paragraphs: list[str]) -> int:
 
 def build_prompt(slot: OutlineSlot, budget: dict, para_cfg: dict,
                  sources: list[ArticleText]) -> str:
-    """The plan for this one article + its source texts."""
     plan = [
         f"Edition slot {slot.pos} ({'front page hero' if slot.role == 'front-hero' else 'body'}).",
         f"- topic: {slot.topic}",
@@ -69,9 +49,6 @@ def build_prompt(slot: OutlineSlot, budget: dict, para_cfg: dict,
 
 
 def ground(payload: object, slot: OutlineSlot) -> tuple[Draft | None, list[str]]:
-    """Build the draft from the response — no validation of the model's
-    title, length or paragraphing (the human gate judges those). ``words`` is
-    computed; the pydantic contract is the only structural backstop."""
     if not isinstance(payload, dict):
         return None, [f"not a JSON object: {type(payload).__name__}"]
     title = payload.get("title").strip() \
@@ -91,9 +68,6 @@ def ground(payload: object, slot: OutlineSlot) -> tuple[Draft | None, list[str]]
 def write_slot(slot: OutlineSlot, articles: dict[str, ArticleText],
                ed_cfg: dict, system: str,
                call: FrontierCall) -> tuple[Draft | None, list[str]]:
-    """Write one article with a single call — no retry. Returns the draft
-    (or None only if the call failed or the response was structurally
-    unusable) plus any problem for the log."""
     budget = ed_cfg["words"][slot.length]
     para_cfg = ed_cfg["paragraphs"]
     sources = [articles[sid] for sid in slot.source_ids if sid in articles]
@@ -141,8 +115,8 @@ def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
     (ctx.work_dir / "70-write-log.json").write_text(
         json.dumps(log, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
-    if failed:  # an edition with holes never advances — the plan counts on
-        raise SystemExit(  # every slot (ED-1/ED-2)
+    if failed:
+        raise SystemExit(
             f"S7 write: no valid draft for slot(s) {failed} "
             "— see 70-write-log.json")
 

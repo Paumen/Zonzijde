@@ -1,23 +1,4 @@
 #!/usr/bin/env python3
-"""Generate self-hosted, static font instances for De Zonzijde.
-
-Why static instances instead of the Google Fonts variable files?
-Browser and headless "Print / Save as PDF" pipelines (Chromium in particular)
-do **not** reliably embed *variable* fonts — they silently substitute a generic
-fallback (Liberation/DejaVu), which is exactly why earlier PDF exports lost the
-Fraunces/Newsreader/Archivo typography. Static instances embed everywhere.
-
-This script downloads the Latin + Latin-Extended subsets from Google Fonts,
-pins each variable axis (weight, optical size) to the exact value the design
-uses, and writes:
-
-    fonts/*.woff2     one static woff2 per (family, weight, subset)
-    fonts.css         @font-face rules that index.html and krant.html load
-
-Run from the repo root:   python3 tools/build-fonts.py
-Requires:                 fonttools, brotli   (pip install fonttools brotli)
-"""
-
 import os
 import re
 import ssl
@@ -39,7 +20,6 @@ CSS_URL = (
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT_DIR = os.path.join(ROOT, "fonts")
 
-# unicode-range strings Google ships for the latin / latin-ext subsets
 UNICODE_RANGE = {
     "latin": ("U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, "
               "U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, "
@@ -50,8 +30,6 @@ UNICODE_RANGE = {
                   "U+2113, U+2C60-2C7F, U+A720-A7FF"),
 }
 
-# (family, style, [ (weight, optical-size or None, filename-slug) ])
-# optical size is chosen to match the typical on-page size for that weight.
 PLAN = [
     ("Fraunces", "normal", [(400, 12, "400"), (560, 14, "560"),
                             (640, 24, "640"), (700, 40, "700")]),
@@ -74,7 +52,6 @@ def fetch(url, binary=False):
 
 
 def subset_face_blocks(css):
-    """Return {(family, style, range): variable-woff2-url} for latin/latin-ext."""
     out = {}
     for block in re.findall(r"@font-face\s*\{([^}]*)\}", css, re.S):
         if "U+0000-00FF" in block:
@@ -95,7 +72,6 @@ def main():
     css = fetch(CSS_URL)
     sources = subset_face_blocks(css)
 
-    # cache one variable woff2 download per (family, style, range)
     cache = {}
     faces = []
     total = 0
@@ -112,7 +88,7 @@ def main():
                     pins["wght"] = weight
                 if "opsz" in axes and opsz is not None:
                     pins["opsz"] = opsz
-                for tag, axis in axes.items():        # fully staticise
+                for tag, axis in axes.items():
                     pins.setdefault(tag, axis.defaultValue)
                 instantiateVariableFont(font, pins, inplace=True)
                 font.flavor = "woff2"

@@ -1,26 +1,3 @@
-"""S6 outline (PIPE-6): a frontier LLM plans the edition — a quick pitch.
-
-This is the Monday-morning pitch meeting: the model gets the shortlist and
-gives rough direction, fast. No web browsing, no full texts — just titles and
-RSS summaries. One plain prompt-in/JSON-out call, no tools. The full source
-texts belong to the writers (S7).
-
-Reads ``40-candidates.json`` (the shortlist), ``50-articles.json`` (only the
-``ok`` flag per row — which topics have usable text, never the text itself
-here), ``50-enrich-log.json`` (the drop log, so scope counts can rebalance)
-and ``30-scored.json`` (published dates for ED-3). Writes ``60-outline.json``
-and ``60-outline-log.json``.
-
-The call sends ``prompts/brief.md`` (system) + ``prompts/outline.md`` + the
-edition constants (SPEC §5, from config) + the shortlist. The response is
-schema-enforced at the call layer, and the model's editorial choices — how
-many per scope (ED-1), the length mix (ED-2), which sources — are taken as-is
-and judged at the human gate, not validated here. Code still assembles what
-it owns: ring order and the lokaal front (ED-6) by a stable sort, and
-``pos``/``role``/``source_date`` (ED-3, newest source). One call, no retry:
-only a call failure or a structurally unusable response fails the run (§6).
-"""
-
 from __future__ import annotations
 
 import json
@@ -38,10 +15,6 @@ RING = ["L", "R", "N", "I"]
 
 
 def response_schema(candidate_keys: list[str]) -> dict:
-    """The structured-output schema for one run. Each slot names the
-    ``candidate`` it is built from (constrained to the shortlist keys, so the
-    pick is always resolvable); scope/source_ids/source_date/pos/role/edition
-    are absent because code derives them (see module docstring)."""
     return {
         "type": "object",
         "properties": {
@@ -80,13 +53,10 @@ def response_schema(candidate_keys: list[str]) -> dict:
         "additionalProperties": False,
     }
 
-# call(prompt, system) -> parsed JSON; injectable for tests.
 FrontierCall = Callable[[str, str], object]
 
 
 def spec_note(cfg: dict) -> str:
-    """The SPEC §5 constants rendered for the prompt, so the plan and the
-    grounding checks share one source of truth (config/edition.yaml)."""
     mix = cfg["length_mix"]
     words = cfg["words"]
     scope = cfg["scope_items"]
@@ -110,10 +80,6 @@ def spec_note(cfg: dict) -> str:
 def eligible_candidates(candidates: list[Candidate],
                         articles: dict[str, ArticleText],
                         ) -> list[tuple[str, Candidate]]:
-    """The shortlist the model may pick from: candidates with at least one ok
-    source (PIPE-5), each given a stable ``scope+index`` key (L1, L2, R1…) in
-    the candidates' file order. The key is what the model references and how
-    code re-attaches the topic's sources."""
     keyed: list[tuple[str, Candidate]] = []
     counters: dict[str, int] = {}
     for cand in candidates:
@@ -127,9 +93,6 @@ def eligible_candidates(candidates: list[Candidate],
 def story_blocks(keyed: list[tuple[str, Candidate]],
                  articles: dict[str, ArticleText],
                  published: dict[str, date | None]) -> str:
-    """Each shortlisted topic under its key, with its usable source rows as
-    titel + RSS samenvatting (not the full text — this is the pitch, the
-    writers get the texts)."""
     blocks = []
     for key, cand in keyed:
         lines = [f"## {key} — {cand.topic}"]
@@ -164,12 +127,6 @@ def ground(payload: object, edition: date,
            articles: dict[str, ArticleText],
            published: dict[str, date | None],
            ) -> tuple[EditionOutline | None, list[str]]:
-    """Build the edition plan from the model's response — no validation of its
-    editorial choices (counts, mix, which topics). Code assembles what it owns
-    from the picked candidate: ``scope``, ``source_ids`` (its ok rows) and
-    ``source_date`` (newest, ED-3), plus ring order (ED-6), ``pos``/``role``
-    and the illustration slot. Only the pydantic contract is a structural
-    backstop."""
     if not isinstance(payload, dict) or not isinstance(payload.get("slots"), list):
         return None, ["response is not an object with a slots list"]
     raw_slots = [s for s in payload["slots"] if isinstance(s, dict)]
@@ -181,8 +138,6 @@ def ground(payload: object, edition: date,
             return None, [f"unknown candidate {slot.get('candidate')!r}"]
         resolved.append((slot, cand))
 
-    # Ring order (ED-6): stable sort by the candidate's scope keeps the model's
-    # order within each scope, so its first lokaal pick leads.
     order = sorted(range(len(resolved)),
                    key=lambda i: RING.index(resolved[i][1].scope))
     pos_of_index = {i: pos for pos, i in enumerate(order, start=1)}
@@ -238,15 +193,11 @@ def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
         raise SystemExit("S6 outline: no candidate has usable source text (PIPE-5)")
     by_key = {key: cand for key, cand in keyed}
     if call is None:
-        # Plain prompt-in/JSON-out, no tools: the outline is a quick pitch
-        # from the shortlist, not a research session.
         schema = response_schema([key for key, _ in keyed])
         call = lambda prompt, system: llm.frontier_json(
             prompt, system=system, schema=schema,
             model=cfg["model"], effort=cfg.get("effort"))
 
-    # How many topics survived S5 per scope — informational for the log; no
-    # longer a gate (ED-1 counts are the model's call, judged at the gate).
     available: dict[str, int] = {s: 0 for s in RING}
     for _, cand in keyed:
         available[cand.scope] += 1
@@ -258,7 +209,7 @@ def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
     except llm.LlmError as e:
         raise SystemExit(f"S6 outline: call failed: {e}")
     outline, problems = ground(payload, ctx.edition, by_key, articles, published)
-    if problems:  # only a structural/contract break reaches here now
+    if problems:
         raise SystemExit(f"S6 outline: unusable response: {problems}")
 
     save_model(ctx.work_dir / "60-outline.json", outline)
