@@ -78,3 +78,24 @@ def test_run_is_fail_closed(tmp_ctx):
     assert log["unscored_ids"] == [items[1].id]
     assert log["distribution"] == {"-2": 0, "-1": 1, "0": 0, "1": 0, "2": 1}
     assert log["prompt_version"] == 1
+
+
+def test_make_call_unwraps_structured_rows(monkeypatch):
+    from zonzijde.stages import score as score_mod
+
+    def fake_light(prompt, model, schema=None):
+        assert model == "haiku-test"
+        assert schema is score_mod.RESPONSE_SCHEMA  # closed schema, enforced
+        return {"scores": [{"i": 1, "score": 2}, {"i": 2, "score": 0}]}
+
+    monkeypatch.setattr(score_mod.llm, "light_json", fake_light)
+    call = score_mod.make_call({"model": "haiku-test"})
+    payload = call("prompt")
+    assert payload == {"1": 2, "2": 0}
+    assert parse_scores(payload, 2) == ({1: 2, 2: 0}, [])
+
+
+def test_unwrap_passes_junk_through_for_parse_scores(monkeypatch):
+    from zonzijde.stages.score import _unwrap_scores
+    assert _unwrap_scores(["nee"]) == ["nee"]
+    assert parse_scores(_unwrap_scores(["nee"]), 1)[1]  # reported, not raised

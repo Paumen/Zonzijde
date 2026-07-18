@@ -72,7 +72,7 @@ flowchart TD
 |-------|------|------|--------------------------|-------|
 | S1 `fetch` | PIPE-1 | code | `config/sources.yaml` → `10-items.json` | Concurrent pull with timeout; per-feed failures logged in the run report, never fatal. Window per SRC-4. |
 | S2 `filter` | PIPE-2 | code | `10` → `20-filtered.json` + `20-rejected.json` | Batch dedupe + bucket filtering per PIPE-2; buckets B1–B5 live in `config/filters.yaml` (ported from the prototype). Rejections keep their reason for auditability. |
-| S3 `score` | PIPE-3 | LLM (light) | `20` → `30-scored.json` | Batched (~80 items/call, concurrent), JSON-mode, temperature 0, prompt `prompts/score.md`. Unparseable batch → one retry → items left unscored and excluded (fail-closed: unscored never advances). |
+| S3 `score` | PIPE-3 | LLM (light) | `20` → `30-scored.json` | Batched (~80 items/call, concurrent), schema-enforced output, prompt `prompts/score.md`. Unparseable batch → one retry → items left unscored and excluded (fail-closed: unscored never advances). |
 | S4 `select` | PIPE-4 | LLM (frontier) | `30` (+1/+2 only) → `40-candidates.json` | Inputs `prompts/brief.md` + `prompts/select.md` + scored titles/summaries; output shape per PIPE-4. |
 | S5 `enrich` | PIPE-5 | code (+search) | `40` → `50-articles.json` | `tools/fetch-articles.py` refactored into the package; two-stage fetch (requests, then headless browser). Re-source-or-drop per PIPE-5: the topic's sibling rows in `40-candidates.json` first, then search; drops logged. |
 | S6 `outline` | PIPE-6 | LLM (frontier) | `50` + SPEC §5 → `60-outline.json` | Produces the edition plan per PIPE-6 (story picks, length classes, types, angles, illustration subject, optional element). Works only from stories that survived S5 (sees the drop log so scope counts can rebalance); tool-assisted browsing for the SRC-3 reference sources. |
@@ -181,7 +181,7 @@ sunflower and the closing landscape (EL-1/EL-4) are fixed assets.
 
 | Stage | Model class | Calls/edition | Tokens (rough) | Failure policy |
 |-------|-------------|---------------|----------------|----------------|
-| S3 score | light (e.g. Gemini Flash-Lite) | ~15–25 batches | ~150k in / 5k out | retry once/batch; unscored = excluded |
+| S3 score | light (e.g. Claude Haiku) | ~15–25 batches | ~150k in / 5k out | retry once/batch; unscored = excluded |
 | S4 select | frontier | 1 | ~30k in / 2k out | retry w/ backoff; fatal after 3 |
 | S6 outline | frontier (+ web tool) | 1 | ~50k in / 3k out | idem |
 | S7 write | frontier | ~10–12 (per article) | ~6k in / 1k out each | retry per article |
@@ -196,12 +196,13 @@ versions used, so output changes are attributable to prompt changes.
 
 Provider access goes through a thin adapter (`zonzijde/llm.py`) with two named tiers
 (`light`, `frontier`) configured in `config/edition.yaml` — models are swappable without
-touching stages. The **frontier tier is driven through the Claude Agent SDK, not raw
-Claude API calls**: each stage invocation is a short agent session, which is what gives
-S6 its browsing/tool use for the SRC-3 reference sources, gives S9's trim assist file
-context, and provides schema-enforced structured output and retries out of the box. The
-light tier (S3 scoring) calls the Gemini API directly — plain batched JSON-mode calls
-need no agent loop.
+touching stages. **Both tiers are driven through the Claude Agent SDK, not raw API
+calls**: each stage invocation is a short agent session, which is what gives S6 its
+browsing/tool use for the SRC-3 reference sources (and S5 its alternative-coverage
+search), gives S9's trim assist file context, and provides schema-enforced structured
+output and retries out of the box. The light tier (S3 scoring) runs the same sessions
+on a Haiku-class model — single prompt, no tools — so one auth path covers the whole
+pipeline.
 
 ## 7. Orchestration
 
@@ -224,8 +225,8 @@ the PR, optionally edits `edition.json`/artifacts in place (S9 re-renders), merg
 publish.
 Nothing auto-merges (OQ-5).
 
-Secrets: `GEMINI_API_KEY`, `ANTHROPIC_API_KEY` as Actions secrets, read from env by
-`llm.py`. Local runs use the same env vars.
+Secrets: `ANTHROPIC_API_KEY` as an Actions secret, read from env by the Agent SDK.
+Local runs use the same env var (or ambient Claude Code credentials).
 
 ## 8. Target repository layout
 

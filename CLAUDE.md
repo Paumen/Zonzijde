@@ -24,10 +24,11 @@ The original concept is archived at `docs/history/concept_ZZ.md`; SPEC.md supers
 ## Current state: pipeline through S5, prototypes for the rest
 
 The `zonzijde/` package exists through **build phase 3** (ARCHITECTURE §11):
-S1 fetch, S2 filter, S3 score (Gemini light tier, fail-closed), S4 select
-(frontier tier via the Claude Agent SDK) and S5 enrich (two-stage full-text
-fetch, re-source-or-drop) run as `python -m zonzijde …`, with config in
-`config/` and the scorer eval in `tests/eval_score.py`. Still manual:
+S1 fetch, S2 filter, S3 score (Haiku light tier, fail-closed), S4 select
+(frontier tier) and S5 enrich (two-stage full-text fetch, re-source-or-drop)
+run as `python -m zonzijde …` — both LLM tiers go through the Claude Agent
+SDK — with config in `config/` and the scorer eval in `tests/eval_score.py`.
+Still manual:
 
 - `tools/fetch-articles.py` — standalone full-text fetcher, now absorbed into
   the pipeline as stage S5 (`zonzijde/stages/enrich.py`); the tool stays for
@@ -45,8 +46,10 @@ the regex buckets, source list, and scoring behaviour are tuned.
 ```bash
 # The pipeline (run from repo root; deps: pip install -e ".[dev]")
 python3 -m zonzijde run --edition YYYY-MM-DD --until filter   # S1+S2, no keys needed
-python3 -m zonzijde score --edition YYYY-MM-DD                # S3, needs GEMINI_API_KEY
-python3 -m zonzijde select --edition YYYY-MM-DD               # S4, needs ANTHROPIC_API_KEY
+# S3–S5 use the Claude Agent SDK: ANTHROPIC_API_KEY in env, or ambient
+# Claude Code credentials when run inside a session
+python3 -m zonzijde score --edition YYYY-MM-DD                # S3
+python3 -m zonzijde select --edition YYYY-MM-DD               # S4
 python3 -m zonzijde enrich --edition YYYY-MM-DD               # S5; ANTHROPIC_API_KEY only
                                                               # for blocked-topic re-search
 # S5 browser fallback for blocked links (optional):
@@ -57,9 +60,9 @@ python3 -m zonzijde enrich --edition YYYY-MM-DD               # S5; ANTHROPIC_AP
 # Tests (no network, no keys)
 python3 -m pytest
 
-# Scorer eval (live Gemini; re-run + post numbers on any change to
+# Scorer eval (live light-tier calls; re-run + post numbers on any change to
 # prompts/score.md, the light model, or the buckets — ARCHITECTURE §9)
-GEMINI_API_KEY=... python3 tests/eval_score.py
+python3 tests/eval_score.py
 
 # Fetch full article text for selected links (run from repo root)
 # Input: the MD table copied from proto_fetchfilter.html, or bare URLs

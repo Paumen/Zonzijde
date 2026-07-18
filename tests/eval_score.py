@@ -9,9 +9,10 @@ Two tracked numbers:
 Any change to ``prompts/score.md``, the light model, or the filter buckets
 must re-run this eval and post the numbers in its PR.
 
-This is a live-API script, not a pytest test (hence no ``test_`` prefix):
+This is a live-LLM script, not a pytest test (hence no ``test_`` prefix);
+auth per zonzijde/llm.py (ANTHROPIC_API_KEY or ambient Claude Code):
 
-    GEMINI_API_KEY=... python3 tests/eval_score.py [--labels PATH] [--root DIR]
+    python3 tests/eval_score.py [--labels PATH] [--root DIR]
 
 It reuses the S3 batching/parsing path verbatim, so the eval measures exactly
 what the stage does — including fail-closed exclusion (unscored counts as a
@@ -30,7 +31,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT))
 
-from zonzijde import llm, prompts  # noqa: E402
+from zonzijde import prompts  # noqa: E402
 from zonzijde.context import TZ, RunContext  # noqa: E402
 from zonzijde.contracts import FeedItem  # noqa: E402
 from zonzijde.stages import score  # noqa: E402
@@ -60,7 +61,7 @@ def main() -> None:
     ctx = RunContext(root=args.root, edition=datetime.now(TZ).date())
     cfg = ctx.llm_cfg("light")
     prompt = prompts.load_prompt(args.root, "score")
-    call = lambda p: llm.light_json(p, model=cfg["model"])
+    call = score.make_call(cfg)
 
     rows = load_labels(args.labels)
     items = [as_item(r) for r in rows]
