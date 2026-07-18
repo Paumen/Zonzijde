@@ -184,7 +184,7 @@ def test_empty_candidates_is_fatal(tmp_ctx):
                    render=_no_render, search=_no_search)
 
 
-def test_make_search_uses_websearch_and_filters_urls(monkeypatch):
+def test_make_search_uses_websearch_and_dedupes_urls(monkeypatch):
     seen = {}
 
     def fake_frontier(prompt, system, schema, model, effort=None,
@@ -193,11 +193,11 @@ def test_make_search_uses_websearch_and_filters_urls(monkeypatch):
                     model=model)
         return {"urls": ["https://nos.nl/artikel/1", "niet-http",
                          "https://nos.nl/artikel/1",
-                         "https://nl.wikipedia.org/wiki/Achtergrond",
                          "https://nu.nl/artikel/2"]}
 
     monkeypatch.setattr(enrich.llm, "frontier_json", fake_frontier)
     search = enrich.make_search({"model": "claude-sonnet-5", "effort": "medium"})
+    # http-only + dedupe; news-only is left to the search prompt, no code filter
     assert search("Titel 1", 25, 5) == [
         "https://nos.nl/artikel/1", "https://nu.nl/artikel/2"]
     assert "Titel 1" in seen["prompt"]

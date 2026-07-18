@@ -35,10 +35,6 @@ def _published() -> dict:
     return {_id(n): date(2026, 7, 10 + (n % 5)) for n in SCOPE_OF}
 
 
-def _available(n_per_scope: int = 3) -> dict:
-    return {s: n_per_scope for s in "LRNI"}
-
-
 def _slot(n: int, length: str = "standard") -> dict:
     return {"scope": SCOPE_OF[n], "topic": f"Topic {n}", "length": length,
             "type": "news", "angle": "hoek", "devices": [],
@@ -63,7 +59,7 @@ def _cfg(ctx) -> dict:
 def test_ground_sorts_into_ring_order_and_derives_fields(tmp_ctx):
     result, problems = outline.ground(
         _payload(), EDITION, _cfg(tmp_ctx), _articles(), _scopes_by_id(),
-        _published(), _available())
+        _published())
     assert problems == []
     assert [s.scope for s in result.slots] == list("LLRRNNII")  # ED-6
     assert [s.pos for s in result.slots] == list(range(1, 9))
@@ -78,7 +74,7 @@ def test_ground_sorts_into_ring_order_and_derives_fields(tmp_ctx):
 
 def test_ground_rejects_unknown_blocked_or_wrong_scope_sources(tmp_ctx):
     args = (EDITION, _cfg(tmp_ctx), _articles(ok_all=False),
-            _scopes_by_id(), _published(), _available())
+            _scopes_by_id(), _published())
 
     payload = _payload()
     payload["slots"][0]["source_ids"] = ["ffffffffffff"]
@@ -98,7 +94,7 @@ def test_ground_rejects_unknown_blocked_or_wrong_scope_sources(tmp_ctx):
 
 def test_ground_enforces_scope_counts_and_length_mix(tmp_ctx):
     args = (EDITION, _cfg(tmp_ctx), _articles(), _scopes_by_id(),
-            _published(), _available())
+            _published())
 
     payload = _payload()
     payload["slots"] += [_slot(3), _slot(3)]  # lokaal now has four slots
@@ -117,23 +113,27 @@ def test_ground_enforces_scope_counts_and_length_mix(tmp_ctx):
     assert any("internationaal: 0 items" in p for p in problems)
 
 
-def test_ground_relaxes_scope_minimum_to_what_survived(tmp_ctx):
-    # Only one I topic survived S5 → one I slot is acceptable (the drop log
-    # made the shortfall visible; the gate judges the thinner edition).
-    available = {"L": 3, "R": 3, "N": 3, "I": 1}
-    payload = _payload()
-    payload["slots"] = [s for s in payload["slots"]
-                        if s != _slot(11)] + [_slot(6)]
-    result, problems = outline.ground(
-        payload, EDITION, _cfg(tmp_ctx), _articles(), _scopes_by_id(),
-        _published(), available)
-    assert problems == []
-    assert sum(1 for s in result.slots if s.scope == "I") == 1
+def test_run_fatal_when_a_scope_is_below_the_ed1_minimum(tmp_ctx):
+    # ED-1 is not relaxed: a scope short after S5 fails the run up front, with
+    # the SRC-4 window-widening remedy named — not a quietly thinner edition.
+    candidates = [make_candidate(SCOPE_OF[n], (n - 1) % 3 + 1, [n])
+                  for n in SCOPE_OF]
+    save_artifact(tmp_ctx.work_dir / "40-candidates.json", candidates)
+    # Only one internationaal topic delivers full text (ED-1 min is 2).
+    ok_ids = {n for n in SCOPE_OF if not (SCOPE_OF[n] == "I" and n != 11)}
+    save_artifact(tmp_ctx.work_dir / "50-articles.json",
+                  [make_article(n, ok=n in ok_ids) for n in SCOPE_OF])
+    save_artifact(tmp_ctx.work_dir / "30-scored.json",
+                  [make_scored(n, SCOPE_OF[n]) for n in SCOPE_OF])
+    (tmp_ctx.work_dir / "50-enrich-log.json").write_text(
+        json.dumps({"dropped_topics": []}))
+    with pytest.raises(SystemExit, match="below the ED-1 minimum"):
+        outline.run(tmp_ctx, call=lambda p, s: _payload())
 
 
 def test_ground_rejects_reused_source_and_bad_illustration(tmp_ctx):
     args = (EDITION, _cfg(tmp_ctx), _articles(), _scopes_by_id(),
-            _published(), _available())
+            _published())
 
     payload = _payload()
     payload["slots"][3]["source_ids"] = [_id(4)]  # already used by slot 0
@@ -149,7 +149,7 @@ def test_ground_rejects_reused_source_and_bad_illustration(tmp_ctx):
 def test_ground_rejects_missing_or_null_source_ids(tmp_ctx):
     # A slot without usable source_ids is a problem, never a crash.
     args = (EDITION, _cfg(tmp_ctx), _articles(), _scopes_by_id(),
-            _published(), _available())
+            _published())
     for bad in (None, [], "nee"):
         payload = _payload()
         payload["slots"][0]["source_ids"] = bad

@@ -9,11 +9,15 @@ The call sends ``prompts/brief.md`` (system) + ``prompts/outline.md`` + the
 edition constants (SPEC §5, from config) + the full texts, with web tools
 enabled for the SRC-3 reference sources. The response is schema-enforced at
 the call layer and grounded here: every slot must build on ``ok`` article
-ids of matching scope, scope counts and length mix must satisfy ED-1/ED-2
-(relaxed only when S5 drops left a scope short), ring order and the lokaal
-front are enforced by construction (ED-6), and ``pos``/``role``/
-``source_date`` are assigned in code — never taken from the model.
-Retries with backoff, fatal after 3 (§6).
+ids of matching scope, scope counts and length mix must satisfy ED-1/ED-2,
+ring order and the lokaal front are enforced by construction (ED-6), and
+``pos``/``role``/``source_date`` are assigned in code — never taken from
+the model. Retries with backoff, fatal after 3 (§6).
+
+ED-1 is not relaxed: a scope that cannot contribute its minimum after the
+S5 drops fails the run up front — the spec's answer to a thin harvest is
+widening the candidate window (SRC-4), a human decision, not a quietly
+thinner edition.
 """
 
 from __future__ import annotations
@@ -167,7 +171,7 @@ def ground(payload: object, edition: date, cfg: dict,
            articles: dict[str, ArticleText],
            scopes_by_id: dict[str, set[str]],
            published: dict[str, date | None],
-           available: dict[str, int]) -> tuple[EditionOutline | None, list[str]]:
+           ) -> tuple[EditionOutline | None, list[str]]:
     """Validate the plan against the contract, the source articles and the
     ED-1/ED-2 constants. Returns the grounded outline (slots re-sorted into
     ring order, pos/role/source_date assigned) or the list of problems."""
@@ -204,16 +208,16 @@ def ground(payload: object, edition: date, cfg: dict,
                 problems.append(f"source {sid} used by more than one slot")
             used_ids.add(sid)
 
-    # ED-1: per-scope counts; the minimum relaxes to what survived S5.
+    # ED-1: per-scope counts, as specified — run() already verified the
+    # surviving topics can satisfy the minimum.
     scope_cfg = cfg["scope_items"]
     counts = {s: sum(1 for slot in raw_slots
                      if isinstance(slot, dict) and slot.get("scope") == s)
               for s in RING}
     for s in RING:
-        need = min(scope_cfg["min"], available.get(s, 0))
-        if counts[s] < need:
+        if counts[s] < scope_cfg["min"]:
             problems.append(f"scope {SCOPE_NAMES[s]}: {counts[s]} items, "
-                            f"needs at least {need} (ED-1)")
+                            f"needs at least {scope_cfg['min']} (ED-1)")
         if counts[s] > scope_cfg["max"]:
             problems.append(f"scope {SCOPE_NAMES[s]}: {counts[s]} items, "
                             f"at most {scope_cfg['max']} (ED-1)")
@@ -296,8 +300,8 @@ def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
         (ctx.work_dir / "50-enrich-log.json").read_text(encoding="utf-8"))
     dropped = enrich_log.get("dropped_topics", [])
 
-    # Which candidate topics survived S5 per scope (drives the relaxed ED-1
-    # minimum), and which scopes each ok id may back.
+    # Which candidate topics survived S5 per scope, and which scopes each ok
+    # id may back.
     scopes_by_id: dict[str, set[str]] = {}
     available: dict[str, int] = {s: 0 for s in RING}
     for cand in candidates:
@@ -308,6 +312,19 @@ def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
     if not any(available.values()):
         raise SystemExit("S6 outline: no topic survived enrichment (PIPE-5)")
 
+    # ED-1 is not relaxed. A scope that cannot reach its minimum after the S5
+    # drops fails the run here — the spec's remedy for a thin harvest is
+    # widening the candidate window (SRC-4, --window-days), a human call, not
+    # a quietly thinner edition.
+    need = ed_cfg["scope_items"]["min"]
+    short = {SCOPE_NAMES[s]: available[s] for s in RING if available[s] < need}
+    if short:
+        raise SystemExit(
+            f"S6 outline: scope(s) below the ED-1 minimum of {need} after S5 "
+            f"drops: {short}. Widen the window (SRC-4, --window-days) and "
+            "re-run from S1, or adjust config — the edition is not thinned "
+            "automatically.")
+
     prompt = build_prompt(outline_prompt.body, ed_cfg, candidates, articles,
                           published, dropped, max_chars)
     attempts = []
@@ -316,7 +333,7 @@ def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
         try:
             payload = call(prompt, brief.body)
             outline, problems = ground(payload, ctx.edition, ed_cfg, articles,
-                                       scopes_by_id, published, available)
+                                       scopes_by_id, published)
         except llm.LlmError as e:
             outline, problems = None, [str(e)]
             call_failed = True

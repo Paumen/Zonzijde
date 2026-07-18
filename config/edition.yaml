@@ -49,9 +49,11 @@ edition:
 outline:
   # S6 (PIPE-6): one frontier session with web tools for the SRC-3 reference
   # sources; max_turns bounds that browsing. Source texts beyond article_chars
-  # are truncated in the prompt (the artifact keeps the full text).
+  # are truncated in the prompt (the artifact keeps the full text); 10,000
+  # chars (~1,600 words) holds all but the longest sources whole
+  # (ARCHITECTURE §3, S6 row).
   max_turns: 40
-  article_chars: 8000
+  article_chars: 10000
 
 write:
   # S7 (PIPE-7): one frontier call per article, a few in flight at once.

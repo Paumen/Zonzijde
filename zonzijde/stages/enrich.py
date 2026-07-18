@@ -206,10 +206,6 @@ SEARCH_SYSTEM = (
     "zoekpagina's, Wikipedia of profielpagina's. Vind je geen berichtgeving "
     "over hetzelfde verhaal, geef dan een lege lijst.")
 
-# Never news coverage, whatever the search returns (background ≠ the story).
-_NON_NEWS_HOSTS = ("wikipedia.org", "wikimedia.org", "facebook.com", "x.com",
-                   "twitter.com", "youtube.com", "instagram.com", "linkedin.com")
-
 SEARCH_SCHEMA = {
     "type": "object",
     "properties": {"urls": {"type": "array", "items": {"type": "string"}}},
@@ -233,12 +229,10 @@ def make_search(cfg: dict) -> Search:
         urls = payload.get("urls") if isinstance(payload, dict) else None
         if not isinstance(urls, list):
             raise llm.LlmError(f"search returned no urls list: {payload!r:.200}")
-        def news(u: str) -> bool:
-            host = _host(u)
-            return not any(host == h or host.endswith("." + h)
-                           for h in _NON_NEWS_HOSTS)
+        # News-only is the search prompt's job (SEARCH_SYSTEM); no code-side
+        # host blocklist second-guesses it.
         return _dedupe([u for u in urls if isinstance(u, str)
-                        and u.startswith("http") and news(u)])[:max_results]
+                        and u.startswith("http")])[:max_results]
     return search
 
 

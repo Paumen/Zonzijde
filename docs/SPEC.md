@@ -99,7 +99,7 @@ Writing-variety rules (apply across PIPE-6..9):
 |----|-------------|
 | ED-1 | Each of the four scopes contributes **two items, three at most**. |
 | ED-2 | Length mix: 2–3 longer pieces, 2–3 shorter ones, 3–5 of standard length. |
-| ED-3 | Every article carries a title, a location, and the publication date of its source article. |
+| ED-3 | Every article carries a title, a location, and the publication date of its source article. When a story draws on several sources, the date shown is the **most recent** source's publication date. |
 | ED-4 | An article typically runs 3–11 paragraphs. |
 | ED-5 | Edition body text totals ≈ 2,800–3,400 words — about fifteen minutes of reading. |
 | ED-6 | Ring order lokaal → regionaal → nationaal → internationaal is strict throughout (GEO-1); the front page leads with the best lokaal story. |
