@@ -5,3 +5,6 @@ __pycache__/
 # tool output
 articles.json
 articles.md
+
+# pipeline run artifacts (published editions are committed via the edition PR, not the local run)
+editions/
