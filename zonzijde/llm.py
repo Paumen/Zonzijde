@@ -16,7 +16,7 @@ def agent_json(prompt: str, *, model: str, system: str | None = None,
     from claude_agent_sdk import ClaudeAgentOptions, ResultMessage, query
 
     kwargs: dict = {"model": model, "effort": effort, "max_turns": max_turns,
-                    "allowed_tools": allowed_tools or []}
+                    "tools": allowed_tools or [], "allowed_tools": allowed_tools or []}
     if system is not None:
         kwargs["system_prompt"] = system
     if schema is not None:
@@ -46,13 +46,13 @@ def agent_json(prompt: str, *, model: str, system: str | None = None,
 
 
 def light_json(prompt: str, model: str, schema: dict | None = None) -> object:
-    return agent_json(prompt, model=model, schema=schema, max_turns=2)
+    return agent_json(prompt, model=model, schema=schema, max_turns=1)
 
 
 def frontier_json(prompt: str, system: str, schema: dict, model: str,
                   effort: str | None = None,
                   allowed_tools: list[str] | None = None,
-                  max_turns: int = 2) -> object:
+                  max_turns: int = 1) -> object:
     return agent_json(prompt, model=model, system=system, schema=schema,
                       effort=effort, allowed_tools=allowed_tools,
                       max_turns=max_turns)
