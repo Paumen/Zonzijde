@@ -85,12 +85,15 @@ def story_blocks(keyed: list[tuple[str, Candidate]],
     for key, cand in keyed:
         lines = [f"## {key} — {cand.topic}"]
         for row in cand.items:
-            if not articles[row.id].ok:
+            art = articles[row.id]
+            if not art.ok:
                 continue
             pub = published.get(row.id)
             summary = " ".join(row.samenvatting.split())
+            ref_words = sum(r.words for r in art.references if r.ok)
             lines.append(f"- bron={row.bron} | published={pub or 'unknown'} | "
-                         f"titel={row.titel} | samenvatting={summary}")
+                         f"source_words={art.words} | reference_words={ref_words}"
+                         f" | titel={row.titel} | samenvatting={summary}")
         blocks.append("\n".join(lines))
     return "\n\n".join(blocks)
 
