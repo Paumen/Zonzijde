@@ -126,27 +126,30 @@ def fetch_reference(url: str, fetch: Fetch, timeout: float,
     return ref
 
 
+def _material_words(titel: str, samenvatting: str, text: str) -> int:
+    return len(titel.split()) + len(samenvatting.split()) + len(text.split())
+
+
 def _stage1(item: CandidateItem, fetch: Fetch, timeout: float,
             min_words: int) -> ArticleText:
     art = ArticleText(**item.model_dump(), ok=False, method="requests",
                       text="", words=0, links=[], note="")
+    thin = ""
     try:
         status, html = fetch(item.link, timeout)
+        if status != 200:
+            art.note = f"HTTP {status} (error page, not the article)"
+        else:
+            art.text, art.links = extract(html, item.link)
+            thin = "too thin for plain fetch (likely consent wall / JS / bot block)"
     except requests.RequestException as e:
         art.note = f"{type(e).__name__}: {e}"
-        return art
-    if status != 200:
-        art.note = f"HTTP {status} (error page, not the article)"
-        return art
-    try:
-        art.text, art.links = extract(html, item.link)
     except Exception as e:
         art.note = f"extraction failed: {type(e).__name__}: {e}"
-        return art
-    art.words = len(art.text.split())
+    art.words = _material_words(art.titel, art.samenvatting, art.text)
     art.ok = art.words >= min_words
-    if not art.ok:
-        art.note = "too thin for plain fetch (likely consent wall / JS / bot block)"
+    if not art.ok and not art.note:
+        art.note = thin
     return art
 
 
@@ -209,7 +212,7 @@ def render_blocked(blocked: list[ArticleText], timeout: float,
                     except Exception:
                         pass
                 text, links = extract(page.content(), art.link)
-                words = len(text.split())
+                words = _material_words(art.titel, art.samenvatting, text)
                 if words >= min_words:
                     art.ok, art.text, art.words, art.links = True, text, words, links
                     art.note = ""
