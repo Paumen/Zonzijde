@@ -4,6 +4,7 @@
 
 - window: 7 days (from 2026-07-12T00:00:00+02:00, SRC-4)
 - S1 fetch: 510 feed items → 383 in window (22/23 feeds ok)
+- S2 filter: 383 → 228 candidates (155 rejected)
 
 ## Feeds
 
@@ -32,3 +33,14 @@
 | DW Env | 20 | 6 | 0 | — |
 | DW Science | 2 | 2 | 0 | — |
 | Positive | 10 | 5 | 0 | — |
+
+## Rejected (PIPE-2)
+
+| reason | count |
+|---|---|
+| B1 | 53 |
+| B2 | 65 |
+| B3 | 6 |
+| B4 | 5 |
+| B5 | 15 |
+| duplicate | 40 |
