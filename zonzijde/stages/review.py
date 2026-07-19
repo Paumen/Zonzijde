@@ -91,10 +91,11 @@ def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
     stage_cfg = ctx.stage_cfg("review")
     concurrency = int(stage_cfg.get("concurrency", 3))
     rules = prompts.load_prompt(ctx.root, "review")
+    usage: list[dict] = []
     if call is None:
         call = lambda prompt, system: llm.frontier_json(
             prompt, system=system, schema=RESPONSE_SCHEMA,
-            model=cfg["model"], effort=cfg.get("effort"))
+            model=cfg["model"], effort=cfg.get("effort"), usage_sink=usage)
 
     drafts = load_artifact(ctx.work_dir / "70-drafts.json", Draft)
     outline = load_model(ctx.work_dir / "60-outline.json", EditionOutline)
@@ -116,7 +117,7 @@ def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
     reviewed = [r for r, _ in results if r is not None]
     failed = [d.pos for d, (r, _) in zip(drafts, results) if r is None]
     log = {
-        "model": cfg["model"],
+        "model": cfg["model"], "effort": cfg.get("effort"),
         "prompt_versions": {"review": rules.version},
         "articles": [{"pos": d.pos,
                       "words": {"draft": d.words,
@@ -127,6 +128,7 @@ def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
                      for d, (r, p) in zip(drafts, results)],
         "words_total": sum(r.words for r in reviewed),
         "failed_slots": failed,
+        "llm": llm.summarize_usage(usage),
     }
     (ctx.work_dir / "80-review-log.json").write_text(
         json.dumps(log, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")

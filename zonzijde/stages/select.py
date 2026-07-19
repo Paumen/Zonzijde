@@ -91,10 +91,11 @@ def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
     cfg = ctx.llm_cfg("frontier")
     brief = prompts.load_prompt(ctx.root, "brief")
     select = prompts.load_prompt(ctx.root, "select")
+    usage: list[dict] = []
     if call is None:
         call = lambda prompt, system: llm.frontier_json(
             prompt, system=system, schema=RESPONSE_SCHEMA,
-            model=cfg["model"], effort=cfg.get("effort"))
+            model=cfg["model"], effort=cfg.get("effort"), usage_sink=usage)
 
     scored = load_artifact(ctx.work_dir / "30-scored.json", ScoredItem)
     positive = [i for i in scored if i.score >= 1]
@@ -114,9 +115,10 @@ def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
     candidates.sort(key=lambda c: ["L", "R", "N", "I"].index(c.scope))
     save_artifact(ctx.work_dir / "40-candidates.json", candidates)
     log = {
-        "model": cfg["model"],
+        "model": cfg["model"], "effort": cfg.get("effort"),
         "prompt_versions": {"brief": brief.version, "select": select.version},
         "input_items": len(positive),
+        "llm": llm.summarize_usage(usage),
     }
     (ctx.work_dir / "40-select-log.json").write_text(
         json.dumps(log, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")

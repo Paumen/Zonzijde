@@ -15,9 +15,136 @@ def _table(headers: list[str], rows: list[list]) -> str:
     return "\n".join(lines)
 
 
+def _sk(name: str) -> str:
+    return '"' + name.replace('"', "'") + '"' if "," in name or '"' in name else name
+
+
+def _sankey(flows: list[tuple[str, str, int]]) -> list[str]:
+    flows = [(s, d, v) for s, d, v in flows if v and v > 0]
+    if not flows:
+        return []
+    return ["```mermaid", "sankey-beta", ""] + [
+        f"{_sk(s)},{_sk(d)},{v}" for s, d, v in flows] + ["```"]
+
+
+def _overview(work) -> list[str]:
+    fetch_path = work / "10-fetch-log.json"
+    if not fetch_path.is_file():
+        return []
+    feeds = json.loads(fetch_path.read_text(encoding="utf-8"))["feeds"]
+    entries = sum(f["entries"] for f in feeds)
+    kept = sum(f["kept"] for f in feeds)
+
+    item: list[tuple[str, str, int]] = [
+        ("Fetched", "In window", kept),
+        ("Fetched", "Out of window", entries - kept),
+    ]
+    filtered = positive = rows = None
+    if (work / "20-filtered.json").is_file():
+        filtered = len(load_artifact(work / "20-filtered.json", FeedItem))
+        item.append(("In window", "Candidates", filtered))
+        if (work / "20-rejected.json").is_file():
+            reasons = Counter()
+            for r in load_artifact(work / "20-rejected.json", RejectedItem):
+                if r.reason == "duplicate":
+                    reasons["duplicate"] += 1
+                else:
+                    for b in r.reason.removeprefix("bucket:").split(","):
+                        reasons[b] += 1
+            for k, v in sorted(reasons.items()):
+                item.append(("In window", f"Reject: {k}", v))
+    if filtered and (work / "30-score-log.json").is_file():
+        slog = json.loads((work / "30-score-log.json").read_text(encoding="utf-8"))
+        dist = slog["distribution"]
+        positive = int(dist.get("1", 0)) + int(dist.get("2", 0))
+        item.append(("Candidates", "Positive (+1/+2)", positive))
+        for key in ("0", "-1", "-2"):
+            item.append(("Candidates", f"Score {key}", int(dist.get(key, 0))))
+        item.append(("Candidates", "Unscored", len(slog.get("unscored_ids", []))))
+    if positive and (work / "40-candidates.json").is_file():
+        rows = sum(len(c.items) for c in
+                   load_artifact(work / "40-candidates.json", Candidate))
+        item.append(("Positive (+1/+2)", "Selected rows", rows))
+        item.append(("Positive (+1/+2)", "Not selected", positive - rows))
+    if rows and (work / "50-enrich-log.json").is_file():
+        ft = json.loads((work / "50-enrich-log.json")
+                        .read_text(encoding="utf-8")).get("full_text")
+        if ft is not None:
+            item.append(("Selected rows", "Enriched", ft))
+            item.append(("Selected rows", "No full text", rows - ft))
+
+    edition: list[tuple[str, str, int]] = []
+    if (work / "60-outline.json").is_file():
+        n_slots = len(load_model(work / "60-outline.json", EditionOutline).slots)
+        written = n_slots
+        if (work / "70-write-log.json").is_file():
+            wf = len(json.loads((work / "70-write-log.json")
+                                .read_text(encoding="utf-8")).get("failed_slots") or [])
+            written = n_slots - wf
+            edition += [("Outline slots", "Written", written),
+                        ("Outline slots", "Write failed", wf)]
+        if (work / "80-review-log.json").is_file():
+            rf = len(json.loads((work / "80-review-log.json")
+                                .read_text(encoding="utf-8")).get("failed_slots") or [])
+            edition += [("Written", "Reviewed", written - rf),
+                        ("Written", "Review failed", rf)]
+
+    item_sankey = _sankey(item)
+    edition_sankey = _sankey(edition)
+    if not item_sankey and not edition_sankey:
+        return []
+    out = ["## Funnel overview", ""]
+    if item_sankey:
+        out += ["Items — fetched → in window → filtered → scored → selected → "
+                "enriched (drop branches show why and what type):", ""]
+        out += item_sankey + [""]
+    if edition_sankey:
+        out += ["Edition — outline slots → written → reviewed:", ""]
+        out += edition_sankey + [""]
+    return out
+
+
+def _llm_usage(work) -> list[str]:
+    stages = [("S3 score", "30-score-log.json"), ("S4 select", "40-select-log.json"),
+              ("S5 enrich", "50-enrich-log.json"), ("S6 outline", "60-outline-log.json"),
+              ("S7 write", "70-write-log.json"), ("S8 review", "80-review-log.json")]
+    rows = []
+    tot = Counter()
+    for label, fn in stages:
+        p = work / fn
+        if not p.is_file():
+            continue
+        d = json.loads(p.read_text(encoding="utf-8"))
+        u = d.get("llm")
+        if not u:
+            continue
+        wall = f"{u['wall_ms'] / 1000:.1f}s" if u.get("wall_ms") else "—"
+        cost = f"${u['cost_usd']:.4f}" if u.get("cost_usd") is not None else "—"
+        rows.append([label, d.get("model") or "—", d.get("effort") or "—",
+                     u["calls"], u["turns"], f"{u['input_tokens']:,}",
+                     f"{u['output_tokens']:,}", u["tool_uses"],
+                     f"{u['thinking_chars']:,}", wall, cost])
+        for k in ("calls", "turns", "input_tokens", "output_tokens",
+                  "tool_uses", "thinking_chars", "wall_ms"):
+            tot[k] += u.get(k) or 0
+        if u.get("cost_usd") is not None:
+            tot["cost_usd"] += u["cost_usd"]
+    if not rows:
+        return []
+    rows.append(["**total**", "", "", tot["calls"], tot["turns"],
+                 f"{tot['input_tokens']:,}", f"{tot['output_tokens']:,}",
+                 tot["tool_uses"], f"{tot['thinking_chars']:,}",
+                 f"{tot['wall_ms'] / 1000:.1f}s",
+                 f"${tot['cost_usd']:.4f}" if tot["cost_usd"] else "—"])
+    return ["## LLM usage (OPS-4)", "",
+            _table(["stage", "model", "effort", "calls", "turns", "in tok",
+                    "out tok", "tools", "think chars", "wall", "cost"], rows)]
+
+
 def build(ctx: RunContext) -> str:
     work = ctx.work_dir
     parts = [f"# Run report — edition {ctx.edition.isoformat()}", ""]
+    parts += _overview(work)
 
     log_path = work / "10-fetch-log.json"
     items_path = work / "20-filtered.json"
@@ -76,20 +203,29 @@ def build(ctx: RunContext) -> str:
                       f"{planned['min']}–{planned['max']} words"]
         if write_log_path.is_file():
             wlog = json.loads(write_log_path.read_text(encoding="utf-8"))
+            wfailed = wlog.get("failed_slots") or []
             parts += [f"- S7 write: {len(wlog['slots'])} articles, "
-                      f"{wlog['words_total']} words"]
+                      f"{wlog['words_total']} words"
+                      + (f"; **{len(wfailed)} slot(s) failed to write — "
+                         f"hole(s) at pos {wfailed}**" if wfailed else "")]
         if review_log_path.is_file():
             rlog = json.loads(review_log_path.read_text(encoding="utf-8"))
             issues = sum(len(a["fact_issues"]) for a in rlog["articles"])
             corr = sum(len(a["corrections"]) for a in rlog["articles"])
+            rfailed = rlog.get("failed_slots") or []
             body = ctx.edition_cfg["body_words"]
             parts += [f"- S8 review: {issues} fact issue(s), {corr} "
                       f"correction(s), {rlog['words_total']} words body text"
-                      f" (ED-5 target {body['min']}–{body['max']})"]
+                      f" (ED-5 target {body['min']}–{body['max']})"
+                      + (f"; **{len(rfailed)} slot(s) failed review at "
+                         f"pos {rfailed}**" if rfailed else "")]
         parts += ["", "## Feeds", "",
                   _table(["bron", "items", "in window", "undated", "error"],
                          [[f["bron"], f["entries"], f["kept"], f["undated"],
                            f["error"] or "—"] for f in feeds])]
+        usage = _llm_usage(work)
+        if usage:
+            parts += ["", *usage]
 
     if rejected_path.is_file():
         rejected = load_artifact(rejected_path, RejectedItem)

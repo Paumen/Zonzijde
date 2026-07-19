@@ -88,10 +88,11 @@ def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
     brief = prompts.load_prompt(ctx.root, "brief")
     rules = prompts.load_prompt(ctx.root, "write")
     system = f"{brief.body}\n\n{rules.body}"
+    usage: list[dict] = []
     if call is None:
         call = lambda prompt, system: llm.frontier_json(
             prompt, system=system, schema=RESPONSE_SCHEMA,
-            model=cfg["model"], effort=cfg.get("effort"))
+            model=cfg["model"], effort=cfg.get("effort"), usage_sink=usage)
 
     outline = load_model(ctx.work_dir / "60-outline.json", EditionOutline)
     articles = {a.id: a for a in
@@ -106,13 +107,14 @@ def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
     drafts = [d for d, _ in results if d is not None]
     failed = [s.pos for s, (d, _) in zip(outline.slots, results) if d is None]
     log = {
-        "model": cfg["model"],
+        "model": cfg["model"], "effort": cfg.get("effort"),
         "prompt_versions": {"brief": brief.version, "write": rules.version},
         "slots": [{"pos": s.pos, "length": s.length,
                    "words": d.words if d else None, "problems": p}
                   for s, (d, p) in zip(outline.slots, results)],
         "words_total": sum(d.words for d in drafts),
         "failed_slots": failed,
+        "llm": llm.summarize_usage(usage),
     }
     (ctx.work_dir / "70-write-log.json").write_text(
         json.dumps(log, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")

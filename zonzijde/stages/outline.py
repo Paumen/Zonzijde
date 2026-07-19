@@ -179,11 +179,12 @@ def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
     if not keyed:
         raise SystemExit("S6 outline: no candidate has usable source text (PIPE-5)")
     by_key = {key: cand for key, cand in keyed}
+    usage: list[dict] = []
     if call is None:
         schema = response_schema([key for key, _ in keyed])
         call = lambda prompt, system: llm.frontier_json(
             prompt, system=system, schema=schema,
-            model=cfg["model"], effort=cfg.get("effort"))
+            model=cfg["model"], effort=cfg.get("effort"), usage_sink=usage)
 
     available: dict[str, int] = {s: 0 for s in RING}
     for _, cand in keyed:
@@ -206,12 +207,13 @@ def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
         "max": sum(words[s.length]["max"] for s in outline.slots),
     }
     log = {
-        "model": cfg["model"],
+        "model": cfg["model"], "effort": cfg.get("effort"),
         "prompt_versions": {"brief": brief.version,
                             "outline": outline_prompt.version},
         "input_topics": {s: available[s] for s in RING},
         "dropped_topics": dropped,
         "planned_words": planned,
+        "llm": llm.summarize_usage(usage),
     }
     (ctx.work_dir / "60-outline-log.json").write_text(
         json.dumps(log, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
