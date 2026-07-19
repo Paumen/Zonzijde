@@ -47,3 +47,7 @@ llm:
   frontier:
     model: claude-sonnet-5
     effort: medium
+  stages:
+    outline:
+      model: claude-opus-4-8
+      effort: medium

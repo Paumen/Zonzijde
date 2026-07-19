@@ -4,12 +4,12 @@
     {
       "pos": 1,
       "scope": "L",
-      "topic": "Jan en Ingrid van den Brink krijgen een Koninklijke onderscheiding tijdens het 40-jarig jubileum van dweilband Busband",
+      "topic": "Koninklijke onderscheiding voor Jan en Ingrid van den Brink tijdens 40 jaar dweilband Busband",
       "length": "standard",
       "devices": [
-        "scene-opening anecdote in plaats van aforistische kicker",
-        "lichte, warme humor over lokale bekendheid van het echtpaar",
-        "sluit af met een concreet, visueel detail (het moment van opspelden) in plaats van een conclusie-zin"
+        "warme aforistische kicker",
+        "menselijk portret",
+        "verrassing-in-scène (uitreiking tijdens jubileum)"
       ],
       "source_ids": [
         "f259828a70ad"
@@ -20,28 +20,44 @@
     {
       "pos": 2,
       "scope": "L",
-      "topic": "Gemeente werkt aan tijdelijke huisvesting voor jonge woningzoekenden in voormalig pand 't Palet",
-      "length": "standard",
+      "topic": "Molen én kasteel Hernen op één zaterdag te bezoeken tijdens Kids-Zomerweken",
+      "length": "short",
       "devices": [
-        "nuchtere, feitelijke opening zonder metafoor",
-        "menselijke maat: focus op wat het voor een jongere betekent i.p.v. beleidstaal",
-        "geen aforistische slotzin, eindigt op een concrete vervolgstap"
+        "directe aanspreekvorm (kom kijken)",
+        "zintuiglijk scè.netje",
+        "uitnodiging om erop uit te gaan"
       ],
       "source_ids": [
-        "b7a32b4d095e"
+        "5bae18ae8dc9"
       ],
-      "location": "Wijchen",
-      "source_date": "2026-07-14"
+      "location": "Hernen",
+      "source_date": "2026-07-15"
     },
     {
       "pos": 3,
+      "scope": "L",
+      "topic": "'Hoe is het?'-campagne zichtbaar op Dag van Wijchen; gesprek over mentale gezondheid",
+      "length": "short",
+      "devices": [
+        "retorische vraag als rode draad",
+        "tweede persoon",
+        "actualiteitshaakje (22 juli)"
+      ],
+      "source_ids": [
+        "a0075d173b34"
+      ],
+      "location": "Wijchen",
+      "source_date": "2026-07-18"
+    },
+    {
+      "pos": 4,
       "scope": "R",
-      "topic": "Batenburg Baroque Festival trekt vijfde editie op rij meer bezoekers, bijna alles uitverkocht",
+      "topic": "Vijfde Batenburg Baroque Festival uitverkocht, 5% meer bezoekers",
       "length": "standard",
       "devices": [
-        "analogie: het minuscule stadje dat boven zijn gewicht bokst",
-        "licht ironische ondertoon over hoe een dorp van amper duizend inwoners een internationaal festival vult",
-        "cijfers verwerkt in een anekdote (rij voor de kassa), niet als losse opsomming"
+        "ingehouden toon",
+        "laat de cijfers spreken",
+        "plaatsgevoel (historisch stadje)"
       ],
       "source_ids": [
         "f1f69f295308"
@@ -50,63 +66,30 @@
       "source_date": "2026-07-16"
     },
     {
-      "pos": 4,
+      "pos": 5,
       "scope": "R",
-      "topic": "Gladiolenteelster Louise Theunissen uit Heumen loopt na een leven lang bloemen kweken voor de Vierdaagse eindelijk zelf mee",
+      "topic": "Gladiolenteler Louise Theunissen loopt na een leven van kweken eindelijk zelf de Vierdaagse",
       "length": "long",
       "devices": [
-        "doorlopende bloemmetafoor (bloeien, wortel schieten, eindelijk zelf in bloei) als rode draad",
-        "portretterende, licht poëtische stijl met scènes in plaats van samenvatting",
-        "geen aforistische kicker, opent middenin een handeling (bloemen snijden/binden)"
+        "uitgewerkte metafoor (gladiool als bloem van de finish)",
+        "menselijk feature-portret",
+        "cirkelcompositie"
       ],
       "source_ids": [
         "08af94363c9e"
       ],
-      "location": "Heumen",
+      "location": "Heumen / Nijmegen (Vierdaagse)",
       "source_date": "2026-07-13"
     },
     {
-      "pos": 5,
-      "scope": "R",
-      "topic": "Hoge Raad bevestigt vonnis: Vitesse wint definitief van de KNVB, opluchting op Papendal",
-      "length": "standard",
-      "devices": [
-        "ironisch/luchtig register over een jarenlang juridisch gevecht dat eindigt met 'gewoon weer over voetbal praten'",
-        "rechtszaal-naar-veld metafoor (de bal ligt weer stil, het fluitsignaal is voorbij)",
-        "citaat vooraan in plaats van kicker"
-      ],
-      "source_ids": [
-        "960ee3c04f76",
-        "58eca471a574"
-      ],
-      "location": "Arnhem",
-      "source_date": "2026-07-17"
-    },
-    {
       "pos": 6,
-      "scope": "R",
-      "topic": "Studenten Rijn IJssel houden na acties en petities hun podiumkunstopleiding overeind",
-      "length": "short",
-      "devices": [
-        "kort en puntig, bijna telegramstijl",
-        "lichte ironie: de macht van een handtekeningenlijst tegenover een bestuursbesluit",
-        "geen metafoor nodig, snelle opbouw feit-actie-resultaat"
-      ],
-      "source_ids": [
-        "8696f9242773"
-      ],
-      "location": "Arnhem",
-      "source_date": "2026-07-18"
-    },
-    {
-      "pos": 7,
       "scope": "N",
-      "topic": "Arnhemse schuldenproef in Immerloo II lost gemiddeld 34% van schulden af bij kwetsbare gezinnen, krijgt vervolg voor honderd huishoudens",
+      "topic": "Arnhemse schuldenproef Immerloo II loste 34% af en krijgt vervolg voor 100 huishoudens",
       "length": "long",
       "devices": [
-        "analogie: schuld als een last die stapsgewijs van de schouders wordt getild, niet in één keer",
-        "expository met één menselijk vignet (een gezin) als anker, niet louter cijfers",
-        "vermijdt aforistische kicker, opent met een concrete situatie in de wijk"
+        "analogie (uit de put klimmen)",
+        "bewijs- en cijfergedreven",
+        "hoopvolle vooruitblik"
       ],
       "source_ids": [
         "edfbdda71ce4"
@@ -115,68 +98,52 @@
       "source_date": "2026-07-15"
     },
     {
-      "pos": 8,
+      "pos": 7,
       "scope": "N",
-      "topic": "Amsterdammer bewaarde dertig jaar een paneel uit de grofvuil, blijkt geroofd Goudstikker-werk en gaat terug naar de nazaten",
+      "topic": "Geroofd Goudstikker-paneel, dertig jaar geleden van het grofvuil gered, gaat terug naar nazaten",
       "length": "standard",
       "devices": [
-        "detective-achtige opbouw: opent met het toevallige vondstmoment, onthulling volgt pas later",
-        "ironische twist als stijlmiddel (dertig jaar in een kelder, vlak naast het grofvuil waar het bijna verdween)",
-        "geen aforistische slotzin, eindigt op het moment van teruggave"
+        "droge ironie",
+        "understatement",
+        "wending van vuilnisbelt naar meesterwerk"
       ],
       "source_ids": [
         "391b22657d1e"
       ],
-      "location": "Amsterdam",
+      "location": "Amsterdam / nationaal",
       "source_date": "2026-07-13"
     },
     {
-      "pos": 9,
-      "scope": "N",
-      "topic": "Politie moet illegaal verzamelde data van miljoenen burgers alsnog vernietigen na mislukte laatste poging van minister Van Weel",
-      "length": "short",
-      "devices": [
-        "droge, licht ironische toon over een bewindspersoon die zijn laatste kaart verspeelt",
-        "kort en direct, geen metafoor",
-        "sluit af met de feitelijke consequentie, niet met een gedragen conclusie"
-      ],
-      "source_ids": [
-        "aff6fc1155c1"
-      ],
-      "location": "Nederland",
-      "source_date": "2026-07-15"
-    },
-    {
-      "pos": 10,
+      "pos": 8,
       "scope": "I",
-      "topic": "Wereldwijd vinden vrouwen, spelers met een beperking en minderheidsgroepen na generaties uitsluiting eindelijk aansluiting bij amateurvoetbal",
+      "topic": "Gemarginaliseerde groepen vinden gemeenschap en samenhorigheid via amateurvoetbal",
       "length": "long",
       "devices": [
-        "metafoor van het gelijke speelveld die letterlijk wordt gemaakt (het veld als plek waar iedereen voor het eerst gelijk meedoet)",
-        "warme, portretterende stijl met meerdere korte scènes/personen in plaats van één samenvattend verhaal",
-        "vermijdt aforistische kicker, opent middenin een wedstrijdmoment"
+        "warme gemeenschapsmetafoor (het veld als thuis)",
+        "meerstemmig portret",
+        "verbindingsthema"
       ],
       "source_ids": [
         "b577c4a79499"
       ],
-      "location": "Wereldwijd",
+      "location": "internationaal (VK e.a.)",
       "source_date": "2026-07-15"
     },
     {
-      "pos": 11,
+      "pos": 9,
       "scope": "I",
-      "topic": "Cubaanse dissident-kunstenaar Luis Manuel Otero Alcántara vrij na vijf jaar cel, aangekomen in de Verenigde Staten",
-      "length": "short",
+      "topic": "Weekoverzicht wereldwijde vooruitgang: gezondheidswinst, oceaanbescherming, nieuwe diersoort",
+      "length": "standard",
       "devices": [
-        "ingetogen, waardige toon, geen metafoorstapeling",
-        "citaatgedreven opening in plaats van scene-setting",
-        "sluit de editie af op een hoopvolle, rustige noot"
+        "kordate digest-stijl",
+        "opsommend ritme",
+        "zoom-uit naar de wereld als afsluiter"
       ],
       "source_ids": [
-        "4ad8e1291fa3"
+        "bade2a62207b"
       ],
-      "location": "Verenigde Staten / Cuba",
-      "source_date": "2026-07-18"
+      "location": "wereldwijd",
+      "source_date": "2026-07-17"
     }
   ]
 }

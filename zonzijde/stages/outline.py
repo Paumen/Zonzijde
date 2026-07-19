@@ -160,7 +160,7 @@ def ground(payload: object, edition: date,
 
 
 def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
-    cfg = ctx.llm_cfg("frontier")
+    cfg = ctx.llm_cfg("frontier", stage="outline")
     ed_cfg = ctx.edition_cfg
     brief = prompts.load_prompt(ctx.root, "brief")
     outline_prompt = prompts.load_prompt(ctx.root, "outline")

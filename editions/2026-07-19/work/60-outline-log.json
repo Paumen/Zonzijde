@@ -1,5 +1,5 @@
 {
-  "model": "claude-sonnet-5",
+  "model": "claude-opus-4-8",
   "prompt_versions": {
     "brief": 2,
     "outline": 5
@@ -17,7 +17,7 @@
     "Pepijn (17) laat zich niet weerhouden door zijn beperking"
   ],
   "planned_words": {
-    "min": 3050,
-    "max": 5800
+    "min": 2650,
+    "max": 5000
   }
 }

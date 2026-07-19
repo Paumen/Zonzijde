@@ -8,7 +8,7 @@
 - S3 score: 228 scored → 74 at +1/+2
 - S4 select: 20 topics (21 source rows)
 - S5 enrich: 21 source rows → 17 full texts (requests 17, playwright 0); 4 topics dropped (PIPE-5)
-- S6 outline: 11 slots, planned 3050–5800 words
+- S6 outline: 9 slots, planned 2650–5000 words
 
 ## Feeds
 
@@ -115,14 +115,12 @@ model claude-haiku-4-5-20251001, prompt score.md v1
 
 | pos | scope | length | topic | location | source date |
 |---|---|---|---|---|---|
-| 1 | L | standard | Jan en Ingrid van den Brink krijgen een Koninklijke onderscheiding tijdens het 40-jarig jubileum van dweilband Busband | Wijchen | 2026-07-13 |
-| 2 | L | standard | Gemeente werkt aan tijdelijke huisvesting voor jonge woningzoekenden in voormalig pand 't Palet | Wijchen | 2026-07-14 |
-| 3 | R | standard | Batenburg Baroque Festival trekt vijfde editie op rij meer bezoekers, bijna alles uitverkocht | Batenburg | 2026-07-16 |
-| 4 | R | long | Gladiolenteelster Louise Theunissen uit Heumen loopt na een leven lang bloemen kweken voor de Vierdaagse eindelijk zelf mee | Heumen | 2026-07-13 |
-| 5 | R | standard | Hoge Raad bevestigt vonnis: Vitesse wint definitief van de KNVB, opluchting op Papendal | Arnhem | 2026-07-17 |
-| 6 | R | short | Studenten Rijn IJssel houden na acties en petities hun podiumkunstopleiding overeind | Arnhem | 2026-07-18 |
-| 7 | N | long | Arnhemse schuldenproef in Immerloo II lost gemiddeld 34% van schulden af bij kwetsbare gezinnen, krijgt vervolg voor honderd huishoudens | Arnhem | 2026-07-15 |
-| 8 | N | standard | Amsterdammer bewaarde dertig jaar een paneel uit de grofvuil, blijkt geroofd Goudstikker-werk en gaat terug naar de nazaten | Amsterdam | 2026-07-13 |
-| 9 | N | short | Politie moet illegaal verzamelde data van miljoenen burgers alsnog vernietigen na mislukte laatste poging van minister Van Weel | Nederland | 2026-07-15 |
-| 10 | I | long | Wereldwijd vinden vrouwen, spelers met een beperking en minderheidsgroepen na generaties uitsluiting eindelijk aansluiting bij amateurvoetbal | Wereldwijd | 2026-07-15 |
-| 11 | I | short | Cubaanse dissident-kunstenaar Luis Manuel Otero Alcántara vrij na vijf jaar cel, aangekomen in de Verenigde Staten | Verenigde Staten / Cuba | 2026-07-18 |
+| 1 | L | standard | Koninklijke onderscheiding voor Jan en Ingrid van den Brink tijdens 40 jaar dweilband Busband | Wijchen | 2026-07-13 |
+| 2 | L | short | Molen én kasteel Hernen op één zaterdag te bezoeken tijdens Kids-Zomerweken | Hernen | 2026-07-15 |
+| 3 | L | short | 'Hoe is het?'-campagne zichtbaar op Dag van Wijchen; gesprek over mentale gezondheid | Wijchen | 2026-07-18 |
+| 4 | R | standard | Vijfde Batenburg Baroque Festival uitverkocht, 5% meer bezoekers | Batenburg | 2026-07-16 |
+| 5 | R | long | Gladiolenteler Louise Theunissen loopt na een leven van kweken eindelijk zelf de Vierdaagse | Heumen / Nijmegen (Vierdaagse) | 2026-07-13 |
+| 6 | N | long | Arnhemse schuldenproef Immerloo II loste 34% af en krijgt vervolg voor 100 huishoudens | Arnhem | 2026-07-15 |
+| 7 | N | standard | Geroofd Goudstikker-paneel, dertig jaar geleden van het grofvuil gered, gaat terug naar nazaten | Amsterdam / nationaal | 2026-07-13 |
+| 8 | I | long | Gemarginaliseerde groepen vinden gemeenschap en samenhorigheid via amateurvoetbal | internationaal (VK e.a.) | 2026-07-15 |
+| 9 | I | standard | Weekoverzicht wereldwijde vooruitgang: gezondheidswinst, oceaanbescherming, nieuwe diersoort | wereldwijd | 2026-07-17 |
