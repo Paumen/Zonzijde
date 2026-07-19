@@ -115,14 +115,14 @@ model claude-haiku-4-5-20251001, prompt score.md v1
 
 | pos | scope | length | topic | location | source date |
 |---|---|---|---|---|---|
-| 1 | L | long | Koninklijke onderscheiding voor Jan en Ingrid van den Brink | Wijchen | 2026-07-13 |
-| 2 | L | standard | Tijdelijke woonruimte voor jonge Wijchenaren in 't Palet | 't Palet, Wijchen | 2026-07-14 |
-| 3 | L | short | Molen en kasteel Hernen samen te bezoeken tijdens Kids-Zomerweken | Hernen | 2026-07-15 |
-| 4 | R | standard | Vitesse haalt opgelucht adem na uitspraak Hoge Raad | Papendal, Arnhem | 2026-07-17 |
-| 5 | R | long | Gladiolenteler Louise loopt eindelijk haar Vierdaagse | Heumen / Vierdaagseroute, Nijmegen | 2026-07-13 |
-| 6 | N | long | Arnhemse schuldenaanpak bewijst zich, vervolg komt er | Immerloo II, Arnhem | 2026-07-15 |
-| 7 | N | standard | Politie moet illegaal verzamelde data alsnog vernietigen | Den Haag | 2026-07-15 |
-| 8 | N | short | Geroofd Goudstikker-schilderij duikt op na decennia | Amsterdam | 2026-07-13 |
-| 9 | I | standard | Cubaanse dissident kunstenaar vrij na vijf jaar cel | Verenigde Staten / Cuba | 2026-07-18 |
-| 10 | I | standard | Steden worden slimmer met water en klimaataanpassing | wereldwijd | 2026-07-17 |
-| 11 | I | short | Forensische wetenschap helpt strijd tegen stroperij | wereldwijd, natuurgebieden | 2026-07-17 |
+| 1 | L | standard | Jan en Ingrid van den Brink krijgen een Koninklijke onderscheiding tijdens het 40-jarig jubileum van dweilband Busband | Wijchen | 2026-07-13 |
+| 2 | L | standard | Gemeente werkt aan tijdelijke huisvesting voor jonge woningzoekenden in voormalig pand 't Palet | Wijchen | 2026-07-14 |
+| 3 | R | standard | Batenburg Baroque Festival trekt vijfde editie op rij meer bezoekers, bijna alles uitverkocht | Batenburg | 2026-07-16 |
+| 4 | R | long | Gladiolenteelster Louise Theunissen uit Heumen loopt na een leven lang bloemen kweken voor de Vierdaagse eindelijk zelf mee | Heumen | 2026-07-13 |
+| 5 | R | standard | Hoge Raad bevestigt vonnis: Vitesse wint definitief van de KNVB, opluchting op Papendal | Arnhem | 2026-07-17 |
+| 6 | R | short | Studenten Rijn IJssel houden na acties en petities hun podiumkunstopleiding overeind | Arnhem | 2026-07-18 |
+| 7 | N | long | Arnhemse schuldenproef in Immerloo II lost gemiddeld 34% van schulden af bij kwetsbare gezinnen, krijgt vervolg voor honderd huishoudens | Arnhem | 2026-07-15 |
+| 8 | N | standard | Amsterdammer bewaarde dertig jaar een paneel uit de grofvuil, blijkt geroofd Goudstikker-werk en gaat terug naar de nazaten | Amsterdam | 2026-07-13 |
+| 9 | N | short | Politie moet illegaal verzamelde data van miljoenen burgers alsnog vernietigen na mislukte laatste poging van minister Van Weel | Nederland | 2026-07-15 |
+| 10 | I | long | Wereldwijd vinden vrouwen, spelers met een beperking en minderheidsgroepen na generaties uitsluiting eindelijk aansluiting bij amateurvoetbal | Wereldwijd | 2026-07-15 |
+| 11 | I | short | Cubaanse dissident-kunstenaar Luis Manuel Otero Alcántara vrij na vijf jaar cel, aangekomen in de Verenigde Staten | Verenigde Staten / Cuba | 2026-07-18 |
