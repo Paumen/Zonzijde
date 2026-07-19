@@ -64,6 +64,13 @@ class Candidate(BaseModel):
 FetchMethod = Literal["requests", "playwright"]
 
 
+class Reference(BaseModel):
+    url: str
+    ok: bool
+    text: str
+    words: int
+
+
 class ArticleText(CandidateItem):
     ok: bool
     method: FetchMethod
@@ -71,6 +78,7 @@ class ArticleText(CandidateItem):
     words: int
     links: list[str]
     note: str
+    references: list[Reference] = Field(default_factory=list)
 
 
 Length = Literal["long", "standard", "short"]

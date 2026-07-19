@@ -10,8 +10,10 @@ from typing import Callable
 import requests
 import trafilatura
 
+from .. import llm, prompts
 from ..context import RunContext
-from ..contracts import ArticleText, Candidate, CandidateItem, load_artifact, save_artifact
+from ..contracts import (ArticleText, Candidate, CandidateItem, Reference,
+                         load_artifact, save_artifact)
 from ..net import VERIFY
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
@@ -42,6 +44,84 @@ def extract(html: str, url: str) -> tuple[str, list[str]]:
         return "", []
     text = (json.loads(data).get("text") or "").strip()
     return text, _dedupe(MD_LINK_RE.findall(text))
+
+
+FOLLOW = {"EXT", "INT"}
+
+CLASSIFY_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "links": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "i": {"type": "integer"},
+                    "category": {"type": "string",
+                                 "enum": ["EXT", "INT", "NAV", "PROMO"]},
+                },
+                "required": ["i", "category"],
+                "additionalProperties": False,
+            },
+        },
+    },
+    "required": ["links"],
+    "additionalProperties": False,
+}
+
+Classify = Callable[[ArticleText], dict[int, str]]
+
+
+def make_classify(body: str, model: str) -> Classify:
+    def classify(art: ArticleText) -> dict[int, str]:
+        lines = [body, "", f"Title: {art.titel}", f"Article URL: {art.link}",
+                 "Links:"]
+        for k, link in enumerate(art.links):
+            lines.append(f"  [{k}] {link}")
+        prompt = "\n".join(lines) + (
+            "\n\nReturn a classification for every link index shown above.")
+        payload = llm.agent_json(prompt, model=model, schema=CLASSIFY_SCHEMA,
+                                 allowed_tools=[], max_turns=2)
+        cats: dict[int, str] = {}
+        rows = payload.get("links") if isinstance(payload, dict) else None
+        for row in rows or []:
+            if isinstance(row, dict) and isinstance(row.get("i"), int):
+                cats[row["i"]] = row.get("category")
+        return cats
+    return classify
+
+
+def select_references(art: ArticleText, cats: dict[int, str],
+                      deny: list[str], cap: int) -> list[str]:
+    picks: list[str] = []
+    for k, link in enumerate(art.links):
+        if cats.get(k) not in FOLLOW:
+            continue
+        if any(d in link for d in deny):
+            continue
+        picks.append(link)
+        if len(picks) >= cap:
+            break
+    return picks
+
+
+def fetch_reference(url: str, fetch: Fetch, timeout: float,
+                    min_words: int, max_words: int) -> Reference:
+    ref = Reference(url=url, ok=False, text="", words=0)
+    try:
+        status, html = fetch(url, timeout)
+        if status != 200:
+            return ref
+        text, _links = extract(html, url)
+    except Exception:
+        return ref
+    words = text.split()
+    if len(words) < min_words:
+        return ref
+    if len(words) > max_words:
+        text = " ".join(words[:max_words])
+    ref.text, ref.words, ref.ok = text, min(len(words), max_words), True
+    return ref
 
 
 def _stage1(item: CandidateItem, fetch: Fetch, timeout: float,
@@ -148,13 +228,22 @@ def render_blocked(blocked: list[ArticleText], timeout: float,
 
 
 def run(ctx: RunContext, fetch: Fetch | None = None,
-        render: Render | None = None) -> None:
+        render: Render | None = None, classify: Classify | None = None) -> None:
     cfg = ctx.enrich_cfg
     timeout = float(cfg.get("timeout_s", 25))
     min_words = int(cfg.get("min_words", 120))
     concurrency = int(cfg.get("concurrency", 8))
     fetch = fetch or fetch_html
     render = render or render_blocked
+
+    ref_cfg = cfg.get("references", {})
+    ref_cap = int(ref_cfg.get("max", 3))
+    ref_min = int(ref_cfg.get("min_words", 60))
+    ref_max = int(ref_cfg.get("max_words", 1200))
+    ref_deny = list(ref_cfg.get("deny", []))
+    if classify is None:
+        classify = make_classify(prompts.load_prompt(ctx.root, "classify").body,
+                                  ctx.llm_cfg("light")["model"])
 
     candidates = load_artifact(ctx.work_dir / "40-candidates.json", Candidate)
     if not candidates:
@@ -175,6 +264,19 @@ def run(ctx: RunContext, fetch: Fetch | None = None,
     if blocked and cfg.get("browser", True):
         render(blocked, timeout, min_words)
 
+    def enrich_refs(art: ArticleText) -> None:
+        try:
+            cats = classify(art)
+        except llm.LlmError:
+            return
+        picks = select_references(art, cats, ref_deny, ref_cap)
+        art.references = [fetch_reference(u, fetch, timeout, ref_min, ref_max)
+                          for u in picks]
+
+    linked = [a for a in articles.values() if a.ok and a.links]
+    with ThreadPoolExecutor(max_workers=concurrency) as ex:
+        list(ex.map(enrich_refs, linked))
+
     topics_log: list[dict] = []
     for cand in candidates:
         ok_rows = sum(1 for r in cand.items if articles[r.id].ok)
@@ -192,11 +294,14 @@ def run(ctx: RunContext, fetch: Fetch | None = None,
     methods = {m: sum(1 for a in articles.values() if a.ok and a.method == m)
                for m in ("requests", "playwright")}
     dropped = [t["topic"] for t in topics_log if t["dropped"]]
+    ref_selected = sum(len(a.references) for a in articles.values())
+    ref_ok = sum(1 for a in articles.values() for r in a.references if r.ok)
     log = {
         "rows": len(articles),
         "full_text": sum(1 for a in articles.values() if a.ok),
         "methods": methods,
         "min_words": min_words,
+        "references": {"selected": ref_selected, "ok": ref_ok},
         "topics": topics_log,
         "dropped_topics": dropped,
         "duration_s": round(time.perf_counter() - t0, 1),
@@ -206,4 +311,5 @@ def run(ctx: RunContext, fetch: Fetch | None = None,
 
     print(f"S5 enrich: {log['rows']} source rows → {log['full_text']} full texts"
           f" (requests {methods['requests']}, playwright {methods['playwright']});"
-          f" {len(dropped)} topic(s) dropped in {log['duration_s']}s")
+          f" {ref_ok}/{ref_selected} references; "
+          f"{len(dropped)} topic(s) dropped in {log['duration_s']}s")

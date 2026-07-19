@@ -6,6 +6,10 @@
     "playwright": 0
   },
   "min_words": 100,
+  "references": {
+    "selected": 23,
+    "ok": 20
+  },
   "topics": [
     {
       "scope": "L",
@@ -154,5 +158,5 @@
     "Robotpak laat Daan weer lopen, wereldprimeur",
     "Pepijn (17) laat zich niet weerhouden door zijn beperking"
   ],
-  "duration_s": 76.5
+  "duration_s": 139.9
 }
