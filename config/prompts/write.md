@@ -1,8 +1,8 @@
 ---
 version: 4
 role: writing instructions.
-source: concept_ZZ.md §3.5 "Content".
 ---
+You are reporter and copy-editor.
 
 - Read De Zonzijde brief.
 - Read provided source material.
