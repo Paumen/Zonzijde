@@ -82,7 +82,7 @@ A funnel: each step narrows the stream. Normative behaviour per step; implementa
 | PIPE-5 | Enrich | Fetch the full article text behind every selected link (two-stage: plain fetch, then headless-browser render). A source row is sufficient when its title, summary, and fetched body together reach the word threshold (`config/edition.yaml` → `enrich.min_words`); a row below it is not writing material (WR-2). If a link stays blocked, the topic's other source articles stand in (the candidate table lists one row per source). A topic with no sufficient row is dropped and logged in the run report. Enrichment is plain code — no model call. |
 | PIPE-6 | Outline | With brief + edition spec + shortlist: pick the stories per scope in the §5 numbers, assign length class; the picked topic carries its own sources (from PIPE-4); front page led by the best lokaal story; identify which stories carry the longer pieces; consult SRC-3 reference sources. |
 | PIPE-7 | Write | Produce full Dutch article texts per the outline. Never refer to accompanying images/illustrations; never refer to De Zonzijde itself, "deze krant", its intent, or why a story is included. |
-| PIPE-8 | Review | Fact-check against the fetched source texts, correct grammar/spelling, finalise titles. |
+| PIPE-8 | Review | Copy-edit the draft in isolation: correct Dutch grammar/spelling/phrasing, finalise titles. No source text, no fact-check. |
 | PIPE-9 | Editorial & compose | Consolidate into the paper: cut/shorten, final ordering, overall balance and variety; typeset into the edition PDF satisfying §6; validated against LAY/EL rules before publication. |
 
 Writing-variety rules (apply across PIPE-6..9):
@@ -90,7 +90,8 @@ Writing-variety rules (apply across PIPE-6..9):
 - WR-1: Vary article forms across the edition — not all aphoristic kickers; at least
   one piece somewhat funnier/more ironic; use devices like an analogy or metaphor.
 - WR-2: Every article is grounded in its source material (title, summary, and fetched
-  body); no invented facts, names, numbers, or quotes (enforced by PIPE-8).
+  body); no invented facts, names, numbers, or quotes (grounded at PIPE-7 write; the
+  human editorial gate is the fact-check).
 
 ## 5. Edition content mix
 

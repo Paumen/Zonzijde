@@ -8,8 +8,8 @@ from pydantic import ValidationError
 
 from .. import llm, prompts
 from ..context import RunContext
-from ..contracts import (ArticleText, Draft, EditionOutline, OutlineSlot,
-                         Review, ReviewedArticle, load_artifact, load_model,
+from ..contracts import (Draft, EditionOutline, OutlineSlot, Review,
+                         ReviewedArticle, load_artifact, load_model,
                          save_artifact)
 from .write import word_count
 
@@ -18,33 +18,22 @@ RESPONSE_SCHEMA = {
     "properties": {
         "title": {"type": "string"},
         "text": {"type": "string"},
-        "fact_issues": {"type": "array", "items": {"type": "string"}},
         "corrections": {"type": "array", "items": {"type": "string"}},
     },
-    "required": ["title", "text", "fact_issues", "corrections"],
+    "required": ["title", "text", "corrections"],
     "additionalProperties": False,
 }
 
 JsonCall = Callable[[str, str], object]
 
 
-def build_prompt(draft: Draft, slot: OutlineSlot, budget: dict,
-                 sources: list[ArticleText]) -> str:
-    parts = [
+def build_prompt(draft: Draft, slot: OutlineSlot, budget: dict) -> str:
+    return "\n\n".join([
         f"Draft article (slot {draft.pos}, {slot.length}, written to a "
         f"guide of {budget['min']}–{budget['max']} words):",
         f"Titel: {draft.title}",
         draft.text,
-        "Source text(s):",
-    ]
-    for art in sources:
-        parts.append(f"### {art.bron} — {art.titel}\n\n{art.text}")
-    refs = [r for art in sources for r in art.references if r.ok]
-    if refs:
-        parts.append("Background reference text (from links in the source):")
-        for ref in refs:
-            parts.append(f"#### {ref.url}\n\n{ref.text}")
-    return "\n\n".join(parts)
+    ])
 
 
 def ground(payload: object, draft: Draft) -> tuple[ReviewedArticle | None, list[str]]:
@@ -55,30 +44,26 @@ def ground(payload: object, draft: Draft) -> tuple[ReviewedArticle | None, list[
     text = payload.get("text").strip() \
         if isinstance(payload.get("text"), str) else ""
 
-    def _strings(key: str) -> list[str]:
-        raw = payload.get(key)
-        return [s.strip() for s in raw if isinstance(s, str) and s.strip()] \
-            if isinstance(raw, list) else []
+    raw = payload.get("corrections")
+    corrections = [s.strip() for s in raw if isinstance(s, str) and s.strip()] \
+        if isinstance(raw, list) else []
 
     try:
         reviewed = ReviewedArticle(
             pos=draft.pos, title=title, location=draft.location,
             source_date=draft.source_date, text=text,
             words=word_count(text),
-            review=Review(fact_issues=_strings("fact_issues"),
-                          corrections=_strings("corrections")))
+            review=Review(corrections=corrections))
     except ValidationError as e:
         return None, [f"invalid reviewed article: {e}"]
     return reviewed, []
 
 
-def review_draft(draft: Draft, slot: OutlineSlot,
-                 articles: dict[str, ArticleText], ed_cfg: dict,
+def review_draft(draft: Draft, slot: OutlineSlot, ed_cfg: dict,
                  system: str, call: JsonCall
                  ) -> tuple[ReviewedArticle | None, list[str]]:
     budget = ed_cfg["words"][slot.length]
-    sources = [articles[sid] for sid in slot.source_ids if sid in articles]
-    prompt = build_prompt(draft, slot, budget, sources)
+    prompt = build_prompt(draft, slot, budget)
     try:
         return ground(call(prompt, system), draft)
     except llm.LlmError as e:
@@ -105,12 +90,9 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
     if missing:
         raise SystemExit(f"S8 review: draft slot(s) {missing} not in the "
                          "outline — artifacts out of step, re-run S6/S7")
-    articles = {a.id: a for a in
-                load_artifact(ctx.work_dir / "50-articles.json", ArticleText)}
 
     def work(draft: Draft) -> tuple[ReviewedArticle | None, list[str]]:
-        return review_draft(draft, slots[draft.pos], articles, ed_cfg,
-                            rules.body, call)
+        return review_draft(draft, slots[draft.pos], ed_cfg, rules.body, call)
 
     with ThreadPoolExecutor(max_workers=concurrency) as pool:
         results = list(pool.map(work, drafts))
@@ -123,7 +105,6 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
         "articles": [{"pos": d.pos,
                       "words": {"draft": d.words,
                                 "reviewed": r.words if r else None},
-                      "fact_issues": r.review.fact_issues if r else [],
                       "corrections": r.review.corrections if r else [],
                       "problems": p}
                      for d, (r, p) in zip(drafts, results)],
@@ -141,7 +122,6 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
 
     reviewed.sort(key=lambda r: r.pos)
     save_artifact(ctx.work_dir / "80-reviewed.json", reviewed)
-    issues = sum(len(r.review.fact_issues) for r in reviewed)
     corrections = sum(len(r.review.corrections) for r in reviewed)
-    print(f"S8 review: {len(reviewed)} articles, {issues} fact issue(s), "
+    print(f"S8 review: {len(reviewed)} articles, "
           f"{corrections} correction(s), {log['words_total']} words")

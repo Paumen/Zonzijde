@@ -58,7 +58,7 @@ flowchart TD
     end
     subgraph produce [Produce - LLM + code]
         S7[S7 write\nDutch articles]
-        S8[S8 review\nfact-check, language, titles]
+        S8[S8 review\ncopy-edit, language, titles]
         S9[S9 compose\nTypst render + booklet PDF]
     end
     S2 --> S3 --> S4 --> S5 --> S6 --> S7 --> S8 --> S9
@@ -77,7 +77,7 @@ flowchart TD
 | S5 `enrich` | PIPE-5 | code (+LLM) | `40` → `50-articles.json` | `tools/fetch-articles.py` refactored into the package; two-stage fetch (requests, then headless browser). Re-source-or-drop per PIPE-5: the topic's sibling rows in `40-candidates.json` are the only re-source; a topic with no full text is dropped and logged. Each full-text article's in-body links are classified by the model (EXT/INT/NAV/PROMO); EXT+INT links (denylist-filtered, capped) are followed as best-effort background `references` — never gating a topic's drop status. |
 | S6 `outline` | PIPE-6 | LLM | `40` + `50` (ok flags) + SPEC §5 → `60-outline.json` | A quick pitch: produces the edition plan per PIPE-6 (story picks, length classes) from the **shortlist** — titles + RSS summaries, not the full texts. One plain call, no tools, no browsing; the writers (S7) get the texts. The model's editorial choices (ED-1 counts, ED-2 mix, which topics) are taken as-is and judged at the human gate — not validated in code. Code still assembles what it owns: `pos` and the lokaal front by ring-order sort (ED-6), and `source_date` (ED-3, the *newest* source's date). SRC-3 reference reading is not automated here (OQ-1). |
 | S7 `write` | PIPE-7 | LLM | `60` → `70-drafts.json` | One call per article (grounded on its S5 texts only); the rules from PIPE-7 (length guidance, no self-reference) are in the system prompt and not re-checked in code. `words` computed. |
-| S8 `review` | PIPE-8 | LLM | `70` → `80-reviewed.json` | Per article, fact-checked against its S5 source text (WR-2) by the model; emits a correction log for the PR. Output taken as-is, not validated in code. |
+| S8 `review` | PIPE-8 | LLM | `70` → `80-reviewed.json` | Per article, copy-edited in isolation (draft text only — no source or reference text): Dutch grammar/spelling/phrasing and title, emitting a correction log for the PR. Output taken as-is, not validated in code. |
 | S9 `compose` | PIPE-9 | code (+LLM assist) | `80` → `editions/<date>/krant-A3boekje.pdf` + `edition.json` | Custom-illustration drawing, Typst render, weather baking, typeset checks, booklet imposition — all per §5. Text-LLM assist only to shorten/lengthen a specific paragraph when a check demands it. |
 
 Stage contract: every stage is `python -m zonzijde <stage> --edition YYYY-MM-DD`;
@@ -123,7 +123,7 @@ every printed article traces back to its feed items.
 // 70-drafts.json (S7) / 80-reviewed.json (S8): slot + article text
 { "pos": 1, "title": "…", "location": "Wijchen", "source_date": "2026-07-14",
   "text": "…", "words": 430,
-  "review": { "fact_issues": [], "corrections": ["…"] } }   // S8 only
+  "review": { "corrections": ["…"] } }   // S8 only
 
 // editions/<date>/edition.json (S9) — manifest of the published edition
 { "edition": "2026-07-26", "nr": 3, "articles": [ …final texts + provenance ids… ],
