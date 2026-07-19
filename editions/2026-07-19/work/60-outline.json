@@ -1,0 +1,169 @@
+{
+  "edition": "2026-07-19",
+  "slots": [
+    {
+      "pos": 1,
+      "scope": "L",
+      "topic": "Koninklijke onderscheiding voor Jan en Ingrid van den Brink",
+      "length": "long",
+      "devices": [
+        "warm traditional narrative",
+        "aphoristic kicker"
+      ],
+      "source_ids": [
+        "f259828a70ad"
+      ],
+      "location": "Wijchen",
+      "source_date": "2026-07-13"
+    },
+    {
+      "pos": 2,
+      "scope": "L",
+      "topic": "Tijdelijke woonruimte voor jonge Wijchenaren in 't Palet",
+      "length": "standard",
+      "devices": [
+        "analogy: musical chairs eased, not solved"
+      ],
+      "source_ids": [
+        "b7a32b4d095e"
+      ],
+      "location": "'t Palet, Wijchen",
+      "source_date": "2026-07-14"
+    },
+    {
+      "pos": 3,
+      "scope": "L",
+      "topic": "Molen en kasteel Hernen samen te bezoeken tijdens Kids-Zomerweken",
+      "length": "short",
+      "devices": [
+        "playful, familial voice",
+        "invitation to go outside"
+      ],
+      "source_ids": [
+        "5bae18ae8dc9"
+      ],
+      "location": "Hernen",
+      "source_date": "2026-07-15"
+    },
+    {
+      "pos": 4,
+      "scope": "R",
+      "topic": "Vitesse haalt opgelucht adem na uitspraak Hoge Raad",
+      "length": "standard",
+      "devices": [
+        "wry irony",
+        "understated humor"
+      ],
+      "source_ids": [
+        "960ee3c04f76",
+        "58eca471a574"
+      ],
+      "location": "Papendal, Arnhem",
+      "source_date": "2026-07-17"
+    },
+    {
+      "pos": 5,
+      "scope": "R",
+      "topic": "Gladiolenteler Louise loopt eindelijk haar Vierdaagse",
+      "length": "long",
+      "devices": [
+        "extended metaphor: blooming/harvest",
+        "narrative arc"
+      ],
+      "source_ids": [
+        "08af94363c9e"
+      ],
+      "location": "Heumen / Vierdaagseroute, Nijmegen",
+      "source_date": "2026-07-13"
+    },
+    {
+      "pos": 6,
+      "scope": "N",
+      "topic": "Arnhemse schuldenaanpak bewijst zich, vervolg komt er",
+      "length": "long",
+      "devices": [
+        "data-driven, understated hope",
+        "case-study narrative"
+      ],
+      "source_ids": [
+        "edfbdda71ce4"
+      ],
+      "location": "Immerloo II, Arnhem",
+      "source_date": "2026-07-15"
+    },
+    {
+      "pos": 7,
+      "scope": "N",
+      "topic": "Politie moet illegaal verzamelde data alsnog vernietigen",
+      "length": "standard",
+      "devices": [
+        "dry bureaucratic irony",
+        "aphoristic kicker"
+      ],
+      "source_ids": [
+        "aff6fc1155c1"
+      ],
+      "location": "Den Haag",
+      "source_date": "2026-07-15"
+    },
+    {
+      "pos": 8,
+      "scope": "N",
+      "topic": "Geroofd Goudstikker-schilderij duikt op na decennia",
+      "length": "short",
+      "devices": [
+        "mystery/suspense framing",
+        "reveal structure"
+      ],
+      "source_ids": [
+        "391b22657d1e"
+      ],
+      "location": "Amsterdam",
+      "source_date": "2026-07-13"
+    },
+    {
+      "pos": 9,
+      "scope": "I",
+      "topic": "Cubaanse dissident kunstenaar vrij na vijf jaar cel",
+      "length": "standard",
+      "devices": [
+        "solemn, restrained tone",
+        "minimal device"
+      ],
+      "source_ids": [
+        "4ad8e1291fa3"
+      ],
+      "location": "Verenigde Staten / Cuba",
+      "source_date": "2026-07-18"
+    },
+    {
+      "pos": 10,
+      "scope": "I",
+      "topic": "Steden worden slimmer met water en klimaataanpassing",
+      "length": "standard",
+      "devices": [
+        "extended analogy: cities as sponges",
+        "global roundup framing"
+      ],
+      "source_ids": [
+        "456c421dadb5"
+      ],
+      "location": "wereldwijd",
+      "source_date": "2026-07-17"
+    },
+    {
+      "pos": 11,
+      "scope": "I",
+      "topic": "Forensische wetenschap helpt strijd tegen stroperij",
+      "length": "short",
+      "devices": [
+        "punchy procedural/thriller framing"
+      ],
+      "source_ids": [
+        "7c253c178d9e"
+      ],
+      "location": "wereldwijd, natuurgebieden",
+      "source_date": "2026-07-17"
+    }
+  ]
+}

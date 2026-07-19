@@ -8,6 +8,7 @@
 - S3 score: 228 scored → 74 at +1/+2
 - S4 select: 20 topics (21 source rows)
 - S5 enrich: 21 source rows → 17 full texts (requests 17, playwright 0); 4 topics dropped (PIPE-5)
+- S6 outline: 11 slots, planned 3050–5800 words
 
 ## Feeds
 
@@ -109,3 +110,19 @@ model claude-haiku-4-5-20251001, prompt score.md v1
 | I | Forensische wetenschap helpt strijd tegen stroperij | 1/1 | ok |
 | I | Wekelijks goednieuwsoverzicht: successen wereldwijd | 1/1 | ok |
 | I | Voetbal biedt gemeenschap aan gemarginaliseerde groepen | 1/1 | ok |
+
+## Edition plan (PIPE-6)
+
+| pos | scope | length | topic | location | source date |
+|---|---|---|---|---|---|
+| 1 | L | long | Koninklijke onderscheiding voor Jan en Ingrid van den Brink | Wijchen | 2026-07-13 |
+| 2 | L | standard | Tijdelijke woonruimte voor jonge Wijchenaren in 't Palet | 't Palet, Wijchen | 2026-07-14 |
+| 3 | L | short | Molen en kasteel Hernen samen te bezoeken tijdens Kids-Zomerweken | Hernen | 2026-07-15 |
+| 4 | R | standard | Vitesse haalt opgelucht adem na uitspraak Hoge Raad | Papendal, Arnhem | 2026-07-17 |
+| 5 | R | long | Gladiolenteler Louise loopt eindelijk haar Vierdaagse | Heumen / Vierdaagseroute, Nijmegen | 2026-07-13 |
+| 6 | N | long | Arnhemse schuldenaanpak bewijst zich, vervolg komt er | Immerloo II, Arnhem | 2026-07-15 |
+| 7 | N | standard | Politie moet illegaal verzamelde data alsnog vernietigen | Den Haag | 2026-07-15 |
+| 8 | N | short | Geroofd Goudstikker-schilderij duikt op na decennia | Amsterdam | 2026-07-13 |
+| 9 | I | standard | Cubaanse dissident kunstenaar vrij na vijf jaar cel | Verenigde Staten / Cuba | 2026-07-18 |
+| 10 | I | standard | Steden worden slimmer met water en klimaataanpassing | wereldwijd | 2026-07-17 |
+| 11 | I | short | Forensische wetenschap helpt strijd tegen stroperij | wereldwijd, natuurgebieden | 2026-07-17 |

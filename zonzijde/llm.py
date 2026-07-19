@@ -46,13 +46,13 @@ def agent_json(prompt: str, *, model: str, system: str | None = None,
 
 
 def light_json(prompt: str, model: str, schema: dict | None = None) -> object:
-    return agent_json(prompt, model=model, schema=schema, max_turns=1)
+    return agent_json(prompt, model=model, schema=schema, max_turns=2)
 
 
 def frontier_json(prompt: str, system: str, schema: dict, model: str,
                   effort: str | None = None,
                   allowed_tools: list[str] | None = None,
-                  max_turns: int = 1) -> object:
+                  max_turns: int = 2) -> object:
     return agent_json(prompt, model=model, system=system, schema=schema,
                       effort=effort, allowed_tools=allowed_tools,
                       max_turns=max_turns)

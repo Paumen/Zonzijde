@@ -1,0 +1,23 @@
+{
+  "model": "claude-sonnet-5",
+  "prompt_versions": {
+    "brief": 2,
+    "outline": 5
+  },
+  "input_topics": {
+    "L": 4,
+    "R": 4,
+    "N": 3,
+    "I": 5
+  },
+  "dropped_topics": [
+    "Wijchen kent opvallend weinig vakantiespijbelaars",
+    "Nieuw spoorbruggetje Molenhoek eindelijk veilig",
+    "Robotpak laat Daan weer lopen, wereldprimeur",
+    "Pepijn (17) laat zich niet weerhouden door zijn beperking"
+  ],
+  "planned_words": {
+    "min": 3050,
+    "max": 5800
+  }
+}
