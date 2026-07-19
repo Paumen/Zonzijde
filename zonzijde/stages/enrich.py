@@ -72,7 +72,8 @@ CLASSIFY_SCHEMA = {
 Classify = Callable[[ArticleText], dict[int, str]]
 
 
-def make_classify(body: str, model: str) -> Classify:
+def make_classify(body: str, model: str,
+                  usage_sink: list | None = None) -> Classify:
     def classify(art: ArticleText) -> dict[int, str]:
         lines = [body, "", f"Title: {art.titel}", f"Article URL: {art.link}",
                  "Links:"]
@@ -81,7 +82,8 @@ def make_classify(body: str, model: str) -> Classify:
         prompt = "\n".join(lines) + (
             "\n\nReturn a classification for every link index shown above.")
         payload = llm.agent_json(prompt, model=model, schema=CLASSIFY_SCHEMA,
-                                 allowed_tools=[], max_turns=2)
+                                 allowed_tools=[], max_turns=2,
+                                 usage_sink=usage_sink)
         cats: dict[int, str] = {}
         rows = payload.get("links") if isinstance(payload, dict) else None
         for row in rows or []:
@@ -241,9 +243,10 @@ def run(ctx: RunContext, fetch: Fetch | None = None,
     ref_min = int(ref_cfg.get("min_words", 60))
     ref_max = int(ref_cfg.get("max_words", 1200))
     ref_deny = list(ref_cfg.get("deny", []))
+    usage: list[dict] = []
     if classify is None:
         classify = make_classify(prompts.load_prompt(ctx.root, "classify").body,
-                                  ctx.llm_cfg("light")["model"])
+                                  ctx.llm_cfg("light")["model"], usage)
 
     candidates = load_artifact(ctx.work_dir / "40-candidates.json", Candidate)
     if not candidates:
@@ -297,6 +300,7 @@ def run(ctx: RunContext, fetch: Fetch | None = None,
     ref_selected = sum(len(a.references) for a in articles.values())
     ref_ok = sum(1 for a in articles.values() for r in a.references if r.ok)
     log = {
+        "model": ctx.llm_cfg("light")["model"],
         "rows": len(articles),
         "full_text": sum(1 for a in articles.values() if a.ok),
         "methods": methods,
@@ -305,6 +309,7 @@ def run(ctx: RunContext, fetch: Fetch | None = None,
         "topics": topics_log,
         "dropped_topics": dropped,
         "duration_s": round(time.perf_counter() - t0, 1),
+        "llm": llm.summarize_usage(usage),
     }
     (ctx.work_dir / "50-enrich-log.json").write_text(
         json.dumps(log, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")

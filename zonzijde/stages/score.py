@@ -45,9 +45,10 @@ def _unwrap_scores(payload: object) -> object:
     return out
 
 
-def make_call(cfg: dict) -> LightCall:
+def make_call(cfg: dict, usage_sink: list | None = None) -> LightCall:
     return lambda p: _unwrap_scores(
-        llm.light_json(p, model=cfg["model"], schema=RESPONSE_SCHEMA))
+        llm.light_json(p, model=cfg["model"], schema=RESPONSE_SCHEMA,
+                       usage_sink=usage_sink))
 
 
 def item_line(index: int, item: FeedItem) -> str:
@@ -99,8 +100,9 @@ def run(ctx: RunContext, call: LightCall | None = None) -> None:
     batch_size = int(cfg.get("batch_size", 80))
     concurrency = int(cfg.get("concurrency", 6))
     prompt = prompts.load_prompt(ctx.root, "score")
+    usage: list[dict] = []
     if call is None:
-        call = make_call(cfg)
+        call = make_call(cfg, usage)
 
     items = load_artifact(ctx.work_dir / "20-filtered.json", FeedItem)
     batches = [items[off:off + batch_size] for off in range(0, len(items), batch_size)]
@@ -123,10 +125,12 @@ def run(ctx: RunContext, call: LightCall | None = None) -> None:
     save_artifact(ctx.work_dir / "30-scored.json", scored)
     distribution = Counter(s.score for s in scored)
     log = {
-        "model": cfg["model"], "prompt_version": prompt.version,
+        "model": cfg["model"], "effort": cfg.get("effort"),
+        "prompt_version": prompt.version,
         "batch_size": batch_size,
         "distribution": {str(k): distribution[k] for k in range(-2, 3)},
         "unscored_ids": unscored_ids, "batches": log_batches,
+        "llm": llm.summarize_usage(usage),
     }
     (ctx.work_dir / "30-score-log.json").write_text(
         json.dumps(log, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
