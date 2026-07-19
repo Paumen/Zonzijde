@@ -55,8 +55,9 @@ def _overview(work) -> list[str]:
         dist = slog["distribution"]
         positive = int(dist.get("1", 0)) + int(dist.get("2", 0))
         item.append(("Candidates", "Positive (+1/+2)", positive))
-        for key in ("0", "-1", "-2"):
-            item.append(("Candidates", f"Score {key}", int(dist.get(key, 0))))
+        item.append(("Candidates", "Score 0", int(dist.get("0", 0))))
+        item.append(("Candidates", "Negative (-1/-2)",
+                     int(dist.get("-1", 0)) + int(dist.get("-2", 0))))
         item.append(("Candidates", "Unscored", len(slog.get("unscored_ids", []))))
     if positive and (work / "40-candidates.json").is_file():
         rows = sum(len(c.items) for c in
