@@ -127,13 +127,16 @@ def _llm_usage(work) -> list[str]:
         u = d.get("llm")
         if not u:
             continue
+        intok = (u["input_tokens"] + (u.get("cache_read_tokens") or 0)
+                 + (u.get("cache_creation_tokens") or 0))
         wall = f"{u['wall_ms'] / 1000:.1f}s" if u.get("wall_ms") else "—"
         cost = f"${u['cost_usd']:.4f}" if u.get("cost_usd") is not None else "—"
         rows.append([label, d.get("model") or "—", d.get("effort") or "—",
-                     u["calls"], u["turns"], f"{u['input_tokens']:,}",
+                     u["calls"], u["turns"], f"{intok:,}",
                      f"{u['output_tokens']:,}", u["tool_uses"],
                      f"{u['thinking_chars']:,}", wall, cost])
-        for k in ("calls", "turns", "input_tokens", "output_tokens",
+        tot["input_tokens"] += intok
+        for k in ("calls", "turns", "output_tokens",
                   "tool_uses", "thinking_chars", "wall_ms"):
             tot[k] += u.get(k) or 0
         if u.get("cost_usd") is not None:
