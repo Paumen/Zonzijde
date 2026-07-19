@@ -1,10 +1,49 @@
 ---
-version: 1
-role: product brief for a 6 content contributor or reviewer or planner or editor.
-source: concept_zz.Md.
+version: 2
+role: product brief.
 ---
-People are worn out by negative news. It pours in non-stop through every channel — traditional, social, digital, and now AI-generated — and it is nearly impossible not to be dragged along. Negativity is partly wired into us, which is why "why is news always bad?" never gets a satisfying answer. But there is a saturation point, and more and more people are reaching it: consumed by everything going wrong everywhere, all the time, and numbed by fake news, clickbait, deepfakes, and sensationalism. The odd thing is that on many fronts life is measurably better than it was ten, twenty, or thirty years ago — yet people don't feel it, see it, or believe it. That is the negativity spiral. The rise of podcasts shows a desire to slow down and step out of the drama; growing numbers are breaking lifelong habits — switching off the TV news, sighing at yet another morning-paper page of violence, death, and war.
+# De Zonzijde
 
-Technology now makes it feasible to sift vast numbers of sources for what is good. Partly that yields a different angle on world news: a reminder that not everything is bad, and that some things are far better than people assume. But the heart of it is the old, underserved thing: local news. Tangible — you could walk over and verify it yourself — trustworthy, and genuinely relevant. Something to connect over and talk about, and something no other channel gives you.
+## The Origin
 
-It is relief: something calm to start the day with. Not forced feel-good fillers, not to be confused with smaller local stories, which are not necessarily forced if reader has connection with it. But genuily good or positive news. It avoids reporting generic pieces on major or hyped news that will reach people anyways, unless it's a different perspective, like a clear zoom out on the topic, or zooming in on a specific part/thing. The paper moves outward in rings — local and personal, then regional, national, global. There's also room for more in depth pieces and more complex topics. On a day with time, energy, or a story that catches you, you read on; on any other day the other items are enough to start the morning. Any geo scope stories can still stretch into longer, in-depth pieces when the topic deserves the space.
+My mother has read a physical newspaper every morning of her life. She is, and always has been, digitally disconnected — the paper is her news, full stop. During a rough stretch a while back, that ritual turned against her. The routine itself was an anchor: the paper with breakfast, every morning, provided structure and a gentle start to the day. But the content — another front page of war, death, and decline — became the final straw. She needed the habit but couldn't always bear the news.
+
+So I made her a newspaper. One edition, printed, just for her. Days later, she asked how I had known about a local story that only appeared in her regular paper that morning. Her paper suffered from critical flaws: it was overwhelmingly negative, often not or no longer relevant.
+
+## The Why
+
+The standard explanations for the decline of the printed newspaper — shrinking attention spans, screen addiction, print obsolescence — do not survive the evidence. Podcast listening has grown for a decade straight, past half a billion people worldwide, with time spent more than tripling in ten years; the appetite for long, patient media is plainly intact. What audiences reject is not length but a product that fails them three ways at once: it arrives outdated (my mother's question proved how decisive this is), it is relentlessly negative, and it is entirely generic — the same front page for everyone.
+
+The digital stream fixes only the first failure, and exacts a brutal price: an unstoppable flood of clickbait, deepfakes, and outrage across every channel. Meanwhile the world quietly improves and almost no one notices: the share of humanity in extreme poverty more than halved between 1997 and 2017, from roughly thirty percent to nine, yet barely one in ten people knows it, and the overwhelming majority believe poverty has risen or stood still. Human wiring makes bad news sticky. But the spiral has a saturation point, and a growing share of readers has reached it — some forty percent now say they actively avoid the news, up from twenty-nine percent in 2017, most often for what it does to their mood and a sense of being overwhelmed and powerless.
+
+These failures cannot be solved in isolation. Recent but grim is the traditional paper. Calm but stale is a weekly magazine. Positive but generic is feel-good filler. Until now, fixing all three simultaneously was impossible. Large language models change the equation: it is now feasible to shorten cycle time from seeking stories, conducting research, drafting, reviewing, writing, editing, fact checking, formatting, by tenfold. And overnight, while asleep, extract what is relevant and from positive angle, and put it on paper before breakfast.
+
+## The How
+
+De Zonzijde commits to core qualities:
+
+**Good** — Genuinely positive news or angles. Not forced feel-good filler, but developments that are actually succeeding, including the many metrics improving faster than society assumes.
+**Relevant** — Personalized at every scale. Sometimes this means a story tangible enough to walk over and see for yourself. Just as often, it is world news on a topic that aligns with your specific interests. The slow format on a fast clock: a week of stories, discovered and compiled overnight.
+
+Core rules govern story selection. First, purely negative stories are excluded; neutral or mixed developments are included only if the positive angle can take the lead. Second, heavily hyped mainstream stories are omitted by default — they reach everyone elsewhere — but earn a place if the paper can add unique value via a macro-perspective zoom-out or a hyper-specific zoom-in on an overlooked element. Third, at any scale from village to globe, a story is selected based on connection: something the reader can feel, verify, retell, and relate to. If a subject warrants depth, it gets the space.
+
+## The What
+
+De Zonzijde is a single landscape A3, folded once into a small broadsheet: three and a half to four A4 pages of text, a fifteen-minute read,  weekly, based on topics past seven days.
+
+It looks like a paper of record, not a magazine or a printed website: three narrow columns of justified serif text, black on white, dense, and text-first. The warmth lives in a few fixed, hand-drawn touches — a sunflower in the masthead, a weather strip, sparse black-and-white illustrations, and a closing landscape at the end featuring flowers, a distant village, and a sun. The sunny side is carried entirely in the tone and the drawing hand.
+
+The paper is ordered by proximity. After waking, it offers a glimpse outward from the doorstep, expanding slowly further into the connected world. It provides a better window on the world, not a smaller one.
+
+**Lokaal** — Gemeente Wijchen: Wijchen, Alverna, Balgoij, Batenburg, Bergharen, Hernen, Laak, Leur, Niftrik, Woezik; with De Berendonck, De Groene Heuvels, Loonse Waard, Wijchens Meer, Wijchens Ven, and Bijsterhuizen.
+
+**Regionaal** — The surrounding towns and land: Beuningen, Druten, Heumen (Malden, Overasselt, Nederasselt), Grave, Land van Cuijk, Nijmegen; the Groene Metropoolregio Arnhem-Nijmegen, het Rijk van Nijmegen, het Land van Maas en Waal, Zuid-Gelderland, Gelderland; de Maas, de Waal, the Overasseltse en Hatertse Vennen, Heumensoord.
+
+**Nationaal** — The provinces and Nederland, the Waddeneilanden, the Nederlandse Antillen, Vlaanderen, and the German border region (NRW); de Veluwe, the Waddenzee, Noordzee, Rijn, Maas, Waal, Schelde, IJsselmeer, Markermeer.
+
+**Internationaal** — The neighbours, Europe, the continents and their nations, the oceans, and great seas.
+
+## The Experience
+
+A different start to the day and a reconnection: with the news, with yourself, and with others. It leaves the reader a little lighter — a smile or a laugh somewhere in fifteen minutes, a story worth retelling to family, a neighbour, or a stranger, and curiosity switched back on with a reason to go outside and look. It is a paper that meets the morning as it comes: read cover to cover; or a selected few to get the day moving. A mother, disconnected from technology, yet still benefitting from it.
+ 
