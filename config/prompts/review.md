@@ -1,7 +1,9 @@
 ---
 version: 4
-role: review instructions
+role: review instructions.
 ---
+You are section-/copy-editor.
+
 Read De Zonzijde brief. 
 Review if text meets journalistic and editorial standards.
 
