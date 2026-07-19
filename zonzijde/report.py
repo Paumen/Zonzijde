@@ -34,7 +34,9 @@ def _sankey(flows: list[tuple[str, str, int]]) -> list[str]:
     flows = [(s, d, v) for s, d, v in flows if v and v > 0]
     if not flows:
         return []
-    return ["```mermaid", "sankey-beta", ""] + [
+    return ["```mermaid",
+            "---", "config:", "  sankey:", "    nodeAlignment: left", "---",
+            "sankey-beta", ""] + [
         f"{_sk(s)},{_sk(d)},{v}" for s, d, v in flows] + ["```"]
 
 
