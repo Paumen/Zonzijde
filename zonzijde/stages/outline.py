@@ -105,15 +105,9 @@ def story_blocks(keyed: list[tuple[str, Candidate]],
 def build_prompt(outline_body: str, cfg: dict,
                  keyed: list[tuple[str, Candidate]],
                  articles: dict[str, ArticleText],
-                 published: dict[str, date | None],
-                 dropped: list[str]) -> str:
-    parts = [outline_body, spec_note(cfg)]
-    if dropped:
-        parts.append("Topics dropped in enrichment (no full text — rebalance "
-                     "around them):\n"
-                     + "\n".join(f"- {t}" for t in dropped))
-    parts.append("Shortlist:\n\n"
-                 + story_blocks(keyed, articles, published))
+                 published: dict[str, date | None]) -> str:
+    parts = [outline_body, spec_note(cfg),
+             "Shortlist:\n\n" + story_blocks(keyed, articles, published)]
     return "\n\n".join(parts)
 
 
@@ -191,7 +185,7 @@ def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
         available[cand.scope] += 1
 
     prompt = build_prompt(outline_prompt.body, ed_cfg, keyed, articles,
-                          published, dropped)
+                          published)
     try:
         payload = call(prompt, brief.body)
     except llm.LlmError as e:
