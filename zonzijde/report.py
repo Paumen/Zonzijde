@@ -50,12 +50,13 @@ def _overview(work) -> list[str]:
     kept = sum(f["kept"] for f in feeds)
 
     item: list[tuple[str, str, int]] = [
-        ("Fetched", "Out of window", entries - kept),
         ("Fetched", "In window", kept),
+        ("Fetched", "Out of window", entries - kept),
     ]
     filtered = positive = rows = None
     if (work / "20-filtered.json").is_file():
         filtered = len(load_artifact(work / "20-filtered.json", FeedItem))
+        item.append(("In window", "Candidates", filtered))
         if (work / "20-rejected.json").is_file():
             reasons = Counter()
             for r in load_artifact(work / "20-rejected.json", RejectedItem):
@@ -63,27 +64,26 @@ def _overview(work) -> list[str]:
             for k in ("buckets", "duplicate"):
                 if reasons[k]:
                     item.append(("In window", f"Reject: {k}", reasons[k]))
-        item.append(("In window", "Candidates", filtered))
     if filtered and (work / "30-score-log.json").is_file():
         slog = json.loads((work / "30-score-log.json").read_text(encoding="utf-8"))
         dist = slog["distribution"]
         positive = int(dist.get("1", 0)) + int(dist.get("2", 0))
+        item.append(("Candidates", "Positive (+1/+2)", positive))
         item.append(("Candidates", "Negative (-1/-2)",
                      int(dist.get("-1", 0)) + int(dist.get("-2", 0))))
         item.append(("Candidates", "Unscored", len(slog.get("unscored_ids", []))))
         item.append(("Candidates", "Score 0", int(dist.get("0", 0))))
-        item.append(("Candidates", "Positive (+1/+2)", positive))
     if positive and (work / "40-candidates.json").is_file():
         rows = sum(len(c.items) for c in
                    load_artifact(work / "40-candidates.json", Candidate))
-        item.append(("Positive (+1/+2)", "Not selected", positive - rows))
         item.append(("Positive (+1/+2)", "Selected rows", rows))
+        item.append(("Positive (+1/+2)", "Not selected", positive - rows))
     if rows and (work / "50-enrich-log.json").is_file():
         ft = json.loads((work / "50-enrich-log.json")
                         .read_text(encoding="utf-8")).get("full_text")
         if ft is not None:
-            item.append(("Selected rows", "No full text", rows - ft))
             item.append(("Selected rows", "Enriched", ft))
+            item.append(("Selected rows", "No full text", rows - ft))
 
     edition: list[tuple[str, str, int]] = []
     if (work / "60-outline.json").is_file():
@@ -93,13 +93,13 @@ def _overview(work) -> list[str]:
             wf = len(json.loads((work / "70-write-log.json")
                                 .read_text(encoding="utf-8")).get("failed_slots") or [])
             written = n_slots - wf
-            edition += [("Outline slots", "Write failed", wf),
-                        ("Outline slots", "Written", written)]
+            edition += [("Outline slots", "Written", written),
+                        ("Outline slots", "Write failed", wf)]
         if (work / "80-review-log.json").is_file():
             rf = len(json.loads((work / "80-review-log.json")
                                 .read_text(encoding="utf-8")).get("failed_slots") or [])
-            edition += [("Written", "Review failed", rf),
-                        ("Written", "Reviewed", written - rf)]
+            edition += [("Written", "Reviewed", written - rf),
+                        ("Written", "Review failed", rf)]
 
     item_sankey = _sankey(item)
     edition_sankey = _sankey(edition)
