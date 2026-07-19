@@ -46,13 +46,10 @@ def _overview(work) -> list[str]:
         if (work / "20-rejected.json").is_file():
             reasons = Counter()
             for r in load_artifact(work / "20-rejected.json", RejectedItem):
-                if r.reason == "duplicate":
-                    reasons["duplicate"] += 1
-                else:
-                    for b in r.reason.removeprefix("bucket:").split(","):
-                        reasons[b] += 1
-            for k, v in sorted(reasons.items()):
-                item.append(("In window", f"Reject: {k}", v))
+                reasons["duplicate" if r.reason == "duplicate" else "buckets"] += 1
+            for k in ("buckets", "duplicate"):
+                if reasons[k]:
+                    item.append(("In window", f"Reject: {k}", reasons[k]))
     if filtered and (work / "30-score-log.json").is_file():
         slog = json.loads((work / "30-score-log.json").read_text(encoding="utf-8"))
         dist = slog["distribution"]
