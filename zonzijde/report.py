@@ -54,22 +54,22 @@ def _overview(work) -> list[str]:
         slog = json.loads((work / "30-score-log.json").read_text(encoding="utf-8"))
         dist = slog["distribution"]
         positive = int(dist.get("1", 0)) + int(dist.get("2", 0))
-        item.append(("Candidates", "Positive (+1/+2)", positive))
-        item.append(("Candidates", "Score 0", int(dist.get("0", 0))))
         item.append(("Candidates", "Negative (-1/-2)",
                      int(dist.get("-1", 0)) + int(dist.get("-2", 0))))
         item.append(("Candidates", "Unscored", len(slog.get("unscored_ids", []))))
+        item.append(("Candidates", "Score 0", int(dist.get("0", 0))))
+        item.append(("Candidates", "Positive (+1/+2)", positive))
     if positive and (work / "40-candidates.json").is_file():
         rows = sum(len(c.items) for c in
                    load_artifact(work / "40-candidates.json", Candidate))
-        item.append(("Positive (+1/+2)", "Selected rows", rows))
         item.append(("Positive (+1/+2)", "Not selected", positive - rows))
+        item.append(("Positive (+1/+2)", "Selected rows", rows))
     if rows and (work / "50-enrich-log.json").is_file():
         ft = json.loads((work / "50-enrich-log.json")
                         .read_text(encoding="utf-8")).get("full_text")
         if ft is not None:
-            item.append(("Selected rows", "Enriched", ft))
             item.append(("Selected rows", "No full text", rows - ft))
+            item.append(("Selected rows", "Enriched", ft))
 
     edition: list[tuple[str, str, int]] = []
     if (work / "60-outline.json").is_file():
