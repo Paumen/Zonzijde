@@ -10,22 +10,21 @@ fetch:
 
 enrich:
   concurrency: 8
-  timeout_s: 25
-  min_words: 120
+  timeout_s: 20
+  min_words: 100
   browser: true
 
 edition:
-  scope_items: {min: 2, max: 3}
+  scope_items: {min: 1, max: 3}
   length_mix:
-    long: {min: 2, max: 3}
-    standard: {min: 3, max: 5}
-    short: {min: 2, max: 3}
+    long: {min: 1, max: 3}
+    standard: {min: 2, max: 5}
+    short: {min: 1, max: 3}
   words:
     long: {min: 450, max: 800}
     standard: {min: 250, max: 500}
     short: {min: 150, max: 300}
   body_words: {min: 2800, max: 3400}
-  paragraphs: {min: 3, max: 11}
 
 write:
   concurrency: 3
