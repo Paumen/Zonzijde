@@ -90,9 +90,13 @@ def story_blocks(keyed: list[tuple[str, Candidate]],
                 continue
             pub = published.get(row.id)
             summary = " ".join(row.samenvatting.split())
-            ref_words = sum(r.words for r in art.references if r.ok)
+            ok_refs = [r for r in art.references if r.ok]
+            ref_words = sum(r.words for r in ok_refs)
+            ref_links = ", ".join(r.url for r in ok_refs) or "none"
             lines.append(f"- bron={row.bron} | published={pub or 'unknown'} | "
-                         f"source_words={art.words} | reference_words={ref_words}"
+                         f"link={row.link} | source_words={art.words}"
+                         f" | reference_words={ref_words}"
+                         f" | reference_links={ref_links}"
                          f" | titel={row.titel} | samenvatting={summary}")
         blocks.append("\n".join(lines))
     return "\n\n".join(blocks)
