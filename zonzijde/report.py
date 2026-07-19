@@ -4,8 +4,9 @@ import json
 from collections import Counter
 
 from .context import RunContext
-from .contracts import (Candidate, EditionOutline, FeedItem, RejectedItem,
-                        ReviewedArticle, ScoredItem, load_artifact, load_model)
+from .contracts import (ArticleText, Candidate, EditionOutline, FeedItem,
+                        RejectedItem, ReviewedArticle, ScoredItem,
+                        load_artifact, load_model)
 
 
 def _table(headers: list[str], rows: list[list]) -> str:
@@ -150,6 +151,7 @@ def build(ctx: RunContext) -> str:
     score_log_path = work / "30-score-log.json"
     candidates_path = work / "40-candidates.json"
     enrich_log_path = work / "50-enrich-log.json"
+    articles_path = work / "50-articles.json"
     outline_path = work / "60-outline.json"
     write_log_path = work / "70-write-log.json"
     review_log_path = work / "80-review-log.json"
@@ -258,16 +260,31 @@ def build(ctx: RunContext) -> str:
                            ", ".join(r.bron for r in c.items)]
                           for c in candidates])]
 
-    if enrich_log_path.is_file():
-        elog = json.loads(enrich_log_path.read_text(encoding="utf-8"))
+    if articles_path.is_file() and candidates_path.is_file():
+        articles = {a.id: a for a in load_artifact(articles_path, ArticleText)}
         rows = []
-        for t in elog["topics"]:
-            status = ("**dropped** — no sufficient row"
-                      if t["dropped"] else "ok")
-            rows.append([t["scope"], t["topic"],
-                         f"{t['ok_rows']}/{t['rows']}", status])
-        parts += ["", "## Full text (PIPE-5)", "",
-                  _table(["scope", "topic", "full text", "status"], rows)]
+        for c in load_artifact(candidates_path, Candidate):
+            ok_rows = sum(1 for it in c.items
+                          if it.id in articles and articles[it.id].ok)
+            for it in c.items:
+                a = articles.get(it.id)
+                if a is None:
+                    continue
+                refs = a.references
+                ref_words = sum(r.words for r in refs)
+                ref_links = "<br>".join(r.url for r in refs) or "—"
+                if a.ok:
+                    status = "ok"
+                elif ok_rows == 0:
+                    status = "**dropped** — no sufficient row"
+                else:
+                    status = "insufficient"
+                rows.append([c.scope, c.topic, a.bron,
+                             len(a.samenvatting.split()), len(a.text.split()),
+                             len(refs), ref_words, ref_links, status])
+        parts += ["", "## Enrichment (PIPE-5)", "",
+                  _table(["scope", "topic", "bron", "summary", "text",
+                          "refs", "ref words", "ref links", "status"], rows)]
 
     if outline_path.is_file():
         outline = load_model(outline_path, EditionOutline)
