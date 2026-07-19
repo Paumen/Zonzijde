@@ -20,6 +20,16 @@ def _sk(name: str) -> str:
     return '"' + name.replace('"', "'") + '"' if "," in name or '"' in name else name
 
 
+def _reflink(url: str) -> str:
+    for prefix in ("https://", "http://"):
+        if url.startswith(prefix):
+            url = url[len(prefix):]
+            break
+    if url.startswith("www."):
+        url = url[4:]
+    return url if len(url) <= 60 else url[:59] + "…"
+
+
 def _sankey(flows: list[tuple[str, str, int]]) -> list[str]:
     flows = [(s, d, v) for s, d, v in flows if v and v > 0]
     if not flows:
@@ -272,9 +282,7 @@ def build(ctx: RunContext) -> str:
                     continue
                 refs = a.references
                 ref_words = sum(r.words for r in refs)
-                ref_links = "<br>".join(
-                    u if len(u) <= 60 else u[:59] + "…"
-                    for u in (r.url for r in refs)) or "—"
+                ref_links = "<br>".join(_reflink(r.url) for r in refs) or "—"
                 if a.ok:
                     status = "ok"
                 elif ok_rows == 0:
