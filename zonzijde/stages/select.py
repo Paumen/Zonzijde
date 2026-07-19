@@ -25,10 +25,8 @@ RESPONSE_SCHEMA = {
                             "type": "object",
                             "properties": {
                                 "id": {"type": "string"},
-                                "titel": {"type": "string"},
-                                "samenvatting": {"type": "string"},
                             },
-                            "required": ["id", "titel", "samenvatting"],
+                            "required": ["id"],
                             "additionalProperties": False,
                         },
                     },
@@ -69,7 +67,9 @@ def ground(payload: object, by_id: dict[str, ScoredItem]) -> tuple[list[Candidat
     problems: list[str] = []
     for entry in raw:
         try:
-            rows = [{**row, "bron": "", "link": ""} for row in entry.get("items", [])]
+            rows = [{"id": row.get("id", ""), "bron": "", "titel": "",
+                     "samenvatting": "", "link": ""}
+                    for row in entry.get("items", [])]
             cand = Candidate.model_validate({**entry, "items": rows})
         except (ValidationError, AttributeError, TypeError) as e:
             problems.append(f"invalid candidate entry: {e}")
@@ -83,6 +83,7 @@ def ground(payload: object, by_id: dict[str, ScoredItem]) -> tuple[list[Candidat
                                 f"not {cand.scope} (topic {cand.topic!r})")
             else:
                 row.bron, row.link = item.bron, item.link
+                row.titel, row.samenvatting = item.title, item.summary
         candidates.append(cand)
     return candidates, problems
 
