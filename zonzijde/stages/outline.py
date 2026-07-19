@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from datetime import date
+from string import Template
 from typing import Callable
 
 from pydantic import ValidationError
@@ -44,25 +45,20 @@ def response_schema(candidate_keys: list[str]) -> dict:
 FrontierCall = Callable[[str, str], object]
 
 
-def spec_note(cfg: dict) -> str:
-    mix = cfg["length_mix"]
-    words = cfg["words"]
-    scope = cfg["scope_items"]
-    body = cfg["body_words"]
-    lines = [
-        "Edition constants (SPEC §5):",
-        f"- Each scope contributes {scope['min']}–{scope['max']} items (ED-1).",
-        "- Length mix (ED-2): "
-        + ", ".join(f"{mix[c]['min']}–{mix[c]['max']} {c}" for c in
-                    ("long", "standard", "short"))
-        + " — word guidance (loose, the story decides): "
-        + ", ".join(f"{c} {words[c]['min']}–{words[c]['max']}" for c in
-                    ("long", "standard", "short")) + ".",
-        f"- Edition body total ≈ {body['min']}–{body['max']} words (ED-5).",
-        "- Ring order lokaal → regionaal → nationaal → internationaal is "
-        "strict; the front page leads with the best lokaal story (ED-6).",
-    ]
-    return "\n".join(lines)
+def constants(cfg: dict) -> dict:
+    mix, words = cfg["length_mix"], cfg["words"]
+    rng = lambda d: f"{d['min']}–{d['max']}"
+    return {
+        "scope_min": cfg["scope_items"]["min"],
+        "scope_max": cfg["scope_items"]["max"],
+        "mix_long": rng(mix["long"]),
+        "mix_standard": rng(mix["standard"]),
+        "mix_short": rng(mix["short"]),
+        "words_long": rng(words["long"]),
+        "words_standard": rng(words["standard"]),
+        "words_short": rng(words["short"]),
+        "body": rng(cfg["body_words"]),
+    }
 
 
 def eligible_candidates(candidates: list[Candidate],
@@ -106,9 +102,9 @@ def build_prompt(outline_body: str, cfg: dict,
                  keyed: list[tuple[str, Candidate]],
                  articles: dict[str, ArticleText],
                  published: dict[str, date | None]) -> str:
-    parts = [outline_body, spec_note(cfg),
-             "Shortlist:\n\n" + story_blocks(keyed, articles, published)]
-    return "\n\n".join(parts)
+    filled = Template(outline_body).safe_substitute(constants(cfg))
+    return filled + "\n\n" + "Shortlist:\n\n" + story_blocks(
+        keyed, articles, published)
 
 
 def ground(payload: object, edition: date,
