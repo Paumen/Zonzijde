@@ -2,7 +2,7 @@
 version: 4
 role: writing instructions.
 ---
-You are reporter and copy-editor.
+You are journalist, reporter, and staff editor.
 
 - Read De Zonzijde brief.
 - Read provided source material.
