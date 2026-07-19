@@ -5,6 +5,7 @@
 - window: 7 days (from 2026-07-12T00:00:00+02:00, SRC-4)
 - S1 fetch: 510 feed items → 383 in window (22/23 feeds ok)
 - S2 filter: 383 → 228 candidates (155 rejected)
+- S3 score: 228 scored → 74 at +1/+2
 
 ## Feeds
 
@@ -44,3 +45,15 @@
 | B4 | 5 |
 | B5 | 15 |
 | duplicate | 40 |
+
+## Scores (PIPE-3)
+
+model claude-haiku-4-5-20251001, prompt score.md v1
+
+| score | count |
+|---|---|
+| -2 | 11 |
+| -1 | 42 |
+| 0 | 101 |
+| +1 | 58 |
+| +2 | 16 |
