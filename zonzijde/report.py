@@ -35,7 +35,8 @@ def _sankey(flows: list[tuple[str, str, int]]) -> list[str]:
     if not flows:
         return []
     return ["```mermaid",
-            "---", "config:", "  sankey:", "    nodeAlignment: left", "---",
+            "---", "config:", "  sankey:",
+            "    nodeAlignment: left", "    linkColor: target", "---",
             "sankey-beta", ""] + [
         f"{_sk(s)},{_sk(d)},{v}" for s, d, v in flows] + ["```"]
 
@@ -49,13 +50,12 @@ def _overview(work) -> list[str]:
     kept = sum(f["kept"] for f in feeds)
 
     item: list[tuple[str, str, int]] = [
-        ("Fetched", "In window", kept),
         ("Fetched", "Out of window", entries - kept),
+        ("Fetched", "In window", kept),
     ]
     filtered = positive = rows = None
     if (work / "20-filtered.json").is_file():
         filtered = len(load_artifact(work / "20-filtered.json", FeedItem))
-        item.append(("In window", "Candidates", filtered))
         if (work / "20-rejected.json").is_file():
             reasons = Counter()
             for r in load_artifact(work / "20-rejected.json", RejectedItem):
@@ -63,6 +63,7 @@ def _overview(work) -> list[str]:
             for k in ("buckets", "duplicate"):
                 if reasons[k]:
                     item.append(("In window", f"Reject: {k}", reasons[k]))
+        item.append(("In window", "Candidates", filtered))
     if filtered and (work / "30-score-log.json").is_file():
         slog = json.loads((work / "30-score-log.json").read_text(encoding="utf-8"))
         dist = slog["distribution"]
@@ -92,13 +93,13 @@ def _overview(work) -> list[str]:
             wf = len(json.loads((work / "70-write-log.json")
                                 .read_text(encoding="utf-8")).get("failed_slots") or [])
             written = n_slots - wf
-            edition += [("Outline slots", "Written", written),
-                        ("Outline slots", "Write failed", wf)]
+            edition += [("Outline slots", "Write failed", wf),
+                        ("Outline slots", "Written", written)]
         if (work / "80-review-log.json").is_file():
             rf = len(json.loads((work / "80-review-log.json")
                                 .read_text(encoding="utf-8")).get("failed_slots") or [])
-            edition += [("Written", "Reviewed", written - rf),
-                        ("Written", "Review failed", rf)]
+            edition += [("Written", "Review failed", rf),
+                        ("Written", "Reviewed", written - rf)]
 
     item_sankey = _sankey(item)
     edition_sankey = _sankey(edition)
