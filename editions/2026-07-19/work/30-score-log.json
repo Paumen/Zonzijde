@@ -3,11 +3,11 @@
   "prompt_version": 1,
   "batch_size": 80,
   "distribution": {
-    "-2": 10,
-    "-1": 33,
-    "0": 104,
-    "1": 47,
-    "2": 24
+    "-2": 11,
+    "-1": 42,
+    "0": 101,
+    "1": 58,
+    "2": 16
   },
   "unscored_ids": [],
   "batches": [
@@ -22,8 +22,8 @@
       "problems": []
     },
     {
-      "items": 58,
-      "scored": 58,
+      "items": 68,
+      "scored": 68,
       "problems": []
     }
   ]

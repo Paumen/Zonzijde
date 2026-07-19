@@ -40,9 +40,14 @@ def build_prompt(slot: OutlineSlot, budget: dict, para_cfg: dict,
         "decides, not the count",
     ]
     parts = ["\n".join(plan)]
-    parts.append("Source text(s) — the only writing material:")
+    parts.append("Source text(s):")
     for art in sources:
         parts.append(f"### {art.bron} — {art.titel}\n\n{art.text}")
+    refs = [r for art in sources for r in art.references if r.ok]
+    if refs:
+        parts.append("Background reference text (from links in the source):")
+        for ref in refs:
+            parts.append(f"#### {ref.url}\n\n{ref.text}")
     return "\n\n".join(parts)
 
 

@@ -68,10 +68,15 @@ class RunContext:
             raise SystemExit("edition section missing from config/edition.yaml")
         return cfg
 
-    def llm_cfg(self, tier: str) -> dict:
-        cfg = (self._edition_cfg.get("llm") or {}).get(tier)
+    def llm_cfg(self, tier: str, stage: str | None = None) -> dict:
+        llm = self._edition_cfg.get("llm") or {}
+        cfg = llm.get(tier)
         if not cfg or "model" not in cfg:
             raise SystemExit(f"llm.{tier}.model missing from config/edition.yaml")
+        if stage:
+            override = (llm.get("stages") or {}).get(stage)
+            if override:
+                cfg = {**cfg, **override}
         return cfg
 
     @property

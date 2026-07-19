@@ -16,7 +16,7 @@ def agent_json(prompt: str, *, model: str, system: str | None = None,
     from claude_agent_sdk import ClaudeAgentOptions, ResultMessage, query
 
     kwargs: dict = {"model": model, "effort": effort, "max_turns": max_turns,
-                    "allowed_tools": allowed_tools or []}
+                    "tools": allowed_tools or [], "allowed_tools": allowed_tools or []}
     if system is not None:
         kwargs["system_prompt"] = system
     if schema is not None:

@@ -1,179 +1,162 @@
 {
-  "rows": 22,
+  "rows": 21,
   "full_text": 17,
   "methods": {
     "requests": 17,
     "playwright": 0
   },
-  "min_words": 120,
+  "min_words": 100,
+  "references": {
+    "selected": 23,
+    "ok": 20
+  },
   "topics": [
     {
       "scope": "L",
-      "rank": 1,
-      "topic": "Lintjes voor Jan en Ingrid van den Brink",
+      "topic": "Koninklijke onderscheiding voor Jan en Ingrid van den Brink",
       "rows": 1,
       "ok_rows": 1,
       "dropped": false
     },
     {
       "scope": "L",
-      "rank": 2,
-      "topic": "Batenburg Baroque Festival groeit verder",
+      "topic": "Molen en kasteel Hernen samen te bezoeken",
       "rows": 1,
       "ok_rows": 1,
       "dropped": false
     },
     {
       "scope": "L",
-      "rank": 3,
-      "topic": "Patrijzenfamilie duikt op in tuin in Boven-Leeuwen",
+      "topic": "'Hoe is het?'-campagne zichtbaar tijdens Dag van Wijchen",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "L",
+      "topic": "Tijdelijke woonruimte voor jonge Wijchenaren",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "L",
+      "topic": "Wijchen kent opvallend weinig vakantiespijbelaars",
       "rows": 1,
       "ok_rows": 0,
       "dropped": true
-    },
-    {
-      "scope": "L",
-      "rank": 4,
-      "topic": "Opvallend weinig schoolverzuim rond vakantie in Wijchen",
-      "rows": 1,
-      "ok_rows": 0,
-      "dropped": true
-    },
-    {
-      "scope": "L",
-      "rank": 5,
-      "topic": "Zomerpret bij Museum Kasteel Wijchen",
-      "rows": 1,
-      "ok_rows": 1,
-      "dropped": false
     },
     {
       "scope": "R",
-      "rank": 1,
-      "topic": "Vitesse mag na uitspraak Hoge Raad blijven voetballen",
+      "topic": "Vitesse haalt opgelucht adem na uitspraak Hoge Raad",
       "rows": 2,
       "ok_rows": 2,
       "dropped": false
     },
     {
       "scope": "R",
-      "rank": 2,
-      "topic": "Michelinster voor de oude binnenstad van Zutphen",
+      "topic": "Studenten Rijn IJssel houden opleiding overeind",
       "rows": 1,
       "ok_rows": 1,
       "dropped": false
     },
     {
       "scope": "R",
-      "rank": 3,
-      "topic": "Arnhemse zanger gaat viraal met campagnelied",
+      "topic": "Batenburg Baroque Festival trekt meer bezoekers",
       "rows": 1,
       "ok_rows": 1,
       "dropped": false
     },
     {
       "scope": "R",
-      "rank": 4,
-      "topic": "Barneveld bouwt nieuwe sporthal",
+      "topic": "Nieuw spoorbruggetje Molenhoek eindelijk veilig",
       "rows": 1,
-      "ok_rows": 1,
-      "dropped": false
+      "ok_rows": 0,
+      "dropped": true
     },
     {
       "scope": "R",
-      "rank": 5,
-      "topic": "Nieuwe spoorbrug in Molenhoek eindelijk veilig",
+      "topic": "Gladiolenteler Louise loopt eindelijk haar Vierdaagse",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "N",
+      "topic": "Robotpak laat Daan weer lopen, wereldprimeur",
       "rows": 1,
       "ok_rows": 0,
       "dropped": true
     },
     {
       "scope": "N",
-      "rank": 1,
-      "topic": "Robotpak laat Daan weer lopen door eraan te denken",
+      "topic": "Pepijn (17) laat zich niet weerhouden door zijn beperking",
       "rows": 1,
       "ok_rows": 0,
       "dropped": true
     },
     {
       "scope": "N",
-      "rank": 2,
-      "topic": "Pepijn (17) zet zich ondanks beperking in voor anderen",
-      "rows": 1,
-      "ok_rows": 0,
-      "dropped": true
-    },
-    {
-      "scope": "N",
-      "rank": 3,
-      "topic": "Geroofd Goudstikker-schilderij teruggevonden",
+      "topic": "Arnhemse schuldenaanpak bewijst zich, vervolg komt er",
       "rows": 1,
       "ok_rows": 1,
       "dropped": false
     },
     {
       "scope": "N",
-      "rank": 4,
-      "topic": "Harrie Jekkers ereburger van Den Haag",
+      "topic": "Politie moet illegaal verzamelde data alsnog vernietigen",
       "rows": 1,
       "ok_rows": 1,
       "dropped": false
     },
     {
       "scope": "N",
-      "rank": 5,
-      "topic": "Arnhemse schuldhulp-proef succesvol, krijgt vervolg",
+      "topic": "Geroofd Goudstikker-schilderij duikt op na decennia",
       "rows": 1,
       "ok_rows": 1,
       "dropped": false
     },
     {
       "scope": "I",
-      "rank": 1,
-      "topic": "Wat ging er deze week goed in de wereld",
+      "topic": "Cubaanse dissident kunstenaar vrij na vijf jaar cel",
       "rows": 1,
       "ok_rows": 1,
       "dropped": false
     },
     {
       "scope": "I",
-      "rank": 2,
-      "topic": "Steden worden slimmer met water tegen klimaatdruk",
-      "rows": 2,
-      "ok_rows": 2,
-      "dropped": false
-    },
-    {
-      "scope": "I",
-      "rank": 3,
-      "topic": "Forensisch onderzoek helpt strijd tegen wildlife-stroperij",
+      "topic": "Steden worden slimmer met water en klimaataanpassing",
       "rows": 1,
       "ok_rows": 1,
       "dropped": false
     },
     {
       "scope": "I",
-      "rank": 4,
-      "topic": "Gemarginaliseerde groepen vinden verbinding via voetbal",
+      "topic": "Forensische wetenschap helpt strijd tegen stroperij",
       "rows": 1,
       "ok_rows": 1,
       "dropped": false
     },
     {
       "scope": "I",
-      "rank": 5,
-      "topic": "India lanceert eerste private raket de ruimte in",
+      "topic": "Wekelijks goednieuwsoverzicht: successen wereldwijd",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "I",
+      "topic": "Voetbal biedt gemeenschap aan gemarginaliseerde groepen",
       "rows": 1,
       "ok_rows": 1,
       "dropped": false
     }
   ],
   "dropped_topics": [
-    "Patrijzenfamilie duikt op in tuin in Boven-Leeuwen",
-    "Opvallend weinig schoolverzuim rond vakantie in Wijchen",
-    "Nieuwe spoorbrug in Molenhoek eindelijk veilig",
-    "Robotpak laat Daan weer lopen door eraan te denken",
-    "Pepijn (17) zet zich ondanks beperking in voor anderen"
+    "Wijchen kent opvallend weinig vakantiespijbelaars",
+    "Nieuw spoorbruggetje Molenhoek eindelijk veilig",
+    "Robotpak laat Daan weer lopen, wereldprimeur",
+    "Pepijn (17) laat zich niet weerhouden door zijn beperking"
   ],
-  "duration_s": 3.7
+  "duration_s": 139.9
 }

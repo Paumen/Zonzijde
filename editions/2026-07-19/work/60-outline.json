@@ -4,32 +4,60 @@
     {
       "pos": 1,
       "scope": "L",
-      "role": "front-hero",
-      "topic": "Lintjes voor Jan en Ingrid van den Brink",
-      "length": "long",
-      "type": "profile",
-      "angle": "Warm portret van een echtpaar dat decennia stille inzet nu bekroond ziet met een koninklijke onderscheiding, geopend met een scène op het feest zelf in plaats van het protocol.",
+      "topic": "Koninklijke onderscheiding voor Jan en Ingrid van den Brink tijdens 40 jaar dweilband Busband",
+      "length": "standard",
       "devices": [
-        "anekdotische opening",
-        "sfeerbeschrijving van het jubileumfeest"
+        "warme aforistische kicker",
+        "menselijk portret",
+        "verrassing-in-scène (uitreiking tijdens jubileum)"
       ],
       "source_ids": [
         "f259828a70ad"
       ],
-      "location": "Groesbeek",
+      "location": "Wijchen",
       "source_date": "2026-07-13"
     },
     {
       "pos": 2,
       "scope": "L",
-      "role": "body",
-      "topic": "Batenburg Baroque Festival groeit verder",
-      "length": "standard",
-      "type": "feature",
-      "angle": "Sfeervolle terugblik op een uitverkocht weekend barokmuziek tussen de muren van het historische stadje, met de groeicijfers als bewijs dat het festival zijn plek heeft veroverd.",
+      "topic": "Molen én kasteel Hernen op één zaterdag te bezoeken tijdens Kids-Zomerweken",
+      "length": "short",
       "devices": [
-        "sensorische sfeerbeschrijving",
-        "contrast klein stadje - groot festival"
+        "directe aanspreekvorm (kom kijken)",
+        "zintuiglijk scè.netje",
+        "uitnodiging om erop uit te gaan"
+      ],
+      "source_ids": [
+        "5bae18ae8dc9"
+      ],
+      "location": "Hernen",
+      "source_date": "2026-07-15"
+    },
+    {
+      "pos": 3,
+      "scope": "L",
+      "topic": "'Hoe is het?'-campagne zichtbaar op Dag van Wijchen; gesprek over mentale gezondheid",
+      "length": "short",
+      "devices": [
+        "retorische vraag als rode draad",
+        "tweede persoon",
+        "actualiteitshaakje (22 juli)"
+      ],
+      "source_ids": [
+        "a0075d173b34"
+      ],
+      "location": "Wijchen",
+      "source_date": "2026-07-18"
+    },
+    {
+      "pos": 4,
+      "scope": "R",
+      "topic": "Vijfde Batenburg Baroque Festival uitverkocht, 5% meer bezoekers",
+      "length": "standard",
+      "devices": [
+        "ingehouden toon",
+        "laat de cijfers spreken",
+        "plaatsgevoel (historisch stadje)"
       ],
       "source_ids": [
         "f1f69f295308"
@@ -38,123 +66,30 @@
       "source_date": "2026-07-16"
     },
     {
-      "pos": 3,
-      "scope": "L",
-      "role": "body",
-      "topic": "Zomerpret bij Museum Kasteel Wijchen",
-      "length": "short",
-      "type": "zoom-in",
-      "angle": "Uitnodigende, praktische zoom-in op wat er deze zomer te doen is, met de tentoonstelling over de watersnood van 1926 als onverwachte verdieping.",
-      "devices": [
-        "opsomming van activiteiten",
-        "korte historische haak"
-      ],
-      "source_ids": [
-        "a4c732d96a11"
-      ],
-      "location": "Wijchen",
-      "source_date": "2026-07-12"
-    },
-    {
-      "pos": 4,
-      "scope": "R",
-      "role": "body",
-      "topic": "Vitesse mag na uitspraak Hoge Raad blijven voetballen",
-      "length": "standard",
-      "type": "news",
-      "angle": "Lichtvoetig en licht ironisch verteld: een jaar vol juristen, zittingen en steekpartijen in de rechtszaal eindigt gewoon met een fluitsignaal en applaus op Papendal, alsof het altijd om voetbal ging.",
-      "devices": [
-        "ironische toon",
-        "sportmetafoor voor het juridische proces"
-      ],
-      "source_ids": [
-        "58eca471a574",
-        "7d8b7993ab13"
-      ],
-      "location": "Arnhem",
-      "source_date": "2026-07-17"
-    },
-    {
       "pos": 5,
       "scope": "R",
-      "role": "body",
-      "topic": "Arnhemse zanger gaat viraal met campagnelied",
-      "length": "standard",
-      "type": "profile",
-      "angle": "Portret van een lokale zanger die met een simpel liedje over een praatje maken ineens landelijk doorbreekt.",
-      "devices": [
-        "citaat uit het liedje als kapstok"
-      ],
-      "source_ids": [
-        "b4827979b177"
-      ],
-      "location": "Arnhem",
-      "source_date": "2026-07-16"
-    },
-    {
-      "pos": 6,
-      "scope": "R",
-      "role": "body",
-      "topic": "Barneveld bouwt nieuwe sporthal",
-      "length": "short",
-      "type": "news",
-      "angle": "Nuchter nieuwsbericht over een unaniem raadsbesluit en een sporthal die over jaren de leegte in Terschuur gaat vullen.",
-      "devices": [
-        "feitelijke, korte toon"
-      ],
-      "source_ids": [
-        "380b5ead2e12"
-      ],
-      "location": "Barneveld, Terschuur",
-      "source_date": "2026-07-16"
-    },
-    {
-      "pos": 7,
-      "scope": "N",
-      "role": "body",
-      "topic": "Geroofd Goudstikker-schilderij teruggevonden",
+      "topic": "Gladiolenteler Louise Theunissen loopt na een leven van kweken eindelijk zelf de Vierdaagse",
       "length": "long",
-      "type": "feature",
-      "angle": "Bijna filmisch verteld verhaal van een paneel dat dertig jaar zoek was, ooit bij het grofvuil belandde en nu terugkeert naar de rechtmatige erven — met de herkenning als kantelpunt.",
       "devices": [
-        "chronologische opbouw richting het herkenningsmoment",
-        "gevoel van doorleefde tijd"
+        "uitgewerkte metafoor (gladiool als bloem van de finish)",
+        "menselijk feature-portret",
+        "cirkelcompositie"
       ],
       "source_ids": [
-        "391b22657d1e"
+        "08af94363c9e"
       ],
-      "location": "Amsterdam",
+      "location": "Heumen / Nijmegen (Vierdaagse)",
       "source_date": "2026-07-13"
     },
     {
-      "pos": 8,
+      "pos": 6,
       "scope": "N",
-      "role": "body",
-      "topic": "Harrie Jekkers ereburger van Den Haag",
-      "length": "standard",
-      "type": "profile",
-      "angle": "Afscheid en eerbetoon als een laatste doek dat valt: de stad bedankt haar zanger na een leven lang verbondenheid, verteld met een theatermetafoor.",
+      "topic": "Arnhemse schuldenproef Immerloo II loste 34% af en krijgt vervolg voor 100 huishoudens",
+      "length": "long",
       "devices": [
-        "theater-/gordijnmetafoor",
-        "tijdspanne levenslang verweven met de stad"
-      ],
-      "source_ids": [
-        "4fd793a063a9"
-      ],
-      "location": "Den Haag",
-      "source_date": "2026-07-12"
-    },
-    {
-      "pos": 9,
-      "scope": "N",
-      "role": "body",
-      "topic": "Arnhemse schuldhulp-proef succesvol, krijgt vervolg",
-      "length": "standard",
-      "type": "zoom-in",
-      "angle": "Resultaten van een tweejarige proef die laat zien dat intensieve begeleiding echt werkt, met een knipoog naar de andere Arnhemse gezichten verderop in deze krant.",
-      "devices": [
-        "verwijzing naar andere Arnhemse artikelen in de editie",
-        "cijfermatige onderbouwing"
+        "analogie (uit de put klimmen)",
+        "bewijs- en cijfergedreven",
+        "hoopvolle vooruitblik"
       ],
       "source_ids": [
         "edfbdda71ce4"
@@ -163,48 +98,52 @@
       "source_date": "2026-07-15"
     },
     {
-      "pos": 10,
-      "scope": "I",
-      "role": "body",
-      "topic": "Steden worden slimmer met water tegen klimaatdruk",
-      "length": "long",
-      "type": "zoom-out",
-      "angle": "Bredere blik op hoe steden wereldwijd zich als levende organismen aanpassen aan hitte en droogte, van sponsachtige infrastructuur tot toeristen die meehelpen aan schildpadbescherming.",
+      "pos": 7,
+      "scope": "N",
+      "topic": "Geroofd Goudstikker-paneel, dertig jaar geleden van het grofvuil gered, gaat terug naar nazaten",
+      "length": "standard",
       "devices": [
-        "spons-/organisme-metafoor voor stedelijke aanpassing",
-        "voorbeelden van verschillende continenten naast elkaar"
+        "droge ironie",
+        "understatement",
+        "wending van vuilnisbelt naar meesterwerk"
       ],
       "source_ids": [
-        "91b9fb23f5d2",
-        "456c421dadb5"
+        "391b22657d1e"
       ],
-      "location": "diverse steden wereldwijd",
-      "source_date": "2026-07-17"
+      "location": "Amsterdam / nationaal",
+      "source_date": "2026-07-13"
     },
     {
-      "pos": 11,
+      "pos": 8,
       "scope": "I",
-      "role": "body",
-      "topic": "India lanceert eerste private raket de ruimte in",
-      "length": "short",
-      "type": "news",
-      "angle": "Kort en krachtig mijlpaalbericht over de eerste private raketlancering van India als teken van een groeiende commerciële ruimtevaartmarkt.",
+      "topic": "Gemarginaliseerde groepen vinden gemeenschap en samenhorigheid via amateurvoetbal",
+      "length": "long",
       "devices": [
-        "korte, feitelijke nieuwstoon"
+        "warme gemeenschapsmetafoor (het veld als thuis)",
+        "meerstemmig portret",
+        "verbindingsthema"
       ],
       "source_ids": [
-        "9b7917174ac4"
+        "b577c4a79499"
       ],
-      "location": "Sriharikota, India",
-      "source_date": "2026-07-18"
+      "location": "internationaal (VK e.a.)",
+      "source_date": "2026-07-15"
+    },
+    {
+      "pos": 9,
+      "scope": "I",
+      "topic": "Weekoverzicht wereldwijde vooruitgang: gezondheidswinst, oceaanbescherming, nieuwe diersoort",
+      "length": "standard",
+      "devices": [
+        "kordate digest-stijl",
+        "opsommend ritme",
+        "zoom-uit naar de wereld als afsluiter"
+      ],
+      "source_ids": [
+        "bade2a62207b"
+      ],
+      "location": "wereldwijd",
+      "source_date": "2026-07-17"
     }
-  ],
-  "illustration": {
-    "slot_pos": 7,
-    "subject": "Een oud houten schildersdoek-paneel, half tussen grofvuil en teruggevonden, met fijne lijnen die het patina en de scheur in het hout tonen — minimalistisch, zwart-wit, handgetekend"
-  },
-  "optional_element": {
-    "kind": "number",
-    "content": "34% — het gemiddelde percentage schuld dat de Arnhemse schuldhulp-proef bij kwetsbare gezinnen wist af te lossen (bron N5)"
-  }
+  ]
 }

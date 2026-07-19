@@ -74,7 +74,7 @@ flowchart TD
 | S2 `filter` | PIPE-2 | code | `10` → `20-filtered.json` + `20-rejected.json` | Batch dedupe + bucket filtering per PIPE-2; buckets B1–B5 live in `config/filters.yaml` (ported from the prototype). Rejections keep their reason for auditability. |
 | S3 `score` | PIPE-3 | LLM (light) | `20` → `30-scored.json` | Batched (~80 items/call, concurrent), schema-enforced output, prompt `prompts/score.md`. Unparseable batch → items left unscored and excluded (fail-closed: unscored never advances). |
 | S4 `select` | PIPE-4 | LLM (frontier) | `30` (+1/+2 only) → `40-candidates.json` | Inputs `prompts/brief.md` + `prompts/select.md` + scored titles/summaries; output shape per PIPE-4. |
-| S5 `enrich` | PIPE-5 | code | `40` → `50-articles.json` | `tools/fetch-articles.py` refactored into the package; two-stage fetch (requests, then headless browser). Re-source-or-drop per PIPE-5: the topic's sibling rows in `40-candidates.json` are the only re-source; a topic with no full text is dropped and logged. No model call. |
+| S5 `enrich` | PIPE-5 | code (+light LLM) | `40` → `50-articles.json` | `tools/fetch-articles.py` refactored into the package; two-stage fetch (requests, then headless browser). Re-source-or-drop per PIPE-5: the topic's sibling rows in `40-candidates.json` are the only re-source; a topic with no full text is dropped and logged. Each full-text article's in-body links are classified by the light model (EXT/INT/NAV/PROMO); EXT+INT links (denylist-filtered, capped) are followed as best-effort background `references` — never gating a topic's drop status. |
 | S6 `outline` | PIPE-6 | LLM (frontier) | `40` + `50` (ok flags) + SPEC §5 → `60-outline.json` | A quick pitch: produces the edition plan per PIPE-6 (story picks, length classes) from the **shortlist** — titles + RSS summaries, not the full texts. One plain call, no tools, no browsing; the writers (S7) get the texts. The model's editorial choices (ED-1 counts, ED-2 mix, which topics) are taken as-is and judged at the human gate — not validated in code. Code still assembles what it owns: `pos` and the lokaal front by ring-order sort (ED-6), and `source_date` (ED-3, the *newest* source's date). SRC-3 reference reading is not automated here (OQ-1). |
 | S7 `write` | PIPE-7 | LLM (frontier) | `60` → `70-drafts.json` | One call per article (grounded on its S5 texts only); the rules from PIPE-7 (length guidance, no self-reference) are in the system prompt and not re-checked in code. `words` computed. |
 | S8 `review` | PIPE-8 | LLM (frontier) | `70` → `80-reviewed.json` | Per article, fact-checked against its S5 source text (WR-2) by the model; emits a correction log for the PR. Output taken as-is, not validated in code. |
@@ -108,8 +108,10 @@ every printed article traces back to its feed items.
 
 // 50-articles.json (S5): candidate item + full text
 { "id": "…", "ok": true, "method": "requests | playwright",
-  "text": "…", "words": 812, "links": ["…"], "note": "" }
+  "text": "…", "words": 812, "links": ["…"], "note": "",
+  "references": [ { "url": "…", "ok": true, "text": "…", "words": 240 } ] }
 // ok:false = dropped (both fetch routes exhausted); kept in the file for the run report
+// references: best-effort background from followed EXT/INT links; ref ok:false = fetch failed
 
 // 60-outline.json (S6) — the edition plan
 { "edition": "2026-07-26", "slots": [
@@ -180,6 +182,7 @@ sunflower and the closing landscape (EL-1/EL-4) are fixed assets.
 | Stage | Model class | Calls/edition | Tokens (rough) | Failure policy |
 |-------|-------------|---------------|----------------|----------------|
 | S3 score | light (e.g. Claude Haiku) | ~15–25 batches | ~150k in / 5k out | no retry; unscored = excluded (fail-closed) |
+| S5 classify | light | ~10–15 (per article) | small | best-effort; on failure the article keeps no references |
 | S4 select | frontier | 1 | ~30k in / 2k out | no retry; fatal on failure or invalid output |
 | S6 outline | frontier (no tools) | 1 | ~8k in / 3k out | idem |
 | S7 write | frontier | ~10–12 (per article) | ~6k in / 1k out each | no retry; a failed article fails the run |
@@ -199,8 +202,9 @@ touching stages. **Both tiers are driven through the Claude Agent SDK, not raw A
 calls**: each stage invocation is a short agent session, which gives S9's trim assist
 file context and provides schema-enforced structured output out of the box. The
 curation and writing stages (S4, S6, S7, S8) are single prompt-in/JSON-out calls with
-no tools; S5 enrichment is plain code with no model at all. The light tier (S3
-scoring) runs the same sessions on a Haiku-class model — single prompt, no tools —
+no tools; S5 enrichment is plain code apart from one light-tier call per article that
+classifies its in-body links. The light tier (S3 scoring, S5 link classification)
+runs the same sessions on a Haiku-class model — single prompt, no tools —
 so one auth path covers the whole
 pipeline.
 

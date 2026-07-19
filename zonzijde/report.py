@@ -130,10 +130,10 @@ def build(ctx: RunContext) -> str:
         for t in elog["topics"]:
             status = ("**dropped** — no full text on any source row"
                       if t["dropped"] else "ok")
-            rows.append([t["scope"], t["rank"], t["topic"],
+            rows.append([t["scope"], t["topic"],
                          f"{t['ok_rows']}/{t['rows']}", status])
         parts += ["", "## Full text (PIPE-5)", "",
-                  _table(["scope", "rank", "topic", "full text", "status"], rows)]
+                  _table(["scope", "topic", "full text", "status"], rows)]
 
     if outline_path.is_file():
         outline = load_model(outline_path, EditionOutline)

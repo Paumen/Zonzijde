@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-07-18T12:47:51.985876+02:00",
+  "fetched_at": "2026-07-19T03:39:05.668149+02:00",
   "window_start": "2026-07-12T00:00:00+02:00",
   "window_days": 7,
   "feeds": [
@@ -17,8 +17,8 @@
       "source": "nieuws_nl",
       "bron": "nieuws.nl",
       "error": "",
-      "entries": 54,
-      "kept": 13,
+      "entries": 55,
+      "kept": 14,
       "out_of_window": 41,
       "no_link": 0,
       "undated": 0
@@ -48,8 +48,8 @@
       "bron": "Gld RvN",
       "error": "",
       "entries": 50,
-      "kept": 27,
-      "out_of_window": 23,
+      "kept": 30,
+      "out_of_window": 20,
       "no_link": 0,
       "undated": 0
     },
@@ -186,10 +186,10 @@
     {
       "source": "hp",
       "bron": "HP",
-      "error": "",
-      "entries": 50,
-      "kept": 6,
-      "out_of_window": 44,
+      "error": "HTTPError: 403 Client Error: Forbidden for url: https://www.hpdetijd.nl/rss",
+      "entries": 0,
+      "kept": 0,
+      "out_of_window": 0,
       "no_link": 0,
       "undated": 0
     },

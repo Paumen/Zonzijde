@@ -85,12 +85,19 @@ def story_blocks(keyed: list[tuple[str, Candidate]],
     for key, cand in keyed:
         lines = [f"## {key} — {cand.topic}"]
         for row in cand.items:
-            if not articles[row.id].ok:
+            art = articles[row.id]
+            if not art.ok:
                 continue
             pub = published.get(row.id)
             summary = " ".join(row.samenvatting.split())
+            ok_refs = [r for r in art.references if r.ok]
+            ref_words = sum(r.words for r in ok_refs)
+            ref_links = ", ".join(r.url for r in ok_refs) or "none"
             lines.append(f"- bron={row.bron} | published={pub or 'unknown'} | "
-                         f"titel={row.titel} | samenvatting={summary}")
+                         f"link={row.link} | source_words={art.words}"
+                         f" | reference_words={ref_words}"
+                         f" | reference_links={ref_links}"
+                         f" | titel={row.titel} | samenvatting={summary}")
         blocks.append("\n".join(lines))
     return "\n\n".join(blocks)
 
@@ -153,7 +160,7 @@ def ground(payload: object, edition: date,
 
 
 def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
-    cfg = ctx.llm_cfg("frontier")
+    cfg = ctx.llm_cfg("frontier", stage="outline")
     ed_cfg = ctx.edition_cfg
     brief = prompts.load_prompt(ctx.root, "brief")
     outline_prompt = prompts.load_prompt(ctx.root, "outline")
