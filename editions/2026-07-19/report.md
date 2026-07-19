@@ -6,6 +6,7 @@
 - S1 fetch: 510 feed items → 383 in window (22/23 feeds ok)
 - S2 filter: 383 → 228 candidates (155 rejected)
 - S3 score: 228 scored → 74 at +1/+2
+- S4 select: 20 topics (21 source rows)
 
 ## Feeds
 
@@ -57,3 +58,28 @@ model claude-haiku-4-5-20251001, prompt score.md v1
 | 0 | 101 |
 | +1 | 58 |
 | +2 | 16 |
+
+## Selected topics (PIPE-4)
+
+| scope | topic | bronnen |
+|---|---|---|
+| L | Koninklijke onderscheiding voor Jan en Ingrid van den Brink | nieuws.nl |
+| L | Molen en kasteel Hernen samen te bezoeken | nieuws.nl |
+| L | 'Hoe is het?'-campagne zichtbaar tijdens Dag van Wijchen | nieuws.nl |
+| L | Tijdelijke woonruimte voor jonge Wijchenaren | nieuws.nl |
+| L | Wijchen kent opvallend weinig vakantiespijbelaars | DG Wijchen |
+| R | Vitesse haalt opgelucht adem na uitspraak Hoge Raad | Gld, Gld |
+| R | Studenten Rijn IJssel houden opleiding overeind | Gld |
+| R | Batenburg Baroque Festival trekt meer bezoekers | nieuws.nl |
+| R | Nieuw spoorbruggetje Molenhoek eindelijk veilig | DG Wijchen |
+| R | Gladiolenteler Louise loopt eindelijk haar Vierdaagse | Gld RvN |
+| N | Robotpak laat Daan weer lopen, wereldprimeur | DG Binnen |
+| N | Pepijn (17) laat zich niet weerhouden door zijn beperking | DG Binnen |
+| N | Arnhemse schuldenaanpak bewijst zich, vervolg komt er | NOS Econ |
+| N | Politie moet illegaal verzamelde data alsnog vernietigen | FTM |
+| N | Geroofd Goudstikker-schilderij duikt op na decennia | NOS Cultuur |
+| I | Cubaanse dissident kunstenaar vrij na vijf jaar cel | DW |
+| I | Steden worden slimmer met water en klimaataanpassing | DW Env |
+| I | Forensische wetenschap helpt strijd tegen stroperij | Positive |
+| I | Wekelijks goednieuwsoverzicht: successen wereldwijd | Positive |
+| I | Voetbal biedt gemeenschap aan gemarginaliseerde groepen | Positive |
