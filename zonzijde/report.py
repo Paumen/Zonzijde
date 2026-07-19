@@ -262,7 +262,7 @@ def build(ctx: RunContext) -> str:
         elog = json.loads(enrich_log_path.read_text(encoding="utf-8"))
         rows = []
         for t in elog["topics"]:
-            status = ("**dropped** — no full text on any source row"
+            status = ("**dropped** — no sufficient row"
                       if t["dropped"] else "ok")
             rows.append([t["scope"], t["topic"],
                          f"{t['ok_rows']}/{t['rows']}", status])
