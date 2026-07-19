@@ -40,7 +40,7 @@ RESPONSE_SCHEMA = {
     "additionalProperties": False,
 }
 
-FrontierCall = Callable[[str, str], object]
+JsonCall = Callable[[str, str], object]
 
 
 def item_line(item: ScoredItem) -> str:
@@ -87,15 +87,16 @@ def ground(payload: object, by_id: dict[str, ScoredItem]) -> tuple[list[Candidat
     return candidates, problems
 
 
-def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
-    cfg = ctx.llm_cfg("frontier")
+def run(ctx: RunContext, call: JsonCall | None = None) -> None:
+    cfg = ctx.llm_cfg("select")
     brief = prompts.load_prompt(ctx.root, "brief")
     select = prompts.load_prompt(ctx.root, "select")
     usage: list[dict] = []
     if call is None:
-        call = lambda prompt, system: llm.frontier_json(
+        call = lambda prompt, system: llm.agent_json(
             prompt, system=system, schema=RESPONSE_SCHEMA,
-            model=cfg["model"], effort=cfg.get("effort"), usage_sink=usage)
+            model=cfg["model"], effort=cfg.get("effort"), max_turns=2,
+            usage_sink=usage)
 
     scored = load_artifact(ctx.work_dir / "30-scored.json", ScoredItem)
     positive = [i for i in scored if i.score >= 1]

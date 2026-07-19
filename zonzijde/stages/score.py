@@ -12,7 +12,7 @@ from ..contracts import FeedItem, ScoredItem, load_artifact, save_artifact
 
 _WS_RE = re.compile(r"\s+")
 
-LightCall = Callable[[str], object]
+ScoreCall = Callable[[str], object]
 
 RESPONSE_SCHEMA = {
     "type": "object",
@@ -45,10 +45,10 @@ def _unwrap_scores(payload: object) -> object:
     return out
 
 
-def make_call(cfg: dict, usage_sink: list | None = None) -> LightCall:
+def make_call(cfg: dict, usage_sink: list | None = None) -> ScoreCall:
     return lambda p: _unwrap_scores(
-        llm.light_json(p, model=cfg["model"], schema=RESPONSE_SCHEMA,
-                       usage_sink=usage_sink))
+        llm.agent_json(p, model=cfg["model"], schema=RESPONSE_SCHEMA,
+                       max_turns=2, usage_sink=usage_sink))
 
 
 def item_line(index: int, item: FeedItem) -> str:
@@ -87,7 +87,7 @@ def parse_scores(payload: object, n: int) -> tuple[dict[int, int], list[str]]:
 
 
 def score_batch(prompt_body: str, batch: list[FeedItem],
-                call: LightCall) -> tuple[dict[int, int], list[str]]:
+                call: ScoreCall) -> tuple[dict[int, int], list[str]]:
     prompt = build_batch_prompt(prompt_body, batch)
     try:
         return parse_scores(call(prompt), len(batch))
@@ -95,8 +95,8 @@ def score_batch(prompt_body: str, batch: list[FeedItem],
         return {}, [str(e)]
 
 
-def run(ctx: RunContext, call: LightCall | None = None) -> None:
-    cfg = ctx.llm_cfg("light")
+def run(ctx: RunContext, call: ScoreCall | None = None) -> None:
+    cfg = ctx.llm_cfg("score")
     batch_size = int(cfg.get("batch_size", 80))
     concurrency = int(cfg.get("concurrency", 6))
     prompt = prompts.load_prompt(ctx.root, "score")

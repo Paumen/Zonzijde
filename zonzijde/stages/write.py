@@ -21,7 +21,7 @@ RESPONSE_SCHEMA = {
     "additionalProperties": False,
 }
 
-FrontierCall = Callable[[str, str], object]
+JsonCall = Callable[[str, str], object]
 
 
 def word_count(text: str) -> int:
@@ -68,7 +68,7 @@ def ground(payload: object, slot: OutlineSlot) -> tuple[Draft | None, list[str]]
 
 def write_slot(slot: OutlineSlot, articles: dict[str, ArticleText],
                ed_cfg: dict, system: str,
-               call: FrontierCall) -> tuple[Draft | None, list[str]]:
+               call: JsonCall) -> tuple[Draft | None, list[str]]:
     budget = ed_cfg["words"][slot.length]
     sources = [articles[sid] for sid in slot.source_ids if sid in articles]
     prompt = build_prompt(slot, budget, sources)
@@ -78,8 +78,8 @@ def write_slot(slot: OutlineSlot, articles: dict[str, ArticleText],
         return None, [str(e)]
 
 
-def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
-    cfg = ctx.llm_cfg("frontier")
+def run(ctx: RunContext, call: JsonCall | None = None) -> None:
+    cfg = ctx.llm_cfg("write")
     ed_cfg = ctx.edition_cfg
     stage_cfg = ctx.stage_cfg("write")
     concurrency = int(stage_cfg.get("concurrency", 3))
@@ -88,9 +88,10 @@ def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
     system = f"{brief.body}\n\n{rules.body}"
     usage: list[dict] = []
     if call is None:
-        call = lambda prompt, system: llm.frontier_json(
+        call = lambda prompt, system: llm.agent_json(
             prompt, system=system, schema=RESPONSE_SCHEMA,
-            model=cfg["model"], effort=cfg.get("effort"), usage_sink=usage)
+            model=cfg["model"], effort=cfg.get("effort"), max_turns=2,
+            usage_sink=usage)
 
     outline = load_model(ctx.work_dir / "60-outline.json", EditionOutline)
     articles = {a.id: a for a in

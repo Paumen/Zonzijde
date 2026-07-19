@@ -25,7 +25,7 @@ RESPONSE_SCHEMA = {
     "additionalProperties": False,
 }
 
-FrontierCall = Callable[[str, str], object]
+JsonCall = Callable[[str, str], object]
 
 
 def build_prompt(draft: Draft, slot: OutlineSlot, budget: dict,
@@ -74,7 +74,7 @@ def ground(payload: object, draft: Draft) -> tuple[ReviewedArticle | None, list[
 
 def review_draft(draft: Draft, slot: OutlineSlot,
                  articles: dict[str, ArticleText], ed_cfg: dict,
-                 system: str, call: FrontierCall
+                 system: str, call: JsonCall
                  ) -> tuple[ReviewedArticle | None, list[str]]:
     budget = ed_cfg["words"][slot.length]
     sources = [articles[sid] for sid in slot.source_ids if sid in articles]
@@ -85,17 +85,18 @@ def review_draft(draft: Draft, slot: OutlineSlot,
         return None, [str(e)]
 
 
-def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
-    cfg = ctx.llm_cfg("frontier")
+def run(ctx: RunContext, call: JsonCall | None = None) -> None:
+    cfg = ctx.llm_cfg("review")
     ed_cfg = ctx.edition_cfg
     stage_cfg = ctx.stage_cfg("review")
     concurrency = int(stage_cfg.get("concurrency", 3))
     rules = prompts.load_prompt(ctx.root, "review")
     usage: list[dict] = []
     if call is None:
-        call = lambda prompt, system: llm.frontier_json(
+        call = lambda prompt, system: llm.agent_json(
             prompt, system=system, schema=RESPONSE_SCHEMA,
-            model=cfg["model"], effort=cfg.get("effort"), usage_sink=usage)
+            model=cfg["model"], effort=cfg.get("effort"), max_turns=2,
+            usage_sink=usage)
 
     drafts = load_artifact(ctx.work_dir / "70-drafts.json", Draft)
     outline = load_model(ctx.work_dir / "60-outline.json", EditionOutline)

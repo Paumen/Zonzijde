@@ -42,7 +42,7 @@ def response_schema(candidate_keys: list[str]) -> dict:
         "additionalProperties": False,
     }
 
-FrontierCall = Callable[[str, str], object]
+JsonCall = Callable[[str, str], object]
 
 
 def constants(cfg: dict) -> dict:
@@ -149,8 +149,8 @@ def ground(payload: object, edition: date,
     return outline, []
 
 
-def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
-    cfg = ctx.llm_cfg("frontier", stage="outline")
+def run(ctx: RunContext, call: JsonCall | None = None) -> None:
+    cfg = ctx.llm_cfg("outline")
     ed_cfg = ctx.edition_cfg
     brief = prompts.load_prompt(ctx.root, "brief")
     outline_prompt = prompts.load_prompt(ctx.root, "outline")
@@ -172,9 +172,10 @@ def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
     usage: list[dict] = []
     if call is None:
         schema = response_schema([key for key, _ in keyed])
-        call = lambda prompt, system: llm.frontier_json(
+        call = lambda prompt, system: llm.agent_json(
             prompt, system=system, schema=schema,
-            model=cfg["model"], effort=cfg.get("effort"), usage_sink=usage)
+            model=cfg["model"], effort=cfg.get("effort"), max_turns=2,
+            usage_sink=usage)
 
     available: dict[str, int] = {s: 0 for s in RING}
     for _, cand in keyed:

@@ -40,14 +40,10 @@ review:
   concurrency: 3
 
 llm:
-  light:
-    model: claude-haiku-4-5-20251001
-    batch_size: 80
-    concurrency: 6
-  frontier:
-    model: claude-sonnet-5
-    effort: medium
   stages:
-    outline:
-      model: claude-opus-4-8
-      effort: medium
+    score:   {model: claude-haiku-4-5-20251001, batch_size: 80, concurrency: 6}
+    select:  {model: claude-sonnet-5, effort: medium}
+    enrich:  {model: claude-haiku-4-5-20251001}
+    outline: {model: claude-opus-4-8, effort: medium}
+    write:   {model: claude-sonnet-5, effort: medium}
+    review:  {model: claude-sonnet-5, effort: medium}
