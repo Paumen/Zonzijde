@@ -46,8 +46,7 @@ FrontierCall = Callable[[str, str], object]
 def item_line(item: ScoredItem) -> str:
     summary = " ".join(item.summary.split())
     return (f"- id={item.id} | bron={item.bron} | scope={','.join(item.scopes)}"
-            f" | score=+{item.score} | titel={item.title}"
-            f" | samenvatting={summary} | link={item.link}")
+            f" | titel={item.title} | samenvatting={summary}")
 
 
 def build_prompt(select_body: str, items: list[ScoredItem]) -> str:
