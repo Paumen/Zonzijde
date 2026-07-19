@@ -1,8 +1,0 @@
-{
-  "model": "claude-sonnet-5",
-  "prompt_versions": {
-    "brief": 2,
-    "select": 2
-  },
-  "input_items": 74
-}
