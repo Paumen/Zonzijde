@@ -272,7 +272,9 @@ def build(ctx: RunContext) -> str:
                     continue
                 refs = a.references
                 ref_words = sum(r.words for r in refs)
-                ref_links = "<br>".join(r.url for r in refs) or "—"
+                ref_links = "<br>".join(
+                    u if len(u) <= 60 else u[:59] + "…"
+                    for u in (r.url for r in refs)) or "—"
                 if a.ok:
                     status = "ok"
                 elif ok_rows == 0:
