@@ -6,8 +6,8 @@ from pathlib import Path
 
 from . import report
 from .context import RunContext
-from .stages import (enrich, fetch, filter as filter_stage, outline, review,
-                     score, select, write)
+from .stages import (compose, enrich, fetch, filter as filter_stage, outline,
+                     review, score, select, write)
 
 STAGES: dict[str, object] = {
     "fetch": fetch.run,
@@ -18,7 +18,7 @@ STAGES: dict[str, object] = {
     "outline": outline.run,
     "write": write.run,
     "review": review.run,
-    "compose": None,
+    "compose": compose.run,
 }
 STAGE_NAMES = list(STAGES)
 
@@ -58,13 +58,7 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def run_stage(name: str, ctx: RunContext) -> None:
-    fn = STAGES[name]
-    if fn is None:
-        phase = {"compose": 5}[name]
-        raise SystemExit(
-            f"stage '{name}' is not implemented yet — build phase {phase} "
-            f"(docs/ARCHITECTURE.md §11)")
-    fn(ctx)
+    STAGES[name](ctx)
 
 
 def main(argv: list[str] | None = None) -> None:

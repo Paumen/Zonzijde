@@ -39,6 +39,16 @@ write:
 review:
   concurrency: 3
 
+compose:
+  nr_offset: 3
+  max_recompiles: 3
+  weather:
+    place: Wijchen
+    latitude: 51.8103
+    longitude: 5.7256
+    days: 6
+    timeout_s: 15
+
 llm:
   stages:
     score:   {model: claude-haiku-4-5-20251001, batch_size: 80, concurrency: 6}
@@ -47,3 +57,5 @@ llm:
     outline: {model: claude-opus-4-8, effort: medium}
     write:   {model: claude-sonnet-5, effort: medium}
     review:  {model: claude-sonnet-5, effort: medium}
+    illustrate: {model: claude-sonnet-5, effort: medium}
+    trim:    {model: claude-sonnet-5, effort: medium}

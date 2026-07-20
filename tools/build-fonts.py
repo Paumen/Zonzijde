@@ -45,8 +45,8 @@ if os.path.exists(_cafile):
     _ctx.load_verify_locations(_cafile)
 
 
-def fetch(url, binary=False):
-    req = urllib.request.Request(url, headers={"User-Agent": UA})
+def fetch(url, binary=False, ua=UA):
+    req = urllib.request.Request(url, headers={"User-Agent": ua})
     with urllib.request.urlopen(req, context=_ctx, timeout=60) as r:
         return r.read() if binary else r.read().decode("utf-8")
 
@@ -65,6 +65,49 @@ def subset_face_blocks(css):
         url = re.search(r"src:\s*url\(([^)]+)\)", block).group(1)
         out.setdefault((fam, style, rng), url)
     return out
+
+
+VF_URL = "https://raw.githubusercontent.com/google/fonts/main/ofl/%s.ttf"
+VF_PATHS = {
+    ("Fraunces", "normal"): "fraunces/Fraunces%5BSOFT,WONK,opsz,wght%5D",
+    ("Newsreader", "normal"): "newsreader/Newsreader%5Bopsz,wght%5D",
+    ("Newsreader", "italic"): "newsreader/Newsreader-Italic%5Bopsz,wght%5D",
+    ("Archivo", "normal"): "archivo/Archivo%5Bwdth,wght%5D",
+}
+
+
+def build_ttf():
+    total = 0
+    count = 0
+    cache = {}
+    for fam, style, instances in PLAN:
+        key = (fam, style)
+        if key not in cache:
+            cache[key] = fetch(VF_URL % VF_PATHS[key], binary=True)
+        for weight, opsz, slug in instances:
+            font = ttLib.TTFont(io_bytes(cache[key]))
+            axes = {a.axisTag: a for a in font["fvar"].axes}
+            pins = {}
+            if "wght" in axes:
+                pins["wght"] = weight
+            if "opsz" in axes and opsz is not None:
+                pins["opsz"] = opsz
+            for tag, axis in axes.items():
+                pins.setdefault(tag, axis.defaultValue)
+            instantiateVariableFont(font, pins, inplace=True)
+            font["OS/2"].usWeightClass = weight
+            sub = "Italic" if style == "italic" else "Regular"
+            names = {1: fam, 2: sub, 3: f"{fam}-{slug};zonzijde",
+                     4: f"{fam} {slug}", 6: f"{fam}-{slug}",
+                     16: fam, 17: sub}
+            for nid, value in names.items():
+                font["name"].setName(value, nid, 3, 1, 0x409)
+                font["name"].setName(value, nid, 1, 0, 0)
+            path = os.path.join(OUT_DIR, f"{fam}-{slug}.ttf")
+            font.save(path)
+            total += os.path.getsize(path)
+            count += 1
+    print(f"{count} static ttf faces, {total} bytes in fonts/")
 
 
 def main():
@@ -100,6 +143,7 @@ def main():
 
     write_css(faces)
     print(f"{len(faces)} static faces, {total} bytes of woff2 in fonts/")
+    build_ttf()
 
 
 def io_bytes(data):

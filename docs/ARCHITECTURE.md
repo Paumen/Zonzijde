@@ -214,8 +214,9 @@ pipeline.
 1. `edition.yml` — cron early Sunday morning (Europe/Amsterdam) + `workflow_dispatch`
    (inputs: `edition_date`, `from_stage` for resume). Steps: checkout → install
    (Python deps, **Playwright Chromium with its system libraries** — `playwright
-   install --with-deps chromium`, needed by S5's browser-render fetch — and the
-   **pinned Typst binary** for S9) → `python -m zonzijde run` → commit
+   install --with-deps chromium`, needed by S5's browser-render fetch; the Typst
+   compiler for S9 comes in as the `typst` Python package, version-pinned in
+   `pyproject.toml`) → `python -m zonzijde run` → commit
    `editions/<date>/` to branch `edition/<date>` → open the **edition PR**.
 2. `pages.yml` (existing) — on merge to `main`, deploy. Extended to (re)generate the
    archive listing (latest edition + previous ones, direct PDF links).

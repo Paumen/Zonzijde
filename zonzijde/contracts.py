@@ -117,6 +117,48 @@ class ReviewedArticle(Draft):
     review: Review
 
 
+class WeatherDay(BaseModel):
+    date: date
+    label: str
+    tmax: float
+    tmin: float
+    precip_prob: int | None
+    code: int
+
+
+class Weather(BaseModel):
+    place: str
+    latitude: float
+    longitude: float
+    fetched: datetime
+    source: str
+    days: list[WeatherDay] = Field(min_length=1)
+
+
+class EditionArticle(BaseModel):
+    pos: int = Field(ge=1)
+    scope: str
+    length: Length
+    title: str
+    location: str
+    source_date: date | None
+    text: str
+    words: int
+    source_ids: list[str] = Field(min_length=1)
+
+
+class EditionManifest(BaseModel):
+    edition: date
+    nr: int = Field(ge=1)
+    articles: list[EditionArticle] = Field(min_length=1)
+    weather: Weather
+    illustration: str | None
+    illustration_pos: int | None
+    pdf: str
+    counts: dict[str, int]
+    pipeline: dict
+
+
 def save_artifact(path: Path, items: list[BaseModel]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     data = [i.model_dump(mode="json") for i in items]

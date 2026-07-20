@@ -119,7 +119,8 @@ def _overview(work) -> list[str]:
 def _llm_usage(work) -> list[str]:
     stages = [("S3 score", "30-score-log.json"), ("S4 select", "40-select-log.json"),
               ("S5 enrich", "50-enrich-log.json"), ("S6 outline", "60-outline-log.json"),
-              ("S7 write", "70-write-log.json"), ("S8 review", "80-review-log.json")]
+              ("S7 write", "70-write-log.json"), ("S8 review", "80-review-log.json"),
+              ("S9 compose", "90-compose-log.json")]
     rows = []
     tot = Counter()
     for label, fn in stages:
@@ -172,6 +173,7 @@ def build(ctx: RunContext) -> str:
     write_log_path = work / "70-write-log.json"
     review_log_path = work / "80-review-log.json"
     reviewed_path = work / "80-reviewed.json"
+    compose_log_path = work / "90-compose-log.json"
 
     if log_path.is_file():
         log = json.loads(log_path.read_text(encoding="utf-8"))
@@ -234,6 +236,15 @@ def build(ctx: RunContext) -> str:
                       f" (ED-5 target {body['min']}–{body['max']})"
                       + (f"; **{len(rfailed)} slot(s) failed review at "
                          f"pos {rfailed}**" if rfailed else "")]
+        if compose_log_path.is_file():
+            clog = json.loads(compose_log_path.read_text(encoding="utf-8"))
+            open_v = clog.get("violations") or []
+            parts += [f"- S9 compose: nr {clog['nr']}, "
+                      f"{clog['recompiles']} recompile(s), "
+                      f"{len(clog.get('trims') or [])} trim(s)"
+                      + (f"; **{len(open_v)} unresolved typeset "
+                         f"violation(s)**" if open_v
+                         else " — typeset checks clean (LAY-1..5, LAY-7)")]
         parts += ["", "## Feeds", "",
                   _table(["bron", "items", "in window", "undated", "error"],
                          [[f["bron"], f["entries"], f["kept"], f["undated"],
@@ -312,8 +323,11 @@ def build(ctx: RunContext) -> str:
 
     if reviewed_path.is_file():
         reviewed = load_artifact(reviewed_path, ReviewedArticle)
-        rlog = json.loads(review_log_path.read_text(encoding="utf-8"))
-        draft_words = {a["pos"]: a["words"]["draft"] for a in rlog["articles"]}
+        draft_words = {}
+        if review_log_path.is_file():
+            rlog = json.loads(review_log_path.read_text(encoding="utf-8"))
+            draft_words = {a["pos"]: a["words"]["draft"]
+                          for a in rlog["articles"]}
         parts += ["", "## Articles (PIPE-7/8)", "",
                   _table(["pos", "title", "words draft → reviewed"],
                          [[r.pos, r.title,
@@ -325,6 +339,33 @@ def build(ctx: RunContext) -> str:
                 correction_lines.append(f"- slot {r.pos}: {corr}")
         parts += ["", "## Correction log (PIPE-8)", ""]
         parts += correction_lines or ["No corrections — clean review."]
+
+    if compose_log_path.is_file():
+        clog = json.loads(compose_log_path.read_text(encoding="utf-8"))
+        parts += ["", "## Typeset & compose (PIPE-9)", ""]
+        ill = clog.get("illustration") or {}
+        if ill.get("file"):
+            parts += [f"- illustration (EL-3): {ill['subject']!r} with the "
+                      f"article at pos {ill['pos']} — `work/85-illustration.svg`"]
+        parts += [f"- {clog['recompiles']} recompile(s)"]
+        for t in clog.get("trims") or []:
+            w = t.get("words")
+            parts += [f"- trim assist: slot {t['pos']} paragraph "
+                      f"{t['paragraph'] + 1}, {t['reason']}"
+                      + (f" ({w['before']} → {w['after']} words)" if w
+                         else f" — **failed: {t.get('error')}**")]
+        for note in clog.get("notes") or []:
+            parts += [f"- {note}"]
+        open_v = clog.get("violations") or []
+        if open_v:
+            parts += ["", "**Unresolved violations (LAY hard gates):**", ""]
+            parts += [f"- {v['rule']}: {v['detail']}"
+                      + (f" (page {v['page']}" +
+                         (f", column {v['col'] + 1}" if "col" in v else "")
+                         + ")" if "page" in v else "")
+                      for v in open_v]
+        else:
+            parts += ["- all typeset checks passed (LAY-1..5, LAY-7)"]
 
     return "\n".join(parts) + "\n"
 
