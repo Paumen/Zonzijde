@@ -166,26 +166,16 @@ def rasterize_refs(ctx: RunContext,
     return out
 
 
-def build_illustrate_prompt(ctx: RunContext, articles: list[EditionArticle],
+def build_illustrate_prompt(articles: list[EditionArticle],
                             candidates: list[int],
                             refs: list[tuple[str, Path, Path | None]]) -> str:
-    brief = ctx.root / "config" / "prompts" / "brief.md"
-    lines = [
-        "Lees eerst de brief van De Zonzijde om de geest van de krant te "
-        "begrijpen:",
-        f"- brief: {brief}",
-        "",
-        "Bekijk (view) én lees (read) daarna de twee vaste huistekeningen. "
-        "Ze leren je uitsluitend de stijl; neem er nooit beeldelementen uit over:",
-    ]
+    lines = ["Huistekeningen:"]
     for label, svg, png in refs:
         lines.append(f"- {label}:")
         if png is not None:
             lines.append(f"    bekijk: {png}")
         lines.append(f"    lees: {svg}")
-    lines += ["",
-              "Kies vervolgens één van deze artikelen (veld pos) en teken daar "
-              "een nieuwe illustratie bij:"]
+    lines += ["", "Artikelen:"]
     for a in articles:
         if a.pos in candidates:
             head = " ".join(a.text.split()[:60])
@@ -202,16 +192,16 @@ def draw_illustration(ctx: RunContext, articles: list[EditionArticle],
             notes.append("illustration skipped: config/prompts/illustrate.md "
                          "does not exist yet")
             return None, None, None
+        brief = prompts.load_prompt(ctx.root, "brief")
         cfg = ctx.llm_cfg("illustrate")
         call = lambda prompt: llm.agent_json(
-            prompt, system=rules.body, schema=ILLUSTRATE_SCHEMA,
+            prompt, system=f"{brief.body}\n\n{rules.body}", schema=ILLUSTRATE_SCHEMA,
             model=cfg["model"], effort=cfg.get("effort"), max_turns=12,
-            allowed_tools=["Read"], permission_mode="bypassPermissions",
-            cwd=str(ctx.root), usage_sink=usage)
+            allowed_tools=["Read"], cwd=str(ctx.root), usage_sink=usage)
     candidates = illustration_candidates(articles)
     ctx.work_dir.mkdir(parents=True, exist_ok=True)
     refs = rasterize_refs(ctx, notes)
-    prompt = build_illustrate_prompt(ctx, articles, candidates, refs)
+    prompt = build_illustrate_prompt(articles, candidates, refs)
     try:
         payload = call(prompt)
     except llm.LlmError as e:
