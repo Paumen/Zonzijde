@@ -1,5 +1,5 @@
 ---
-version: 1
+version: 2
 role: link-classification.
 ---
 You are a analyst.
