@@ -27,10 +27,6 @@ sources:
     bron: NOS J
     url: https://feeds.nos.nl/jeugdjournaal
     scopes: [N, I]
-  - id: nos_algemeen
-    bron: NOS Alg
-    url: https://feeds.nos.nl/nosnieuwsalgemeen
-    scopes: [N, I]
   - id: nos_binnenland
     bron: NOS Binnen
     url: https://feeds.nos.nl/nosnieuwsbinnenland
