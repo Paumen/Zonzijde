@@ -80,7 +80,7 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
     if call is None:
         call = lambda prompt, system: llm.agent_json(
             prompt, system=system, schema=RESPONSE_SCHEMA,
-            model=cfg["model"], effort=cfg.get("effort"), max_turns=2,
+            model=cfg["model"], effort=cfg.get("effort"), max_turns=3,
             usage_sink=usage)
 
     drafts = load_artifact(ctx.work_dir / "70-drafts.json", Draft)
