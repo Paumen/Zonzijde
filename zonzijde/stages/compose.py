@@ -133,10 +133,17 @@ def svg_problems(svg: str) -> list[str]:
         return ["missing viewBox"]
     colours = set()
     for el in root.iter():
-        for attr in ("fill", "stroke"):
+        for attr in ("fill", "stroke", "color", "stop-color"):
             v = el.get(attr, "").strip().lower()
             if v and v not in INK_ONLY:
                 colours.add(v)
+        for decl in el.get("style", "").split(";"):
+            prop, _, v = decl.partition(":")
+            if prop.strip().lower() in ("fill", "stroke", "color",
+                                        "stop-color"):
+                v = v.strip().lower()
+                if v and v not in INK_ONLY:
+                    colours.add(v)
     return [f"non-monochrome colours {sorted(colours)}"] if colours else []
 
 

@@ -98,19 +98,30 @@ def extract_lines(pdf_bytes: bytes) -> list[Line]:
             frags.append((x, PAGE_H - y, base, text))
 
         page.extract_text(visitor_text=visit)
-        rows: dict[tuple[int, int], list[tuple[float, str, str]]] = {}
+        by_col: dict[int, list[tuple[float, float, str, str]]] = {}
         for x, y, base, text in frags:
-            key = (column_of(x), round(y * 2))
-            rows.setdefault(key, []).append((x, base, text))
-        for (col, ykey), parts in rows.items():
-            parts.sort(key=lambda p: p[0])
-            text = "".join(p[2] for p in parts).replace("\xad", "").strip()
+            by_col.setdefault(column_of(x), []).append((y, x, base, text))
+
+        def emit(col: int, cluster: list[tuple[float, float, str, str]]) -> None:
+            cluster.sort(key=lambda p: p[1])
+            text = "".join(p[3] for p in cluster).replace("\xad", "").strip()
             if not text:
-                continue
-            body = all("Newsreader-400" in p[1] and "400i" not in p[1]
-                       for p in parts)
-            lines.append(Line(page=pno, col=col, y=ykey / 2, text=text,
+                return
+            body = all("Newsreader-400" in p[2] and "400i" not in p[2]
+                       for p in cluster)
+            lines.append(Line(page=pno, col=col, y=cluster[0][0], text=text,
                               body=body))
+
+        for col, items in by_col.items():
+            items.sort()
+            cluster: list[tuple[float, float, str, str]] = []
+            for item in items:
+                if cluster and item[0] - cluster[-1][0] > 0.8:
+                    emit(col, cluster)
+                    cluster = []
+                cluster.append(item)
+            if cluster:
+                emit(col, cluster)
     lines.sort(key=lambda l: (l.page, l.col, l.y))
     return lines
 
