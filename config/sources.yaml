@@ -19,14 +19,6 @@ sources:
     bron: Gld RvN
     url: https://www.gld.nl/rss/rijk-van-nijmegen.xml
     scopes: [L, R]
-  - id: dg
-    bron: DG
-    url: https://www.gelderlander.nl/home/rss.xml
-    scopes: [N, I]
-  - id: dg_binnen
-    bron: DG Binnen
-    url: https://www.gelderlander.nl/binnenland/rss.xml
-    scopes: [N]
   - id: rijksoverheid
     bron: Overheid
     builder: rijksoverheid
