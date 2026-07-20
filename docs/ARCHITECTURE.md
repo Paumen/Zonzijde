@@ -1,22 +1,12 @@
 # De Zonzijde — System Design
 
 Status: **draft v1** — companion to [`SPEC.md`](SPEC.md) (the *what*). This is the *how*:
-a coherent automation pipeline that turns the working prototypes into a weekly,
+a coherent automation pipeline, a weekly,
 reviewable, mostly-automated production system.
 
 ---
 
-## 1. Where we are, where we're going
-
-Today the edition is produced by hand-driving three prototypes:
-
-| Asset | Role today | Fate |
-|-------|-----------|------|
-| `proto_fetchfilter.html` | Browser app: fetch RSS via CORS proxy, regex buckets, Gemini scoring, copy MD table | Source list, regex buckets, and scoring logic migrate into pipeline stages S1–S4. App remains as a manual inspection/debug UI. |
-| `tools/fetch-articles.py` | Fetch full article text behind selected links (requests+trafilatura, Playwright fallback) | Becomes stage S5, minus its RSS-summary fallback: blocked stories are re-sourced or dropped instead. |
-| `proto_index.html` | Early in-browser generator (client-side Anthropic key) | Superseded; kept for reference. |
-| `proto_krant.html` | Hand-built edition — the target look & feel | Design reference only. The layout it established (grid, fonts, masthead, kickers) is re-created once in the Typst print template; the HTML edition itself is retired — prototypes are prototypes, not products. |
-| `.github/workflows/pages.yml` | Deploys repo root to GitHub Pages | Kept only to serve the PDF archive (direct links); no HTML edition is published. |
+## 1. Where we're going
 
 Target: one command — `python -m zonzijde run --edition 2026-07-26` — executes the whole
 funnel and opens an edition PR; a human reviews and merges; Pages publishes.
@@ -71,7 +61,7 @@ flowchart TD
 | Stage | Spec | Kind | Input → output artifact | Notes |
 |-------|------|------|--------------------------|-------|
 | S1 `fetch` | PIPE-1 | code | `config/sources.yaml` → `10-items.json` | Concurrent pull with timeout; per-feed failures logged in the run report, never fatal. Window per SRC-4. |
-| S2 `filter` | PIPE-2 | code | `10` → `20-filtered.json` + `20-rejected.json` | Batch dedupe + bucket filtering per PIPE-2; buckets B1–B5 live in `config/filters.yaml` (ported from the prototype). Rejections keep their reason for auditability. |
+| S2 `filter` | PIPE-2 | code | `10` → `20-filtered.json` + `20-rejected.json` | Batch dedupe + bucket filtering per PIPE-2; buckets B1–B5 live in `config/filters.yaml`. Rejections keep their reason for auditability. |
 | S3 `score` | PIPE-3 | LLM | `20` → `30-scored.json` | Batched (~80 items/call, concurrent), schema-enforced output, prompt `prompts/score.md`. Unparseable batch → items left unscored and excluded (fail-closed: unscored never advances). |
 | S4 `select` | PIPE-4 | LLM | `30` (+1/+2 only) → `40-candidates.json` | Inputs `prompts/brief.md` + `prompts/select.md` + scored titles/summaries; output shape per PIPE-4. |
 | S5 `enrich` | PIPE-5 | code (+LLM) | `40` → `50-articles.json` | `tools/fetch-articles.py` refactored into the package; two-stage fetch (requests, then headless browser). Re-source-or-drop per PIPE-5: the topic's sibling rows in `40-candidates.json` are the only re-source; a topic with no full text is dropped and logged. Each full-text article's in-body links are classified by the model (EXT/INT/NAV/PROMO); EXT+INT links (denylist-filtered, capped) are followed as best-effort background `references` — never gating a topic's drop status. |
@@ -90,66 +80,18 @@ diffable in the PR), and validate against pydantic models in `zonzijde/contracts
 Item identity: `id = sha1(canonical_link)[:12]`, assigned at S1 and carried through, so
 every printed article traces back to its feed items.
 
-```jsonc
-// 10-items.json  (S1) — one per feed item
-{ "id": "f3a91c02be77", "source": "gld_rvn", "bron": "Gld RvN",
-  "scopes": ["L","R"], "title": "…", "link": "https://…",
-  "summary": "…", "published": "2026-07-14T09:30:00+02:00",
-  "fetched": "2026-07-18T04:31:22+02:00" }
-
-// 20-filtered.json (S2): same shape.  20-rejected.json adds:
-{ "id": "…", "reason": "duplicate | bucket:B2 | …" }
-
-// 30-scored.json (S3): item + { "score": -2..2 }        // absent = excluded, fail-closed
-
-// 40-candidates.json (S4)
-{ "scope": "L", "topic": "…",
-  "items": [ { "id": "…", "bron": "…", "titel": "…", "samenvatting": "…", "link": "…" } ] }
-
-// 50-articles.json (S5): candidate item + full text
-{ "id": "…", "ok": true, "method": "requests | playwright",
-  "text": "…", "words": 812, "links": ["…"], "note": "",
-  "references": [ { "url": "…", "ok": true, "text": "…", "words": 240 } ] }
-// ok:false = dropped (both fetch routes exhausted); kept in the file for the run report
-// references: best-effort background from followed EXT/INT links; ref ok:false = fetch failed
-
-// 60-outline.json (S6) — the edition plan
-{ "edition": "2026-07-26", "slots": [
-    { "pos": 1, "scope": "L",
-      "topic": "…", "length": "long | standard | short",
-      "devices": ["irony"], "source_ids": ["…"],
-      "location": "Wijchen", "source_date": "2026-07-14" } ] }
-
-// 70-drafts.json (S7) / 80-reviewed.json (S8): slot + article text
-{ "pos": 1, "title": "…", "location": "Wijchen", "source_date": "2026-07-14",
-  "text": "…", "words": 430,
-  "review": { "corrections": ["…"] } }   // S8 only
-
-// editions/<date>/edition.json (S9) — manifest of the published edition
-{ "edition": "2026-07-26", "nr": 3, "articles": [ …final texts + provenance ids… ],
-  "weather": { …baked Open-Meteo snapshot… },
-  "illustration": "work/85-illustration.svg",   // custom-drawn for this edition
-  "pdf": "krant-A3boekje.pdf",
-  "counts": { "words_body": 3120, "pages": 4 },
-  "pipeline": { "run": "…", "prompt_versions": { "score": "v3", … } } }
-```
-
 ## 5. Compose: Typst typesetting, checks & booklet imposition
 
-**Engine choice: Typst, not a browser.** The prototypes printed HTML from Chromium;
-that stays a prototype. Browsers break lines greedily, one line at a time — which is
-exactly what produces single-word lines, short columns, and whitespace holes (LAY-3..5)
-in narrow justified columns — and their layout shifts across browser versions. Typst
+**Engine choice: Typst, not a browser.** 
 typesets like LaTeX (whole-paragraph line-break optimisation, real widow/orphan
 control, Dutch hyphenation), outputs PDF directly, is deterministic when pinned to a
 version, and its templates are plain text that both humans and LLMs edit well. The
 LAY rules go from "detect and repair" to mostly "cannot occur".
 
-`templates/krant.typ` re-creates the design established by `proto_krant.html` — the
+`templates/krant.typ` — the
 A4 three-column grid, 12 mm margins, 6 mm gutters, 9.5/11 pt body (LAY-1/2), Fraunces /
 Newsreader / Archivo, masthead, kickers, weather strip — and renders `edition.json`
-straight to a 4-page A4 PDF. (Typst consumes ttf/otf; `tools/build-fonts.py` gains a
-step to emit those alongside the woff2 subsets that only the prototypes needed.)
+straight to a 4-page A4 PDF.
 
 **Typeset checks.** Compile, then verify LAY-1..5 and LAY-7 against the compiled
 layout (Typst's introspection/query where possible, PDF text extraction otherwise).
@@ -166,9 +108,7 @@ order, producing the fold-ready `krant-A3boekje.pdf` — the deliverable (OPS-2)
 Weather (EL-2) is fetched from Open-Meteo at compose time and baked into
 `edition.json`, so the rendered edition is a closed artifact (principle 4).
 
-**Illustration (EL-3): drawn anew every edition — no stock library.** Not currently
-wired into the outline stage (S6) — S9 has the model pick a subject and draw a
-fresh one-column SVG in the house style — black-and-white, minimalist fine lines,
+**Illustration (EL-3): drawn anew every edition.** S9 has the model pick a subject and draw a fresh one-column SVG in the house style — black-and-white, minimalist fine lines,
 patterns, strokes. The style
 lives in `prompts/illustrate.md` together with two or three reference drawings from
 past editions (references teach the *style*, they are never reused as the drawing).
@@ -181,9 +121,9 @@ sunflower and the closing landscape (EL-1/EL-4) are fixed assets.
 | Stage | Model | Calls/edition | Tokens (rough) | Failure policy |
 |-------|-------|---------------|----------------|----------------|
 | S3 score | Claude Haiku | ~15–25 batches | ~150k in / 5k out | no retry; unscored = excluded (fail-closed) |
-| S5 classify | Claude Haiku | ~10–15 (per article) | small | best-effort; on failure the article keeps no references |
+| S5 classify | Claude Haiku | ~10–15 (per article) | small | best-effort |
 | S4 select | Claude Sonnet | 1 | ~30k in / 2k out | no retry; fatal on failure or invalid output |
-| S6 outline | Claude Opus (no tools) | 1 | ~8k in / 3k out | idem |
+| S6 outline | Claude Opus | 1 | ~8k in / 3k out | idem |
 | S7 write | Claude Sonnet | ~10–12 (per article) | ~6k in / 1k out each | no retry; a failed article fails the run |
 | S8 review | Claude Sonnet | ~10–12 | ~5k in / 1k out each | idem |
 | S9 illustration | Claude Sonnet | 1 | ~5k in / 5k out | reads brief + views/reads the two house drawings (Read tool), then draws; invalid SVG surfaces at the gate |
@@ -226,84 +166,10 @@ stories re-sourced or dropped (blocked fetches, widened lokaal window), correcti
 log from S8, typeset-check outcome, and LLM cost. The editor opens the booklet PDF from
 the PR, optionally edits `edition.json`/artifacts in place (S9 re-renders), merges to
 publish.
-Nothing auto-merges (OQ-5).
 
-Secrets: `ANTHROPIC_API_KEY` as an Actions secret, read from env by the Agent SDK.
-Local runs use the same env var (or ambient Claude Code credentials).
+## 8. Testing & evaluation
 
-## 8. Target repository layout
-
-```
-zonzijde/                  # Python package (the pipeline)
-  __main__.py cli.py       # run / per-stage entry points, --from/--until
-  stages/                  # fetch.py filter.py score.py select.py enrich.py
-                           # outline.py write.py review.py compose.py
-  contracts.py             # pydantic models for all artifacts (§4)
-  llm.py                   # provider adapters, tiers, schema-validated calls
-  typeset.py               # Typst compile, LAY checks, booklet imposition (§5)
-  report.py                # run report for the edition PR
-config/
-  sources.yaml             # feed list + scope tags (from proto_fetchfilter.html)
-  filters.yaml             # regex buckets B1–B5
-  edition.yaml             # ED/LAY constants, cadence, model tiers
-  prompts/                 # brief.md score.md select.md outline.md write.md
-                           # review.md illustrate.md (versioned; brief…write exist,
-                           # seeded verbatim from the archived concept)
-templates/krant.typ        # Typst print template (design per proto_krant.html)
-assets/art/                # fixed art: masthead sunflower, closing landscape;
-                           # style-reference drawings for prompts/illustrate.md
-fonts/  fonts.css          # unchanged
-editions/<YYYY-MM-DD>/     # work/ (stage artifacts), krant-A3boekje.pdf,
-                           # edition.json, report.md
-tools/                     # prototypes & one-off utilities (proto_* stay for debugging)
-docs/                      # SPEC.md  ARCHITECTURE.md
-tests/                     # unit + golden-run + evals (§9)
-```
-
-## 9. Testing & evaluation
-
-- **Unit**: dedupe, bucket regexes (fixture titles per bucket), contracts, MD/JSON
-  parsing, date windows.
 - **Golden run**: recorded feed fixtures + stubbed LLM responses drive S1→S9 to a byte-
   stable edition; catches template and plumbing regressions in CI on every PR.
-- **Scorer eval**: a hand-labelled set (~100–200 real items) with two tracked numbers:
-  *negativity leakage* (items ≤0 labelled that score ≥+1 — the trust-killer, keep ~0)
-  and *positive recall*.
 - **Typeset check** doubles as a test: the golden edition must pass LAY-1..5.
 
-## 10. Security & operational notes
-
-- **Immediate action**: `proto_fetchfilter.html` embeds a Google API key (`GKEY`) in a
-  public repo — rotate the key, then have the prototype prompt for a key stored in
-  `localStorage` (as `proto_index.html` already does for Anthropic). OPS-5 forbids
-  recurrence.
-- The published site is static output only; keys exist solely in Actions secrets/local
-  env.
-- Feeds and article pages are untrusted input: parsed defensively (no HTML pass-through
-  to the template — text is extracted and re-escaped), and LLM prompts treat fetched
-  content as data, not instructions.
-- Editions are committed to the repo: full history, trivial rollback (revert the merge),
-  and the archive is just files (OQ-6 needs nothing new).
-
-## 11. Build order (migration plan)
-
-Each phase lands as a normal PR and leaves the current manual workflow usable.
-
-1. **Skeleton + S1/S2** — package, contracts, CLI; port sources + buckets to config;
-   funnel report. *Exit: `run --until filter` reproduces the prototype's filtered table.*
-2. **S3/S4** — scoring + selection with schema-validated calls; scorer eval harness with
-   the first labelled set. *Exit: `40-candidates.json` matches the quality of the manual
-   MD-table flow.*
-3. **S5** — absorb `tools/fetch-articles.py` as a stage. *Exit: `50-articles.json` for a
-   real candidate set.*
-4. **S6–S8** — outline/write/review prompts (seeded from `config/prompts/`, hardened);
-   correction log. *Exit: a full `80-reviewed.json` a human judges publishable-with-edits.*
-5. **S9 + template** — re-create the `proto_krant.html` design as `templates/krant.typ`
-   (side-by-side against a printed prototype edition until visually equivalent);
-   ttf/otf font subsets; weather baking; custom-illustration drawing step; typeset
-   checks; A3 booklet imposition. *Exit: golden run produces a fold-ready booklet PDF
-   end-to-end.*
-6. **Orchestration** — `edition.yml`, edition PR with report, archive index in Pages
-   deploy. *Exit: one Sunday edition produced by cron, reviewed, merged, published.*
-7. **Hardening** — eval gates in CI, cost tracking, prompt versioning discipline; then
-   revisit OQ-5 (auto-publish) with evidence.
