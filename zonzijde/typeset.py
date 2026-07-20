@@ -39,6 +39,25 @@ def compile_edition(root: Path, data_path: Path, *, fmt: str = "pdf"):
         raise CompileError(str(e))
 
 
+def rasterize_svg(root: Path, svg_path: Path, out_path: Path,
+                  width_pt: float = 360.0) -> None:
+    import typst
+
+    rel = "/" + svg_path.relative_to(root).as_posix()
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    doc = out_path.with_suffix(".raster.typ")
+    try:
+        doc.write_text(
+            f'#set page(width: auto, height: auto, margin: 0pt)\n'
+            f'#image("{rel}", width: {width_pt}pt)\n', encoding="utf-8")
+        png = typst.compile(str(doc), root=str(root), format="png", ppi=144.0)
+    except Exception as e:
+        raise CompileError(str(e))
+    finally:
+        doc.unlink(missing_ok=True)
+    out_path.write_bytes(png[0] if isinstance(png, list) else png)
+
+
 def query_marks(root: Path, data_path: Path) -> list[dict]:
     import typst
 

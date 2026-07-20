@@ -240,8 +240,7 @@ def build(ctx: RunContext) -> str:
             clog = json.loads(compose_log_path.read_text(encoding="utf-8"))
             open_v = clog.get("violations") or []
             parts += [f"- S9 compose: nr {clog['nr']}, "
-                      f"{clog['recompiles']} recompile(s), "
-                      f"{len(clog.get('trims') or [])} trim(s)"
+                      f"{clog['recompiles']} recompile(s)"
                       + (f"; **{len(open_v)} unresolved typeset "
                          f"violation(s)**" if open_v
                          else " — typeset checks clean (LAY-1..5, LAY-7)")]
@@ -348,12 +347,6 @@ def build(ctx: RunContext) -> str:
             parts += [f"- illustration (EL-3): {ill['subject']!r} with the "
                       f"article at pos {ill['pos']} — `work/85-illustration.svg`"]
         parts += [f"- {clog['recompiles']} recompile(s)"]
-        for t in clog.get("trims") or []:
-            w = t.get("words")
-            parts += [f"- trim assist: slot {t['pos']} paragraph "
-                      f"{t['paragraph'] + 1}, {t['reason']}"
-                      + (f" ({w['before']} → {w['after']} words)" if w
-                         else f" — **failed: {t.get('error')}**")]
         for note in clog.get("notes") or []:
             parts += [f"- {note}"]
         open_v = clog.get("violations") or []

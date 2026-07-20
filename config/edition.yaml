@@ -58,4 +58,3 @@ llm:
     write:   {model: claude-sonnet-5, effort: medium}
     review:  {model: claude-sonnet-5, effort: medium}
     illustrate: {model: claude-sonnet-5, effort: medium}
-    trim:    {model: claude-sonnet-5, effort: medium}
