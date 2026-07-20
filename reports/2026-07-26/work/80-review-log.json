@@ -3,24 +3,23 @@
   "effort": "medium",
   "prompt_versions": {
     "brief": 2,
-    "review": 6
+    "review": 7
   },
   "articles": [
     {
       "pos": 1,
       "words": {
         "draft": 186,
-        "reviewed": 214
+        "reviewed": 189
       },
       "corrections": [
-        "Titel vervangen: werktitel 'Kom een ijscoupe redden in het centrum' was functioneel maar niet scherp; nieuwe titel 'De verdwenen ijscoupes' sluit direct aan bij de kern van het verhaal en de naam van de speurtocht.",
-        "Zin 2 gecorrigeerd: 'zijn ijscoupes zijn hun onderdelen verloren' had een subject/werkwoord-mismatch; hersteld tot 'zijn ijscoupes zijn hun onderdelen kwijtgeraakt, die verspreid liggen over...'.",
-        "'kunnen kinderen op zoek naar de vermiste stukjes' ontbrak een werkwoord; aangevuld tot 'kunnen kinderen op zoek gaan naar de vermiste stukjes'.",
-        "'Er zijn twee routes, per leeftijd' verduidelijkt tot 'Er zijn twee routes, verdeeld naar leeftijd' voor vlottere leesbaarheid.",
-        "Engelse leenwoord 'suspense' vervangen door het Nederlandse 'spanning'.",
-        "'Kinderen vanaf 6 jaar krijgen het lastiger' herschreven tot 'krijgen een lastigere opdracht' — natuurlijker Nederlands.",
-        "Werkwoordstijd hersteld in laatste zin van alinea 3: 'die om een plan vroeg' (verleden tijd, inconsistent met de rest) gewijzigd naar 'die om een plan vraagt' (tegenwoordige tijd, consistent met de rest van de tekst).",
-        "Gecontroleerd op verwijzingen naar 'De Zonzijde', 'deze krant' of niet-getoonde afbeeldingen/illustraties: geen overtredingen aangetroffen, tekst ongewijzigd op dit punt."
+        "Titel vervangen: 'Kom een ijscoupe redden in het centrum' (imperatief, iets ongemakkelijk als krantenkop) → 'Speurtocht door het centrum: wie vindt de verdwenen ijscoupes?' (helderder en dekt de lading beter).",
+        "Grammaticale fout hersteld: 'zijn ijscoupes zijn hun onderdelen verloren' → 'de onderdelen van zijn ijscoupes zijn kwijtgeraakt' (foutieve zinsconstructie).",
+        "'dorpskern' vervangen door 'centrum' voor consistentie met de rest van het stuk.",
+        "Ontbrekend werkwoord toegevoegd: 'kunnen kinderen op zoek naar de vermiste stukjes' → 'kunnen kinderen op zoek gaan naar de vermiste stukjes'.",
+        "'Er zijn twee routes, per leeftijd' verduidelijkt naar 'Er zijn twee routes, verdeeld naar leeftijd'.",
+        "'Kinderen vanaf 6 jaar krijgen het lastiger' vereenvoudigd naar 'Voor kinderen vanaf 6 jaar is het lastiger' voor vlottere zinsbouw.",
+        "Overbodig informeel woord 'gewoon' geschrapt uit 'Ze zijn gewoon op te halen tijdens openingstijden'."
       ],
       "problems": []
     },
@@ -28,15 +27,14 @@
       "pos": 2,
       "words": {
         "draft": 203,
-        "reviewed": 200
+        "reviewed": 194
       },
       "corrections": [
-        "Titel gehandhaafd: 'Grens? Welke grens' is al scherp en past bij de toon; geen sterkere kop voorhanden.",
-        "'kon tot voor kort rekenen op één zegen' → 'kon tot voor kort op één ding rekenen': 'zegen' (zegening) was een verwarrende woordkeuze in deze context.",
-        "'toezichthouders voortaan gewoon doorlopen waar de kaart een streep trekt' → '...doorlopen, ook waar de kaart een streep trekt': verduidelijkt dat de streep geen halt meer is, in plaats van een onduidelijke richting.",
-        "'Het is een stille, praktische vooruitgang' → 'Het is een stille, praktische stap vooruit': 'vooruitgang' functioneert hier niet goed als bijvoeglijk gebruikt zelfstandig naamwoord in deze zinsconstructie.",
-        "'Het effect is vooral een kwestie van samenwerking die wint van verkokering' → 'Het effect is vooral dat samenwerking het wint van verkokering': oorspronkelijke zin liep grammaticaal mis (onderwerp/gezegde klopten niet).",
-        "'het stokje over te dragen aan' → 'het stokje overdragen aan': afstemming op de eerdere infinitiefconstructie zonder 'te' (nevenschikking met 'rechtsomkeert te maken en...')."
+        "Titel gehandhaafd: 'Grens? Welke grens' was al sterk en passend bij het onderwerp.",
+        "Aanhalingstekens rond de convenantnaam vervangen door Nederlandse typografische aanhalingstekens („...”) in plaats van rechte Engelse aanhalingstekens.",
+        "'Oost Nederland' gecorrigeerd naar 'Oost-Nederland' (samenstelling krijgt een koppelteken).",
+        "'stille, praktische vooruitgang' vervangen door 'stille, praktische stap vooruit' — natuurlijker Nederlands.",
+        "Openingszin van de derde alinea herschreven: 'Het effect is vooral een kwestie van samenwerking die wint van verkokering' klopte logisch niet ('effect' is geen 'kwestie van'); nu 'Het belangrijkste effect: samenwerking wint het van verkokering', gevolgd door een nieuwe zin voor betere leesbaarheid."
       ],
       "problems": []
     },
@@ -47,16 +45,11 @@
         "reviewed": 550
       },
       "corrections": [
-        "Titel vervangen: \"Wijnboeren dromen bij deze droogte\" → \"Wijnboeren juichen om de droge zomer\" (werktitel had een grammaticaal wankele constructie, \"dromen bij\").",
-        "\"zoekend naar woorden voor wat de droogte zijn wijngaard heeft gebracht\" → \"op zoek naar woorden om te omschrijven wat de droogte zijn wijngaard heeft gebracht\" (vlottere, correctere zinsbouw).",
-        "\"een bodem die volgens hem uitstekend gedijt bij droog weer\" → \"een bodemsoort die zich volgens hem uitstekend leent voor droog weer\" (logische fout hersteld: een bodem \"gedijt\" niet, planten gedijen).",
-        "\"Een eigenaar van Wijnproeverij De Hennep\" → \"De eigenaar van Wijnproeverij De Hennep\" (correcter lidwoordgebruik bij een specifiek, zij het ongenoemd, persoon).",
-        "\"een problem van een aangenaam soort\" → \"een probleem van de aangename soort\" (vaste, correcte uitdrukking).",
-        "\"vaak windstil tussen de ranken\" → \"vaak in windstilte tussen de ranken\" (bijvoeglijk naamwoord foutief gebruikt als bijwoordelijke bepaling).",
-        "\"een boer die klaagt over te veel zon, dat komt niet vaak voor\" → \"een boer die klaagt over te veel zon, is zeldzaam\" (zinsconstructie gestroomlijnd, herhaling van \"dat\" vermeden).",
-        "\"passen de wijnboeren zelf de grootste voorzichtigheid toe\" → \"blijven de wijnboeren zelf voorzichtig\" (stijve, vertaald aandoende formulering vervangen door natuurlijker Nederlands).",
-        "\"de suikers die daarbij vrijkomen\" → \"de suikeropbouw die daarbij hoort\" (suikers komen niet vrij tijdens rijping, ze worden juist opgebouwd).",
-        "\"als we de laatste oogst hebben gehad\" → \"als we de oogst binnen hebben\" (\"laatste oogst\" suggereerde ten onrechte meerdere oogsten per seizoen)."
+        "Werktitel 'Wijnboeren dromen bij deze droogte' vervangen door 'Gelderse wijnboeren varen wel bij de aanhoudende droogte' — de oude titel was clichématig en de zinsconstructie ('dromen bij deze droogte') liep grammaticaal niet lekker; de nieuwe titel is directer en dekt de lading beter.",
+        "'Een eigenaar van Wijnproeverij De Hennep bij Aalten' vervangen door 'Bij Wijnproeverij De Hennep bij Aalten wijst men op...' — een naamloze, vage bronaanduiding ('een eigenaar van') is journalistiek zwak; herschreven zonder de bron te specificeren die niet is aangeleverd.",
+        "'eenzelfde veerkracht' gecorrigeerd naar 'diezelfde veerkracht' voor correct verwijzend gebruik.",
+        "'passen de wijnboeren zelf de grootste voorzichtigheid toe' herschreven naar 'betrachten de wijnboeren zelf de grootste voorzichtigheid' — 'voorzichtigheid toepassen' is geen gangbare collocatie in het Nederlands.",
+        "'Zeker ben ik nu heel positief' herschreven naar 'Ik ben nu zeker heel positief' — de oorspronkelijke woordvolgorde klonk onnatuurlijk/stroef in gesproken citaat."
       ],
       "problems": []
     },
@@ -64,18 +57,16 @@
       "pos": 4,
       "words": {
         "draft": 419,
-        "reviewed": 420
+        "reviewed": 428
       },
       "corrections": [
-        "Titel gehandhaafd: de werktitel was al sterk (alliteratie, informatief) en voldeed aan de eis.",
-        "Komma-splice in het citaat over Nijmegen opgesplitst in twee zinnen ('In totaal heb ik 35 jaar... Ik voel me verwant...').",
-        "'Naast hem: Bart, ...' herschreven tot een volledige zin ('Naast hem loopt Bart...') voor een vlottere leesbaarheid.",
-        "Onduidelijke zinsconstructie 'de twee kwamen er ... maar één keer samen aan toe' rechtgezet tot 'kwamen de twee er samen maar één keer aan toe' (juiste woordvolgorde van de scheidbare uitdrukking 'ergens aan toekomen').",
-        "'Die ene training bleef Van Eert bij' vervangen door de gangbaardere voltooide tijd 'Die ene training is Van Eert bijgebleven'.",
-        "Onduidelijke afspraak-zin herschreven: 'Wie een startbewijs zou bemachtigen, sprak met de ander af hoe dan ook mee te doen' werd 'Ze spraken af dat wie een startbewijs zou bemachtigen, hoe dan ook zou meedoen', om het onderwerp van de afspraak te verduidelijken.",
-        "Zinsfragment zonder werkwoord ('Ruim driehonderd trainingskilometers, keurig volgens...') hersteld tot volledige zin met 'Hij liep ruim driehonderd trainingskilometers...'.",
-        "Slotalinea verduidelijkt: 'zegt de burgemeester, vooral in de sfeer van de week zelf' (dubbelzinnig waarnaar 'vooral' verwees) werd 'zegt de burgemeester, die vooral uitkijkt naar de sfeer van de week zelf'.",
-        "Gecontroleerd op verwijzingen naar de krant zelf of naar niet-getoonde afbeeldingen/illustraties: geen gevonden, geen ingreep nodig."
+        "Titel gehandhaafd: de werktitel was al sterk (bondig, alliteratie, dekt de inhoud) en is niet vervangen.",
+        "Komma-splice hersteld in het eerste citaat: 'In totaal heb ik 35 jaar in en om Nijmegen gewoond, ik voel me verwant...' opgeknipt in twee zinnen.",
+        "'Naast hem: Bart, ...' herschreven tot volledige zin ('Naast hem loopt Bart, ...') voor vlottere leesbaarheid.",
+        "Onduidelijke zin verduidelijkt: 'Wie een startbewijs zou bemachtigen' werd 'Wie van de twee een startbewijs zou bemachtigen', zodat helder is dat het om de twee vrienden gaat.",
+        "Zinsfragment zonder werkwoord ('Ruim driehonderd trainingskilometers, keurig volgens...') omgezet in een volledige zin ('Hij liep ruim driehonderd trainingskilometers...').",
+        "Kromme zinsconstructie bij 'die toevallig ook meeloopt en woont op wat Van Eert noemt spuugafstand...' rechtgezet tot een leesbare zin met correcte woordvolgorde.",
+        "'trainingsmaanden die hij grotendeels alleen aflegde' aangepast naar 'doorbracht'; 'afleggen' hoort bij afstand, niet bij een periode."
       ],
       "problems": []
     },
@@ -83,18 +74,16 @@
       "pos": 5,
       "words": {
         "draft": 182,
-        "reviewed": 192
+        "reviewed": 185
       },
       "corrections": [
-        "Titel gehandhaafd: 'Vleermuizen krijgen eigen wegwijzers' was al sterk en trefzeker; geen werktitel-vervanging nodig.",
-        "Alinea 1: 'ziet ze staan' vooruitwijzend naar een later genoemd meervoud ('palen') is grammaticaal verwarrend opgelost door 'sinds kort een rij roestbruine palen staan' expliciet te maken vóór de verwijzing.",
-        "Alinea 1: 'een navigatiehulp voor 's nachts' verduidelijkt naar 'een navigatiehulp voor vleermuizen die 's nachts vliegen' — het origineel liet in het midden voor wie de hulp bedoeld was.",
-        "Alinea 2: 'bomen die weg moesten voor de herinrichting' herschreven naar 'bomen die voor de herinrichting van het gebied moesten wijken' voor correcter, minder spreektalig zinsverband.",
-        "Alinea 2: 'Precies die bomen' vervangen door 'Juist die bomen' — gangbaarder journalistiek Nederlands in deze context.",
-        "Alinea 2: 'ze zenden geluid uit en varen op de weerkaatsing' herschreven naar 'ze zenden geluid uit en gaan af op de weerkaatsing ervan' — 'varen op' is te informeel/beeldend voor een feitelijke uitleg en 'weerkaatsing' zonder verwijzing was onduidelijk.",
-        "Alinea 2: 'een gat waarin geluid nergens meer op terugkaatst' herschreven naar 'een gat in de route waar het geluid nergens meer op terugkaatst' — het origineel bevatte een dubbele/omslachtige voorzetselconstructie ('waarin... op terugkaatst').",
-        "Alinea 3: 'Een ecoloog volgt of het werkt' aangepast naar 'Een ecoloog monitort of het werkt' om verwarring met de eerder genoemde 'stadsecoloog Joep van Belkom' te verminderen en de zin natuurlijker te laten lopen.",
-        "Gecontroleerd op verwijzingen naar 'De Zonzijde', 'deze krant' of niet-getoonde afbeeldingen/illustraties: geen overtredingen aangetroffen, tekst is zelfstandig leesbaar."
+        "Werktitel 'Vleermuizen krijgen eigen wegwijzers' behouden: die dekt de lading al goed en is journalistiek sterk.",
+        "'een navigatiehulp voor 's nachts' herschreven naar 'een navigatiehulp voor het duister' — de oorspronkelijke formulering was grammaticaal onhandig.",
+        "'ze zenden geluid uit en varen op de weerkaatsing' aangepast naar '...en oriënteren zich op de weerkaatsing' — 'varen op' is hier geen gangbaar/duidelijk idioom voor deze context.",
+        "'een gat waarin geluid nergens meer op terugkaatst' vereenvoudigd naar 'een gat waar geluid niet meer op terugkaatst' — de dubbele ontkenning/omslachtige zinsbouw verduidelijkt.",
+        "'Een ecoloog volgt of het werkt' verduidelijkt naar 'Een ecoloog volgt of de aanpak werkt' voor een concreter antecedent.",
+        "'Een tijdelijke oplossing, in afwachting van...' lichtjes gladgestreken met toevoeging van 'dus' voor een vloeiendere overgang naar de slotzin.",
+        "Gecontroleerd op verwijzingen naar de krant zelf of naar niet-getoonde beelden/illustraties: geen violaties aangetroffen."
       ],
       "problems": []
     },
@@ -102,14 +91,13 @@
       "pos": 6,
       "words": {
         "draft": 258,
-        "reviewed": 271
+        "reviewed": 263
       },
       "corrections": [
-        "Titel vervangen: 'Nederland dichter bij stikstofdoel 2035 dan gedacht' → 'Stikstofdoel 2035 komt in zicht dankzij sneller rekenmodel' (nieuwswaarde – het rekenmodel – staat nu voorop, en dubbele 'dichter bij... dan gedacht'-constructie is scherper gemaakt).",
-        "Para 1: '...op slechts 40.' → '...op slechts 40 procent.' (eenheid ontbrak, las als onaf).",
-        "Para 3: 'Die zones blijken' → 'Juist die zones blijken' (verduidelijkt het contrast met de eerder genoemde vijfhonderd meter-zones).",
-        "Para 5: 'De 74 procent blijft een precieze grens.' → 'De 74 procent blijft een smalle marge:' (origineel was inhoudelijk tegenstrijdig — 'precieze grens' impliceert zekerheid, terwijl de volgende zin juist een bandbreedte/onzekerheid beschrijft).",
-        "Para 5: '...maar ook net gemist.' → '...maar ook net gemist kan worden.' (zin was grammaticaal onvolledig, ontbrekend werkwoord)."
+        "Werktitel vervangen door een scherpere kop die het nieuwe rekenmodel als nieuwswaarde benoemt: 'Nieuw rekenmodel: stikstofdoel 2035 dichterbij dan gedacht'.",
+        "Verwarrende zin 'De 74 procent blijft een precieze grens' herschreven naar 'De wettelijke norm van 74 procent blijft daarbij een harde grens', zodat het contrast met de bandbreedte van 70-80 procent duidelijker wordt.",
+        "Overbodige komma verwijderd in 'financieel haalbaar zijn, en wie de kosten daarvan draagt' → 'financieel haalbaar zijn en wie de kosten daarvan draagt'.",
+        "Gecontroleerd op verwijzingen naar de krant zelf of naar niet-getoonde illustraties: geen gevonden, geen aanpassing nodig."
       ],
       "problems": []
     },
@@ -117,15 +105,15 @@
       "pos": 7,
       "words": {
         "draft": 166,
-        "reviewed": 155
+        "reviewed": 160
       },
       "corrections": [
-        "Titel vervangen: de werktitel noemde de Fair Play-prijs onterecht een 'WK-titel' (suggereert dat Oranje het WK zelf won); nieuwe titel benoemt de prijs correct.",
-        "'de FIFA' → 'FIFA' (in journalistieke stijl wordt de organisatie doorgaans zonder lidwoord genoemd).",
-        "Zin over de gele kaarten van Tsjechië en Tunesië herschreven: 'die met elk één kaart nog spaarzamer waren' was grammaticaal onhandig (spaarzaam kan geen kaarten 'zijn'); nu 'die het met elk één kaart nóg spaarzamer deden'.",
-        "'en in 2022 nog naar Engeland ging' → 'en in 2022 naar Engeland ging' (het overbodige 'nog' wekte ten onrechte de indruk van een trend).",
-        "'voetbal gerelateerd' → 'voetbalgerelateerd' (samenstelling, één woord).",
-        "Slotzin 'met een prijs weer thuis' → 'met een prijs toch weer thuis' voor vloeiendere leesbaarheid en aansluiting op de intro."
+        "Titel vervangen: 'Oranje wint ondanks vroege uittocht toch een WK-titel' was misleidend, omdat de Fair Play-prijs geen WK-titel is; nieuwe kop benoemt de prijs correct.",
+        "'uittocht' (in de kop) vervangen door 'uitschakeling': verkeerd woordgebruik, uittocht betekent exodus/vertrek, niet sportieve eliminatie.",
+        "Tweede alinea herschreven voor duidelijkheid: de zin liep syntactisch vast door de ingebedde bijzin ('die met elk één kaart nog spaarzamer waren, maar al in de groepsfase naar huis moesten') en is opgesplitst in twee heldere zinnen.",
+        "'pakte' vervangen door 'kreeg': 'pakken' is spreektaal/informeel voor het ontvangen van een kaart in journalistieke context.",
+        "'voetbal gerelateerd' aan elkaar geschreven als 'voetbalgerelateerd': samenstelling moet één woord zijn.",
+        "'De ploeg krijgt' vervangen door 'Het winnende team krijgt' ter verduidelijking, aangezien 'de ploeg' na de tussenzin over vorige winnaars (Engeland) verwarrend kon verwijzen."
       ],
       "problems": []
     },
@@ -133,22 +121,17 @@
       "pos": 8,
       "words": {
         "draft": 561,
-        "reviewed": 570
+        "reviewed": 563
       },
       "corrections": [
-        "Titel vervangen: 'Uw eigen tanden, opnieuw gegroeid' was grammaticaal onhandig ('opnieuw gegroeid') en dekte alleen het regroei-aspect; nieuwe titel 'Nieuwe tanden, gekweekt uit eigen cellen' dekt zowel herstel als regroei.",
-        "'een boring' is geen correct Nederlands voor het boorinstrument bij de tandarts; gecorrigeerd naar 'de vertrouwde boor'.",
-        "'De aanleiding is groter dan cosmetiek' herschreven naar 'Het belang reikt verder dan cosmetiek' voor duidelijkheid.",
-        "'bacteriën uit tandvleesontsteking' verduidelijkt naar 'bacteriën die vrijkomen bij tandvleesontsteking'.",
-        "'gevolgen voor het welzijn die soms al op jonge leeftijd beginnen' verduidelijkt naar '... die soms al op jonge leeftijd merkbaar zijn' (onderwerp van 'beginnen' was onduidelijk).",
-        "'Vullingen houden ... en moeten dan opnieuw' was een onvolledige zin; aangevuld tot '... en moeten dan opnieuw worden gezet'.",
-        "'Implantaten missen zenuwen' herschreven naar 'Implantaten hebben geen zenuwen' (natuurlijker Nederlands).",
-        "'Het draait steeds om herstellen van schade' aangevuld met lidwoord: 'om het herstellen van schade'.",
-        "'de eiwitten die dentine laten groeien en zichzelf herstellen' had een onduidelijk onderwerp voor 'zichzelf herstellen'; verduidelijkt naar '... en zichzelf laten herstellen' zodat het duidelijk over dentine gaat.",
-        "'Voor een hele nieuwe tand' herschreven naar 'Voor een volledig nieuwe tand' (preciezer).",
-        "'Aan het King's College London' is fout gebruik van lidwoord bij een instellingsnaam; gecorrigeerd naar 'Aan King's College London'.",
-        "Lange zin over varkenskaken opgesplitst in twee zinnen voor leesbaarheid.",
-        "Geen verwijzingen naar 'De Zonzijde', 'deze krant' of niet-getoonde illustraties aangetroffen; geen aanpassing nodig op dat punt."
+        "Titel aangescherpt van 'Uw eigen tanden, opnieuw gegroeid' naar 'Eigen tanden, opnieuw gegroeid' — krantenkoppen spreken de lezer doorgaans niet direct met 'u' aan.",
+        "'een boring' verbeterd naar 'een boor' (tikfout/verkeerd woord).",
+        "'De aanleiding is groter dan cosmetiek' herschreven naar 'De inzet is groter dan cosmetiek alleen' voor duidelijkere zinsconstructie.",
+        "'moeten dan opnieuw' aangevuld tot 'moeten dan vervangen worden' (onvolledige zin).",
+        "'Het draait steeds om herstellen van schade' gecorrigeerd naar 'Het draait steeds om het herstellen van schade' (ontbrekend lidwoord).",
+        "'hele nieuwe tand' gecorrigeerd naar 'heel nieuwe tand' (heel is hier bijwoord bij 'nieuwe', geen verbogen bijvoeglijk naamwoord).",
+        "'Aan het King's College London' gecorrigeerd naar 'Aan King's College London' (foutief lidwoord bij eigennaam).",
+        "'blijkt bovendien ook waardevol' ingekort tot 'blijkt bovendien waardevol' (dubbelop 'bovendien ook')."
       ],
       "problems": []
     },
@@ -156,34 +139,35 @@
       "pos": 9,
       "words": {
         "draft": 471,
-        "reviewed": 494
+        "reviewed": 471
       },
       "corrections": [
-        "Titel vervangen: de werktitel 'Zoenen aan zee: Cuba draaide zeeschildpadden om van vangst naar behoud' bevatte een verwarrende, inhoudelijk niet-gedekte woordspeling ('Zoenen'); nieuwe titel dekt zowel de beleidsomslag als het portret van Moncada.",
-        "'marien bioloog' → 'marinebioloog' (correcte Nederlandse schrijfwijze als één woord).",
-        "'klinkt het bijna omgekeerd' → 'klinkt het bijna als een omkering van de werkelijkheid' (onduidelijke formulering verhelderd).",
-        "'het getekende schild voor sieraden voor de ander' → 'het getekende schild als grondstof voor sieraden voor de ander' (ontbrekende schakel in de zin hersteld).",
-        "'op onderzoek en bescherming na' → 'met uitzondering van onderzoek en bescherming' (stijve/verwarrende constructie rechtgezet).",
-        "'weinig voorbereidingstijd, veel te doen' → 'weinig tijd om zich voor te bereiden, veel werk te verzetten' (telegramstijl omgezet naar lopende zin).",
-        "'naarmate Cuba koerste richting bescherming' → 'naarmate Cuba koers zette richting bescherming' (correcte werkwoordsconstructie).",
-        "'Hij hielp de opeenvolgende beperkingen adviseren' → 'Hij adviseerde mee over de opeenvolgende beperkingen' (foutieve dubbele-werkwoordsconstructie 'helpen adviseren' gecorrigeerd)."
+        "Werktitel 'Zoenen aan zee: Cuba draaide zeeschildpadden om van vangst naar behoud' vervangen: de woordspeling 'Zoenen aan zee' sloot inhoudelijk niet aan bij het onderwerp; nieuwe kop verwijst direct naar de kern (bioloog, vangst naar bescherming).",
+        "'waar Cubaanse vissers ooit hun brood mee verdienden' > 'waarmee Cubaanse vissers ooit hun brood verdienden' (voorzetsel correct bij het werkwoord geplaatst).",
+        "'klinkt het bijna omgekeerd' > 'klinkt het bijna paradoxaal' (preciezer taalgebruik).",
+        "'het getekende schild voor sieraden' > 'het gevlekte schild als grondstof voor sieraden' (verduidelijkt de onduidelijke formulering).",
+        "'de Cubaanse marien bioloog' > 'de Cubaanse mariene bioloog' (bijvoeglijk naamwoord correct verbogen).",
+        "'Hij hielp de opeenvolgende beperkingen adviseren' > 'Hij adviseerde over de opeenvolgende beperkingen' (grammaticaal onjuiste constructie hersteld).",
+        "Gedachtestreepje na 'nationale regels maar een deel van het verhaal zijn' vervangen door dubbele punt voor correctere zinsbouw.",
+        "'en kon de volgorde moeiteloos schetsen' zin ingekort/samengevoegd voor leesbaarheid.",
+        "'Zijn werk verschoof zo van...' > 'Zo verschoof zijn werk van...' (vlottere zinsopbouw)."
       ],
       "problems": []
     }
   ],
-  "words_total": 3066,
+  "words_total": 3003,
   "failed_slots": [],
   "llm": {
     "calls": 9,
     "input_tokens": 18,
-    "output_tokens": 36435,
-    "cache_read_tokens": 216198,
-    "cache_creation_tokens": 61591,
-    "cost_usd": 0.993,
+    "output_tokens": 33396,
+    "cache_read_tokens": 169911,
+    "cache_creation_tokens": 110137,
+    "cost_usd": 1.2249,
     "turns": 18,
     "tool_uses": 9,
     "thinking_chars": 0,
-    "wall_ms": 456957,
-    "api_ms": 467655
+    "wall_ms": 348318,
+    "api_ms": 358283
   }
 }
