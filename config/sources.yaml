@@ -105,11 +105,11 @@ sources:
     scopes: [N]
   - id: cbs_natuur_milieu
     bron: CBS n&m
-    url: https://www.cbs.nl/en-gb/rss-feeds/natuur-en-milieu
+    url: https://www.cbs.nl/nl-nl/rss-feeds/natuur-en-milieu
     scopes: [N]
   - id: cbs_vrije_tijd_cultuur
     bron: CBS v&c
-    url: https://www.cbs.nl/en-gb/rss-feeds/vrije-tijd-en-cultuur
+    url: https://www.cbs.nl/nl-nl/rss-feeds/vrije-tijd-en-cultuur
     scopes: [N]
   - id: natuurmonumenten
     bron: Natuurmon
@@ -143,9 +143,9 @@ sources:
     bron: HumanProg
     url: https://humanprogress.org/feed/
     scopes: [I]
-  - id: staatsbosbeheer
-    bron: SBB
-    url: https://www.boswachtersblog.nl/feed/
+  - id: naturetoday
+    bron: NatureToday
+    url: https://www.naturetoday.com/intl/nl/rss
     scopes: [N]
   - id: ark
     bron: ARK
