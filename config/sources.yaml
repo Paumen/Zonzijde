@@ -63,10 +63,6 @@ sources:
     bron: EW
     url: https://ewmagazine.nl/feed/
     scopes: [N, I]
-  - id: hp
-    bron: HP
-    url: https://www.hpdetijd.nl/rss
-    scopes: [N]
   - id: dw
     bron: DW
     url: https://rss.dw.com/rdf/rss-en-top
