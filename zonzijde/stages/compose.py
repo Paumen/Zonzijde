@@ -6,13 +6,14 @@ from typing import Callable
 
 import requests
 
+from pathlib import Path
+
 from .. import llm, prompts, typeset
 from ..context import RunContext
 from ..contracts import (EditionArticle, EditionManifest, EditionOutline,
                          ReviewedArticle, Weather, WeatherDay, load_artifact,
                          load_model, save_model)
 from ..net import VERIFY
-from .write import word_count
 
 ILLUSTRATE_SCHEMA = {
     "type": "object",
@@ -25,16 +26,14 @@ ILLUSTRATE_SCHEMA = {
     "additionalProperties": False,
 }
 
-TRIM_SCHEMA = {
-    "type": "object",
-    "properties": {"text": {"type": "string"}},
-    "required": ["text"],
-    "additionalProperties": False,
-}
-
 WEEKDAGEN = ("ma", "di", "wo", "do", "vr", "za", "zo")
 INK_ONLY = {"", "none", "currentcolor", "black", "white",
             "#121212", "#fff", "#ffffff", "#fcfcfb"}
+
+FIXED_REFS = [
+    ("de zonnebloem in de kop (masthead)", "assets/art/zonnebloem.svg"),
+    ("het sluitlandschap onderaan de laatste pagina", "assets/art/landschap.svg"),
+]
 
 JsonCall = Callable[[str], object]
 
@@ -152,6 +151,48 @@ def illustration_candidates(articles: list[EditionArticle]) -> list[int]:
         or [a.pos for a in articles[1:]]
 
 
+def rasterize_refs(ctx: RunContext,
+                   notes: list[str]) -> list[tuple[str, Path, Path | None]]:
+    out = []
+    for label, rel in FIXED_REFS:
+        svg = ctx.root / rel
+        png = ctx.work_dir / f"ref-{Path(rel).stem}.png"
+        try:
+            typeset.rasterize_svg(ctx.root, svg, png)
+            out.append((label, svg, png))
+        except typeset.CompileError as e:
+            notes.append(f"reference render failed for {label}: {e}")
+            out.append((label, svg, None))
+    return out
+
+
+def build_illustrate_prompt(ctx: RunContext, articles: list[EditionArticle],
+                            candidates: list[int],
+                            refs: list[tuple[str, Path, Path | None]]) -> str:
+    brief = ctx.root / "config" / "prompts" / "brief.md"
+    lines = [
+        "Lees eerst de brief van De Zonzijde om de geest van de krant te "
+        "begrijpen:",
+        f"- brief: {brief}",
+        "",
+        "Bekijk (view) én lees (read) daarna de twee vaste huistekeningen. "
+        "Ze leren je uitsluitend de stijl; neem er nooit beeldelementen uit over:",
+    ]
+    for label, svg, png in refs:
+        lines.append(f"- {label}:")
+        if png is not None:
+            lines.append(f"    bekijk: {png}")
+        lines.append(f"    lees: {svg}")
+    lines += ["",
+              "Kies vervolgens één van deze artikelen (veld pos) en teken daar "
+              "een nieuwe illustratie bij:"]
+    for a in articles:
+        if a.pos in candidates:
+            head = " ".join(a.text.split()[:60])
+            lines.append(f"pos={a.pos} [{a.scope}] {a.title}\n{head}…")
+    return "\n".join(lines)
+
+
 def draw_illustration(ctx: RunContext, articles: list[EditionArticle],
                       call: JsonCall | None, usage: list,
                       notes: list[str]) -> tuple[str | None, int | None, str | None]:
@@ -164,20 +205,15 @@ def draw_illustration(ctx: RunContext, articles: list[EditionArticle],
         cfg = ctx.llm_cfg("illustrate")
         call = lambda prompt: llm.agent_json(
             prompt, system=rules.body, schema=ILLUSTRATE_SCHEMA,
-            model=cfg["model"], effort=cfg.get("effort"), max_turns=2,
-            usage_sink=usage)
+            model=cfg["model"], effort=cfg.get("effort"), max_turns=12,
+            allowed_tools=["Read"], permission_mode="bypassPermissions",
+            cwd=str(ctx.root), usage_sink=usage)
     candidates = illustration_candidates(articles)
-    refs = sorted((ctx.root / "assets" / "art").glob("illustratie-ref-*.svg"))
-    parts = ["Artikelen (kies er één, veld pos):"]
-    for a in articles:
-        if a.pos in candidates:
-            head = " ".join(a.text.split()[:60])
-            parts.append(f"pos={a.pos} [{a.scope}] {a.title}\n{head}…")
-    for ref in refs:
-        parts.append("Stijlreferentie (alleen de stijl, nooit hergebruiken):\n"
-                     + ref.read_text(encoding="utf-8"))
+    ctx.work_dir.mkdir(parents=True, exist_ok=True)
+    refs = rasterize_refs(ctx, notes)
+    prompt = build_illustrate_prompt(ctx, articles, candidates, refs)
     try:
-        payload = call("\n\n".join(parts))
+        payload = call(prompt)
     except llm.LlmError as e:
         notes.append(f"illustration failed: {e}")
         return None, None, None
@@ -201,101 +237,7 @@ def draw_illustration(ctx: RunContext, articles: list[EditionArticle],
     return "work/85-illustration.svg", pos, payload.get("subject")
 
 
-def paragraph_of(article: EditionArticle, word: str | None) -> int:
-    paras = article.text.split("\n\n")
-    if word:
-        tail = word.strip().strip(".,!?\"'»«")
-        for i, p in enumerate(paras):
-            if p.rstrip().rstrip(".,!?\"'»«").endswith(tail):
-                return i
-    return max(range(len(paras)), key=lambda i: len(paras[i].split()))
-
-
-def trim_targets(violations: list[typeset.Violation],
-                 articles: list[EditionArticle]) -> list[tuple[int, int, int, str]]:
-    by_pos = {a.pos: a for a in articles}
-    targets: dict[tuple[int, int], tuple[int, str]] = {}
-
-    def add(pos: int | None, word: str | None, delta: int, reason: str) -> None:
-        if pos is None or pos not in by_pos:
-            pos = max(by_pos, key=lambda p: by_pos[p].words)
-        idx = paragraph_of(by_pos[pos], word)
-        targets.setdefault((pos, idx), (delta, reason))
-
-    for v in violations:
-        if v.rule == "LAY-3":
-            word = v.detail.split("'")[1] if "'" in v.detail else None
-            add(v.pos, word, -6, f"{v.rule}: {v.detail}")
-        elif v.rule == "LAY-4":
-            add(v.pos, None, -3 * typeset.WORDS_PER_LINE,
-                f"{v.rule}: {v.detail}")
-        elif v.rule == "LAY-5":
-            lines = float(v.detail.split()[2])
-            delta = -min(80, max(14, round(lines * typeset.WORDS_PER_LINE)))
-            add(v.pos, None, delta, f"{v.rule}: {v.detail}")
-        elif "overflow" in v.detail or "landscape" in v.detail:
-            add(None, None, -60, f"{v.rule}: {v.detail}")
-        elif v.rule == "LAY-1":
-            last = max(by_pos)
-            idx = len(by_pos[last].text.split("\n\n")) - 1
-            targets.setdefault((last, idx), (60, f"{v.rule}: {v.detail}"))
-    return [(pos, idx, delta, reason)
-            for (pos, idx), (delta, reason) in targets.items()]
-
-
-def apply_trims(ctx: RunContext, articles: list[EditionArticle],
-                targets: list[tuple[int, int, int, str]],
-                call: JsonCall | None, usage: list,
-                trims_log: list[dict]) -> None:
-    if call is None:
-        rules = try_prompt(ctx, "trim")
-        if rules is None:
-            raise SystemExit(
-                "S9 compose: typeset violations need the trim assist, but "
-                "config/prompts/trim.md does not exist yet — "
-                "see 90-compose-log.json")
-        cfg = ctx.llm_cfg("trim")
-        call = lambda prompt: llm.agent_json(
-            prompt, system=rules.body, schema=TRIM_SCHEMA,
-            model=cfg["model"], effort=cfg.get("effort"), max_turns=2,
-            usage_sink=usage)
-    by_pos = {a.pos: a for a in articles}
-    for pos, idx, delta, reason in targets:
-        article = by_pos[pos]
-        paras = article.text.split("\n\n")
-        para = paras[idx]
-        richting = "Kort deze alinea in met" if delta < 0 \
-            else "Verleng deze alinea met"
-        prompt = "\n\n".join([
-            f"Artikel: {article.title}",
-            f"{richting} ongeveer {abs(delta)} woorden "
-            f"(nu {len(para.split())} woorden).",
-            para,
-        ])
-        try:
-            payload = call(prompt)
-        except llm.LlmError as e:
-            trims_log.append({"pos": pos, "paragraph": idx, "delta": delta,
-                              "reason": reason, "error": str(e)})
-            continue
-        text = payload.get("text", "").strip() \
-            if isinstance(payload, dict) else ""
-        if not text:
-            trims_log.append({"pos": pos, "paragraph": idx, "delta": delta,
-                              "reason": reason, "error": "empty response"})
-            continue
-        paras[idx] = " ".join(text.split())
-        article.text = "\n\n".join(paras)
-        old_words = article.words
-        article.words = word_count(article.text)
-        trims_log.append({"pos": pos, "paragraph": idx, "delta": delta,
-                          "reason": reason,
-                          "words": {"before": old_words,
-                                    "after": article.words}})
-
-
-def run(ctx: RunContext, illustrate_call: JsonCall | None = None,
-        trim_call: JsonCall | None = None) -> None:
+def run(ctx: RunContext, illustrate_call: JsonCall | None = None) -> None:
     stage_cfg = ctx.stage_cfg("compose")
     max_recompiles = int(stage_cfg.get("max_recompiles", 3))
 
@@ -305,7 +247,6 @@ def run(ctx: RunContext, illustrate_call: JsonCall | None = None,
 
     notes: list[str] = []
     usage: list[dict] = []
-    trims_log: list[dict] = []
     illustration, ill_pos, ill_subject = draw_illustration(
         ctx, articles, illustrate_call, usage, notes)
 
@@ -332,7 +273,6 @@ def run(ctx: RunContext, illustrate_call: JsonCall | None = None,
             "notes": notes,
             "recompiles": recompiles,
             "attempts": attempts,
-            "trims": trims_log,
             "violations": [v.to_dict() for v in violations],
             "llm": llm.summarize_usage(usage),
         }
@@ -358,12 +298,7 @@ def run(ctx: RunContext, illustrate_call: JsonCall | None = None,
         attempts.append([v.to_dict() for v in violations])
         if not violations:
             break
-        if recompiles >= max_recompiles:
-            write_log()
-            raise SystemExit(
-                f"S9 compose: {len(violations)} typeset violation(s) after "
-                f"{recompiles} recompile(s) — see 90-compose-log.json")
-        if illustration is not None and any(
+        if illustration is not None and recompiles < max_recompiles and any(
                 v.rule in ("LAY-4", "LAY-5") for v in violations):
             candidates = illustration_candidates(articles)
             i = candidates.index(ill_pos) if ill_pos in candidates else -1
@@ -372,9 +307,12 @@ def run(ctx: RunContext, illustrate_call: JsonCall | None = None,
                 notes.append(f"illustration moved to pos {ill_pos} (reflow)")
                 recompiles += 1
                 continue
-        apply_trims(ctx, articles, trim_targets(violations, articles),
-                    trim_call, usage, trims_log)
-        recompiles += 1
+        write_log()
+        raise SystemExit(
+            f"S9 compose: {len(violations)} typeset violation(s) after "
+            f"{recompiles} recompile(s) — see 90-compose-log.json. The "
+            "editorial gate resolves layout (SPEC §6): edit the article "
+            "texts or reflow, then re-run compose.")
 
     booklet = typeset.impose_booklet(pdf)
     (ctx.edition_dir / "krant-A3boekje.pdf").write_bytes(booklet)

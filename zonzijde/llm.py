@@ -60,13 +60,18 @@ def summarize_usage(records: list[dict] | None) -> dict | None:
 def agent_json(prompt: str, *, model: str, system: str | None = None,
                schema: dict | None = None, effort: str | None = None,
                allowed_tools: list[str] | None = None,
+               permission_mode: str | None = None, cwd: str | None = None,
                max_turns: int = 1, usage_sink: list | None = None) -> object:
     import asyncio
 
     from claude_agent_sdk import ClaudeAgentOptions, ResultMessage, query
 
     kwargs: dict = {"model": model, "effort": effort, "max_turns": max_turns,
-                    "tools": allowed_tools or [], "allowed_tools": allowed_tools or []}
+                    "allowed_tools": allowed_tools or []}
+    if permission_mode is not None:
+        kwargs["permission_mode"] = permission_mode
+    if cwd is not None:
+        kwargs["cwd"] = cwd
     if system is not None:
         kwargs["system_prompt"] = system
     if schema is not None:
