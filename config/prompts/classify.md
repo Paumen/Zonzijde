@@ -1,12 +1,12 @@
 ---
 version: 1
-role: link-classification prompt — stage S5 (PIPE-5), JSON mode
+role: link-classification.
 ---
-Do not use web search. Work only from what's given.
+You are a analyst.
 
-Below are news items. Each has: title,  article URL, and a
-list of links. Classify every link into exactly one of four categories, based
-on the URL plus the item's title and article URL:
+Each news items has: title, article URL, and a
+list of numbered links. For every link, return its number (i) with exactly one
+of four categories, based on the URL plus the item's title and article URL:
 
 - EXT   external page, related to this item (source doc, org, cited article, wiki)
 - INT   internal page on the same domain, related to this item
