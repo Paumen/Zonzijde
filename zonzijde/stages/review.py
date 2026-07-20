@@ -16,11 +16,27 @@ from .write import word_count
 RESPONSE_SCHEMA = {
     "type": "object",
     "properties": {
-        "title": {"type": "string"},
-        "text": {"type": "string"},
+        "artikelkop": {
+            "type": "string",
+            "description": "De kop precies zoals hij boven het artikel in de "
+                           "krant komt te staan. Alleen platte tekst — geen "
+                           "label ervoor (zoals 'Titel:' of 'Copy-edit:'), "
+                           "geen verwijzing naar het slotnummer of naar het "
+                           "redactieproces.",
+        },
+        "artikellichaam": {
+            "type": "string",
+            "description": "De artikeltekst precies zoals hij onder de kop "
+                           "wordt afgedrukt, beginnend bij de eerste zin. "
+                           "Herhaal de kop hier niet, zet er geen plaats- of "
+                           "datumregel boven (dat wordt apart afgedrukt), en "
+                           "voeg geen opmerkingen toe over woordentelling of "
+                           "correcties — dat hoort alleen in 'corrections' "
+                           "thuis.",
+        },
         "corrections": {"type": "array", "items": {"type": "string"}},
     },
-    "required": ["title", "text", "corrections"],
+    "required": ["artikelkop", "artikellichaam", "corrections"],
     "additionalProperties": False,
 }
 
@@ -39,10 +55,10 @@ def build_prompt(draft: Draft, slot: OutlineSlot, budget: dict) -> str:
 def ground(payload: object, draft: Draft) -> tuple[ReviewedArticle | None, list[str]]:
     if not isinstance(payload, dict):
         return None, [f"not a JSON object: {type(payload).__name__}"]
-    title = payload.get("title").strip() \
-        if isinstance(payload.get("title"), str) else ""
-    text = payload.get("text").strip() \
-        if isinstance(payload.get("text"), str) else ""
+    title = payload.get("artikelkop").strip() \
+        if isinstance(payload.get("artikelkop"), str) else ""
+    text = payload.get("artikellichaam").strip() \
+        if isinstance(payload.get("artikellichaam"), str) else ""
 
     raw = payload.get("corrections")
     corrections = [s.strip() for s in raw if isinstance(s, str) and s.strip()] \
