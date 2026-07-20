@@ -75,12 +75,14 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
     ed_cfg = ctx.edition_cfg
     stage_cfg = ctx.stage_cfg("review")
     concurrency = int(stage_cfg.get("concurrency", 3))
+    brief = prompts.load_prompt(ctx.root, "brief")
     rules = prompts.load_prompt(ctx.root, "review")
+    system = f"{brief.body}\n\n{rules.body}"
     usage: list[dict] = []
     if call is None:
         call = lambda prompt, system: llm.agent_json(
             prompt, system=system, schema=RESPONSE_SCHEMA,
-            model=cfg["model"], effort=cfg.get("effort"), max_turns=3,
+            model=cfg["model"], effort=cfg.get("effort"), max_turns=2,
             usage_sink=usage)
 
     drafts = load_artifact(ctx.work_dir / "70-drafts.json", Draft)
@@ -92,7 +94,7 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
                          "outline — artifacts out of step, re-run S6/S7")
 
     def work(draft: Draft) -> tuple[ReviewedArticle | None, list[str]]:
-        return review_draft(draft, slots[draft.pos], ed_cfg, rules.body, call)
+        return review_draft(draft, slots[draft.pos], ed_cfg, system, call)
 
     with ThreadPoolExecutor(max_workers=concurrency) as pool:
         results = list(pool.map(work, drafts))
@@ -101,7 +103,7 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
     failed = [d.pos for d, (r, _) in zip(drafts, results) if r is None]
     log = {
         "model": cfg["model"], "effort": cfg.get("effort"),
-        "prompt_versions": {"review": rules.version},
+        "prompt_versions": {"brief": brief.version, "review": rules.version},
         "articles": [{"pos": d.pos,
                       "words": {"draft": d.words,
                                 "reviewed": r.words if r else None},
