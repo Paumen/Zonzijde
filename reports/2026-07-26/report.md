@@ -51,9 +51,9 @@ Written,Reviewed,9
 - S4 select: 24 topics (25 source rows)
 - S5 enrich: 25 source rows → 18 full texts (requests 18, playwright 0); 7 topics dropped (PIPE-5)
 - S6 outline: 9 slots, planned 2350–4500 words
-- S7 write: 9 articles, 2740 words
-- S8 review: 63 correction(s), 3042 words body text (ED-5 target 2800–3400)
-- S9 compose: nr 4, 0 recompile(s); **2 unresolved typeset violation(s)**
+- S7 write: 9 articles, 2998 words
+- S8 review: 74 correction(s), 3066 words body text (ED-5 target 2800–3400)
+- S9 compose: nr 4, 0 recompile(s) — typeset checks clean (LAY-1..5, LAY-7)
 
 ## Feeds
 
@@ -108,9 +108,10 @@ Written,Reviewed,9
 | S4 select | claude-sonnet-5 | medium | 1 | 3 | 128,539 | 8,426 | 2 | 0 | 124.2s | $0.5739 |
 | S5 enrich | claude-haiku-4-5-20251001 | — | 12 | 30 | 373,585 | 15,855 | 12 | 33,179 | 192.7s | $0.2657 |
 | S6 outline | claude-opus-4-8 | medium | 1 | 2 | 30,546 | 8,183 | 1 | 0 | 118.6s | $0.5155 |
-| S7 write | claude-sonnet-5 | medium | 9 | 26 | 563,512 | 18,152 | 9 | 0 | 293.2s | $1.2287 |
-| S8 review | claude-sonnet-5 | medium | 9 | 18 | 277,000 | 32,651 | 9 | 0 | 431.2s | $0.9443 |
-| **total** |  |  | 35 | 86 | 1,489,572 | 96,590 | 36 | 63,551 | 1303.7s | $3.7965 |
+| S7 write | claude-sonnet-5 | medium | 9 | 27 | 595,448 | 18,271 | 9 | 0 | 299.8s | $1.2454 |
+| S8 review | claude-sonnet-5 | medium | 9 | 18 | 277,807 | 36,435 | 9 | 0 | 457.0s | $0.9930 |
+| S9 compose | — | — | 1 | 6 | 78,074 | 4,191 | 5 | 0 | 60.5s | $0.3534 |
+| **total** |  |  | 36 | 93 | 1,600,389 | 104,684 | 41 | 63,551 | 1396.6s | $4.2153 |
 
 ## Rejected (PIPE-2)
 
@@ -212,89 +213,95 @@ model claude-haiku-4-5-20251001, prompt score.md v1
 
 | pos | title | words draft → reviewed |
 |---|---|---|
-| 1 | Copy-edit: Speurtocht 'De verdwenen ijscoupes' | 248 → 257 |
-| 2 | Handen over de grens | 158 → 162 |
-| 3 | Droogte? Voor de Gelderse wijnstok is het een cadeautje | 549 → 539 |
-| 4 | Van zwaaien naar lopen: burgemeester debuteert in Vierdaagse | 370 → 369 |
-| 5 | Copy-edit: wegwijzers-item | 227 → 456 |
-| 6 | Stikstofdoel 2035 voor het eerst binnen bereik | 311 → 306 |
-| 7 | Vroeg naar huis, toch met een prijs: Oranje pakt Fair Play-onderscheiding | 187 → 188 |
-| 8 | Nieuwe tanden uit eigen lichaam: de opmars van regeneratieve tandheelkunde | 671 → 668 |
-| 9 | Concepttekst ontbreekt — kan nog niet redigeren | 19 → 97 |
+| 1 | Copy-edit: 'Kom een ijscoupe redden in het centrum' | 186 → 214 |
+| 2 | Grens? Welke grens | 203 → 200 |
+| 3 | Wijnboeren juichen om de droge zomer | 552 → 550 |
+| 4 | Van zwaaien naar zwoegen: burgemeester van Rheden loopt zijn eerste Vierdaagse | 419 → 420 |
+| 5 | Vleermuizen krijgen eigen wegwijzers | 182 → 192 |
+| 6 | Copy-edit: stikstofdoel-artikel (slot 6) | 258 → 271 |
+| 7 | Titel: Oranje pakt Fair Play-prijs ondanks vroege exit op WK | 166 → 155 |
+| 8 | Nieuwe tanden, gekweekt uit eigen cellen | 561 → 570 |
+| 9 | Van vangst naar bescherming: de schildpaddenman van Cuba | 471 → 494 |
 
 ## Correction log (PIPE-8)
 
-- slot 1: Werktitel vervangen door 'De ijscoman is zijn coupes kwijt — Wijchen op zoete speurtocht': pakkender en dekt de lading beter dan de oorspronkelijke titel.
-- slot 1: Alinea 2: inconsistente aanspreekvorm hersteld — was 'Wie al wat ouder is... verzamel je letters' (wisselde van derde naar tweede persoon), nu doorlopend derde persoon: 'verzamelt hij of zij letters, die... samen een geheime boodschap vormen'.
-- slot 1: Alinea 2: 'is zo ingericht dat niemand aan de kant hoeft te blijven staan' vervangen door de directere en heldere formulering 'is voor alle leeftijden te doen'.
-- slot 1: Alinea 4: overbodige komma voor 'en' verwijderd ('kijkt goed tussen de etalages door, en helpt hem' → '...door en helpt hem') volgens Nederlandse interpunctieconventie.
-- slot 1: Slotzin herschreven om herhaling met alinea 2 te verminderen: 'Een geheime boodschap wacht op wie alle letters weet te vinden' werd 'Wie alle letters weet te vinden, ontrafelt de geheime boodschap die op hem wacht.'
-- slot 1: Gecontroleerd op verwijzingen naar 'De Zonzijde', 'deze krant' of niet-getoonde afbeeldingen/illustraties: geen overtredingen aangetroffen, geen wijziging nodig.
-- slot 2: Titel gehandhaafd: 'Handen over de grens' speelt treffend op 'handhaven' en past bij het onderwerp.
-- slot 2: 'de toezicht' → 'het toezicht' (toezicht is onzijdig); openingszin herschreven voor grammaticale correctheid en vloeiendere leesbaarheid ('Buiten trekt zich niets aan van...' → 'Buiten trekt niemand zich iets aan van...').
-- slot 2: 'Oost Nederland' → 'Oost-Nederland' (koppelteken, twee keer).
-- slot 2: 'Visunie' vervangen door 'Sportvisserij Nederland' — 'Visunie' is geen bestaande organisatienaam in dit samenwerkingsverband; gecorrigeerd om feitelijke onduidelijkheid te voorkomen.
-- slot 2: 'waar toezicht vroeger ophield' → 'waar het toezicht vroeger ophield' voor grammaticale consistentie.
-- slot 2: 'betekent het vooral dat het net wat beter bekeken wordt' → 'betekent dit vooral dat er net wat beter op wordt gelet' (verwijderde verwarrende dubbele 'het'-verwijzing, natuurlijker taalgebruik).
-- slot 2: 'beter afgestemd' → 'beter op elkaar afgestemd' voor duidelijkheid.
-- slot 3: Titel gehandhaafd: de werktitel was al sterk en pakkend, dus niet vervangen.
-- slot 3: Herhaling 'is, is' in de openingsalinea rechtgetrokken ('is voor hen juist een zegen') voor betere leesbaarheid.
-- slot 3: Onlogische formulering hersteld: een bodem 'gedijt' niet — gecorrigeerd naar 'een bodem die volgens hem bij deze droogte juist goed het water vasthoudt'.
-- slot 3: Stijlfout gecorrigeerd: de opsomming 'gedijen slecht bij vocht, bij regen en bij vochtige lucht' bevatte een drievoudige, verwarrende herhaling van 'bij' en een onjuiste causaliteit (vocht als overkoepelende term naast regen/lucht); herschreven tot 'regen en vochtige lucht doen de druivenplant geen goed'.
-- slot 3: 'met alleen in juni wat meer neerslag' verstrakt tot 'op wat extra neerslag in juni na' voor vlottere zinsbouw.
-- slot 3: Gecontroleerd op verwijzingen naar de krant zelf of naar niet-getoonde beelden/illustraties: geen overtredingen aangetroffen.
-- slot 4: Titel gehandhaafd: de werktitel was al sterk en pakkend, geen vervanging nodig.
-- slot 4: 'voor het eerst zelf mee aan de Nijmeegse Vierdaagse' → 'voor het eerst zelf mee met de Nijmeegse Vierdaagse' (juiste voorzetselconstructie bij 'meelopen').
-- slot 4: 'Wandelen deed hij al langer' → 'Hij wandelde al langer' (stroeve inversie rechtgezet voor leesbaarheid).
-- slot 4: 'de dertigkilometerafstand' → 'de afstand van dertig kilometer' (onnatuurlijke samenstelling vermeden).
-- slot 4: 'Ze wisten allebei geen garantie op een startbewijs te hebben, en spraken daarom af' → 'Geen van beiden had garantie op een startbewijs, dus spraken ze af' (kromme zinsconstructie verduidelijkt).
-- slot 4: 'door drukke agenda's' → 'vanwege drukke agenda's' (correcter voorzetselgebruik bij reden/oorzaak).
-- slot 4: Quote 'Die dag ging meteen tien keer sneller voorbij' → 'meteen' geschrapt; voegde niets toe en verstoorde de zinsritme.
-- slot 4: 'vanwege de planning' → 'vanwege zijn drukke schema' (vage verwijzing verduidelijkt, sluit aan bij eerdere 'drukke agenda's').
-- slot 4: 'loopt hij op schapenwol in zijn sokken' → 'loopt hij met schapenwol in zijn sokken' (correct voorzetsel).
-- slot 4: 'Achter zwaaien schuilt kennelijk toch enige jaloezie, want uitkijken doet hij vooral naar...' → 'Achter het zwaaien blijkt toch enige jaloezie te schuilen: hij kijkt vooral uit naar...' (stroeve, dubbele inversie vereenvoudigd; lidwoord toegevoegd).
-- slot 4: 'Tegenop zien doet hij eigenlijk nergens naar' → 'Tegen niets ziet hij echt op' (fout voorzetselgebruik hersteld: 'opzien tegen iets', niet 'naar iets').
-- slot 4: 'in de woorden van zijn vader' → 'in zijn eigen woorden' (verwarrende formulering: leek te verwijzen naar een andere, niet-geïntroduceerde vader, terwijl Van Eert zelf bedoeld werd).
-- slot 5: Titel gewijzigd naar 'Wegwijzers bij Nelson Mandelaplein zijn niet voor mensen' voor meer precisie
-- slot 5: 'Geen kunstproject en geen straatmeubilair voor de show' verduidelijkt
-- slot 5: 'weerkaatsing daarvan' → 'weerkaatsing ervan'
-- slot 5: 'zonder geluid om op te varen' → 'zonder herkenningspunten om op te varen' (logica hersteld)
-- slot 5: Komma bij beperkende bijzin 'tussenstations, die' verwijderd; 'tot' → 'totdat'
-- slot 5: 'bedacht er iets op' → 'bedacht een oplossing' (formeler)
-- slot 5: Slotzin herschreven naar grammaticaal volledige zin
-- slot 6: Titel vervangen: 'Kabinetsplannen brengen stikstofdoel 2035 dichterbij' → 'Stikstofdoel 2035 voor het eerst binnen bereik' (directer, sluit aan bij de kern van het nieuws — dat het doel voor het eerst haalbaar blijkt).
-- slot 6: Alinea 1: 'de eerste doorrekening met het Nviro-model, gemaakt door onderzoeker Ton Brouwer' herschreven naar 'de eerste doorrekening met het Nviro-model van onderzoeker Ton Brouwer' — voorkomt de dubbelzinnigheid of 'gemaakt door' bij het model of de doorrekening hoort.
-- slot 6: Alinea 2: het citaatblok herschreven. Origineel plaatste de attributie ('zegt hij over de ondergrens...') midden in de zin na het citaat, wat de tegenstelling met de bovengrens onduidelijk maakte. Nu: 'Over de ondergrens van zijn bandbreedte zegt hij: [...]' vooraf, gevolgd door een losse zin over de bovengrens. Ook 'ook net niet gehaald kan worden' (verkeerd modaal werkwoord, klinkt als mogelijkheid i.p.v. uitkomst) gecorrigeerd naar 'net niet gehaald zou worden'.
-- slot 6: Alinea 4: 'noemt hij als voorbeeld' → 'geeft hij als voorbeeld' (gangbaarder werkwoordgebruik bij het geven van een voorbeeld).
-- slot 6: Alinea 4: 'moet ergens van worden betaald' → 'moet ergens van betaald worden' (natuurlijkere Nederlandse woordvolgorde).
-- slot 6: Alinea 5: 'Die volgt op een later moment' → 'Die doorrekening volgt later' (duidelijker verwijzing, minder omslachtig).
-- slot 7: Titel gehandhaafd: de werktitel was al sterk en pakkend, geen vervanging nodig.
-- slot 7: Zinsvolgorde in de eerste alinea rechtgezet: 'die Spanje met 1-0 na verlenging won van Argentinië' → 'die Spanje na verlenging met 1-0 won van Argentinië' (logische volgorde: verlenging vóór uitslag).
-- slot 7: 'Nederland verzamelde drie gele kaarten in het toernooi' → 'Nederland verzamelde in het toernooi drie gele kaarten' (vermijdt de wat rommelige zinsstaart).
-- slot 7: 'Voor Nederland is het de eerste keer dat de Fair Play-prijs wordt gewonnen' → 'Het is de eerste keer dat Nederland de Fair Play-prijs wint' (actiever, minder omslachtig).
-- slot 7: 'Engeland was de vorige winnaar, in 2022' → 'De vorige winnaar was Engeland, in 2022' (consistentere zinsbouw met voorgaande zin).
-- slot 7: Spelfout gecorrigeerd: 'voetbal gerelateerd' → 'voetbalgerelateerd' (samenstelling moet aaneen).
-- slot 7: 'Wie het toernooi verder domineerde, werd voetballend beslist' → 'De overige onderscheidingen van het toernooi gingen naar wie het beste voetbalde' (onduidelijke/kromme formulering verhelderd).
-- slot 8: Titel vervangen: 'Eigen tanden terug: wetenschappers leren het lichaam nieuwe tanden maken' → 'Nieuwe tanden uit eigen lichaam: de opmars van regeneratieve tandheelkunde' (minder herhaling van 'tanden', dekt de lading beter).
-- slot 8: 'Biochemica Hannele Ruohola-Baker' → 'Biochemicus Hannele Ruohola-Baker' (geen gangbare Nederlandse vrouwelijke vorm van dit beroepswoord).
-- slot 8: 'de eiwitten die dentine laten groeien en zichzelf laten herstellen' → 'de eiwitten die de groei en het zelfherstel van dentine aansturen' (onduidelijke verwijzing van 'zichzelf' verholpen).
-- slot 8: 'Ze hielp mee een gen te ontrafelen' → 'Ze hielp een gen te ontrafelen' ('mee' overbodig/informeel).
-- slot 8: 'het buitenste glazuurlaagje' → 'de buitenste glazuurlaag' (verkleinwoord paste niet bij register).
-- slot 8: 'wisten de onderzoekers stamcellen alsnog om te vormen' → 'slaagden de onderzoekers erin stamcellen alsnog om te vormen' (vlottere, correctere constructie).
-- slot 8: 'tandorganoide' → 'tandorganoïde' (ontbrekend trema).
-- slot 8: 'onontloken volwassen tandknoppen' → 'niet-doorgebroken volwassen tandknoppen' ('onontloken' is geen gangbaar/juist woord in deze context).
-- slot 8: 'met als einddoel tanden laten groeien' → 'met als einddoel uiteindelijk tanden te laten groeien' (ontbrekend 'te' hersteld).
-- slot 8: 'Zo ver is het nog niet.' → 'Zover is het nog niet.' (aan elkaar geschreven).
-- slot 8: 'moeten eerst proeven ... plaatsvinden' → 'moeten proeven ... plaatsvinden' ('eerst' overbodig na 'Voordat').
-- slot 8: 'Maar de kennis die hierbij wordt opgedaan, reikt verder' → 'Maar de opgedane kennis reikt verder' (compacter, minder stroef).
+- slot 1: Titel vervangen: werktitel 'Kom een ijscoupe redden in het centrum' was functioneel maar niet scherp; nieuwe titel 'De verdwenen ijscoupes' sluit direct aan bij de kern van het verhaal en de naam van de speurtocht.
+- slot 1: Zin 2 gecorrigeerd: 'zijn ijscoupes zijn hun onderdelen verloren' had een subject/werkwoord-mismatch; hersteld tot 'zijn ijscoupes zijn hun onderdelen kwijtgeraakt, die verspreid liggen over...'.
+- slot 1: 'kunnen kinderen op zoek naar de vermiste stukjes' ontbrak een werkwoord; aangevuld tot 'kunnen kinderen op zoek gaan naar de vermiste stukjes'.
+- slot 1: 'Er zijn twee routes, per leeftijd' verduidelijkt tot 'Er zijn twee routes, verdeeld naar leeftijd' voor vlottere leesbaarheid.
+- slot 1: Engelse leenwoord 'suspense' vervangen door het Nederlandse 'spanning'.
+- slot 1: 'Kinderen vanaf 6 jaar krijgen het lastiger' herschreven tot 'krijgen een lastigere opdracht' — natuurlijker Nederlands.
+- slot 1: Werkwoordstijd hersteld in laatste zin van alinea 3: 'die om een plan vroeg' (verleden tijd, inconsistent met de rest) gewijzigd naar 'die om een plan vraagt' (tegenwoordige tijd, consistent met de rest van de tekst).
+- slot 1: Gecontroleerd op verwijzingen naar 'De Zonzijde', 'deze krant' of niet-getoonde afbeeldingen/illustraties: geen overtredingen aangetroffen, tekst ongewijzigd op dit punt.
+- slot 2: Titel gehandhaafd: 'Grens? Welke grens' is al scherp en past bij de toon; geen sterkere kop voorhanden.
+- slot 2: 'kon tot voor kort rekenen op één zegen' → 'kon tot voor kort op één ding rekenen': 'zegen' (zegening) was een verwarrende woordkeuze in deze context.
+- slot 2: 'toezichthouders voortaan gewoon doorlopen waar de kaart een streep trekt' → '...doorlopen, ook waar de kaart een streep trekt': verduidelijkt dat de streep geen halt meer is, in plaats van een onduidelijke richting.
+- slot 2: 'Het is een stille, praktische vooruitgang' → 'Het is een stille, praktische stap vooruit': 'vooruitgang' functioneert hier niet goed als bijvoeglijk gebruikt zelfstandig naamwoord in deze zinsconstructie.
+- slot 2: 'Het effect is vooral een kwestie van samenwerking die wint van verkokering' → 'Het effect is vooral dat samenwerking het wint van verkokering': oorspronkelijke zin liep grammaticaal mis (onderwerp/gezegde klopten niet).
+- slot 2: 'het stokje over te dragen aan' → 'het stokje overdragen aan': afstemming op de eerdere infinitiefconstructie zonder 'te' (nevenschikking met 'rechtsomkeert te maken en...').
+- slot 3: Titel vervangen: "Wijnboeren dromen bij deze droogte" → "Wijnboeren juichen om de droge zomer" (werktitel had een grammaticaal wankele constructie, "dromen bij").
+- slot 3: "zoekend naar woorden voor wat de droogte zijn wijngaard heeft gebracht" → "op zoek naar woorden om te omschrijven wat de droogte zijn wijngaard heeft gebracht" (vlottere, correctere zinsbouw).
+- slot 3: "een bodem die volgens hem uitstekend gedijt bij droog weer" → "een bodemsoort die zich volgens hem uitstekend leent voor droog weer" (logische fout hersteld: een bodem "gedijt" niet, planten gedijen).
+- slot 3: "Een eigenaar van Wijnproeverij De Hennep" → "De eigenaar van Wijnproeverij De Hennep" (correcter lidwoordgebruik bij een specifiek, zij het ongenoemd, persoon).
+- slot 3: "een problem van een aangenaam soort" → "een probleem van de aangename soort" (vaste, correcte uitdrukking).
+- slot 3: "vaak windstil tussen de ranken" → "vaak in windstilte tussen de ranken" (bijvoeglijk naamwoord foutief gebruikt als bijwoordelijke bepaling).
+- slot 3: "een boer die klaagt over te veel zon, dat komt niet vaak voor" → "een boer die klaagt over te veel zon, is zeldzaam" (zinsconstructie gestroomlijnd, herhaling van "dat" vermeden).
+- slot 3: "passen de wijnboeren zelf de grootste voorzichtigheid toe" → "blijven de wijnboeren zelf voorzichtig" (stijve, vertaald aandoende formulering vervangen door natuurlijker Nederlands).
+- slot 3: "de suikers die daarbij vrijkomen" → "de suikeropbouw die daarbij hoort" (suikers komen niet vrij tijdens rijping, ze worden juist opgebouwd).
+- slot 3: "als we de laatste oogst hebben gehad" → "als we de oogst binnen hebben" ("laatste oogst" suggereerde ten onrechte meerdere oogsten per seizoen).
+- slot 4: Titel gehandhaafd: de werktitel was al sterk (alliteratie, informatief) en voldeed aan de eis.
+- slot 4: Komma-splice in het citaat over Nijmegen opgesplitst in twee zinnen ('In totaal heb ik 35 jaar... Ik voel me verwant...').
+- slot 4: 'Naast hem: Bart, ...' herschreven tot een volledige zin ('Naast hem loopt Bart...') voor een vlottere leesbaarheid.
+- slot 4: Onduidelijke zinsconstructie 'de twee kwamen er ... maar één keer samen aan toe' rechtgezet tot 'kwamen de twee er samen maar één keer aan toe' (juiste woordvolgorde van de scheidbare uitdrukking 'ergens aan toekomen').
+- slot 4: 'Die ene training bleef Van Eert bij' vervangen door de gangbaardere voltooide tijd 'Die ene training is Van Eert bijgebleven'.
+- slot 4: Onduidelijke afspraak-zin herschreven: 'Wie een startbewijs zou bemachtigen, sprak met de ander af hoe dan ook mee te doen' werd 'Ze spraken af dat wie een startbewijs zou bemachtigen, hoe dan ook zou meedoen', om het onderwerp van de afspraak te verduidelijken.
+- slot 4: Zinsfragment zonder werkwoord ('Ruim driehonderd trainingskilometers, keurig volgens...') hersteld tot volledige zin met 'Hij liep ruim driehonderd trainingskilometers...'.
+- slot 4: Slotalinea verduidelijkt: 'zegt de burgemeester, vooral in de sfeer van de week zelf' (dubbelzinnig waarnaar 'vooral' verwees) werd 'zegt de burgemeester, die vooral uitkijkt naar de sfeer van de week zelf'.
+- slot 4: Gecontroleerd op verwijzingen naar de krant zelf of naar niet-getoonde afbeeldingen/illustraties: geen gevonden, geen ingreep nodig.
+- slot 5: Titel gehandhaafd: 'Vleermuizen krijgen eigen wegwijzers' was al sterk en trefzeker; geen werktitel-vervanging nodig.
+- slot 5: Alinea 1: 'ziet ze staan' vooruitwijzend naar een later genoemd meervoud ('palen') is grammaticaal verwarrend opgelost door 'sinds kort een rij roestbruine palen staan' expliciet te maken vóór de verwijzing.
+- slot 5: Alinea 1: 'een navigatiehulp voor 's nachts' verduidelijkt naar 'een navigatiehulp voor vleermuizen die 's nachts vliegen' — het origineel liet in het midden voor wie de hulp bedoeld was.
+- slot 5: Alinea 2: 'bomen die weg moesten voor de herinrichting' herschreven naar 'bomen die voor de herinrichting van het gebied moesten wijken' voor correcter, minder spreektalig zinsverband.
+- slot 5: Alinea 2: 'Precies die bomen' vervangen door 'Juist die bomen' — gangbaarder journalistiek Nederlands in deze context.
+- slot 5: Alinea 2: 'ze zenden geluid uit en varen op de weerkaatsing' herschreven naar 'ze zenden geluid uit en gaan af op de weerkaatsing ervan' — 'varen op' is te informeel/beeldend voor een feitelijke uitleg en 'weerkaatsing' zonder verwijzing was onduidelijk.
+- slot 5: Alinea 2: 'een gat waarin geluid nergens meer op terugkaatst' herschreven naar 'een gat in de route waar het geluid nergens meer op terugkaatst' — het origineel bevatte een dubbele/omslachtige voorzetselconstructie ('waarin... op terugkaatst').
+- slot 5: Alinea 3: 'Een ecoloog volgt of het werkt' aangepast naar 'Een ecoloog monitort of het werkt' om verwarring met de eerder genoemde 'stadsecoloog Joep van Belkom' te verminderen en de zin natuurlijker te laten lopen.
+- slot 5: Gecontroleerd op verwijzingen naar 'De Zonzijde', 'deze krant' of niet-getoonde afbeeldingen/illustraties: geen overtredingen aangetroffen, tekst is zelfstandig leesbaar.
+- slot 6: Titel vervangen: 'Nederland dichter bij stikstofdoel 2035 dan gedacht' → 'Stikstofdoel 2035 komt in zicht dankzij sneller rekenmodel' (nieuwswaarde – het rekenmodel – staat nu voorop, en dubbele 'dichter bij... dan gedacht'-constructie is scherper gemaakt).
+- slot 6: Para 1: '...op slechts 40.' → '...op slechts 40 procent.' (eenheid ontbrak, las als onaf).
+- slot 6: Para 3: 'Die zones blijken' → 'Juist die zones blijken' (verduidelijkt het contrast met de eerder genoemde vijfhonderd meter-zones).
+- slot 6: Para 5: 'De 74 procent blijft een precieze grens.' → 'De 74 procent blijft een smalle marge:' (origineel was inhoudelijk tegenstrijdig — 'precieze grens' impliceert zekerheid, terwijl de volgende zin juist een bandbreedte/onzekerheid beschrijft).
+- slot 6: Para 5: '...maar ook net gemist.' → '...maar ook net gemist kan worden.' (zin was grammaticaal onvolledig, ontbrekend werkwoord).
+- slot 7: Titel vervangen: de werktitel noemde de Fair Play-prijs onterecht een 'WK-titel' (suggereert dat Oranje het WK zelf won); nieuwe titel benoemt de prijs correct.
+- slot 7: 'de FIFA' → 'FIFA' (in journalistieke stijl wordt de organisatie doorgaans zonder lidwoord genoemd).
+- slot 7: Zin over de gele kaarten van Tsjechië en Tunesië herschreven: 'die met elk één kaart nog spaarzamer waren' was grammaticaal onhandig (spaarzaam kan geen kaarten 'zijn'); nu 'die het met elk één kaart nóg spaarzamer deden'.
+- slot 7: 'en in 2022 nog naar Engeland ging' → 'en in 2022 naar Engeland ging' (het overbodige 'nog' wekte ten onrechte de indruk van een trend).
+- slot 7: 'voetbal gerelateerd' → 'voetbalgerelateerd' (samenstelling, één woord).
+- slot 7: Slotzin 'met een prijs weer thuis' → 'met een prijs toch weer thuis' voor vloeiendere leesbaarheid en aansluiting op de intro.
+- slot 8: Titel vervangen: 'Uw eigen tanden, opnieuw gegroeid' was grammaticaal onhandig ('opnieuw gegroeid') en dekte alleen het regroei-aspect; nieuwe titel 'Nieuwe tanden, gekweekt uit eigen cellen' dekt zowel herstel als regroei.
+- slot 8: 'een boring' is geen correct Nederlands voor het boorinstrument bij de tandarts; gecorrigeerd naar 'de vertrouwde boor'.
+- slot 8: 'De aanleiding is groter dan cosmetiek' herschreven naar 'Het belang reikt verder dan cosmetiek' voor duidelijkheid.
+- slot 8: 'bacteriën uit tandvleesontsteking' verduidelijkt naar 'bacteriën die vrijkomen bij tandvleesontsteking'.
+- slot 8: 'gevolgen voor het welzijn die soms al op jonge leeftijd beginnen' verduidelijkt naar '... die soms al op jonge leeftijd merkbaar zijn' (onderwerp van 'beginnen' was onduidelijk).
+- slot 8: 'Vullingen houden ... en moeten dan opnieuw' was een onvolledige zin; aangevuld tot '... en moeten dan opnieuw worden gezet'.
+- slot 8: 'Implantaten missen zenuwen' herschreven naar 'Implantaten hebben geen zenuwen' (natuurlijker Nederlands).
+- slot 8: 'Het draait steeds om herstellen van schade' aangevuld met lidwoord: 'om het herstellen van schade'.
+- slot 8: 'de eiwitten die dentine laten groeien en zichzelf herstellen' had een onduidelijk onderwerp voor 'zichzelf herstellen'; verduidelijkt naar '... en zichzelf laten herstellen' zodat het duidelijk over dentine gaat.
+- slot 8: 'Voor een hele nieuwe tand' herschreven naar 'Voor een volledig nieuwe tand' (preciezer).
+- slot 8: 'Aan het King's College London' is fout gebruik van lidwoord bij een instellingsnaam; gecorrigeerd naar 'Aan King's College London'.
+- slot 8: Lange zin over varkenskaken opgesplitst in twee zinnen voor leesbaarheid.
+- slot 8: Geen verwijzingen naar 'De Zonzijde', 'deze krant' of niet-getoonde illustraties aangetroffen; geen aanpassing nodig op dat punt.
+- slot 9: Titel vervangen: de werktitel 'Zoenen aan zee: Cuba draaide zeeschildpadden om van vangst naar behoud' bevatte een verwarrende, inhoudelijk niet-gedekte woordspeling ('Zoenen'); nieuwe titel dekt zowel de beleidsomslag als het portret van Moncada.
+- slot 9: 'marien bioloog' → 'marinebioloog' (correcte Nederlandse schrijfwijze als één woord).
+- slot 9: 'klinkt het bijna omgekeerd' → 'klinkt het bijna als een omkering van de werkelijkheid' (onduidelijke formulering verhelderd).
+- slot 9: 'het getekende schild voor sieraden voor de ander' → 'het getekende schild als grondstof voor sieraden voor de ander' (ontbrekende schakel in de zin hersteld).
+- slot 9: 'op onderzoek en bescherming na' → 'met uitzondering van onderzoek en bescherming' (stijve/verwarrende constructie rechtgezet).
+- slot 9: 'weinig voorbereidingstijd, veel te doen' → 'weinig tijd om zich voor te bereiden, veel werk te verzetten' (telegramstijl omgezet naar lopende zin).
+- slot 9: 'naarmate Cuba koerste richting bescherming' → 'naarmate Cuba koers zette richting bescherming' (correcte werkwoordsconstructie).
+- slot 9: 'Hij hielp de opeenvolgende beperkingen adviseren' → 'Hij adviseerde mee over de opeenvolgende beperkingen' (foutieve dubbele-werkwoordsconstructie 'helpen adviseren' gecorrigeerd).
 
 ## Typeset & compose (PIPE-9)
 
+- illustration (EL-3): 'Vleermuizenpaal met batvormige uitsparing langs het fietspad' with the article at pos 5 — `work/85-illustration.svg`
 - 0 recompile(s)
-- illustration failed: agent call failed: ProcessError: Command failed with exit code 1 (exit code: 1)
-Error output: Check stderr output for details
-
-**Unresolved violations (LAY hard gates):**
-
-- LAY-1: content fills 3.44 pages, below 3.5 (page 4)
-- LAY-3: single-word line 'formuleringen' (page 4, column 2)
+- all typeset checks passed (LAY-1..5, LAY-7)
