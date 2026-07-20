@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from datetime import date
+from string import Template
 from typing import Callable
 
 from pydantic import ValidationError
@@ -41,28 +42,23 @@ def response_schema(candidate_keys: list[str]) -> dict:
         "additionalProperties": False,
     }
 
-FrontierCall = Callable[[str, str], object]
+JsonCall = Callable[[str, str], object]
 
 
-def spec_note(cfg: dict) -> str:
-    mix = cfg["length_mix"]
-    words = cfg["words"]
-    scope = cfg["scope_items"]
-    body = cfg["body_words"]
-    lines = [
-        "Edition constants (SPEC §5):",
-        f"- Each scope contributes {scope['min']}–{scope['max']} items (ED-1).",
-        "- Length mix (ED-2): "
-        + ", ".join(f"{mix[c]['min']}–{mix[c]['max']} {c}" for c in
-                    ("long", "standard", "short"))
-        + " — word guidance (loose, the story decides): "
-        + ", ".join(f"{c} {words[c]['min']}–{words[c]['max']}" for c in
-                    ("long", "standard", "short")) + ".",
-        f"- Edition body total ≈ {body['min']}–{body['max']} words (ED-5).",
-        "- Ring order lokaal → regionaal → nationaal → internationaal is "
-        "strict; the front page leads with the best lokaal story (ED-6).",
-    ]
-    return "\n".join(lines)
+def constants(cfg: dict) -> dict:
+    mix, words = cfg["length_mix"], cfg["words"]
+    rng = lambda d: f"{d['min']}–{d['max']}"
+    return {
+        "scope_min": cfg["scope_items"]["min"],
+        "scope_max": cfg["scope_items"]["max"],
+        "mix_long": rng(mix["long"]),
+        "mix_standard": rng(mix["standard"]),
+        "mix_short": rng(mix["short"]),
+        "words_long": rng(words["long"]),
+        "words_standard": rng(words["standard"]),
+        "words_short": rng(words["short"]),
+        "body": rng(cfg["body_words"]),
+    }
 
 
 def eligible_candidates(candidates: list[Candidate],
@@ -105,16 +101,10 @@ def story_blocks(keyed: list[tuple[str, Candidate]],
 def build_prompt(outline_body: str, cfg: dict,
                  keyed: list[tuple[str, Candidate]],
                  articles: dict[str, ArticleText],
-                 published: dict[str, date | None],
-                 dropped: list[str]) -> str:
-    parts = [outline_body, spec_note(cfg)]
-    if dropped:
-        parts.append("Topics dropped in enrichment (no full text — rebalance "
-                     "around them):\n"
-                     + "\n".join(f"- {t}" for t in dropped))
-    parts.append("Shortlist:\n\n"
-                 + story_blocks(keyed, articles, published))
-    return "\n\n".join(parts)
+                 published: dict[str, date | None]) -> str:
+    filled = Template(outline_body).safe_substitute(constants(cfg))
+    return filled + "\n\n" + "Shortlist:\n\n" + story_blocks(
+        keyed, articles, published)
 
 
 def ground(payload: object, edition: date,
@@ -159,8 +149,8 @@ def ground(payload: object, edition: date,
     return outline, []
 
 
-def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
-    cfg = ctx.llm_cfg("frontier", stage="outline")
+def run(ctx: RunContext, call: JsonCall | None = None) -> None:
+    cfg = ctx.llm_cfg("outline")
     ed_cfg = ctx.edition_cfg
     brief = prompts.load_prompt(ctx.root, "brief")
     outline_prompt = prompts.load_prompt(ctx.root, "outline")
@@ -182,16 +172,17 @@ def run(ctx: RunContext, call: FrontierCall | None = None) -> None:
     usage: list[dict] = []
     if call is None:
         schema = response_schema([key for key, _ in keyed])
-        call = lambda prompt, system: llm.frontier_json(
+        call = lambda prompt, system: llm.agent_json(
             prompt, system=system, schema=schema,
-            model=cfg["model"], effort=cfg.get("effort"), usage_sink=usage)
+            model=cfg["model"], effort=cfg.get("effort"), max_turns=2,
+            usage_sink=usage)
 
     available: dict[str, int] = {s: 0 for s in RING}
     for _, cand in keyed:
         available[cand.scope] += 1
 
     prompt = build_prompt(outline_prompt.body, ed_cfg, keyed, articles,
-                          published, dropped)
+                          published)
     try:
         payload = call(prompt, brief.body)
     except llm.LlmError as e:

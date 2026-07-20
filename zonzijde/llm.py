@@ -105,18 +105,3 @@ def agent_json(prompt: str, *, model: str, system: str | None = None,
         return json.loads(result.result or "")
     except ValueError as e:
         raise LlmError(f"agent returned non-JSON: {e}: {str(result.result)[:200]!r}")
-
-
-def light_json(prompt: str, model: str, schema: dict | None = None,
-               usage_sink: list | None = None) -> object:
-    return agent_json(prompt, model=model, schema=schema, max_turns=2,
-                      usage_sink=usage_sink)
-
-
-def frontier_json(prompt: str, system: str, schema: dict, model: str,
-                  effort: str | None = None,
-                  allowed_tools: list[str] | None = None,
-                  max_turns: int = 2, usage_sink: list | None = None) -> object:
-    return agent_json(prompt, model=model, system=system, schema=schema,
-                      effort=effort, allowed_tools=allowed_tools,
-                      max_turns=max_turns, usage_sink=usage_sink)

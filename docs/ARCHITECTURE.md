@@ -27,8 +27,8 @@ funnel and opens an edition PR; a human reviews and merges; Pages publishes.
    the next. Any stage can be re-run in isolation; a failed run resumes from the last
    good artifact. This is also what makes the editorial gate (OPS-3) cheap: everything
    is inspectable and diffable in the PR.
-2. **Cheap-first LLM funnel.** Volume work (scoring ~1–2k items/week) uses a lightweight
-   model; frontier-model calls only happen after the stream has narrowed to dozens
+2. **Cheap-first LLM funnel.** Volume work (scoring ~1–2k items/week) runs on Haiku;
+   the Sonnet/Opus calls only happen after the stream has narrowed to dozens
    (select) and then ~10–15 stories (outline/write/review).
 3. **Deterministic frame, creative core.** Fetching, filtering, dedupe, layout, and
    validation are plain code. LLMs do only what code can't: judge direction, select,
@@ -51,14 +51,14 @@ flowchart TD
     subgraph judge [Judge - cheap LLM]
         S3[S3 score\ndirection -2..+2]
     end
-    subgraph curate [Curate - frontier LLM]
+    subgraph curate [Curate - LLM]
         S4[S4 select\ntop-5 topics per scope]
         S5[S5 enrich\nfull article text]
         S6[S6 outline\nedition plan]
     end
-    subgraph produce [Produce - frontier LLM + code]
+    subgraph produce [Produce - LLM + code]
         S7[S7 write\nDutch articles]
-        S8[S8 review\nfact-check, language, titles]
+        S8[S8 review\ncopy-edit, language, titles]
         S9[S9 compose\nTypst render + booklet PDF]
     end
     S2 --> S3 --> S4 --> S5 --> S6 --> S7 --> S8 --> S9
@@ -72,12 +72,12 @@ flowchart TD
 |-------|------|------|--------------------------|-------|
 | S1 `fetch` | PIPE-1 | code | `config/sources.yaml` → `10-items.json` | Concurrent pull with timeout; per-feed failures logged in the run report, never fatal. Window per SRC-4. |
 | S2 `filter` | PIPE-2 | code | `10` → `20-filtered.json` + `20-rejected.json` | Batch dedupe + bucket filtering per PIPE-2; buckets B1–B5 live in `config/filters.yaml` (ported from the prototype). Rejections keep their reason for auditability. |
-| S3 `score` | PIPE-3 | LLM (light) | `20` → `30-scored.json` | Batched (~80 items/call, concurrent), schema-enforced output, prompt `prompts/score.md`. Unparseable batch → items left unscored and excluded (fail-closed: unscored never advances). |
-| S4 `select` | PIPE-4 | LLM (frontier) | `30` (+1/+2 only) → `40-candidates.json` | Inputs `prompts/brief.md` + `prompts/select.md` + scored titles/summaries; output shape per PIPE-4. |
-| S5 `enrich` | PIPE-5 | code (+light LLM) | `40` → `50-articles.json` | `tools/fetch-articles.py` refactored into the package; two-stage fetch (requests, then headless browser). Re-source-or-drop per PIPE-5: the topic's sibling rows in `40-candidates.json` are the only re-source; a topic with no full text is dropped and logged. Each full-text article's in-body links are classified by the light model (EXT/INT/NAV/PROMO); EXT+INT links (denylist-filtered, capped) are followed as best-effort background `references` — never gating a topic's drop status. |
-| S6 `outline` | PIPE-6 | LLM (frontier) | `40` + `50` (ok flags) + SPEC §5 → `60-outline.json` | A quick pitch: produces the edition plan per PIPE-6 (story picks, length classes) from the **shortlist** — titles + RSS summaries, not the full texts. One plain call, no tools, no browsing; the writers (S7) get the texts. The model's editorial choices (ED-1 counts, ED-2 mix, which topics) are taken as-is and judged at the human gate — not validated in code. Code still assembles what it owns: `pos` and the lokaal front by ring-order sort (ED-6), and `source_date` (ED-3, the *newest* source's date). SRC-3 reference reading is not automated here (OQ-1). |
-| S7 `write` | PIPE-7 | LLM (frontier) | `60` → `70-drafts.json` | One call per article (grounded on its S5 texts only); the rules from PIPE-7 (length guidance, no self-reference) are in the system prompt and not re-checked in code. `words` computed. |
-| S8 `review` | PIPE-8 | LLM (frontier) | `70` → `80-reviewed.json` | Per article, fact-checked against its S5 source text (WR-2) by the model; emits a correction log for the PR. Output taken as-is, not validated in code. |
+| S3 `score` | PIPE-3 | LLM | `20` → `30-scored.json` | Batched (~80 items/call, concurrent), schema-enforced output, prompt `prompts/score.md`. Unparseable batch → items left unscored and excluded (fail-closed: unscored never advances). |
+| S4 `select` | PIPE-4 | LLM | `30` (+1/+2 only) → `40-candidates.json` | Inputs `prompts/brief.md` + `prompts/select.md` + scored titles/summaries; output shape per PIPE-4. |
+| S5 `enrich` | PIPE-5 | code (+LLM) | `40` → `50-articles.json` | `tools/fetch-articles.py` refactored into the package; two-stage fetch (requests, then headless browser). Re-source-or-drop per PIPE-5: the topic's sibling rows in `40-candidates.json` are the only re-source; a topic with no full text is dropped and logged. Each full-text article's in-body links are classified by the model (EXT/INT/NAV/PROMO); EXT+INT links (denylist-filtered, capped) are followed as best-effort background `references` — never gating a topic's drop status. |
+| S6 `outline` | PIPE-6 | LLM | `40` + `50` (ok flags) + SPEC §5 → `60-outline.json` | A quick pitch: produces the edition plan per PIPE-6 (story picks, length classes) from the **shortlist** — titles + RSS summaries, not the full texts. One plain call, no tools, no browsing; the writers (S7) get the texts. The model's editorial choices (ED-1 counts, ED-2 mix, which topics) are taken as-is and judged at the human gate — not validated in code. Code still assembles what it owns: `pos` and the lokaal front by ring-order sort (ED-6), and `source_date` (ED-3, the *newest* source's date). SRC-3 reference reading is not automated here (OQ-1). |
+| S7 `write` | PIPE-7 | LLM | `60` → `70-drafts.json` | One call per article (grounded on its S5 texts only); the rules from PIPE-7 (length guidance, no self-reference) are in the system prompt and not re-checked in code. `words` computed. |
+| S8 `review` | PIPE-8 | LLM | `70` → `80-reviewed.json` | Per article, copy-edited in isolation (draft text only — no source or reference text): Dutch grammar/spelling/phrasing and title, emitting a correction log for the PR. Output taken as-is, not validated in code. |
 | S9 `compose` | PIPE-9 | code (+LLM assist) | `80` → `editions/<date>/krant-A3boekje.pdf` + `edition.json` | Custom-illustration drawing, Typst render, weather baking, typeset checks, booklet imposition — all per §5. Text-LLM assist only to shorten/lengthen a specific paragraph when a check demands it. |
 
 Stage contract: every stage is `python -m zonzijde <stage> --edition YYYY-MM-DD`;
@@ -123,7 +123,7 @@ every printed article traces back to its feed items.
 // 70-drafts.json (S7) / 80-reviewed.json (S8): slot + article text
 { "pos": 1, "title": "…", "location": "Wijchen", "source_date": "2026-07-14",
   "text": "…", "words": 430,
-  "review": { "fact_issues": [], "corrections": ["…"] } }   // S8 only
+  "review": { "corrections": ["…"] } }   // S8 only
 
 // editions/<date>/edition.json (S9) — manifest of the published edition
 { "edition": "2026-07-26", "nr": 3, "articles": [ …final texts + provenance ids… ],
@@ -168,7 +168,7 @@ Weather (EL-2) is fetched from Open-Meteo at compose time and baked into
 `edition.json`, so the rendered edition is a closed artifact (principle 4).
 
 **Illustration (EL-3): drawn anew every edition — no stock library.** Not currently
-wired into the outline stage (S6) — S9 has the frontier model pick a subject and draw a
+wired into the outline stage (S6) — S9 has the model pick a subject and draw a
 fresh one-column SVG in the house style — black-and-white, minimalist fine lines,
 patterns, strokes. The style
 lives in `prompts/illustrate.md` together with two or three reference drawings from
@@ -179,16 +179,16 @@ sunflower and the closing landscape (EL-1/EL-4) are fixed assets.
 
 ## 6. LLM usage & budget
 
-| Stage | Model class | Calls/edition | Tokens (rough) | Failure policy |
-|-------|-------------|---------------|----------------|----------------|
-| S3 score | light (e.g. Claude Haiku) | ~15–25 batches | ~150k in / 5k out | no retry; unscored = excluded (fail-closed) |
-| S5 classify | light | ~10–15 (per article) | small | best-effort; on failure the article keeps no references |
-| S4 select | frontier | 1 | ~30k in / 2k out | no retry; fatal on failure or invalid output |
-| S6 outline | frontier (no tools) | 1 | ~8k in / 3k out | idem |
-| S7 write | frontier | ~10–12 (per article) | ~6k in / 1k out each | no retry; a failed article fails the run |
-| S8 review | frontier | ~10–12 | ~5k in / 1k out each | idem |
-| S9 illustration | frontier | 1 | ~5k in / 5k out | invalid SVG surfaces at the gate; editor judges |
-| S9 trim assist | frontier | 0–4 | small | one call per typeset violation (§5) |
+| Stage | Model | Calls/edition | Tokens (rough) | Failure policy |
+|-------|-------|---------------|----------------|----------------|
+| S3 score | Claude Haiku | ~15–25 batches | ~150k in / 5k out | no retry; unscored = excluded (fail-closed) |
+| S5 classify | Claude Haiku | ~10–15 (per article) | small | best-effort; on failure the article keeps no references |
+| S4 select | Claude Sonnet | 1 | ~30k in / 2k out | no retry; fatal on failure or invalid output |
+| S6 outline | Claude Opus (no tools) | 1 | ~8k in / 3k out | idem |
+| S7 write | Claude Sonnet | ~10–12 (per article) | ~6k in / 1k out each | no retry; a failed article fails the run |
+| S8 review | Claude Sonnet | ~10–12 | ~5k in / 1k out each | idem |
+| S9 illustration | Claude Sonnet | 1 | ~5k in / 5k out | invalid SVG surfaces at the gate; editor judges |
+| S9 trim assist | Claude Sonnet | 0–4 | small | one call per typeset violation (§5) |
 
 Order of magnitude: a few dollars per edition, dominated by S6–S8. Every response that
 feeds a later stage is JSON-schema-validated at the call layer; an invalid response is
@@ -196,16 +196,15 @@ not retried — the stage excludes the item (S3) or fails the run (S4+).
 Prompts are files in `config/prompts/` with a version header; `edition.json` records the
 versions used, so output changes are attributable to prompt changes.
 
-Provider access goes through a thin adapter (`zonzijde/llm.py`) with two named tiers
-(`light`, `frontier`) configured in `config/edition.yaml` — models are swappable without
-touching stages. **Both tiers are driven through the Claude Agent SDK, not raw API
+Provider access goes through a thin adapter (`zonzijde/llm.py`); each stage's model is
+configured per stage under `llm.stages` in `config/edition.yaml` — swappable without
+touching stages. **Every stage is driven through the Claude Agent SDK, not raw API
 calls**: each stage invocation is a short agent session, which gives S9's trim assist
 file context and provides schema-enforced structured output out of the box. The
 curation and writing stages (S4, S6, S7, S8) are single prompt-in/JSON-out calls with
-no tools; S5 enrichment is plain code apart from one light-tier call per article that
-classifies its in-body links. The light tier (S3 scoring, S5 link classification)
-runs the same sessions on a Haiku-class model — single prompt, no tools —
-so one auth path covers the whole
+no tools; S5 enrichment is plain code apart from one Haiku call per article that
+classifies its in-body links. S3 scoring and S5 link classification run the same
+sessions on Haiku — single prompt, no tools — so one auth path covers the whole
 pipeline.
 
 ## 7. Orchestration

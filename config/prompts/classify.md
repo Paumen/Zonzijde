@@ -1,6 +1,6 @@
 ---
 version: 1
-role: link-classification prompt — stage S5 (PIPE-5), light model, JSON mode
+role: link-classification prompt — stage S5 (PIPE-5), JSON mode
 ---
 Do not use web search. Work only from what's given.
 

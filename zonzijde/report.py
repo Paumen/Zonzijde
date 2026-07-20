@@ -34,7 +34,10 @@ def _sankey(flows: list[tuple[str, str, int]]) -> list[str]:
     flows = [(s, d, v) for s, d, v in flows if v and v > 0]
     if not flows:
         return []
-    return ["```mermaid", "sankey-beta", ""] + [
+    return ["```mermaid",
+            "---", "config:", "  sankey:",
+            "    nodeAlignment: left", "    linkColor: target", "---",
+            "sankey-beta", ""] + [
         f"{_sk(s)},{_sk(d)},{v}" for s, d, v in flows] + ["```"]
 
 
@@ -65,22 +68,22 @@ def _overview(work) -> list[str]:
         slog = json.loads((work / "30-score-log.json").read_text(encoding="utf-8"))
         dist = slog["distribution"]
         positive = int(dist.get("1", 0)) + int(dist.get("2", 0))
+        item.append(("Candidates", "Positive (+1/+2)", positive))
         item.append(("Candidates", "Negative (-1/-2)",
                      int(dist.get("-1", 0)) + int(dist.get("-2", 0))))
         item.append(("Candidates", "Unscored", len(slog.get("unscored_ids", []))))
         item.append(("Candidates", "Score 0", int(dist.get("0", 0))))
-        item.append(("Candidates", "Positive (+1/+2)", positive))
     if positive and (work / "40-candidates.json").is_file():
         rows = sum(len(c.items) for c in
                    load_artifact(work / "40-candidates.json", Candidate))
-        item.append(("Positive (+1/+2)", "Not selected", positive - rows))
         item.append(("Positive (+1/+2)", "Selected rows", rows))
+        item.append(("Positive (+1/+2)", "Not selected", positive - rows))
     if rows and (work / "50-enrich-log.json").is_file():
         ft = json.loads((work / "50-enrich-log.json")
                         .read_text(encoding="utf-8")).get("full_text")
         if ft is not None:
-            item.append(("Selected rows", "No full text", rows - ft))
             item.append(("Selected rows", "Enriched", ft))
+            item.append(("Selected rows", "No full text", rows - ft))
 
     edition: list[tuple[str, str, int]] = []
     if (work / "60-outline.json").is_file():
@@ -127,13 +130,16 @@ def _llm_usage(work) -> list[str]:
         u = d.get("llm")
         if not u:
             continue
+        intok = (u["input_tokens"] + (u.get("cache_read_tokens") or 0)
+                 + (u.get("cache_creation_tokens") or 0))
         wall = f"{u['wall_ms'] / 1000:.1f}s" if u.get("wall_ms") else "—"
         cost = f"${u['cost_usd']:.4f}" if u.get("cost_usd") is not None else "—"
         rows.append([label, d.get("model") or "—", d.get("effort") or "—",
-                     u["calls"], u["turns"], f"{u['input_tokens']:,}",
+                     u["calls"], u["turns"], f"{intok:,}",
                      f"{u['output_tokens']:,}", u["tool_uses"],
                      f"{u['thinking_chars']:,}", wall, cost])
-        for k in ("calls", "turns", "input_tokens", "output_tokens",
+        tot["input_tokens"] += intok
+        for k in ("calls", "turns", "output_tokens",
                   "tool_uses", "thinking_chars", "wall_ms"):
             tot[k] += u.get(k) or 0
         if u.get("cost_usd") is not None:
@@ -220,11 +226,10 @@ def build(ctx: RunContext) -> str:
                          f"hole(s) at pos {wfailed}**" if wfailed else "")]
         if review_log_path.is_file():
             rlog = json.loads(review_log_path.read_text(encoding="utf-8"))
-            issues = sum(len(a["fact_issues"]) for a in rlog["articles"])
             corr = sum(len(a["corrections"]) for a in rlog["articles"])
             rfailed = rlog.get("failed_slots") or []
             body = ctx.edition_cfg["body_words"]
-            parts += [f"- S8 review: {issues} fact issue(s), {corr} "
+            parts += [f"- S8 review: {corr} "
                       f"correction(s), {rlog['words_total']} words body text"
                       f" (ED-5 target {body['min']}–{body['max']})"
                       + (f"; **{len(rfailed)} slot(s) failed review at "
@@ -316,8 +321,6 @@ def build(ctx: RunContext) -> str:
                           for r in reviewed])]
         correction_lines = []
         for r in reviewed:
-            for issue in r.review.fact_issues:
-                correction_lines.append(f"- slot {r.pos} (fact, WR-2): {issue}")
             for corr in r.review.corrections:
                 correction_lines.append(f"- slot {r.pos}: {corr}")
         parts += ["", "## Correction log (PIPE-8)", ""]

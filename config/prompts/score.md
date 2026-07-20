@@ -1,6 +1,6 @@
 ---
 version: 1
-role: scoring prompt — stage S3 (PIPE-3), light model, JSON mode, temperature 0
+role: scoring prompt — stage S3 (PIPE-3), JSON mode, temperature 0
 source: concept_ZZ.md §3.3, verbatim
 note: proto_fetchfilter.html carries a slightly different wording ("Regels",
   "prijs toekenning"); this file is canonical from now on.

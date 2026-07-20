@@ -249,7 +249,7 @@ def run(ctx: RunContext, fetch: Fetch | None = None,
     usage: list[dict] = []
     if classify is None:
         classify = make_classify(prompts.load_prompt(ctx.root, "classify").body,
-                                  ctx.llm_cfg("light")["model"], usage)
+                                  ctx.llm_cfg("enrich")["model"], usage)
 
     candidates = load_artifact(ctx.work_dir / "40-candidates.json", Candidate)
     if not candidates:
@@ -303,7 +303,7 @@ def run(ctx: RunContext, fetch: Fetch | None = None,
     ref_selected = sum(len(a.references) for a in articles.values())
     ref_ok = sum(1 for a in articles.values() for r in a.references if r.ok)
     log = {
-        "model": ctx.llm_cfg("light")["model"],
+        "model": ctx.llm_cfg("enrich")["model"],
         "rows": len(articles),
         "full_text": sum(1 for a in articles.values() if a.ok),
         "methods": methods,
