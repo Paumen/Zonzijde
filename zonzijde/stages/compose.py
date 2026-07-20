@@ -197,8 +197,7 @@ def draw_illustration(ctx: RunContext, articles: list[EditionArticle],
         call = lambda prompt: llm.agent_json(
             prompt, system=f"{brief.body}\n\n{rules.body}", schema=ILLUSTRATE_SCHEMA,
             model=cfg["model"], effort=cfg.get("effort"), max_turns=12,
-            allowed_tools=["Read"], permission_mode="bypassPermissions",
-            cwd=str(ctx.root), usage_sink=usage)
+            allowed_tools=["Read"], cwd=str(ctx.root), usage_sink=usage)
     candidates = illustration_candidates(articles)
     ctx.work_dir.mkdir(parents=True, exist_ok=True)
     refs = rasterize_refs(ctx, notes)
