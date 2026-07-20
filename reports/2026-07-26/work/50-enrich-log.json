@@ -1,0 +1,207 @@
+{
+  "model": "claude-haiku-4-5-20251001",
+  "rows": 25,
+  "full_text": 18,
+  "methods": {
+    "requests": 18,
+    "playwright": 0
+  },
+  "min_words": 100,
+  "references": {
+    "selected": 19,
+    "ok": 14
+  },
+  "topics": [
+    {
+      "scope": "L",
+      "topic": "Toezichthouders werken over gemeentegrenzen tegen overlast",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "L",
+      "topic": "Gratis zomerspeurtocht 'De verdwenen ijscoupes' in Wijchen",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "L",
+      "topic": "Kapper Theo mag na 40 jaar tóch goede doelen knippen",
+      "rows": 1,
+      "ok_rows": 0,
+      "dropped": true
+    },
+    {
+      "scope": "L",
+      "topic": "Tweeling miste vlag van Guinee bij Vierdaagse, doet nu zelf mee",
+      "rows": 1,
+      "ok_rows": 0,
+      "dropped": true
+    },
+    {
+      "scope": "L",
+      "topic": "Vereniging Gouden-Kruisdragers verrast met koninklijke status",
+      "rows": 1,
+      "ok_rows": 0,
+      "dropped": true
+    },
+    {
+      "scope": "L",
+      "topic": "Duizenden uren werk om Vierdaagseplek Kelfkensbos klaar te krijgen",
+      "rows": 1,
+      "ok_rows": 0,
+      "dropped": true
+    },
+    {
+      "scope": "L",
+      "topic": "Slechtziende Boaz (11) wandelt Vierdaagse voor klasgenoten",
+      "rows": 1,
+      "ok_rows": 0,
+      "dropped": true
+    },
+    {
+      "scope": "R",
+      "topic": "Wilde dieren krijgen meer ruimte op ecoducten bij Hoge Veluwe",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "R",
+      "topic": "Burgemeester Rheden debuteert in de Vierdaagse na jaren zwaaien",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "R",
+      "topic": "Wolf met prooi en ijsvogel: mooie momenten in de Gelderse natuur",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "R",
+      "topic": "Nijmegen krijgt wegwijsborden voor vleermuizen",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "R",
+      "topic": "Steeds meer mensen kamperen in Gelderland, en dat is goed",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "R",
+      "topic": "Gelderse wijngaarden floreren dankzij droog weer",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "R",
+      "topic": "Steeds meer jongeren ontdekken wandelen als sport",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "N",
+      "topic": "Stikstofdoelen 2035 in zicht met nieuwe kabinetsplannen",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "N",
+      "topic": "Gestrande walvis krijgt hulp van dolfijnen terug naar zee",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "N",
+      "topic": "Oranje wint Fair Play-prijs op het WK voetbal",
+      "rows": 2,
+      "ok_rows": 2,
+      "dropped": false
+    },
+    {
+      "scope": "N",
+      "topic": "Historische vereniging redt vervallen molen van sloop",
+      "rows": 1,
+      "ok_rows": 0,
+      "dropped": true
+    },
+    {
+      "scope": "N",
+      "topic": "Veertien kraamhotels vangen tekorten in kraamzorg op",
+      "rows": 1,
+      "ok_rows": 0,
+      "dropped": true
+    },
+    {
+      "scope": "I",
+      "topic": "EU-verbod op vernietigen onverkochte kleding gaat in",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "I",
+      "topic": "Hoe Cuba omschakelde van zeeschildpaddenvangst naar bescherming",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "I",
+      "topic": "Zwitserse architect bewijst: het groenste gebouw staat er al",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "I",
+      "topic": "Zeldzame gier keert na tien jaar terug in Cambodjaans reservaat",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "I",
+      "topic": "Wetenschappers laten menselijke tanden opnieuw groeien",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    }
+  ],
+  "dropped_topics": [
+    "Kapper Theo mag na 40 jaar tóch goede doelen knippen",
+    "Tweeling miste vlag van Guinee bij Vierdaagse, doet nu zelf mee",
+    "Vereniging Gouden-Kruisdragers verrast met koninklijke status",
+    "Duizenden uren werk om Vierdaagseplek Kelfkensbos klaar te krijgen",
+    "Slechtziende Boaz (11) wandelt Vierdaagse voor klasgenoten",
+    "Historische vereniging redt vervallen molen van sloop",
+    "Veertien kraamhotels vangen tekorten in kraamzorg op"
+  ],
+  "duration_s": 60.7,
+  "llm": {
+    "calls": 12,
+    "input_tokens": 180,
+    "output_tokens": 15855,
+    "cache_read_tokens": 301340,
+    "cache_creation_tokens": 72065,
+    "cost_usd": 0.2657,
+    "turns": 30,
+    "tool_uses": 12,
+    "thinking_chars": 33179,
+    "wall_ms": 192708,
+    "api_ms": 203027
+  }
+}

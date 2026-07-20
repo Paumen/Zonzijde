@@ -1,0 +1,22 @@
+{
+  "model": "claude-sonnet-5",
+  "effort": "medium",
+  "prompt_versions": {
+    "brief": 2,
+    "select": 4
+  },
+  "input_items": 73,
+  "llm": {
+    "calls": 1,
+    "input_tokens": 4,
+    "output_tokens": 8426,
+    "cache_read_tokens": 60819,
+    "cache_creation_tokens": 67716,
+    "cost_usd": 0.5739,
+    "turns": 3,
+    "tool_uses": 2,
+    "thinking_chars": 0,
+    "wall_ms": 124181,
+    "api_ms": 125821
+  }
+}
