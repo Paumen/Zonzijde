@@ -110,8 +110,8 @@ Written,Reviewed,9
 | S6 outline | claude-opus-4-8 | medium | 1 | 2 | 30,546 | 8,183 | 1 | 0 | 118.6s | $0.5155 |
 | S7 write | claude-sonnet-5 | medium | 9 | 27 | 595,448 | 18,271 | 9 | 0 | 299.8s | $1.2454 |
 | S8 review | claude-sonnet-5 | medium | 9 | 18 | 280,066 | 33,396 | 9 | 0 | 348.3s | $1.2249 |
-| S9 compose | — | — | 1 | 6 | 78,074 | 4,191 | 5 | 0 | 60.5s | $0.3534 |
-| **total** |  |  | 36 | 93 | 1,602,648 | 101,645 | 41 | 63,551 | 1288.0s | $4.4472 |
+| S9 compose | — | — | 1 | 6 | 78,097 | 9,143 | 5 | 0 | 99.7s | $0.4277 |
+| **total** |  |  | 36 | 93 | 1,602,671 | 106,597 | 41 | 63,551 | 1327.1s | $4.5215 |
 
 ## Rejected (PIPE-2)
 
@@ -286,6 +286,6 @@ model claude-haiku-4-5-20251001, prompt score.md v1
 
 ## Typeset & compose (PIPE-9)
 
-- illustration (EL-3): 'Vleermuizenpaal met batvormige uitsparing langs het fietspad' with the article at pos 5 — `work/85-illustration.svg`
+- illustration (EL-3): 'Vleermuiswegwijzers: paaltjes met een vleermuis erin uitgesneden langs een avondpad, met een vleermuis en de maan erboven' with the article at pos 5 — `work/85-illustration.svg`
 - 0 recompile(s)
 - all typeset checks passed (LAY-1..5, LAY-7)
