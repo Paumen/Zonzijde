@@ -2,14 +2,14 @@ cadence:
   weekday: sunday
 
 window:
-  days: 7
+  days: 11
 
 fetch:
   concurrency: 6
   timeout_s: 15
 
 enrich:
-  concurrency: 8
+  concurrency: 12
   timeout_s: 20
   min_words: 100
   browser: true
@@ -52,9 +52,9 @@ compose:
 llm:
   stages:
     score:   {model: claude-haiku-4-5-20251001, batch_size: 80, concurrency: 6}
-    select:  {model: claude-sonnet-5, effort: medium}
+    select:  {model: claude-sonnet-5, effort: low}
     enrich:  {model: claude-haiku-4-5-20251001}
     outline: {model: claude-opus-4-8, effort: medium}
-    write:   {model: claude-sonnet-5, effort: medium}
-    review:  {model: claude-sonnet-5, effort: medium}
-    illustrate: {model: claude-sonnet-5, effort: medium}
+    write:   {model: claude-sonnet-5, effort: high}
+    review:  {model: claude-sonnet-5, effort: low}
+    illustrate: {model: claude-opus-4-8, effort: low}
