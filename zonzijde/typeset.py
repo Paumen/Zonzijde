@@ -46,10 +46,10 @@ def rasterize_svg(root: Path, svg_path: Path, out_path: Path,
     rel = "/" + svg_path.relative_to(root).as_posix()
     out_path.parent.mkdir(parents=True, exist_ok=True)
     doc = out_path.with_suffix(".raster.typ")
-    doc.write_text(
-        f'#set page(width: auto, height: auto, margin: 0pt)\n'
-        f'#image("{rel}", width: {width_pt}pt)\n', encoding="utf-8")
     try:
+        doc.write_text(
+            f'#set page(width: auto, height: auto, margin: 0pt)\n'
+            f'#image("{rel}", width: {width_pt}pt)\n', encoding="utf-8")
         png = typst.compile(str(doc), root=str(root), format="png", ppi=144.0)
     except Exception as e:
         raise CompileError(str(e))

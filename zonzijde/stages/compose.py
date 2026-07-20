@@ -160,7 +160,7 @@ def rasterize_refs(ctx: RunContext,
         try:
             typeset.rasterize_svg(ctx.root, svg, png)
             out.append((label, svg, png))
-        except typeset.CompileError as e:
+        except (typeset.CompileError, OSError) as e:
             notes.append(f"reference render failed for {label}: {e}")
             out.append((label, svg, None))
     return out

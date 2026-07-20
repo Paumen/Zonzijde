@@ -78,7 +78,7 @@ flowchart TD
 | S6 `outline` | PIPE-6 | LLM | `40` + `50` (ok flags) + SPEC §5 → `60-outline.json` | A quick pitch: produces the edition plan per PIPE-6 (story picks, length classes) from the **shortlist** — titles + RSS summaries, not the full texts. One plain call, no tools, no browsing; the writers (S7) get the texts. The model's editorial choices (ED-1 counts, ED-2 mix, which topics) are taken as-is and judged at the human gate — not validated in code. Code still assembles what it owns: `pos` and the lokaal front by ring-order sort (ED-6), and `source_date` (ED-3, the *newest* source's date). SRC-3 reference reading is not automated here (OQ-1). |
 | S7 `write` | PIPE-7 | LLM | `60` → `70-drafts.json` | One call per article (grounded on its S5 texts only); the rules from PIPE-7 (length guidance, no self-reference) are in the system prompt and not re-checked in code. `words` computed. |
 | S8 `review` | PIPE-8 | LLM | `70` → `80-reviewed.json` | Per article, copy-edited in isolation (draft text only — no source or reference text): Dutch grammar/spelling/phrasing and title, emitting a correction log for the PR. Output taken as-is, not validated in code. |
-| S9 `compose` | PIPE-9 | code (+LLM assist) | `80` → `editions/<date>/krant-A3boekje.pdf` + `edition.json` | Custom-illustration drawing, Typst render, weather baking, typeset checks, booklet imposition — all per §5. Text-LLM assist only to shorten/lengthen a specific paragraph when a check demands it. |
+| S9 `compose` | PIPE-9 | code (+LLM illustration) | `80` → `editions/<date>/krant-A3boekje.pdf` + `edition.json` | Custom-illustration drawing, Typst render, weather baking, typeset checks, booklet imposition — all per §5. The only LLM step is the illustration; layout violations the reflow knob can't fix fail to the editorial gate. |
 
 Stage contract: every stage is `python -m zonzijde <stage> --edition YYYY-MM-DD`;
 `run` chains them; `--from/--until` re-run a slice against existing artifacts.
@@ -153,13 +153,12 @@ step to emit those alongside the woff2 subsets that only the prototypes needed.)
 
 **Typeset checks.** Compile, then verify LAY-1..5 and LAY-7 against the compiled
 layout (Typst's introspection/query where possible, PDF text extraction otherwise).
-Violations should be rare; when one occurs, remedies in order of cheapness —
-reflow knobs (illustration slot), a review-model trim or
-extension of a specific paragraph (addressed by article `pos` + paragraph index) by a
-word budget — max 3 recompiles, then fail
-the run with the violation report; a human decides (the gate exists precisely for
-this). The target is **exactly 4 A4 pages**, closing landscape absorbing the slack
-(LAY-7).
+Violations should be rare — LAY-3 is prevented in the template rather than repaired.
+The only automatic remedy is the reflow knob (moving the illustration slot to the
+next eligible article) — max 3 recompiles; anything still violating fails the run
+with the violation report, and the editorial gate resolves it (edit the copy or
+reflow, then re-run). The target is **exactly 4 A4 pages**, closing landscape
+absorbing the slack (LAY-7).
 
 **Booklet imposition.** pypdf imposes the 4 A4 pages onto the two A3 sheets in LAY-7's
 order, producing the fold-ready `krant-A3boekje.pdf` — the deliverable (OPS-2).
@@ -187,8 +186,7 @@ sunflower and the closing landscape (EL-1/EL-4) are fixed assets.
 | S6 outline | Claude Opus (no tools) | 1 | ~8k in / 3k out | idem |
 | S7 write | Claude Sonnet | ~10–12 (per article) | ~6k in / 1k out each | no retry; a failed article fails the run |
 | S8 review | Claude Sonnet | ~10–12 | ~5k in / 1k out each | idem |
-| S9 illustration | Claude Sonnet | 1 | ~5k in / 5k out | invalid SVG surfaces at the gate; editor judges |
-| S9 trim assist | Claude Sonnet | 0–4 | small | one call per typeset violation (§5) |
+| S9 illustration | Claude Sonnet | 1 | ~5k in / 5k out | reads brief + views/reads the two house drawings (Read tool), then draws; invalid SVG surfaces at the gate |
 
 Order of magnitude: a few dollars per edition, dominated by S6–S8. Every response that
 feeds a later stage is JSON-schema-validated at the call layer; an invalid response is
@@ -199,8 +197,9 @@ versions used, so output changes are attributable to prompt changes.
 Provider access goes through a thin adapter (`zonzijde/llm.py`); each stage's model is
 configured per stage under `llm.stages` in `config/edition.yaml` — swappable without
 touching stages. **Every stage is driven through the Claude Agent SDK, not raw API
-calls**: each stage invocation is a short agent session, which gives S9's trim assist
-file context and provides schema-enforced structured output out of the box. The
+calls**: each stage invocation is a short agent session, which gives S9's illustration
+step file context (the Read tool, to view and read the house-style drawings) and
+provides schema-enforced structured output out of the box. The
 curation and writing stages (S4, S6, S7, S8) are single prompt-in/JSON-out calls with
 no tools; S5 enrichment is plain code apart from one Haiku call per article that
 classifies its in-body links. S3 scoring and S5 link classification run the same
