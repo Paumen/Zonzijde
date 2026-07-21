@@ -132,7 +132,10 @@ Order of magnitude: a few dollars per edition, dominated by S6–S8. Every respo
 feeds a later stage is JSON-schema-validated at the call layer; an invalid response is
 not retried — the stage excludes the item (S3) or fails the run (S4+).
 Prompts are files in `config/prompts/` with a version header; `edition.json` records the
-versions used, so output changes are attributable to prompt changes.
+versions used, so output changes are attributable to prompt changes. Two prompts are
+shared across the LLM stages and assembled into the system prompt (`prompts.system_base`):
+`brief.md` (the product brief) and `pipeline.md` (a stage-orientation so each call knows
+where it sits); each stage then supplies its own task prompt.
 
 Provider access goes through a thin adapter (`zonzijde/llm.py`); each stage's model is
 configured per stage under `llm.stages` in `config/edition.yaml` — swappable without
