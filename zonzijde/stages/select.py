@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from string import Template
 from typing import Callable
 
 from pydantic import ValidationError
@@ -17,14 +18,22 @@ RESPONSE_SCHEMA = {
             "items": {
                 "type": "object",
                 "properties": {
-                    "scope": {"type": "string", "enum": ["L", "R", "N", "I"]},
-                    "topic": {"type": "string"},
+                    "scope": {"type": "string", "enum": ["L", "R", "N", "I"],
+                              "description": "The scope this topic belongs to: "
+                                             "L (lokaal), R (regionaal), "
+                                             "N (nationaal), I (internationaal)."},
+                    "topic": {"type": "string",
+                              "description": "A short label for the grouped "
+                                             "story."},
                     "items": {
                         "type": "array", "minItems": 1,
                         "items": {
                             "type": "object",
                             "properties": {
-                                "id": {"type": "string"},
+                                "id": {"type": "string",
+                                       "description": "The id of a source item "
+                                                      "(from the list) that "
+                                                      "covers this topic."},
                             },
                             "required": ["id"],
                             "additionalProperties": False,
@@ -46,15 +55,12 @@ JsonCall = Callable[[str, str], object]
 def item_line(item: ScoredItem) -> str:
     summary = " ".join(item.summary.split())
     return (f"- id={item.id} | bron={item.bron} | scope={','.join(item.scopes)}"
-            f" | titel={item.title} | samenvatting={summary}")
+            f" | bron_titel={item.title} | bron_samenvatting={summary}")
 
 
 def build_prompt(select_body: str, items: list[ScoredItem]) -> str:
-    return "\n\n".join([
-        select_body,
-        "Kandidaten (gescoord +1/+2):",
-        "\n".join(item_line(i) for i in items),
-    ])
+    subs = {"candidates": "\n".join(item_line(i) for i in items)}
+    return Template(select_body).safe_substitute(subs)
 
 
 def ground(payload: object, by_id: dict[str, ScoredItem]) -> tuple[list[Candidate], list[str]]:
@@ -90,7 +96,9 @@ def ground(payload: object, by_id: dict[str, ScoredItem]) -> tuple[list[Candidat
 def run(ctx: RunContext, call: JsonCall | None = None) -> None:
     cfg = ctx.llm_cfg("select")
     brief = prompts.load_prompt(ctx.root, "brief")
+    pipeline = prompts.load_prompt(ctx.root, "pipeline")
     select = prompts.load_prompt(ctx.root, "select")
+    system = prompts.system_base(brief.body, pipeline.body)
     usage: list[dict] = []
     if call is None:
         call = lambda prompt, system: llm.agent_json(
@@ -106,7 +114,7 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
 
     prompt = build_prompt(select.body, positive)
     try:
-        payload = call(prompt, brief.body)
+        payload = call(prompt, system)
     except llm.LlmError as e:
         raise SystemExit(f"S4 select: call failed: {e}")
     candidates, problems = ground(payload, by_id)
@@ -117,8 +125,13 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
     save_artifact(ctx.work_dir / "40-candidates.json", candidates)
     log = {
         "model": cfg["model"], "effort": cfg.get("effort"),
-        "prompt_versions": {"brief": brief.version, "select": select.version},
+        "prompt_versions": {"brief": brief.version,
+                            "pipeline": pipeline.version,
+                            "select": select.version},
         "input_items": len(positive),
+        "system": system,
+        "prompt": prompt,
+        "schema": RESPONSE_SCHEMA,
         "llm": llm.summarize_usage(usage),
     }
     (ctx.work_dir / "40-select-log.json").write_text(

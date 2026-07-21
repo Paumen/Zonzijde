@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from concurrent.futures import ThreadPoolExecutor
+from string import Template
 from typing import Callable
 
 from pydantic import ValidationError
@@ -43,13 +44,17 @@ RESPONSE_SCHEMA = {
 JsonCall = Callable[[str, str], object]
 
 
-def build_prompt(draft: Draft, slot: OutlineSlot, budget: dict) -> str:
-    return "\n\n".join([
-        f"Draft article (slot {draft.pos}, {slot.length}, written to a "
-        f"guide of {budget['min']}–{budget['max']} words):",
-        f"Titel: {draft.title}",
-        draft.text,
+def build_prompt(review_body: str, draft: Draft, slot: OutlineSlot,
+                 budget: dict) -> str:
+    draft_block = "\n".join([
+        f"<concept slot={draft.pos} length={slot.length} "
+        f"guide={budget['min']}–{budget['max']}>",
+        f"werktitel: {draft.title}",
+        "",
+        f"artikel_concept:\n{draft.text}",
+        "</concept>",
     ])
+    return Template(review_body).safe_substitute({"draft": draft_block})
 
 
 def ground(payload: object, draft: Draft) -> tuple[ReviewedArticle | None, list[str]]:
@@ -76,14 +81,15 @@ def ground(payload: object, draft: Draft) -> tuple[ReviewedArticle | None, list[
 
 
 def review_draft(draft: Draft, slot: OutlineSlot, ed_cfg: dict,
-                 system: str, call: JsonCall
-                 ) -> tuple[ReviewedArticle | None, list[str]]:
+                 review_body: str, system: str, call: JsonCall
+                 ) -> tuple[str, ReviewedArticle | None, list[str]]:
     budget = ed_cfg["words"][slot.length]
-    prompt = build_prompt(draft, slot, budget)
+    prompt = build_prompt(review_body, draft, slot, budget)
     try:
-        return ground(call(prompt, system), draft)
+        reviewed, problems = ground(call(prompt, system), draft)
     except llm.LlmError as e:
-        return None, [str(e)]
+        reviewed, problems = None, [str(e)]
+    return prompt, reviewed, problems
 
 
 def run(ctx: RunContext, call: JsonCall | None = None) -> None:
@@ -92,8 +98,9 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
     stage_cfg = ctx.stage_cfg("review")
     concurrency = int(stage_cfg.get("concurrency", 3))
     brief = prompts.load_prompt(ctx.root, "brief")
+    pipeline = prompts.load_prompt(ctx.root, "pipeline")
     rules = prompts.load_prompt(ctx.root, "review")
-    system = f"{brief.body}\n\n{rules.body}"
+    system = prompts.system_base(brief.body, pipeline.body)
     usage: list[dict] = []
     if call is None:
         call = lambda prompt, system: llm.agent_json(
@@ -109,23 +116,28 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
         raise SystemExit(f"S8 review: draft slot(s) {missing} not in the "
                          "outline — artifacts out of step, re-run S6/S7")
 
-    def work(draft: Draft) -> tuple[ReviewedArticle | None, list[str]]:
-        return review_draft(draft, slots[draft.pos], ed_cfg, system, call)
+    def work(draft: Draft) -> tuple[str, ReviewedArticle | None, list[str]]:
+        return review_draft(draft, slots[draft.pos], ed_cfg, rules.body,
+                            system, call)
 
     with ThreadPoolExecutor(max_workers=concurrency) as pool:
         results = list(pool.map(work, drafts))
 
-    reviewed = [r for r, _ in results if r is not None]
-    failed = [d.pos for d, (r, _) in zip(drafts, results) if r is None]
+    reviewed = [r for _, r, _ in results if r is not None]
+    failed = [d.pos for d, (_, r, _) in zip(drafts, results) if r is None]
     log = {
         "model": cfg["model"], "effort": cfg.get("effort"),
-        "prompt_versions": {"brief": brief.version, "review": rules.version},
+        "prompt_versions": {"brief": brief.version,
+                            "pipeline": pipeline.version,
+                            "review": rules.version},
+        "system": system,
+        "schema": RESPONSE_SCHEMA,
         "articles": [{"pos": d.pos,
                       "words": {"draft": d.words,
                                 "reviewed": r.words if r else None},
                       "corrections": r.review.corrections if r else [],
-                      "problems": p}
-                     for d, (r, p) in zip(drafts, results)],
+                      "problems": p, "prompt": prompt}
+                     for d, (prompt, r, p) in zip(drafts, results)],
         "words_total": sum(r.words for r in reviewed),
         "failed_slots": failed,
         "llm": llm.summarize_usage(usage),
