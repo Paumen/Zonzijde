@@ -122,6 +122,7 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
         "model": cfg["model"], "effort": cfg.get("effort"),
         "prompt_versions": {"brief": brief.version, "review": rules.version},
         "system": system,
+        "schema": RESPONSE_SCHEMA,
         "articles": [{"pos": d.pos,
                       "words": {"draft": d.words,
                                 "reviewed": r.words if r else None},

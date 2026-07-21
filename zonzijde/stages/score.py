@@ -128,6 +128,7 @@ def run(ctx: RunContext, call: ScoreCall | None = None) -> None:
     log = {
         "model": cfg["model"], "effort": cfg.get("effort"),
         "prompt_version": prompt.version,
+        "schema": RESPONSE_SCHEMA,
         "batch_size": batch_size,
         "distribution": {str(k): distribution[k] for k in range(-2, 3)},
         "unscored_ids": unscored_ids, "batches": log_batches,

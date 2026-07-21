@@ -121,6 +121,7 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
         "input_items": len(positive),
         "system": brief.body,
         "prompt": prompt,
+        "schema": RESPONSE_SCHEMA,
         "llm": llm.summarize_usage(usage),
     }
     (ctx.work_dir / "40-select-log.json").write_text(

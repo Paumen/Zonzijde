@@ -173,8 +173,8 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
         raise SystemExit("S6 outline: no candidate has usable source text (PIPE-5)")
     by_key = {key: cand for key, cand in keyed}
     usage: list[dict] = []
+    schema = response_schema([key for key, _ in keyed])
     if call is None:
-        schema = response_schema([key for key, _ in keyed])
         call = lambda prompt, system: llm.agent_json(
             prompt, system=system, schema=schema,
             model=cfg["model"], effort=cfg.get("effort"), max_turns=2,
@@ -209,6 +209,7 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
         "planned_words": planned,
         "system": brief.body,
         "prompt": prompt,
+        "schema": schema,
         "llm": llm.summarize_usage(usage),
     }
     (ctx.work_dir / "60-outline-log.json").write_text(
