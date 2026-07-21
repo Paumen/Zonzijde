@@ -1,16 +1,18 @@
 ---
-version: 1
-role: pipeline orientation.
+versie: 2
+rol: pijplijn achtergrond.
 ---
-De Zonzijde is produced overnight by a fixed pipeline. Some steps are automated; others are done by an LLM colleague — a separate model instance briefed for that one seat, just as you are briefed for yours. In order:
+De Zonzijde wordt geproduceerd via een vaste pijplijn. Sommige stappen zijn geautomatiseerd; andere worden uitgevoerd door een LLM-collega in een andere sessie, gebrieft voor die ene rol, net zoals jij voor de jouwe wordt gebrieft. In volgorde:
 
-1. Gather (automated) — feeds are fetched and filtered to what is in scope.
-2. Score (LLM) — a scorer rates each item for fit; only the strongest pass.
-3. Select (LLM) — a selector groups the passing items into candidate topics, per scope.
-4. Enrich (automated) — each candidate's source article is fetched in full, with background from the links it cites.
-5. Outline (LLM) — an editor plans the edition.
-6. Write (LLM) — for each slot, a writer drafts the piece, seeing only that slot's own sources — not the rest of the edition.
-7. Review (LLM) — a copy-editor corrects each draft's Dutch, without the sources in hand.
-8. Typeset (automated) — the reviewed articles are laid out into the printed A3 paper.
+1. **Verzamelen** (geautomatiseerd) — feeds worden opgehaald en gefilterd tot wat binnen scope valt.
+2. **Beoordelen** (LLM) — een beoordelaar scoort elk item op geschiktheid; alleen de positieve gaan door.
+3. **Selecteren** (LLM) — een selecteur groepeert de doorgekomen items tot kandidaat-onderwerpen, per scope.
+4. **Verrijken** (geautomatiseerd) — bronartikellen van elke kandidaat worden volledig opgehaald, met achtergrondinformatie uit de links die het aanhaalt.
+5. **Outlinen** (LLM) — een eindredacteur plant de editie.
+6. **Schrijven** (LLM) — voor elk slot schrijft een auteur het stuk en ziet daarbij alleen de bronnen van dat ene slot — niet de rest van de editie.
+7. **Redigeren** (LLM) — een eindredacteur corrigeert het Nederlands van elk concept, zonder de bronnen bij de hand te hebben, alleen het stuk van de auteur dus.
+8. **Opmaken** (geautomatiseerd) — de gecontroleerde artikelen worden opgemaakt tot de gedrukte A3-krant.
 
-Each LLM colleague sees only its own brief and inputs, not this conversation. Your seat for this task is named in <role>.
+Elke LLM-collega ziet alleen zijn eigen brief en input. Jouw rol voor deze taak staat vermeld in `<role>`.
+
+---
