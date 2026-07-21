@@ -1,79 +1,79 @@
 {
   "model": "claude-sonnet-5",
-  "effort": "medium",
+  "effort": "high",
   "prompt_versions": {
-    "brief": 2,
-    "write": 5
+    "brief": 3,
+    "write": 6
   },
   "slots": [
     {
       "pos": 1,
       "length": "standard",
-      "words": 186,
+      "words": 340,
       "problems": []
     },
     {
       "pos": 2,
-      "length": "short",
-      "words": 203,
+      "length": "standard",
+      "words": 304,
       "problems": []
     },
     {
       "pos": 3,
-      "length": "long",
-      "words": 552,
+      "length": "short",
+      "words": 177,
       "problems": []
     },
     {
       "pos": 4,
       "length": "standard",
-      "words": 419,
+      "words": 345,
       "problems": []
     },
     {
       "pos": 5,
       "length": "short",
-      "words": 182,
+      "words": 239,
       "problems": []
     },
     {
       "pos": 6,
-      "length": "standard",
-      "words": 258,
+      "length": "long",
+      "words": 565,
       "problems": []
     },
     {
       "pos": 7,
-      "length": "short",
-      "words": 166,
+      "length": "standard",
+      "words": 315,
       "problems": []
     },
     {
       "pos": 8,
       "length": "long",
-      "words": 561,
+      "words": 542,
       "problems": []
     },
     {
       "pos": 9,
-      "length": "standard",
-      "words": 471,
+      "length": "short",
+      "words": 172,
       "problems": []
     }
   ],
-  "words_total": 2998,
+  "words_total": 2999,
   "failed_slots": [],
   "llm": {
     "calls": 9,
-    "input_tokens": 36,
-    "output_tokens": 18271,
-    "cache_read_tokens": 460598,
-    "cache_creation_tokens": 134814,
-    "cost_usd": 1.2454,
-    "turns": 27,
+    "input_tokens": 18,
+    "output_tokens": 17993,
+    "cache_read_tokens": 147612,
+    "cache_creation_tokens": 152687,
+    "cost_usd": 1.2553,
+    "turns": 18,
     "tool_uses": 9,
     "thinking_chars": 0,
-    "wall_ms": 299803,
-    "api_ms": 312398
+    "wall_ms": 256396,
+    "api_ms": 269454
   }
 }
