@@ -15,7 +15,12 @@ from ..contracts import (ArticleText, Candidate, EditionOutline, ScoredItem,
 RING = ["L", "R", "N", "I"]
 
 
-def response_schema(candidate_keys: list[str]) -> dict:
+def response_schema(candidate_keys: list[str], words: dict) -> dict:
+    rng = lambda d: f"{d['min']}–{d['max']}"
+    length_desc = (
+        "long / standard / short. Guidance: "
+        f"long ≈ {rng(words['long'])}, standard ≈ {rng(words['standard'])}, "
+        f"short ≈ {rng(words['short'])} words — the story decides.")
     return {
         "type": "object",
         "properties": {
@@ -24,12 +29,31 @@ def response_schema(candidate_keys: list[str]) -> dict:
                 "items": {
                     "type": "object",
                     "properties": {
-                        "candidate": {"type": "string", "enum": candidate_keys},
-                        "topic": {"type": "string"},
-                        "length": {"type": "string",
-                                   "enum": ["long", "standard", "short"]},
-                        "angle": {"type": "string"},
-                        "location": {"type": "string"},
+                        "candidate": {
+                            "type": "string", "enum": candidate_keys,
+                            "description": "The shortlist key of the topic for "
+                                           "this slot (e.g. L1, R2)."},
+                        "topic": {
+                            "type": "string",
+                            "description": "The werktitel — a short working "
+                                           "handle for the piece, for the "
+                                           "writer's brief. Not the printed "
+                                           "kop; the writer sets that."},
+                        "length": {
+                            "type": "string",
+                            "enum": ["long", "standard", "short"],
+                            "description": length_desc},
+                        "angle": {
+                            "type": "string",
+                            "description": "The editorial angle to write from; "
+                                           "see the angle examples in the "
+                                           "brief."},
+                        "location": {
+                            "type": "string",
+                            "description": "The dateline place the piece is "
+                                           "anchored to (town, area, or "
+                                           "country), drawn from the source "
+                                           "material."},
                     },
                     "required": ["candidate", "topic", "length",
                                  "angle", "location"],
@@ -92,11 +116,12 @@ def story_blocks(keyed: list[tuple[str, Candidate]],
             ok_refs = [r for r in art.references if r.ok]
             ref_words = sum(r.words for r in ok_refs)
             ref_links = ", ".join(r.url for r in ok_refs) or "none"
-            lines.append(f"- bron={row.bron} | published={pub or 'unknown'} | "
-                         f"link={row.link} | source_words={art.words}"
-                         f" | reference_words={ref_words}"
-                         f" | reference_links={ref_links}"
-                         f" | titel={row.titel} | tekst={tekst}")
+            lines.append(f"- bron={row.bron} | published={pub or 'unknown'}"
+                         f" | link={row.link}"
+                         f" | bron_titel={row.titel} | bron_tekst={tekst}"
+                         f" | source_words={art.words}"
+                         f" | referentie_links={ref_links}"
+                         f" | referentie_words={ref_words}")
         blocks.append("\n".join(lines))
     return "\n\n".join(blocks)
 
@@ -105,9 +130,9 @@ def build_prompt(outline_body: str, cfg: dict,
                  keyed: list[tuple[str, Candidate]],
                  articles: dict[str, ArticleText],
                  published: dict[str, date | None]) -> str:
-    filled = Template(outline_body).safe_substitute(constants(cfg))
-    return filled + "\n\n" + "Shortlist:\n\n" + story_blocks(
-        keyed, articles, published)
+    subs = {**constants(cfg),
+            "shortlist": story_blocks(keyed, articles, published)}
+    return Template(outline_body).safe_substitute(subs)
 
 
 def ground(payload: object, edition: date,
@@ -156,7 +181,9 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
     cfg = ctx.llm_cfg("outline")
     ed_cfg = ctx.edition_cfg
     brief = prompts.load_prompt(ctx.root, "brief")
+    pipeline = prompts.load_prompt(ctx.root, "pipeline")
     outline_prompt = prompts.load_prompt(ctx.root, "outline")
+    system = prompts.system_base(brief.body, pipeline.body)
 
     candidates = load_artifact(ctx.work_dir / "40-candidates.json", Candidate)
     articles = {a.id: a for a in
@@ -173,7 +200,7 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
         raise SystemExit("S6 outline: no candidate has usable source text (PIPE-5)")
     by_key = {key: cand for key, cand in keyed}
     usage: list[dict] = []
-    schema = response_schema([key for key, _ in keyed])
+    schema = response_schema([key for key, _ in keyed], ed_cfg["words"])
     if call is None:
         call = lambda prompt, system: llm.agent_json(
             prompt, system=system, schema=schema,
@@ -187,7 +214,7 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
     prompt = build_prompt(outline_prompt.body, ed_cfg, keyed, articles,
                           published)
     try:
-        payload = call(prompt, brief.body)
+        payload = call(prompt, system)
     except llm.LlmError as e:
         raise SystemExit(f"S6 outline: call failed: {e}")
     outline, problems = ground(payload, ctx.edition, by_key, articles, published)
@@ -203,11 +230,12 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
     log = {
         "model": cfg["model"], "effort": cfg.get("effort"),
         "prompt_versions": {"brief": brief.version,
+                            "pipeline": pipeline.version,
                             "outline": outline_prompt.version},
         "input_topics": {s: available[s] for s in RING},
         "dropped_topics": dropped,
         "planned_words": planned,
-        "system": brief.body,
+        "system": system,
         "prompt": prompt,
         "schema": schema,
         "llm": llm.summarize_usage(usage),
