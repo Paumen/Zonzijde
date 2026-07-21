@@ -4,136 +4,109 @@
     {
       "pos": 1,
       "scope": "L",
-      "topic": "Gratis zomerspeurtocht 'De verdwenen ijscoupes' in het centrum van Wijchen",
+      "topic": "Wout Loeffen (74) loopt de Vierdaagse voor Campagneteam Huntington",
       "length": "standard",
-      "devices": [
-        "playful humor",
-        "direct address to reader (walk over and do it)"
-      ],
+      "angle": "Changemaker",
       "source_ids": [
-        "2b5c0cd56f7f"
+        "8a1774633b68"
       ],
-      "location": "Centrum Wijchen",
-      "source_date": "2026-07-20"
+      "location": "Bergharen",
+      "source_date": "2026-07-21"
     },
     {
       "pos": 2,
       "scope": "L",
-      "topic": "Toezichthouders werken voortaan over de gemeentegrens samen in het buitengebied",
-      "length": "short",
-      "devices": [
-        "aphoristic kicker",
-        "positive reframe (cooperation leads, not the crime)"
-      ],
+      "topic": "Vijfde Batenburg Baroque Festival groeit: 5% meer bezoekers, uitverkochte concerten",
+      "length": "standard",
+      "angle": "Progress story",
       "source_ids": [
-        "7b728efb63c2"
+        "f1f69f295308"
       ],
-      "location": "Gemeente Wijchen / buitengebied",
-      "source_date": "2026-07-20"
+      "location": "Batenburg",
+      "source_date": "2026-07-16"
     },
     {
       "pos": 3,
-      "scope": "R",
-      "topic": "Gelderse wijngaarden floreren juist dankzij de droogte",
-      "length": "long",
-      "devices": [
-        "metaphor/analogy",
-        "gentle irony (the drought others dread is their blessing)"
-      ],
+      "scope": "L",
+      "topic": "Gratis zomerspeurtocht 'De verdwenen ijscoupes' door het centrum",
+      "length": "short",
+      "angle": "Go-and-see",
       "source_ids": [
-        "0434f78efa4e"
+        "2b5c0cd56f7f"
       ],
-      "location": "Gelderland (wijngaarden)",
-      "source_date": "2026-07-19"
+      "location": "Wijchen",
+      "source_date": "2026-07-20"
     },
     {
       "pos": 4,
       "scope": "R",
-      "topic": "Burgemeester van Rheden debuteert in de Vierdaagse na jaren zwaaien",
+      "topic": "Verlaagde hekken op ecopassages laten reeën, edelherten, wolven en zwijnen weer makkelijker oversteken",
       "length": "standard",
-      "devices": [
-        "irony/humor (from waving to walking)",
-        "human portrait"
-      ],
+      "angle": "Solutions story",
       "source_ids": [
-        "90c563ac4895"
+        "e755b8714dea"
       ],
-      "location": "Rheden / Nijmegen (Vierdaagse)",
+      "location": "De Hoge Veluwe",
       "source_date": "2026-07-20"
     },
     {
       "pos": 5,
       "scope": "R",
-      "topic": "Nijmegen krijgt wegwijsborden voor vleermuizen",
+      "topic": "Grootste huiszwaluwkolonie van Nederland onder de Lentloper trekt kijkers",
       "length": "short",
-      "devices": [
-        "whimsy",
-        "curiosity hook"
-      ],
+      "angle": "Quiet competence",
       "source_ids": [
-        "5266f35f3bed"
+        "5ebb62cde330"
       ],
-      "location": "Nijmegen, Nelson Mandelaplein",
-      "source_date": "2026-07-19"
+      "location": "Nijmegen",
+      "source_date": "2026-07-18"
     },
     {
       "pos": 6,
       "scope": "N",
-      "topic": "Stikstofdoelen 2035 binnen bereik met nieuwe kabinetsplannen",
-      "length": "standard",
-      "devices": [
-        "measured data-led lead (no cute kicker)",
-        "perspective/context"
-      ],
+      "topic": "Arnhemse schuldenproef krijgt vervolg: 21 gezinnen schuldenvrij, positief maatschappelijk rendement, uitbreiding naar 100 huishoudens",
+      "length": "long",
+      "angle": "Solutions story",
       "source_ids": [
-        "47b433c95632"
+        "edfbdda71ce4"
       ],
-      "location": "Nederland",
-      "source_date": "2026-07-19"
+      "location": "Arnhem",
+      "source_date": "2026-07-15"
     },
     {
       "pos": 7,
       "scope": "N",
-      "topic": "Oranje wint de Fair Play-prijs op het WK ondanks vroege uitschakeling",
-      "length": "short",
-      "devices": [
-        "light irony (out early, home with a prize)"
-      ],
+      "topic": "Stikstofdoelen voor 2035 weer in zicht met nieuwe kabinetsplannen",
+      "length": "standard",
+      "angle": "Counterintuitive",
       "source_ids": [
-        "4c0a262700b2",
-        "980406cf2d3e"
+        "47b433c95632"
       ],
-      "location": "Nederland / WK (Verenigde Staten)",
-      "source_date": "2026-07-20"
+      "location": "Den Haag",
+      "source_date": "2026-07-19"
     },
     {
       "pos": 8,
       "scope": "I",
-      "topic": "Wetenschappers laten menselijke tanden opnieuw groeien",
+      "topic": "Landbouwprogramma in Sierra Leone leert amputees duurzaam boeren en een eigen bedrijf opbouwen",
       "length": "long",
-      "devices": [
-        "hopeful explainer",
-        "relatable framing (everyone has teeth)"
-      ],
+      "angle": "Changemaker",
       "source_ids": [
-        "abc7974f0991"
+        "fcae521b5ae4"
       ],
-      "location": "Internationaal (onderzoek/lab)",
-      "source_date": "2026-07-19"
+      "location": "Sierra Leone",
+      "source_date": "2026-07-16"
     },
     {
       "pos": 9,
       "scope": "I",
-      "topic": "Cuba schakelde om van zeeschildpaddenvangst naar bescherming",
-      "length": "standard",
-      "devices": [
-        "arc-of-change narrative",
-        "human portrait (Moncada Gavilan)"
-      ],
+      "topic": "Amerikaanse scholekster maakt comeback dankzij jarenlange natuurbescherming",
+      "length": "short",
+      "angle": "Recovery",
       "source_ids": [
-        "576fafa4872e"
+        "9525f597b7b2"
       ],
-      "location": "Cuba",
+      "location": "South Kingstown",
       "source_date": "2026-07-20"
     }
   ]

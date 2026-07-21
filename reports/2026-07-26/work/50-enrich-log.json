@@ -1,207 +1,202 @@
 {
   "model": "claude-haiku-4-5-20251001",
   "rows": 25,
-  "full_text": 18,
+  "full_text": 23,
   "methods": {
-    "requests": 18,
+    "requests": 23,
     "playwright": 0
   },
   "min_words": 100,
   "references": {
-    "selected": 19,
-    "ok": 14
+    "selected": 22,
+    "ok": 19
   },
   "topics": [
     {
       "scope": "L",
-      "topic": "Toezichthouders werken over gemeentegrenzen tegen overlast",
+      "topic": "Wout Loeffen loopt Vierdaagse voor Huntington",
       "rows": 1,
       "ok_rows": 1,
       "dropped": false
     },
     {
       "scope": "L",
-      "topic": "Gratis zomerspeurtocht 'De verdwenen ijscoupes' in Wijchen",
+      "topic": "Zomerspeurtocht 'verdwenen ijscoupes' in Wijchen",
       "rows": 1,
       "ok_rows": 1,
       "dropped": false
     },
     {
       "scope": "L",
-      "topic": "Kapper Theo mag na 40 jaar tóch goede doelen knippen",
+      "topic": "Batenburg Baroque Festival trekt meer bezoekers",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "L",
+      "topic": "Molen en kasteel Hernen samen te bezoeken tijdens Kids-Zomerweken",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "L",
+      "topic": "Reanimatiecursus start in augustus bij Sport Cardiocare",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "L",
+      "topic": "Gemeente Wijchen start groot onderhoud openbare ruimte",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "L",
+      "topic": "Limburgse drieling en moeder samen de Vierdaagse",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "R",
+      "topic": "Willie (83) loopt recordaantal Vierdaagses",
       "rows": 1,
       "ok_rows": 0,
       "dropped": true
     },
     {
-      "scope": "L",
-      "topic": "Tweeling miste vlag van Guinee bij Vierdaagse, doet nu zelf mee",
-      "rows": 1,
-      "ok_rows": 0,
-      "dropped": true
-    },
-    {
-      "scope": "L",
-      "topic": "Vereniging Gouden-Kruisdragers verrast met koninklijke status",
-      "rows": 1,
-      "ok_rows": 0,
-      "dropped": true
-    },
-    {
-      "scope": "L",
-      "topic": "Duizenden uren werk om Vierdaagseplek Kelfkensbos klaar te krijgen",
-      "rows": 1,
-      "ok_rows": 0,
-      "dropped": true
-    },
-    {
-      "scope": "L",
-      "topic": "Slechtziende Boaz (11) wandelt Vierdaagse voor klasgenoten",
+      "scope": "R",
+      "topic": "Edwin loopt Vierdaagse na zwaar ongeluk en revalidatie",
       "rows": 1,
       "ok_rows": 0,
       "dropped": true
     },
     {
       "scope": "R",
-      "topic": "Wilde dieren krijgen meer ruimte op ecoducten bij Hoge Veluwe",
+      "topic": "Twintig jaar Vierdaagse-onderzoek Radboudumc",
       "rows": 1,
       "ok_rows": 1,
       "dropped": false
     },
     {
       "scope": "R",
-      "topic": "Burgemeester Rheden debuteert in de Vierdaagse na jaren zwaaien",
+      "topic": "Herten, wolven en zwijnen kunnen makkelijker oversteken bij Hoge Veluwe",
       "rows": 1,
       "ok_rows": 1,
       "dropped": false
     },
     {
       "scope": "R",
-      "topic": "Wolf met prooi en ijsvogel: mooie momenten in de Gelderse natuur",
+      "topic": "Studenten Rijn IJssel houden opleiding overeind na actie",
       "rows": 1,
       "ok_rows": 1,
       "dropped": false
     },
     {
       "scope": "R",
-      "topic": "Nijmegen krijgt wegwijsborden voor vleermuizen",
+      "topic": "Hoe de Vierdaagsefeesten uitgroeiden tot grootste feest van Nederland",
       "rows": 1,
       "ok_rows": 1,
       "dropped": false
     },
     {
       "scope": "R",
-      "topic": "Steeds meer mensen kamperen in Gelderland, en dat is goed",
-      "rows": 1,
-      "ok_rows": 1,
-      "dropped": false
-    },
-    {
-      "scope": "R",
-      "topic": "Gelderse wijngaarden floreren dankzij droog weer",
-      "rows": 1,
-      "ok_rows": 1,
-      "dropped": false
-    },
-    {
-      "scope": "R",
-      "topic": "Steeds meer jongeren ontdekken wandelen als sport",
+      "topic": "Grootste huiszwaluwkolonie van Nederland onder brug in Nijmegen",
       "rows": 1,
       "ok_rows": 1,
       "dropped": false
     },
     {
       "scope": "N",
-      "topic": "Stikstofdoelen 2035 in zicht met nieuwe kabinetsplannen",
+      "topic": "Arnhemse schuldenproef succesvol, gezinnen schuldenvrij",
       "rows": 1,
       "ok_rows": 1,
       "dropped": false
     },
     {
       "scope": "N",
-      "topic": "Gestrande walvis krijgt hulp van dolfijnen terug naar zee",
+      "topic": "ASML-medewerkers krijgen aandelenpakket van 20.000 euro",
       "rows": 1,
       "ok_rows": 1,
       "dropped": false
     },
     {
       "scope": "N",
-      "topic": "Oranje wint Fair Play-prijs op het WK voetbal",
+      "topic": "Nederland gastland EK padel 2027",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "N",
+      "topic": "Oranje wint Fair Play-prijs op WK voetbal",
       "rows": 2,
       "ok_rows": 2,
       "dropped": false
     },
     {
       "scope": "N",
-      "topic": "Historische vereniging redt vervallen molen van sloop",
-      "rows": 1,
-      "ok_rows": 0,
-      "dropped": true
-    },
-    {
-      "scope": "N",
-      "topic": "Veertien kraamhotels vangen tekorten in kraamzorg op",
-      "rows": 1,
-      "ok_rows": 0,
-      "dropped": true
-    },
-    {
-      "scope": "I",
-      "topic": "EU-verbod op vernietigen onverkochte kleding gaat in",
+      "topic": "Stikstofdoelen 2035 lijken haalbaar met nieuwe kabinetsplannen",
       "rows": 1,
       "ok_rows": 1,
       "dropped": false
     },
     {
       "scope": "I",
-      "topic": "Hoe Cuba omschakelde van zeeschildpaddenvangst naar bescherming",
+      "topic": "Nieuw gebouw showcaset oplossingen voor wereldproblemen",
       "rows": 1,
       "ok_rows": 1,
       "dropped": false
     },
     {
       "scope": "I",
-      "topic": "Zwitserse architect bewijst: het groenste gebouw staat er al",
+      "topic": "Landbouwprogramma Sierra Leone helpt amputees leven opbouwen",
       "rows": 1,
       "ok_rows": 1,
       "dropped": false
     },
     {
       "scope": "I",
-      "topic": "Zeldzame gier keert na tien jaar terug in Cambodjaans reservaat",
+      "topic": "India lanceert eerste zelfgebouwde waterstoftrein",
       "rows": 1,
       "ok_rows": 1,
       "dropped": false
     },
     {
       "scope": "I",
-      "topic": "Wetenschappers laten menselijke tanden opnieuw groeien",
+      "topic": "Scholeksters maken comeback dankzij natuurbescherming",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "I",
+      "topic": "Aantal landen met hoge ongelijkheid met een derde gedaald",
       "rows": 1,
       "ok_rows": 1,
       "dropped": false
     }
   ],
   "dropped_topics": [
-    "Kapper Theo mag na 40 jaar tóch goede doelen knippen",
-    "Tweeling miste vlag van Guinee bij Vierdaagse, doet nu zelf mee",
-    "Vereniging Gouden-Kruisdragers verrast met koninklijke status",
-    "Duizenden uren werk om Vierdaagseplek Kelfkensbos klaar te krijgen",
-    "Slechtziende Boaz (11) wandelt Vierdaagse voor klasgenoten",
-    "Historische vereniging redt vervallen molen van sloop",
-    "Veertien kraamhotels vangen tekorten in kraamzorg op"
+    "Willie (83) loopt recordaantal Vierdaagses",
+    "Edwin loopt Vierdaagse na zwaar ongeluk en revalidatie"
   ],
-  "duration_s": 60.7,
+  "duration_s": 59.7,
   "llm": {
-    "calls": 12,
-    "input_tokens": 180,
-    "output_tokens": 15855,
-    "cache_read_tokens": 301340,
-    "cache_creation_tokens": 72065,
-    "cost_usd": 0.2657,
-    "turns": 30,
-    "tool_uses": 12,
-    "thinking_chars": 33179,
-    "wall_ms": 192708,
-    "api_ms": 203027
+    "calls": 16,
+    "input_tokens": 260,
+    "output_tokens": 15269,
+    "cache_read_tokens": 446242,
+    "cache_creation_tokens": 86602,
+    "cost_usd": 0.3087,
+    "turns": 42,
+    "tool_uses": 16,
+    "thinking_chars": 33474,
+    "wall_ms": 222559,
+    "api_ms": 214566
   }
 }

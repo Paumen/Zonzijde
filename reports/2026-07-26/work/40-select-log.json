@@ -1,22 +1,22 @@
 {
   "model": "claude-sonnet-5",
-  "effort": "medium",
+  "effort": "low",
   "prompt_versions": {
-    "brief": 2,
+    "brief": 3,
     "select": 4
   },
-  "input_items": 73,
+  "input_items": 152,
   "llm": {
     "calls": 1,
     "input_tokens": 4,
-    "output_tokens": 8426,
-    "cache_read_tokens": 60819,
-    "cache_creation_tokens": 67716,
-    "cost_usd": 0.5739,
+    "output_tokens": 4802,
+    "cache_read_tokens": 84550,
+    "cache_creation_tokens": 87848,
+    "cost_usd": 0.6641,
     "turns": 3,
     "tool_uses": 2,
     "thinking_chars": 0,
-    "wall_ms": 124181,
-    "api_ms": 125821
+    "wall_ms": 52285,
+    "api_ms": 54278
   }
 }
