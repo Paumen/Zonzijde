@@ -29,3 +29,5 @@ Techniek:
   afgedrukt
 - alleen paden, lijnen en basisvormen; `stroke="#121212"`, `fill="none"` of
   `fill="#fff"`; geen scripts, geen externe verwijzingen, geen rasterbeelden
+
+Houdt het klein en simpel, focus op kern en maak dat goed en herkenbaar.
