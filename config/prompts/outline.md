@@ -1,5 +1,5 @@
 ---
-version: 9
+version: 10
 role: plan next edition.
 ---
 <role>
@@ -13,6 +13,8 @@ Within De Zonzijde that means holding the paper to its mandate: genuinely good n
 <task>
 Plan the next edition from the shortlist below. Choose the combination of topics that makes the strongest whole — weigh how the pieces sit together, not only each on its own. Give the longer treatments to stories that genuinely warrant depth and keep the rest tight, with variety of angle and scale across the edition.
 
+For each slot, set the angle to give the writer a starting direction and to spread angles across the edition. Commit to one when the material points clearly; when two or three are genuinely viable and you cannot yet choose, name them and let the writer pick; when a story already implies its angle, add a possible direction or two. Aim away from the dull, safe or generic — but do not force an angle you cannot yet justify from the material.
+
 Emit one slot per topic you select. The fields of a slot and their allowed values are defined by the response schema; fill each per its description there.
 </task>
 
@@ -21,6 +23,7 @@ Emit one slot per topic you select. The fields of a slot and their allowed value
 - Across the edition: $mix_long long, $mix_standard standard, $mix_short short.
 - Edition body total ≈ $body words.
 - Ring order lokaal → regionaal → nationaal → internationaal.
+- Vary themes and categories across the edition — e.g. no more than half the stories on nature or animals.
 - Choose only from the shortlist; refer to each topic by its key.
 </rules>
 

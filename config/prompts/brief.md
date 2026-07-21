@@ -1,5 +1,5 @@
 ---
-version: 3
+version: 4
 role: product brief.
 ---
 # De Zonzijde
@@ -59,6 +59,9 @@ Zoom-out · Zoom-in · Human synecdoche · Trend spot · Subtle irony · Juxtapo
 
 **TONES**
 Straight/neutral · Warm-in-restraint · Wry/dry · Authoritative · Curious · Upbeat (guardrailed: facts must earn it, one lifted passage, never the default frame).
+
+**VOICE**
+Write for a fluent reader who fills in the blanks: don't over-spell or land too on-the-nose. Richer word choice, wordplay and construction are welcome when they stay easy to read. Avoid the monotone, smoothed-out, average style and tone.
 
 ## The Experience
 
