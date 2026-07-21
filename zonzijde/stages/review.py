@@ -47,8 +47,8 @@ JsonCall = Callable[[str, str], object]
 def build_prompt(review_body: str, draft: Draft, slot: OutlineSlot,
                  budget: dict) -> str:
     draft_block = "\n".join([
-        f"<concept slot={draft.pos} length={slot.length} "
-        f"guide={budget['min']}–{budget['max']}>",
+        f"<concept slot={draft.pos} lengte={slot.length} "
+        f"richtlijn={budget['min']}–{budget['max']}>",
         f"werktitel: {draft.title}",
         "",
         f"artikel_concept:\n{draft.text}",
@@ -83,7 +83,7 @@ def ground(payload: object, draft: Draft) -> tuple[ReviewedArticle | None, list[
 def review_draft(draft: Draft, slot: OutlineSlot, ed_cfg: dict,
                  review_body: str, system: str, call: JsonCall
                  ) -> tuple[str, ReviewedArticle | None, list[str]]:
-    budget = ed_cfg["words"][slot.length]
+    budget = ed_cfg["woorden"][slot.length]
     prompt = build_prompt(review_body, draft, slot, budget)
     try:
         reviewed, problems = ground(call(prompt, system), draft)

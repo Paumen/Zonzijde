@@ -27,6 +27,6 @@ def load_prompt(root: Path, name: str) -> Prompt:
 
 
 def system_base(brief_body: str, pipeline_body: str) -> str:
-    return ("You are Claude, working in the newsroom of De Zonzijde.\n\n"
+    return ("Je bent Claude, en werkt in de redactie van De Zonzijde.\n\n"
             f"<paper>\n{brief_body}\n</paper>\n\n"
             f"<pipeline>\n{pipeline_body}\n</pipeline>")

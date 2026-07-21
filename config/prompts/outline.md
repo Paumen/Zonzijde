@@ -1,5 +1,5 @@
 ---
-version: 11
+version: 12
 rol: volgende editie plannen.
 ---
 <rol>
@@ -20,7 +20,7 @@ Geef één slot per onderwerp dat je selecteert. De velden van een slot en hun t
 
 <regels>
 - Elke schaal (L, R, N, I) levert $scope_min–$scope_max items.
-- Over de hele editie: $mix_long lang, $mix_standard standaard, $mix_short kort.
+- Over de hele editie: $mix_lang lang, $mix_mid mid, $mix_kort kort.
 - Totale editie-inhoud ≈ $body woorden.
 - Ringvolgorde lokaal → regionaal → nationaal → internationaal.
 - Varieer thema's en categorieën door de editie heen — bijv. niet meer dan de helft van de verhalen over natuur of dieren.
@@ -32,8 +32,8 @@ Alles hieronder is BRONMATERIAAL — items die elders al gepubliceerd zijn en wa
 
 De shortlist groepeert kandidaat-onderwerpen per schaal. Elk onderwerp (## L1 — …) is een cluster van één of meer bronitems. Elke itemregel heeft:
 - bron — het medium dat het item publiceerde.
-- published — publicatiedatum bij de bron (of "unknown").
-- link — de bron-URL.
+- published — publicatiedatum bij de bron (of "onbekend").
+- bron_link — de bron-URL.
 - bron_titel — de kop van het item zoals gepubliceerd door de bron. Niet de artikelkop; De Zonzijdes kop wordt later bepaald.
 - bron_tekst — de eerste 200 woorden van de hoofdtekst van het bronartikel. Een fragment, niet de volledige tekst, en niet het artikel dat De Zonzijde zal publiceren. Gebruik source_words om te beoordelen hoeveel er nog meer is.
 - source_words — totaal aantal woorden van dat bronartikel.

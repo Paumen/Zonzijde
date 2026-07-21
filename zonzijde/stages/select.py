@@ -13,27 +13,27 @@ from ..contracts import Candidate, ScoredItem, load_artifact, save_artifact
 RESPONSE_SCHEMA = {
     "type": "object",
     "properties": {
-        "candidates": {
+        "kandidaten": {
             "type": "array",
             "items": {
                 "type": "object",
                 "properties": {
                     "scope": {"type": "string", "enum": ["L", "R", "N", "I"],
-                              "description": "The scope this topic belongs to: "
-                                             "L (lokaal), R (regionaal), "
+                              "description": "De schaal waartoe dit onderwerp "
+                                             "behoort: L (lokaal), R (regionaal), "
                                              "N (nationaal), I (internationaal)."},
                     "topic": {"type": "string",
-                              "description": "A short label for the grouped "
-                                             "story."},
+                              "description": "Een kort label voor het "
+                                             "gegroepeerde verhaal."},
                     "items": {
                         "type": "array", "minItems": 1,
                         "items": {
                             "type": "object",
                             "properties": {
                                 "id": {"type": "string",
-                                       "description": "The id of a source item "
-                                                      "(from the list) that "
-                                                      "covers this topic."},
+                                       "description": "De id van een bronitem "
+                                                      "(uit de lijst) dat dit "
+                                                      "onderwerp behandelt."},
                             },
                             "required": ["id"],
                             "additionalProperties": False,
@@ -45,7 +45,7 @@ RESPONSE_SCHEMA = {
             },
         },
     },
-    "required": ["candidates"],
+    "required": ["kandidaten"],
     "additionalProperties": False,
 }
 
@@ -59,21 +59,21 @@ def item_line(item: ScoredItem) -> str:
 
 
 def build_prompt(select_body: str, items: list[ScoredItem]) -> str:
-    subs = {"candidates": "\n".join(item_line(i) for i in items)}
+    subs = {"kandidaten": "\n".join(item_line(i) for i in items)}
     return Template(select_body).safe_substitute(subs)
 
 
 def ground(payload: object, by_id: dict[str, ScoredItem]) -> tuple[list[Candidate], list[str]]:
-    raw = payload.get("candidates") if isinstance(payload, dict) else None
+    raw = payload.get("kandidaten") if isinstance(payload, dict) else None
     if not isinstance(raw, list):
-        return [], ["response is not an object with a candidates list"]
+        return [], ["response is not an object with a kandidaten list"]
 
     candidates: list[Candidate] = []
     problems: list[str] = []
     for entry in raw:
         try:
-            rows = [{"id": row.get("id", ""), "bron": "", "titel": "",
-                     "samenvatting": "", "link": ""}
+            rows = [{"id": row.get("id", ""), "bron": "", "bron_titel": "",
+                     "samenvatting": "", "bron_link": ""}
                     for row in entry.get("items", [])]
             cand = Candidate.model_validate({**entry, "items": rows})
         except (ValidationError, AttributeError, TypeError) as e:
@@ -87,8 +87,8 @@ def ground(payload: object, by_id: dict[str, ScoredItem]) -> tuple[list[Candidat
                 problems.append(f"item {row.id} has scopes {item.scopes}, "
                                 f"not {cand.scope} (topic {cand.topic!r})")
             else:
-                row.bron, row.link = item.bron, item.link
-                row.titel, row.samenvatting = item.title, item.summary
+                row.bron, row.bron_link = item.bron, item.link
+                row.bron_titel, row.samenvatting = item.title, item.summary
         candidates.append(cand)
     return candidates, problems
 

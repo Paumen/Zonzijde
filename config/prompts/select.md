@@ -1,5 +1,5 @@
 ---
-version: 6
+version: 7
 rol: selectie-instructies.
 ---
 <rol>
@@ -27,6 +27,6 @@ Alles hieronder is BRONMATERIAAL — items die elders al gepubliceerd zijn en ge
 - bron_samenvatting — de eigen korte samenvatting van de bron (niet het volledige artikel, en niet het artikel dat De Zonzijde zal publiceren).
 
 <kandidaten>
-$candidates
+$kandidaten
 </kandidaten>
 </invoer>

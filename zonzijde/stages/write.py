@@ -47,16 +47,16 @@ def build_material(slot: OutlineSlot, budget: dict,
                    sources: list[ArticleText]) -> str:
     opdracht = "\n".join([
         "<opdracht>",
-        f"- topic (werktitel): {slot.topic}",
-        f"- angle: {slot.angle}",
-        f"- location (dateline): {slot.location}",
-        f"- length: {slot.length} — as a guide {budget['min']}–{budget['max']} "
-        "words; the story decides, not the count",
+        f"- onderwerp (werktitel): {slot.topic}",
+        f"- invalshoek: {slot.angle}",
+        f"- locatie (dateline): {slot.location}",
+        f"- lengte: {slot.length} — als richtlijn {budget['min']}–{budget['max']} "
+        "woorden; het verhaal bepaalt, niet het aantal",
         "</opdracht>",
     ])
     parts = [opdracht]
     for art in sources:
-        parts.append(f"<bron>\nbron_titel: {art.titel}\nbron: {art.bron}\n\n"
+        parts.append(f"<bron>\nbron_titel: {art.bron_titel}\nbron: {art.bron}\n\n"
                      f"bron_tekst:\n{art.text}\n</bron>")
     for ref in (r for art in sources for r in art.references if r.ok):
         parts.append(f"<referentie>\nlink: {ref.url}\n\n"
@@ -89,7 +89,7 @@ def ground(payload: object, slot: OutlineSlot) -> tuple[Draft | None, list[str]]
 def write_slot(slot: OutlineSlot, articles: dict[str, ArticleText],
                ed_cfg: dict, write_body: str, system: str,
                call: JsonCall) -> tuple[str, Draft | None, list[str]]:
-    budget = ed_cfg["words"][slot.length]
+    budget = ed_cfg["woorden"][slot.length]
     sources = [articles[sid] for sid in slot.source_ids if sid in articles]
     prompt = build_prompt(write_body, slot, budget, sources)
     try:

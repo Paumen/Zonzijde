@@ -75,12 +75,12 @@ Classify = Callable[[ArticleText], dict[int, str]]
 def make_classify(body: str, model: str,
                   usage_sink: list | None = None) -> Classify:
     def classify(art: ArticleText) -> dict[int, str]:
-        lines = [body, "", f"Title: {art.titel}", f"Article URL: {art.link}",
-                 "Links:"]
+        lines = [body, "", f"Titel: {art.bron_titel}",
+                 f"Artikel-URL: {art.bron_link}", "Links:"]
         for k, link in enumerate(art.links):
             lines.append(f"  [{k}] {link}")
         prompt = "\n".join(lines) + (
-            "\n\nReturn a classification for every link index shown above.")
+            "\n\nGeef voor elke hierboven getoonde linkindex een classificatie.")
         payload = llm.agent_json(prompt, model=model, schema=CLASSIFY_SCHEMA,
                                  allowed_tools=[], max_turns=2,
                                  usage_sink=usage_sink)
@@ -126,8 +126,8 @@ def fetch_reference(url: str, fetch: Fetch, timeout: float,
     return ref
 
 
-def _material_words(titel: str, samenvatting: str, text: str) -> int:
-    return len(titel.split()) + len(samenvatting.split()) + len(text.split())
+def _material_words(bron_titel: str, samenvatting: str, text: str) -> int:
+    return len(bron_titel.split()) + len(samenvatting.split()) + len(text.split())
 
 
 def _stage1(item: CandidateItem, fetch: Fetch, timeout: float,
@@ -136,17 +136,17 @@ def _stage1(item: CandidateItem, fetch: Fetch, timeout: float,
                       text="", words=0, links=[], note="")
     thin = ""
     try:
-        status, html = fetch(item.link, timeout)
+        status, html = fetch(item.bron_link, timeout)
         if status != 200:
             art.note = f"HTTP {status} (error page, not the article)"
         else:
-            art.text, art.links = extract(html, item.link)
+            art.text, art.links = extract(html, item.bron_link)
             thin = "too thin for plain fetch (likely consent wall / JS / bot block)"
     except requests.RequestException as e:
         art.note = f"{type(e).__name__}: {e}"
     except Exception as e:
         art.note = f"extraction failed: {type(e).__name__}: {e}"
-    art.words = _material_words(art.titel, art.samenvatting, art.text)
+    art.words = _material_words(art.bron_titel, art.samenvatting, art.text)
     art.ok = art.words >= min_words
     if not art.ok and not art.note:
         art.note = thin
@@ -198,7 +198,7 @@ def render_blocked(blocked: list[ArticleText], timeout: float,
             try:
                 ctx = browser.new_context(user_agent=UA, locale="nl-NL")
                 page = ctx.new_page()
-                resp = page.goto(art.link, wait_until="domcontentloaded",
+                resp = page.goto(art.bron_link, wait_until="domcontentloaded",
                                  timeout=timeout * 1000)
                 if resp and resp.status != 200:
                     art.note = f"browser got HTTP {resp.status}"
@@ -211,8 +211,8 @@ def render_blocked(blocked: list[ArticleText], timeout: float,
                         break
                     except Exception:
                         pass
-                text, links = extract(page.content(), art.link)
-                words = _material_words(art.titel, art.samenvatting, text)
+                text, links = extract(page.content(), art.bron_link)
+                words = _material_words(art.bron_titel, art.samenvatting, text)
                 if words >= min_words:
                     art.ok, art.text, art.words, art.links = True, text, words, links
                     art.note = ""

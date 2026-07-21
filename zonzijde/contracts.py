@@ -50,9 +50,9 @@ class ScoredItem(FeedItem):
 class CandidateItem(BaseModel):
     id: str
     bron: str
-    titel: str
+    bron_titel: str
     samenvatting: str
-    link: str
+    bron_link: str
 
 
 class Candidate(BaseModel):
@@ -81,14 +81,14 @@ class ArticleText(CandidateItem):
     references: list[Reference] = Field(default_factory=list)
 
 
-Length = Literal["long", "standard", "short"]
+Lengte = Literal["lang", "mid", "kort"]
 
 
 class OutlineSlot(BaseModel):
     pos: int = Field(ge=1)
     scope: str
     topic: str
-    length: Length
+    length: Lengte
     angle: str
     source_ids: list[str] = Field(min_length=1)
     location: str
@@ -138,7 +138,7 @@ class Weather(BaseModel):
 class EditionArticle(BaseModel):
     pos: int = Field(ge=1)
     scope: str
-    length: Length
+    length: Lengte
     title: str
     location: str
     source_date: date | None
