@@ -47,7 +47,7 @@ def build_prompt(slot: OutlineSlot, budget: dict,
     plan = [
         f"Edition slot {slot.pos}.",
         f"- topic: {slot.topic}",
-        f"- devices: {', '.join(slot.devices) or 'none'}",
+        f"- angle: {slot.angle}",
         f"- location (dateline, do not restate in the body): {slot.location}",
         f"- length: {slot.length} — as a guide {budget['min']}–{budget['max']} "
         "words; the story decides, not the count",
