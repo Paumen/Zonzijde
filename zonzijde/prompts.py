@@ -20,7 +20,7 @@ def load_prompt(root: Path, name: str) -> Prompt:
     try:
         _, header, body = text.split("---", 2)
         meta = yaml.safe_load(header)
-        version = int(meta["version"])
+        version = int(meta["version"] if "version" in meta else meta["versie"])
     except (ValueError, KeyError, TypeError, yaml.YAMLError) as e:
         raise SystemExit(f"{path}: invalid version header: {e}")
     return Prompt(name=name, version=version, body=body.strip())
