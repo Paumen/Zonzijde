@@ -1,5 +1,5 @@
 ---
-version: 2
+version: 3
 role: product brief.
 ---
 # De Zonzijde
@@ -42,6 +42,23 @@ The paper is ordered by proximity. After waking, it offers a glimpse outward fro
 **Nationaal** — The provinces and Nederland, the Waddeneilanden, the Nederlandse Antillen, Vlaanderen, and the German border region (NRW); de Veluwe, the Waddenzee, Noordzee, Rijn, Maas, Waal, Schelde, IJsselmeer, Markermeer.
 
 **Internationaal** — The neighbours, Europe, the continents and their nations, the oceans, and great seas.
+
+Examples typical angle, devices, and tones:
+
+**ANGLES**
+- **Counterintuitive** — facts overturn a common expectation. Sub-mode: proportion — a scary sounding thing put back to true scale.
+- **Progress story** — measurable improvement: magnitude, trend, or milestone. Rides the baseline-number device.
+- **Recovery** — something that fell or was lost, now returning. Requires a prior decline.
+- **Changemaker** — credits the good outcome to who drove it (person, community, institution).
+- **Solutions story** — a working response to a known problem: problem → intervention → result.
+- **Quiet competence** — things that already work and never make news because working isn't news.
+- **Go-and-see** — verifiable on foot; the reader can walk over, confirm, or take part.
+
+**DEVICES**
+Zoom-out · Zoom-in · Human synecdoche · Trend spot · Subtle irony · Juxtaposition · Quote · Small absurdity · Baseline number · Acknowledge-then-turn (name the gloom, then turn).
+
+**TONES**
+Straight/neutral · Warm-in-restraint · Wry/dry · Authoritative · Curious · Upbeat (guardrailed: facts must earn it, one lifted passage, never the default frame).
 
 ## The Experience
 
