@@ -89,7 +89,7 @@ class OutlineSlot(BaseModel):
     scope: str
     topic: str
     length: Length
-    devices: list[str]
+    angle: str
     source_ids: list[str] = Field(min_length=1)
     location: str
     source_date: date | None
