@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from concurrent.futures import ThreadPoolExecutor
+from string import Template
 from typing import Callable
 
 from pydantic import ValidationError
@@ -42,26 +43,31 @@ def word_count(text: str) -> int:
     return len(text.split())
 
 
-def build_prompt(slot: OutlineSlot, budget: dict,
-                 sources: list[ArticleText]) -> str:
-    plan = [
-        f"Edition slot {slot.pos}.",
-        f"- topic: {slot.topic}",
+def build_material(slot: OutlineSlot, budget: dict,
+                   sources: list[ArticleText]) -> str:
+    opdracht = "\n".join([
+        "<opdracht>",
+        f"- topic (werktitel): {slot.topic}",
         f"- angle: {slot.angle}",
-        f"- location (dateline, do not restate in the body): {slot.location}",
+        f"- location (dateline): {slot.location}",
         f"- length: {slot.length} — as a guide {budget['min']}–{budget['max']} "
         "words; the story decides, not the count",
-    ]
-    parts = ["\n".join(plan)]
-    parts.append("Source text(s):")
+        "</opdracht>",
+    ])
+    parts = [opdracht]
     for art in sources:
-        parts.append(f"### {art.bron} — {art.titel}\n\n{art.text}")
-    refs = [r for art in sources for r in art.references if r.ok]
-    if refs:
-        parts.append("Background reference text (from links in the source):")
-        for ref in refs:
-            parts.append(f"#### {ref.url}\n\n{ref.text}")
+        parts.append(f"<bron>\nbron_titel: {art.titel}\nbron: {art.bron}\n\n"
+                     f"bron_tekst:\n{art.text}\n</bron>")
+    for ref in (r for art in sources for r in art.references if r.ok):
+        parts.append(f"<referentie>\nlink: {ref.url}\n\n"
+                     f"referentie_tekst:\n{ref.text}\n</referentie>")
     return "\n\n".join(parts)
+
+
+def build_prompt(write_body: str, slot: OutlineSlot, budget: dict,
+                 sources: list[ArticleText]) -> str:
+    subs = {"material": build_material(slot, budget, sources)}
+    return Template(write_body).safe_substitute(subs)
 
 
 def ground(payload: object, slot: OutlineSlot) -> tuple[Draft | None, list[str]]:
@@ -81,11 +87,11 @@ def ground(payload: object, slot: OutlineSlot) -> tuple[Draft | None, list[str]]
 
 
 def write_slot(slot: OutlineSlot, articles: dict[str, ArticleText],
-               ed_cfg: dict, system: str,
+               ed_cfg: dict, write_body: str, system: str,
                call: JsonCall) -> tuple[str, Draft | None, list[str]]:
     budget = ed_cfg["words"][slot.length]
     sources = [articles[sid] for sid in slot.source_ids if sid in articles]
-    prompt = build_prompt(slot, budget, sources)
+    prompt = build_prompt(write_body, slot, budget, sources)
     try:
         draft, problems = ground(call(prompt, system), slot)
     except llm.LlmError as e:
@@ -99,8 +105,9 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
     stage_cfg = ctx.stage_cfg("write")
     concurrency = int(stage_cfg.get("concurrency", 3))
     brief = prompts.load_prompt(ctx.root, "brief")
+    pipeline = prompts.load_prompt(ctx.root, "pipeline")
     rules = prompts.load_prompt(ctx.root, "write")
-    system = f"{brief.body}\n\n{rules.body}"
+    system = prompts.system_base(brief.body, pipeline.body)
     usage: list[dict] = []
     if call is None:
         call = lambda prompt, system: llm.agent_json(
@@ -113,7 +120,7 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
                 load_artifact(ctx.work_dir / "50-articles.json", ArticleText)}
 
     def work(slot: OutlineSlot) -> tuple[str, Draft | None, list[str]]:
-        return write_slot(slot, articles, ed_cfg, system, call)
+        return write_slot(slot, articles, ed_cfg, rules.body, system, call)
 
     with ThreadPoolExecutor(max_workers=concurrency) as pool:
         results = list(pool.map(work, outline.slots))
@@ -122,7 +129,9 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
     failed = [s.pos for s, (_, d, _) in zip(outline.slots, results) if d is None]
     log = {
         "model": cfg["model"], "effort": cfg.get("effort"),
-        "prompt_versions": {"brief": brief.version, "write": rules.version},
+        "prompt_versions": {"brief": brief.version,
+                            "pipeline": pipeline.version,
+                            "write": rules.version},
         "system": system,
         "schema": RESPONSE_SCHEMA,
         "slots": [{"pos": s.pos, "length": s.length,
