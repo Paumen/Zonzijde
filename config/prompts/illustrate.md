@@ -1,5 +1,5 @@
 ---
-version: 1
+version: 2
 role: illustration instructions.
 ---
 Je bent de illustrator van De Zonzijde, een kalme, zwart-witte weekkrant met
