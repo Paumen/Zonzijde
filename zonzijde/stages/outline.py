@@ -15,12 +15,12 @@ from ..contracts import (ArticleText, Candidate, EditionOutline, ScoredItem,
 RING = ["L", "R", "N", "I"]
 
 
-def response_schema(candidate_keys: list[str], words: dict) -> dict:
+def response_schema(candidate_keys: list[str], woorden: dict) -> dict:
     rng = lambda d: f"{d['min']}–{d['max']}"
-    length_desc = (
-        "long / standard / short. Guidance: "
-        f"long ≈ {rng(words['long'])}, standard ≈ {rng(words['standard'])}, "
-        f"short ≈ {rng(words['short'])} words — the story decides.")
+    lengte_omschrijving = (
+        "lang / mid / kort. Richtlijn: "
+        f"lang ≈ {rng(woorden['lang'])}, mid ≈ {rng(woorden['mid'])}, "
+        f"kort ≈ {rng(woorden['kort'])} woorden — het verhaal bepaalt.")
     return {
         "type": "object",
         "properties": {
@@ -31,29 +31,30 @@ def response_schema(candidate_keys: list[str], words: dict) -> dict:
                     "properties": {
                         "candidate": {
                             "type": "string", "enum": candidate_keys,
-                            "description": "The shortlist key of the topic for "
-                                           "this slot (e.g. L1, R2)."},
+                            "description": "De shortlist-key van het onderwerp "
+                                           "voor dit slot (bijv. L1, R2)."},
                         "topic": {
                             "type": "string",
-                            "description": "The werktitel — a short working "
-                                           "handle for the piece, for the "
-                                           "writer's brief. Not the printed "
-                                           "kop; the writer sets that."},
+                            "description": "De werktitel — een korte werknaam "
+                                           "voor het stuk, voor de opdracht aan "
+                                           "de auteur. Niet de gedrukte kop; "
+                                           "die bepaalt de auteur."},
                         "length": {
                             "type": "string",
-                            "enum": ["long", "standard", "short"],
-                            "description": length_desc},
+                            "enum": ["lang", "mid", "kort"],
+                            "description": lengte_omschrijving},
                         "angle": {
                             "type": "string",
-                            "description": "The editorial angle to write from; "
-                                           "see the angle examples in the "
-                                           "brief."},
+                            "description": "De redactionele invalshoek om "
+                                           "vanuit te schrijven; zie de "
+                                           "voorbeelden van invalshoeken in "
+                                           "de brief."},
                         "location": {
                             "type": "string",
-                            "description": "The dateline place the piece is "
-                                           "anchored to (town, area, or "
-                                           "country), drawn from the source "
-                                           "material."},
+                            "description": "De locatie van de dateline waar "
+                                           "het stuk aan verankerd is "
+                                           "(plaats, regio of land), "
+                                           "afgeleid uit het bronmateriaal."},
                     },
                     "required": ["candidate", "topic", "length",
                                  "angle", "location"],
@@ -69,17 +70,17 @@ JsonCall = Callable[[str, str], object]
 
 
 def constants(cfg: dict) -> dict:
-    mix, words = cfg["length_mix"], cfg["words"]
+    mix, woorden = cfg["length_mix"], cfg["woorden"]
     rng = lambda d: f"{d['min']}–{d['max']}"
     return {
         "scope_min": cfg["scope_items"]["min"],
         "scope_max": cfg["scope_items"]["max"],
-        "mix_long": rng(mix["long"]),
-        "mix_standard": rng(mix["standard"]),
-        "mix_short": rng(mix["short"]),
-        "words_long": rng(words["long"]),
-        "words_standard": rng(words["standard"]),
-        "words_short": rng(words["short"]),
+        "mix_lang": rng(mix["lang"]),
+        "mix_mid": rng(mix["mid"]),
+        "mix_kort": rng(mix["kort"]),
+        "woorden_lang": rng(woorden["lang"]),
+        "woorden_mid": rng(woorden["mid"]),
+        "woorden_kort": rng(woorden["kort"]),
         "body": rng(cfg["body_words"]),
     }
 
@@ -115,10 +116,10 @@ def story_blocks(keyed: list[tuple[str, Candidate]],
             tekst = first_words(art.text, 200)
             ok_refs = [r for r in art.references if r.ok]
             ref_words = sum(r.words for r in ok_refs)
-            ref_links = ", ".join(r.url for r in ok_refs) or "none"
-            lines.append(f"- bron={row.bron} | published={pub or 'unknown'}"
-                         f" | link={row.link}"
-                         f" | bron_titel={row.titel} | bron_tekst={tekst}"
+            ref_links = ", ".join(r.url for r in ok_refs) or "geen"
+            lines.append(f"- bron={row.bron} | published={pub or 'onbekend'}"
+                         f" | bron_link={row.bron_link}"
+                         f" | bron_titel={row.bron_titel} | bron_tekst={tekst}"
                          f" | source_words={art.words}"
                          f" | referentie_links={ref_links}"
                          f" | referentie_words={ref_words}")
@@ -200,7 +201,7 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
         raise SystemExit("S6 outline: no candidate has usable source text (PIPE-5)")
     by_key = {key: cand for key, cand in keyed}
     usage: list[dict] = []
-    schema = response_schema([key for key, _ in keyed], ed_cfg["words"])
+    schema = response_schema([key for key, _ in keyed], ed_cfg["woorden"])
     if call is None:
         call = lambda prompt, system: llm.agent_json(
             prompt, system=system, schema=schema,
@@ -222,10 +223,10 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
         raise SystemExit(f"S6 outline: unusable response: {problems}")
 
     save_model(ctx.work_dir / "60-outline.json", outline)
-    words = ed_cfg["words"]
+    woorden = ed_cfg["woorden"]
     planned = {
-        "min": sum(words[s.length]["min"] for s in outline.slots),
-        "max": sum(words[s.length]["max"] for s in outline.slots),
+        "min": sum(woorden[s.length]["min"] for s in outline.slots),
+        "max": sum(woorden[s.length]["max"] for s in outline.slots),
     }
     log = {
         "model": cfg["model"], "effort": cfg.get("effort"),
@@ -244,7 +245,7 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
         json.dumps(log, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
     mix = {cls: sum(1 for s in outline.slots if s.length == cls)
-           for cls in ("long", "standard", "short")}
+           for cls in ("lang", "mid", "kort")}
     print(f"S6 outline: {len(outline.slots)} slots "
-          f"({mix['long']} long, {mix['standard']} standard, {mix['short']} "
-          f"short; planned {planned['min']}–{planned['max']} words)")
+          f"({mix['lang']} lang, {mix['mid']} mid, {mix['kort']} "
+          f"kort; planned {planned['min']}–{planned['max']} words)")
