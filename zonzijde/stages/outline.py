@@ -74,7 +74,7 @@ def eligible_candidates(candidates: list[Candidate],
 
 
 def first_words(text: str, n: int) -> str:
-    return " ".join(text.split()[:n])
+    return " ".join(text.split(maxsplit=n)[:n])
 
 
 def story_blocks(keyed: list[tuple[str, Candidate]],
@@ -207,6 +207,8 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
         "input_topics": {s: available[s] for s in RING},
         "dropped_topics": dropped,
         "planned_words": planned,
+        "system": brief.body,
+        "prompt": prompt,
         "llm": llm.summarize_usage(usage),
     }
     (ctx.work_dir / "60-outline-log.json").write_text(

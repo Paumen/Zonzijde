@@ -87,12 +87,13 @@ def parse_scores(payload: object, n: int) -> tuple[dict[int, int], list[str]]:
 
 
 def score_batch(prompt_body: str, batch: list[FeedItem],
-                call: ScoreCall) -> tuple[dict[int, int], list[str]]:
+                call: ScoreCall) -> tuple[str, dict[int, int], list[str]]:
     prompt = build_batch_prompt(prompt_body, batch)
     try:
-        return parse_scores(call(prompt), len(batch))
+        scores, problems = parse_scores(call(prompt), len(batch))
     except llm.LlmError as e:
-        return {}, [str(e)]
+        scores, problems = {}, [str(e)]
+    return prompt, scores, problems
 
 
 def run(ctx: RunContext, call: ScoreCall | None = None) -> None:
@@ -113,14 +114,14 @@ def run(ctx: RunContext, call: ScoreCall | None = None) -> None:
     scored: list[ScoredItem] = []
     unscored_ids: list[str] = []
     log_batches = []
-    for batch, (scores, problems) in zip(batches, results):
+    for batch, (prompt_text, scores, problems) in zip(batches, results):
         for k, item in enumerate(batch):
             if k + 1 in scores:
                 scored.append(ScoredItem(**item.model_dump(), score=scores[k + 1]))
             else:
                 unscored_ids.append(item.id)
         log_batches.append({"items": len(batch), "scored": len(scores),
-                            "problems": problems})
+                            "problems": problems, "prompt": prompt_text})
 
     save_artifact(ctx.work_dir / "30-scored.json", scored)
     distribution = Counter(s.score for s in scored)

@@ -77,13 +77,14 @@ def ground(payload: object, draft: Draft) -> tuple[ReviewedArticle | None, list[
 
 def review_draft(draft: Draft, slot: OutlineSlot, ed_cfg: dict,
                  system: str, call: JsonCall
-                 ) -> tuple[ReviewedArticle | None, list[str]]:
+                 ) -> tuple[str, ReviewedArticle | None, list[str]]:
     budget = ed_cfg["words"][slot.length]
     prompt = build_prompt(draft, slot, budget)
     try:
-        return ground(call(prompt, system), draft)
+        reviewed, problems = ground(call(prompt, system), draft)
     except llm.LlmError as e:
-        return None, [str(e)]
+        reviewed, problems = None, [str(e)]
+    return prompt, reviewed, problems
 
 
 def run(ctx: RunContext, call: JsonCall | None = None) -> None:
@@ -109,23 +110,24 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
         raise SystemExit(f"S8 review: draft slot(s) {missing} not in the "
                          "outline — artifacts out of step, re-run S6/S7")
 
-    def work(draft: Draft) -> tuple[ReviewedArticle | None, list[str]]:
+    def work(draft: Draft) -> tuple[str, ReviewedArticle | None, list[str]]:
         return review_draft(draft, slots[draft.pos], ed_cfg, system, call)
 
     with ThreadPoolExecutor(max_workers=concurrency) as pool:
         results = list(pool.map(work, drafts))
 
-    reviewed = [r for r, _ in results if r is not None]
-    failed = [d.pos for d, (r, _) in zip(drafts, results) if r is None]
+    reviewed = [r for _, r, _ in results if r is not None]
+    failed = [d.pos for d, (_, r, _) in zip(drafts, results) if r is None]
     log = {
         "model": cfg["model"], "effort": cfg.get("effort"),
         "prompt_versions": {"brief": brief.version, "review": rules.version},
+        "system": system,
         "articles": [{"pos": d.pos,
                       "words": {"draft": d.words,
                                 "reviewed": r.words if r else None},
                       "corrections": r.review.corrections if r else [],
-                      "problems": p}
-                     for d, (r, p) in zip(drafts, results)],
+                      "problems": p, "prompt": prompt}
+                     for d, (prompt, r, p) in zip(drafts, results)],
         "words_total": sum(r.words for r in reviewed),
         "failed_slots": failed,
         "llm": llm.summarize_usage(usage),

@@ -119,6 +119,8 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
         "model": cfg["model"], "effort": cfg.get("effort"),
         "prompt_versions": {"brief": brief.version, "select": select.version},
         "input_items": len(positive),
+        "system": brief.body,
+        "prompt": prompt,
         "llm": llm.summarize_usage(usage),
     }
     (ctx.work_dir / "40-select-log.json").write_text(

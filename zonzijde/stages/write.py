@@ -82,14 +82,15 @@ def ground(payload: object, slot: OutlineSlot) -> tuple[Draft | None, list[str]]
 
 def write_slot(slot: OutlineSlot, articles: dict[str, ArticleText],
                ed_cfg: dict, system: str,
-               call: JsonCall) -> tuple[Draft | None, list[str]]:
+               call: JsonCall) -> tuple[str, Draft | None, list[str]]:
     budget = ed_cfg["words"][slot.length]
     sources = [articles[sid] for sid in slot.source_ids if sid in articles]
     prompt = build_prompt(slot, budget, sources)
     try:
-        return ground(call(prompt, system), slot)
+        draft, problems = ground(call(prompt, system), slot)
     except llm.LlmError as e:
-        return None, [str(e)]
+        draft, problems = None, [str(e)]
+    return prompt, draft, problems
 
 
 def run(ctx: RunContext, call: JsonCall | None = None) -> None:
@@ -111,20 +112,22 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
     articles = {a.id: a for a in
                 load_artifact(ctx.work_dir / "50-articles.json", ArticleText)}
 
-    def work(slot: OutlineSlot) -> tuple[Draft | None, list[str]]:
+    def work(slot: OutlineSlot) -> tuple[str, Draft | None, list[str]]:
         return write_slot(slot, articles, ed_cfg, system, call)
 
     with ThreadPoolExecutor(max_workers=concurrency) as pool:
         results = list(pool.map(work, outline.slots))
 
-    drafts = [d for d, _ in results if d is not None]
-    failed = [s.pos for s, (d, _) in zip(outline.slots, results) if d is None]
+    drafts = [d for _, d, _ in results if d is not None]
+    failed = [s.pos for s, (_, d, _) in zip(outline.slots, results) if d is None]
     log = {
         "model": cfg["model"], "effort": cfg.get("effort"),
         "prompt_versions": {"brief": brief.version, "write": rules.version},
+        "system": system,
         "slots": [{"pos": s.pos, "length": s.length,
-                   "words": d.words if d else None, "problems": p}
-                  for s, (d, p) in zip(outline.slots, results)],
+                   "words": d.words if d else None, "problems": p,
+                   "prompt": prompt}
+                  for s, (prompt, d, p) in zip(outline.slots, results)],
         "words_total": sum(d.words for d in drafts),
         "failed_slots": failed,
         "llm": llm.summarize_usage(usage),
