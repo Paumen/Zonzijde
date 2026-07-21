@@ -73,6 +73,10 @@ def eligible_candidates(candidates: list[Candidate],
     return keyed
 
 
+def first_words(text: str, n: int) -> str:
+    return " ".join(text.split()[:n])
+
+
 def story_blocks(keyed: list[tuple[str, Candidate]],
                  articles: dict[str, ArticleText],
                  published: dict[str, date | None]) -> str:
@@ -84,7 +88,7 @@ def story_blocks(keyed: list[tuple[str, Candidate]],
             if not art.ok:
                 continue
             pub = published.get(row.id)
-            summary = " ".join(row.samenvatting.split())
+            tekst = first_words(art.text, 200)
             ok_refs = [r for r in art.references if r.ok]
             ref_words = sum(r.words for r in ok_refs)
             ref_links = ", ".join(r.url for r in ok_refs) or "none"
@@ -92,7 +96,7 @@ def story_blocks(keyed: list[tuple[str, Candidate]],
                          f"link={row.link} | source_words={art.words}"
                          f" | reference_words={ref_words}"
                          f" | reference_links={ref_links}"
-                         f" | titel={row.titel} | samenvatting={summary}")
+                         f" | titel={row.titel} | tekst={tekst}")
         blocks.append("\n".join(lines))
     return "\n\n".join(blocks)
 
