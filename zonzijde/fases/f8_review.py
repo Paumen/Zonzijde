@@ -99,8 +99,9 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
     concurrency = int(fase_cfg.get("concurrency", 3))
     brief = prompts.load_prompt(ctx.root, "brief")
     pipeline = prompts.load_prompt(ctx.root, "pipeline")
+    stijlgids = prompts.load_prompt(ctx.root, "stijlgids")
     rules = prompts.load_prompt(ctx.root, "review")
-    system = prompts.system_base(brief.body, pipeline.body)
+    system = prompts.system_base(brief.body, pipeline.body, stijlgids.body)
     usage: list[dict] = []
     if call is None:
         call = lambda prompt, system: llm.agent_json(
@@ -129,6 +130,7 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
         "model": cfg["model"], "effort": cfg.get("effort"),
         "prompt_versions": {"brief": brief.version,
                             "pipeline": pipeline.version,
+                            "stijlgids": stijlgids.version,
                             "review": rules.version},
         "system": system,
         "schema": RESPONSE_SCHEMA,

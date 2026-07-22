@@ -26,7 +26,11 @@ def load_prompt(root: Path, name: str) -> Prompt:
     return Prompt(name=name, version=version, body=body.strip())
 
 
-def system_base(brief_body: str, pipeline_body: str) -> str:
-    return ("Je bent Claude, en werkt in de redactie van De Zonzijde.\n\n"
-            f"<paper>\n{brief_body}\n</paper>\n\n"
-            f"<pipeline>\n{pipeline_body}\n</pipeline>")
+def system_base(brief_body: str, pipeline_body: str,
+                stijlgids_body: str | None = None) -> str:
+    parts = ["Je bent Claude, en werkt in de redactie van De Zonzijde.",
+             f"<paper>\n{brief_body}\n</paper>",
+             f"<pipeline>\n{pipeline_body}\n</pipeline>"]
+    if stijlgids_body is not None:
+        parts.append(f"<stijlgids>\n{stijlgids_body}\n</stijlgids>")
+    return "\n\n".join(parts)
