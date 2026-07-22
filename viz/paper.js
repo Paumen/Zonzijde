@@ -64,7 +64,12 @@ export class Paper {
     const s = this.m.slotByPos.get(pos);
     const a = this.blocks.get(pos);
     if (!a || !s.illustration || !s.illustration.svg) return;
-    a._ill.innerHTML = s.illustration.svg;
+    const doc = new DOMParser().parseFromString(s.illustration.svg, "image/svg+xml");
+    const node = doc.querySelector("svg");
+    a._ill.replaceChildren();
+    if (!node || doc.querySelector("parsererror")) return;
+    node.querySelectorAll("script").forEach((n) => n.remove());
+    a._ill.appendChild(document.importNode(node, true));
     const svg = a._ill.querySelector("svg");
     if (svg) svg.animate([{ opacity: 0 }, { opacity: 1 }], { duration: D(600), fill: "forwards" });
   }

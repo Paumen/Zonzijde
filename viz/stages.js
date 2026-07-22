@@ -76,7 +76,7 @@ export class Stages {
     await this.enrich();
     await this.outline();
     await this.produce();
-    this.v.dimLanesExcept(null);
+    this.v.dimLanes(false);
     this.v.llmOff();
     this.v.chip("F9", "done");
     this.v.caption(
@@ -93,13 +93,13 @@ export class Stages {
       if (st === "active") this.v.chip(f.id, "done");
     }
     this.v.chip(fid, "active");
-    this.v.dimLanesExcept(true);
+    this.v.dimLanes(true);
     if (caption) this.v.caption(caption);
   }
 
   async intake() {
     this.markActive("F1", "F1 · Bronnen — de RSS-stroom komt binnen; te oude berichten vallen meteen af.");
-    this.v.dimLanesExcept(null);
+    this.v.dimLanes(false);
     const present = this.m.present("F1");
     const byFeed = new Map();
     for (const n of present) {

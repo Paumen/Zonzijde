@@ -258,9 +258,12 @@ def build(work: Path, edition_json: Path) -> dict:
          "illustrations": len(ill_by_pos)},
     ]
 
+    scopes_by_source: dict[str, list[str]] = {}
+    for it in f1:
+        scopes_by_source.setdefault(it.source, it.scopes)
     sources = [{
         "source": f["source"], "bron": f["bron"],
-        "scopes": _scopes_of(f["source"], candidates, f1),
+        "scopes": scopes_by_source.get(f["source"], []),
         "entries": f["entries"], "kept": f["kept"],
         "out_of_window": f["out_of_window"], "error": f.get("error") or "",
     } for f in fetch_log["feeds"]]

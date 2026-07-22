@@ -55,7 +55,8 @@ export class View {
       lane.dataset.dim = "0";
       lane.style.setProperty("--lane", `var(--ring-${s})`);
       const tag = el("div", "lane-tag", lane);
-      tag.innerHTML = `${s} <small>${labels[s] || ""}</small>`;
+      tag.append(s + " ");
+      el("small", "", tag).textContent = labels[s] || "";
       this.lanes[s] = lane;
     }
   }
@@ -161,8 +162,8 @@ export class View {
       Math.round(Math.max(0, Math.min(1, frac)) * 100) + "%";
   }
 
-  dimLanesExcept(active) {
-    for (const s of SCOPES) this.lanes[s].dataset.dim = active ? "1" : "0";
+  dimLanes(on) {
+    for (const s of SCOPES) this.lanes[s].dataset.dim = on ? "1" : "0";
   }
 
   caption(text) { this.captionEl.textContent = text; }
