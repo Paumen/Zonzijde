@@ -27,17 +27,24 @@ RESPONSE_SCHEMA = {
         },
         "artikellichaam": {
             "type": "string",
-            "description": "De artikeltekst precies zoals hij onder de kop "
-                           "wordt afgedrukt, beginnend bij de eerste zin. "
-                           "Herhaal de kop hier niet, zet er geen plaats- of "
-                           "datumregel boven (dat wordt apart afgedrukt), en "
-                           "voeg geen opmerkingen toe over woordentelling of "
-                           "correcties — dat hoort alleen in 'corrections' "
-                           "thuis.",
+            "description": "Het artikellichaam precies zoals het onder de "
+                           "kop wordt afgedrukt, beginnend bij de eerste "
+                           "zin. Herhaal de kop hier niet, zet er geen "
+                           "plaats- of datumregel boven (dat wordt apart "
+                           "afgedrukt), en voeg geen opmerkingen toe over "
+                           "woordentelling of correcties — dat hoort "
+                           "alleen in 'correcties' thuis.",
         },
-        "corrections": {"type": "array", "items": {"type": "string"}},
+        "correcties": {
+            "type": "array",
+            "items": {"type": "string"},
+            "description": "De betekenisvolle correcties die je hebt "
+                           "gemaakt, als losse zinnen. Altijd verplicht — "
+                           "geef een lege array als er geen correcties "
+                           "waren.",
+        },
     },
-    "required": ["artikelkop", "artikellichaam", "corrections"],
+    "required": ["artikelkop", "artikellichaam", "correcties"],
     "additionalProperties": False,
 }
 
@@ -47,10 +54,10 @@ JsonCall = Callable[[str, str], object]
 def build_prompt(review_body: str, draft: Draft, slot: OutlineSlot,
                  budget: dict) -> str:
     draft_block = "\n".join([
-        f"<concept slot={draft.pos} lengte={slot.length} "
+        f"<artikellichaam slot={draft.pos} lengte={slot.length} "
         f"richtlijn={budget['min']}–{budget['max']}>",
-        f"artikel_concept:\n{draft.text}",
-        "</concept>",
+        draft.text,
+        "</artikellichaam>",
     ])
     return Template(review_body).safe_substitute({"draft": draft_block})
 
@@ -63,8 +70,8 @@ def ground(payload: object, draft: Draft) -> tuple[ReviewedArticle | None, list[
     text = payload.get("artikellichaam").strip() \
         if isinstance(payload.get("artikellichaam"), str) else ""
 
-    raw = payload.get("corrections")
-    corrections = [s.strip() for s in raw if isinstance(s, str) and s.strip()] \
+    raw = payload.get("correcties")
+    correcties = [s.strip() for s in raw if isinstance(s, str) and s.strip()] \
         if isinstance(raw, list) else []
 
     try:
@@ -72,7 +79,7 @@ def ground(payload: object, draft: Draft) -> tuple[ReviewedArticle | None, list[
             pos=draft.pos, title=title, location=draft.location,
             source_date=draft.source_date, text=text,
             words=word_count(text),
-            review=Review(corrections=corrections))
+            review=Review(correcties=correcties))
     except ValidationError as e:
         return None, [f"invalid reviewed article: {e}"]
     return reviewed, []
@@ -135,7 +142,7 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
         "articles": [{"pos": d.pos,
                       "words": {"draft": d.words,
                                 "reviewed": r.words if r else None},
-                      "corrections": r.review.corrections if r else [],
+                      "correcties": r.review.correcties if r else [],
                       "problems": p, "prompt": prompt}
                      for d, (prompt, r, p) in zip(drafts, results)],
         "words_total": sum(r.words for r in reviewed),
@@ -152,6 +159,6 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
 
     reviewed.sort(key=lambda r: r.pos)
     save_artifact(ctx.work_dir / "f8-reviewed.json", reviewed)
-    corrections = sum(len(r.review.corrections) for r in reviewed)
+    correcties = sum(len(r.review.correcties) for r in reviewed)
     print(f"F8 review: {len(reviewed)} articles, "
-          f"{corrections} correction(s), {log['words_total']} words")
+          f"{correcties} correction(s), {log['words_total']} words")
