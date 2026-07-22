@@ -4,7 +4,7 @@ import argparse
 from datetime import date
 from pathlib import Path
 
-from . import report
+from . import report, trace
 from .context import RunContext
 from .fases import f1_fetch, f2_filter, f3_score, f4_select, f5_enrich
 from .fases import f6_outline, f7_write, f8_review, f9_compose
@@ -54,6 +54,12 @@ def build_parser() -> argparse.ArgumentParser:
     for name in FASE_NAMES:
         common(sub.add_parser(name, help=f"run fase {name} only"))
     common(sub.add_parser("report", help="regenerate the run report"))
+    trace_p = sub.add_parser("trace", help="build viz-trace.json for the replay")
+    common(trace_p)
+    trace_p.add_argument("--work", type=Path, default=None,
+                         help="work dir of a recorded run (default: ctx.work_dir)")
+    trace_p.add_argument("--out", type=Path, default=None,
+                         help="output path (default: <root>/viz/viz-trace.json)")
     return parser
 
 
@@ -68,6 +74,9 @@ def main(argv: list[str] | None = None) -> None:
 
     if args.command == "report":
         report.run(ctx)
+        return
+    if args.command == "trace":
+        trace.run(ctx, work=args.work, out=args.out)
         return
     if args.command != "run":
         run_fase(args.command, ctx)
