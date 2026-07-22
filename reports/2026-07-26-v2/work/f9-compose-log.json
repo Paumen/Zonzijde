@@ -1,0 +1,52 @@
+{
+  "nr": 4,
+  "illustrations": [
+    {
+      "file": "work/f9-illustration-1.svg",
+      "pos": 6,
+      "subject": "Een speedcube (Rubik-kubus) in driekwart aanzicht"
+    },
+    {
+      "file": "work/f9-illustration-2.svg",
+      "pos": 4,
+      "subject": "Een omhooggehouden voetbalsjaal tussen twee handen"
+    }
+  ],
+  "notes": [],
+  "recompiles": 0,
+  "attempts": [
+    [
+      {
+        "rule": "LAY-1",
+        "detail": "content fills 3.01 pages, below 3.3",
+        "page": 4
+      }
+    ]
+  ],
+  "violations": [
+    {
+      "rule": "LAY-1",
+      "detail": "content fills 3.01 pages, below 3.3",
+      "page": 4
+    }
+  ],
+  "llm": {
+    "calls": 1,
+    "input_tokens": 4,
+    "output_tokens": 5070,
+    "cache_read_tokens": 27524,
+    "cache_creation_tokens": 42603,
+    "cost_usd": 0.568,
+    "turns": 6,
+    "tool_uses": 5,
+    "thinking_chars": 0,
+    "wall_ms": 69804,
+    "api_ms": 71104
+  },
+  "accepted_violations": {
+    "note": "PO explicitly accepted the LAY-1 page-fill shortfall for this edition only (2026-07-26) — one-off waiver, no change to MIN_FILL/body_words targets for future editions.",
+    "rules": [
+      "LAY-1"
+    ]
+  }
+}

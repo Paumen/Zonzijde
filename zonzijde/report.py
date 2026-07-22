@@ -228,7 +228,7 @@ def build(ctx: RunContext) -> str:
                          f"hole(s) at pos {wfailed}**" if wfailed else "")]
         if review_log_path.is_file():
             rlog = json.loads(review_log_path.read_text(encoding="utf-8"))
-            corr = sum(len(a["corrections"]) for a in rlog["articles"])
+            corr = sum(len(a["correcties"]) for a in rlog["articles"])
             rfailed = rlog.get("failed_slots") or []
             body = ctx.edition_cfg["body_words"]
             parts += [f"- F8 review: {corr} "
@@ -334,7 +334,7 @@ def build(ctx: RunContext) -> str:
                           for r in reviewed])]
         correction_lines = []
         for r in reviewed:
-            for corr in r.review.corrections:
+            for corr in r.review.correcties:
                 correction_lines.append(f"- slot {r.pos}: {corr}")
         parts += ["", "## Correction log (F8)", ""]
         parts += correction_lines or ["No corrections — clean review."]
@@ -342,21 +342,27 @@ def build(ctx: RunContext) -> str:
     if compose_log_path.is_file():
         clog = json.loads(compose_log_path.read_text(encoding="utf-8"))
         parts += ["", "## Typeset & compose (F9)", ""]
-        ill = clog.get("illustration") or {}
-        if ill.get("file"):
-            parts += [f"- illustration (EL-3): {ill['subject']!r} with the "
-                      f"article at pos {ill['pos']} — `work/f9-illustration.svg`"]
+        for ill in clog.get("illustrations") or []:
+            if ill.get("file"):
+                parts += [f"- illustration (EL-3): {ill['subject']!r} with "
+                          f"the article at pos {ill['pos']} — `{ill['file']}`"]
         parts += [f"- {clog['recompiles']} recompile(s)"]
         for note in clog.get("notes") or []:
             parts += [f"- {note}"]
         open_v = clog.get("violations") or []
+        accepted = clog.get("accepted_violations") or {}
+        accepted_rules = set(accepted.get("rules") or [])
         if open_v:
             parts += ["", "**Unresolved violations:**", ""]
             parts += [f"- {v['rule']}: {v['detail']}"
                       + (f" (page {v['page']}" +
                          (f", column {v['col'] + 1}" if "col" in v else "")
                          + ")" if "page" in v else "")
+                      + (" — **accepted by PO for this edition only**"
+                         if v["rule"] in accepted_rules else "")
                       for v in open_v]
+            if accepted.get("note"):
+                parts += ["", f"_{accepted['note']}_"]
         else:
             parts += ["- all typeset checks passed"]
 

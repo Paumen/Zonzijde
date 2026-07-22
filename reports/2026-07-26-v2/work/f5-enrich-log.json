@@ -1,0 +1,204 @@
+{
+  "model": "claude-haiku-4-5-20251001",
+  "rows": 35,
+  "full_text": 30,
+  "methods": {
+    "requests": 30,
+    "playwright": 0
+  },
+  "min_words": 100,
+  "references": {
+    "selected": 35,
+    "ok": 27
+  },
+  "topics": [
+    {
+      "scope": "L",
+      "topic": "Dag van Wijchen tijdens de Vierdaagse",
+      "rows": 4,
+      "ok_rows": 4,
+      "dropped": false
+    },
+    {
+      "scope": "L",
+      "topic": "Zomerprogramma voor gezinnen in Wijchen",
+      "rows": 3,
+      "ok_rows": 3,
+      "dropped": false
+    },
+    {
+      "scope": "L",
+      "topic": "Toezichthouders werken over gemeentegrenzen",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "L",
+      "topic": "Batenburg Baroque Festival trekt meer bezoekers",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "L",
+      "topic": "Groot onderhoud openbare ruimte Wijchen",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "L",
+      "topic": "Minder mensen in Wijchen met WW-uitkering",
+      "rows": 1,
+      "ok_rows": 0,
+      "dropped": true
+    },
+    {
+      "scope": "L",
+      "topic": "Reanimatiecursus voor iedereen",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "R",
+      "topic": "Doorzetters van de Vierdaagse",
+      "rows": 4,
+      "ok_rows": 3,
+      "dropped": false
+    },
+    {
+      "scope": "R",
+      "topic": "Sharda haalt de finish net op tijd",
+      "rows": 1,
+      "ok_rows": 0,
+      "dropped": true
+    },
+    {
+      "scope": "R",
+      "topic": "Via Flamingo maakt Weurt uitbundiger",
+      "rows": 1,
+      "ok_rows": 0,
+      "dropped": true
+    },
+    {
+      "scope": "R",
+      "topic": "Liefde gevonden bij de Vierdaagse, dochter loopt nu mee",
+      "rows": 1,
+      "ok_rows": 0,
+      "dropped": true
+    },
+    {
+      "scope": "R",
+      "topic": "A30 gaat eerder open na maanden werk",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "R",
+      "topic": "Ecopassages Hoge Veluwe verbeterd voor wilde dieren",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "R",
+      "topic": "NEC naar Champions League voorronde",
+      "rows": 3,
+      "ok_rows": 3,
+      "dropped": false
+    },
+    {
+      "scope": "N",
+      "topic": "Arnhemse schuldenaanpak krijgt vervolg",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "N",
+      "topic": "Stikstofdoelen 2035 in zicht",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "N",
+      "topic": "Nederlanders produceren minder afval",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "N",
+      "topic": "EK Rubiks kubus brengt Europa samen in Arnhem",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "N",
+      "topic": "Nederland gastland EK padel 2027",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "I",
+      "topic": "Amazoncanopybruggen voorkomen wegverkeersslachtoffers",
+      "rows": 2,
+      "ok_rows": 2,
+      "dropped": false
+    },
+    {
+      "scope": "I",
+      "topic": "Bultruggen keren massaal terug bij Rio",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "I",
+      "topic": "Landbouwprogramma helpt amputees in Sierra Leone",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "I",
+      "topic": "Scholeksters maken comeback dankzij natuurbescherming",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "I",
+      "topic": "Gemarginaliseerde groepen vinden gemeenschap via voetbal",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    }
+  ],
+  "dropped_topics": [
+    "Minder mensen in Wijchen met WW-uitkering",
+    "Sharda haalt de finish net op tijd",
+    "Via Flamingo maakt Weurt uitbundiger",
+    "Liefde gevonden bij de Vierdaagse, dochter loopt nu mee"
+  ],
+  "duration_s": 164.4,
+  "llm": {
+    "calls": 24,
+    "input_tokens": 410,
+    "output_tokens": 27087,
+    "cache_read_tokens": 720413,
+    "cache_creation_tokens": 129642,
+    "cost_usd": 0.4911,
+    "turns": 64,
+    "tool_uses": 23,
+    "thinking_chars": 52076,
+    "wall_ms": 354830,
+    "api_ms": 355651
+  }
+}

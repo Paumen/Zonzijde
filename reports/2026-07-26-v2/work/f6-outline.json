@@ -1,0 +1,106 @@
+{
+  "edition": "2026-07-26",
+  "slots": [
+    {
+      "pos": 1,
+      "scope": "L",
+      "topic": "Dag van Wijchen tijdens de Vierdaagse",
+      "length": "lang",
+      "angle": "Ga-en-kijk met menselijke synecdoche: de doorkomst van de 4Daagse als lokaal ochtendfeest, verankerd in één of twee doorzetters (Willie Heij, 83, recordhouder met zijn 66e tocht; Wout Loeffen die voor het Campagneteam Huntington loopt). Auteur mag het zwaartepunt kiezen tussen het collectieve feest en het individuele portret; warm-in-terughoudendheid, laat de emotie impliciet.",
+      "source_ids": [
+        "ef39b5297860",
+        "70f026667e52",
+        "8a1774633b68",
+        "a0075d173b34"
+      ],
+      "location": "Wijchen",
+      "source_date": "2026-07-21"
+    },
+    {
+      "pos": 2,
+      "scope": "L",
+      "topic": "Batenburg Baroque Festival trekt meer bezoekers",
+      "length": "mid",
+      "angle": "Vooruitgangsverhaal met uitgangscijfer: vijfde editie, (nagenoeg) uitverkochte concerten en 5 procent meer bezoekers — een klein festival dat gestaag groeit. Techniek: trendsignalering. Toon nieuwsgierig/warm; laat de plek (historisch Batenburg, concertschuur Appeltern) meespelen.",
+      "source_ids": [
+        "f1f69f295308"
+      ],
+      "location": "Batenburg",
+      "source_date": "2026-07-16"
+    },
+    {
+      "pos": 3,
+      "scope": "R",
+      "topic": "A30 gaat eerder open na maanden werk",
+      "length": "mid",
+      "angle": "Herstel/oplossingsverhaal met erkennen-en-keren: benoem kort de maandenlange omrijmiserie en keer dan — de A30 gaat 46 uur eerder open dan gepland, groot onderhoud netjes afgerond. Wrang/droog register past hier.",
+      "source_ids": [
+        "0a44ea58303d"
+      ],
+      "location": "Barneveld",
+      "source_date": "2026-07-21"
+    },
+    {
+      "pos": 4,
+      "scope": "R",
+      "topic": "NEC naar Champions League voorronde",
+      "length": "kort",
+      "angle": "Opgewekt met vangrails: NEC's stap naar de Champions League-voorronde als streekfeest. Leun op de sfeer en het supporterscitaat op het Faberplein; mijd de wedstrijdvoorspelling en de speculatieve Tadic-transfer. Menselijke synecdoche via een enkele fan.",
+      "source_ids": [
+        "7879c2ee8908",
+        "da1a947270e2",
+        "4ead924c944d"
+      ],
+      "location": "Nijmegen",
+      "source_date": "2026-07-20"
+    },
+    {
+      "pos": 5,
+      "scope": "N",
+      "topic": "Arnhemse schuldenaanpak krijgt vervolg",
+      "length": "lang",
+      "angle": "Oplossingsverhaal: probleem (onoplosbare schulden bij kwetsbare gezinnen) → interventie (kwijtschelding plus een coach) → resultaat, met als kern dat de proef juist vanwege de resultaten een vervolg krijgt. Menselijke synecdoche (Shaquina, 'geen druk meer'). Toon warm-in-terughoudendheid; land de pointe niet te nadrukkelijk.",
+      "source_ids": [
+        "edfbdda71ce4"
+      ],
+      "location": "Arnhem",
+      "source_date": "2026-07-15"
+    },
+    {
+      "pos": 6,
+      "scope": "N",
+      "topic": "EK Rubiks kubus brengt Europa samen in Arnhem",
+      "length": "kort",
+      "angle": "Contra-intuïtief/juxtapositie: een kampioenschap dat draait om snelheid maar vooral om gezelligheid — 1200 puzzelaars uit 53 landen die het 'gezellig met elkaar' hebben. Speelgoed dat samenbrengt. Licht en opgewekt.",
+      "source_ids": [
+        "b62a8444078c"
+      ],
+      "location": "Arnhem",
+      "source_date": "2026-07-17"
+    },
+    {
+      "pos": 7,
+      "scope": "I",
+      "topic": "Landbouwprogramma helpt amputees in Sierra Leone",
+      "length": "mid",
+      "angle": "Verandermaker/oplossingsverhaal met erkennen-en-keren: benoem de erfenis van de burgeroorlog en keer dan naar wat werkt — pastor-boer Mambud Samai die amputees duurzaam leren boeren, richting eigen voedsel, inkomen en waardigheid. Gezaghebbend-warm.",
+      "source_ids": [
+        "fcae521b5ae4"
+      ],
+      "location": "Sierra Leone",
+      "source_date": "2026-07-16"
+    },
+    {
+      "pos": 8,
+      "scope": "I",
+      "topic": "Bultruggen keren massaal terug bij Rio",
+      "length": "kort",
+      "angle": "Herstel met uitgangscijfer: bultruggen keren massaal terug bij Rio — van ruwweg 2.000 naar zo'n 35.000 in veertig jaar, bijna terug op het niveau van vóór de walvisvaart. Laat het cijfer het werk doen; nieuwsgierige toon.",
+      "source_ids": [
+        "082d1811afd0"
+      ],
+      "location": "Rio de Janeiro",
+      "source_date": "2026-07-17"
+    }
+  ]
+}

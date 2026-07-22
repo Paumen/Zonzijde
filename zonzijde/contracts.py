@@ -110,7 +110,7 @@ class Draft(BaseModel):
 
 
 class Review(BaseModel):
-    corrections: list[str]
+    correcties: list[str]
 
 
 class ReviewedArticle(Draft):

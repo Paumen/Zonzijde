@@ -1,0 +1,2149 @@
+[
+  {
+    "id": "da66afb97ac2",
+    "source": "nieuws_nl",
+    "bron": "nieuws.nl",
+    "scopes": [
+      "L",
+      "R"
+    ],
+    "title": "Minder fietsen gestolen in Wijchen",
+    "link": "https://wijchen.nieuws.nl/nieuws/minder-fietsen-gestolen-in-wijchen",
+    "summary": "Er zijn het afgelopen jaar minder fietsen in Wijchen gestolen dan in de jaren ervoor. In 2025 waren dat er 140, terwijl in 2021 nog 155 fietsen werden gestolen. Dat strookt niet met de provinciale trend: vorig jaar verdwenen in Gelderland 8410 fietsen, een stijging van 34 procent vergeleken met 2021...",
+    "published": "2026-07-19T14:10:00+02:00",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B1"
+  },
+  {
+    "id": "81d10510095e",
+    "source": "nieuws_nl",
+    "bron": "nieuws.nl",
+    "scopes": [
+      "L",
+      "R"
+    ],
+    "title": "Groot tekort aan loodgieters in Wijchen",
+    "link": "https://wijchen.nieuws.nl/nieuws/grote-tekort-aan-loodgieters-in-wijchen",
+    "summary": "Een verstopt riool, een lekkage of onderhoud aan leidingen? Grote kans dat je in lang moet wachten op een loodgieter. Want terwijl het aantal huishoudens groeit, komen er niet genoeg nieuwe vakmensen. De gemeente Wijchen behoort bij de 10 gemeenten in Gelderland met relatief de minste loodgietersbed...",
+    "published": "2026-07-19T10:30:00+02:00",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B2"
+  },
+  {
+    "id": "1e4a6fa3dc33",
+    "source": "nieuws_nl",
+    "bron": "nieuws.nl",
+    "scopes": [
+      "L",
+      "R"
+    ],
+    "title": "Celstraffen voor productie van cocaïne",
+    "link": "https://wijchen.nieuws.nl/nieuws/celstraffen-voor-productie-van-cocaine",
+    "summary": "De rechtbank veroordeelt een 58-jarige man uit Bergharen en een 62-jarige Nijmegenaar voor het produceren van cocaïne in een cocaïnewasserij in een schuur in Bergharen, voorbereidingshandelingen daarvan en het in bezit hebben van 12 kilo cocaïne. Zij krijgen beiden een celstraf van 32 maanden. De ma...",
+    "published": "2026-07-17T17:00:00+02:00",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B2"
+  },
+  {
+    "id": "f532b9a54514",
+    "source": "dg_wijchen",
+    "bron": "DG Wijchen",
+    "scopes": [
+      "L",
+      "R",
+      "N"
+    ],
+    "title": "Jongeman overleden na schietpartij nabij vierdaagsefeesten in Nijmegen, politiehelikopter boven locatie",
+    "link": "https://www.gelderlander.nl/binnenland/jongeman-overleden-na-schietpartij-nabij-vierdaagsefeesten-in-nijmegen-politiehelikopter-boven-locatie~ae69922d/",
+    "summary": "De jongeman die dinsdagavond zwaargewond raakte bij een schietpartij op de Graafseweg in Nijmegen, is in het ziekenhuis overleden. Dat meldt de politie.",
+    "published": "2026-07-21T20:18:00Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B1,B2"
+  },
+  {
+    "id": "9110767c8633",
+    "source": "dg_wijchen",
+    "bron": "DG Wijchen",
+    "scopes": [
+      "L",
+      "R",
+      "N"
+    ],
+    "title": "Barvrouw krijgt gesp van Gucci-riem tegen haar hoofd bij geweld op Plein 44",
+    "link": "https://www.gelderlander.nl/vierdaagse/barvrouw-krijgt-gesp-van-gucci-riem-tegen-haar-hoofd-bij-geweld-op-plein-44~acd18d80/",
+    "summary": "Bij een geweldsincident op de hoek van Plein 44 en de Bloemerstraat is tijdens de Vierdaagsefeesten een barvrouw geraakt met de gesp van een Gucci-riem. Dat gebeurde tijdens een ruzie met groepen jongeren aan het begin van de avond.",
+    "published": "2026-07-21T18:10:22Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B1"
+  },
+  {
+    "id": "3d25dabd541e",
+    "source": "dg_wijchen",
+    "bron": "DG Wijchen",
+    "scopes": [
+      "L",
+      "R",
+      "N"
+    ],
+    "title": "Brand breekt uit in woning in Oss, bewoner op tijd buiten",
+    "link": "https://www.gelderlander.nl/oss/brand-breekt-uit-in-woning-in-oss-bewoner-op-tijd-buiten~a33d87bd6/",
+    "summary": "In een woning aan het Merinohof in Oss is dinsdagavond brand uitgebroken. Bij de brand kwam veel rook vrij. De bewoner was al buiten toen de hulpdiensten arriveerden.",
+    "published": "2026-07-21T18:01:00Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B1"
+  },
+  {
+    "id": "031f08c0ab2f",
+    "source": "dg_wijchen",
+    "bron": "DG Wijchen",
+    "scopes": [
+      "L",
+      "R",
+      "N"
+    ],
+    "title": "Stijn en Ruben dragen Douwe (76) onder de arm naar de finish, maar dan slaat de klok genadeloos toe",
+    "link": "https://www.gelderlander.nl/vierdaagse/stijn-en-ruben-dragen-douwe-76-onder-de-arm-naar-de-finish-maar-dan-slaat-de-klok-genadeloos-toe~acc95adc/",
+    "summary": "Een val van de fiets maakt de eerste Vierdaagsedag voor Douwe de Boer vrijwel ondraaglijk: de rugpijn is zo hevig, dat hij het wandelen amper volhoudt. De bezemwagen slaat hij af, in de hoop dat supporters Stijn Piels en Ruben van Velzen hem nog op tijd naar de finish brengen. Maar dan krijgt hij slecht nieuws.",
+    "published": "2026-07-21T17:13:00Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B2"
+  },
+  {
+    "id": "7a1daa752083",
+    "source": "dg_wijchen",
+    "bron": "DG Wijchen",
+    "scopes": [
+      "L",
+      "R",
+      "N"
+    ],
+    "title": "Festivalbaas reageert op kritiek van Bruls over ‘fout volk’ bij Matrixx at the Park: ‘Dit is kort door de bocht’",
+    "link": "https://www.gelderlander.nl/vierdaagse/festivalbaas-reageert-op-kritiek-van-bruls-over-fout-volk-bij-matrixx-at-the-park-dit-is-kort-door-de-bocht~ab2716cf/",
+    "summary": "Festivaldirecteur David Brons kan zich niet vinden in de kritiek van de Nijmeegse burgemeester Hubert Bruls dat zijn festival Matrixx at the Park ‘fout volk’ aantrekt. De uitspraken zijn kort door de bocht, vindt hij. Bij het festival waren afgelopen dagen meerdere geweldsincidenten.",
+    "published": "2026-07-21T16:11:00Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B2"
+  },
+  {
+    "id": "a47881937295",
+    "source": "dg_wijchen",
+    "bron": "DG Wijchen",
+    "scopes": [
+      "L",
+      "R",
+      "N"
+    ],
+    "title": "Politie deelt herkenbare foto van verdachte zware mishandeling Vierdaagsefeesten",
+    "link": "https://www.gelderlander.nl/vierdaagse/politie-deelt-herkenbare-foto-van-verdachte-zware-mishandeling-vierdaagsefeesten~acd44f1d/",
+    "summary": "De politie is op zoek naar een man die wordt verdacht van een ernstige mishandeling in het Hunnerpark tijdens de Vierdaagsefeesten. Dat gebeurde afgelopen zaterdag, rond 21.45 uur.",
+    "published": "2026-07-21T15:43:00Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B1,B2"
+  },
+  {
+    "id": "3a3800af9ee3",
+    "source": "dg_wijchen",
+    "bron": "DG Wijchen",
+    "scopes": [
+      "L",
+      "R",
+      "N"
+    ],
+    "title": "12-jarigen sturen nabestaanden van Esmee (14) maanden haatberichten, psycholoog legt uit wat hierachter zit",
+    "link": "https://www.gelderlander.nl/nijmegen/12-jarigen-sturen-nabestaanden-van-esmee-14-maanden-haatberichten-psycholoog-legt-uit-wat-hierachter-zit~afc0ce135/",
+    "summary": "Twee jongens van 12 jaar oud, die het gezin van de bij een verkeersongeval omgekomen Esmee Hoesen uit Sint Anthonis maandenlang bestookten met duivelsachtige haatberichten op social media. Hoe is zoiets mogelijk?",
+    "published": "2026-07-21T15:02:00Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B2"
+  },
+  {
+    "id": "1153fa87f477",
+    "source": "dg_wijchen",
+    "bron": "DG Wijchen",
+    "scopes": [
+      "L",
+      "R",
+      "N"
+    ],
+    "title": "Henk Baars uit de Achterhoek zet meer dan 2400 openbare video’s op YouTube",
+    "link": "https://www.gelderlander.nl/doetinchem/henk-baars-uit-de-achterhoek-zet-meer-dan-2400-openbare-videos-op-youtube~ae4595bb/",
+    "summary": "Henk Baars heeft deze week een mijlpaal bereikt met zijn videokanaal op YouTube. Er staan inmiddels meer dan 2400 openbare video’s van hem online.",
+    "published": "2026-07-21T14:04:34Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B5"
+  },
+  {
+    "id": "9bbdadb1bae5",
+    "source": "dg_wijchen",
+    "bron": "DG Wijchen",
+    "scopes": [
+      "L",
+      "R",
+      "N"
+    ],
+    "title": "Man gewond bij val van scootmobiel in Oss",
+    "link": "https://www.gelderlander.nl/oss/man-gewond-bij-val-van-scootmobiel-in-oss~a8df4286/",
+    "summary": "Een man is dinsdagmiddag gewond geraakt nadat hij van zijn voertuig viel op de Industrielaan in Oss. Het ongeluk gebeurde rond 13.20 uur.",
+    "published": "2026-07-21T12:47:00Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B1"
+  },
+  {
+    "id": "599ebee61508",
+    "source": "dg_wijchen",
+    "bron": "DG Wijchen",
+    "scopes": [
+      "L",
+      "R",
+      "N"
+    ],
+    "title": "Nog nooit op de Wedren geweest? In deze video neemt indebuurt je mee",
+    "link": "https://www.gelderlander.nl/nijmegen/nog-nooit-op-de-wedren-geweest-in-deze-video-neemt-indebuurt-je-mee~aa7faa07/",
+    "summary": "Heb je nog nooit de Vierdaagse gelopen? Dan weet je misschien niet hoe de Wedren er deze week uitziet. Redacteur Desiree neemt je mee over het terrein.",
+    "published": "2026-07-21T11:26:03Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B5"
+  },
+  {
+    "id": "fa310b85bb26",
+    "source": "dg_wijchen",
+    "bron": "DG Wijchen",
+    "scopes": [
+      "L",
+      "R",
+      "N"
+    ],
+    "title": "KIJK: Zo bracht Nijmegen eerbetoon aan bekend stadslied - ‘Zou anthem van Vierdaagsefeesten moeten worden’",
+    "link": "https://www.gelderlander.nl/nijmegen/kijk-zo-bracht-nijmegen-eerbetoon-aan-bekend-stadslied-zou-anthem-van-vierdaagsefeesten-moeten-worden~a87c5022/",
+    "summary": "Het was een ode aan het misschien wel bekendste lied van Nijmegen: een vol Hertogplein zong maandagavond uit volle borst het Al mot ik krupe. Het was een eerbetoon van zanger Bennie Solo en De Sjonnies, op initiatief van De Gelderlander. En als het aan Solo ligt, komt er een nog grootser vervolg.",
+    "published": "2026-07-21T10:43:00Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B5"
+  },
+  {
+    "id": "c267a30bc368",
+    "source": "gld",
+    "bron": "Gld",
+    "scopes": [
+      "R"
+    ],
+    "title": "VIERDAAGSE | Dode bij schietincident rond feesten • terugblik op Dag van Elst",
+    "link": "https://www.gld.nl/nieuws/8500060/vierdaagse-dode-bij-schietincident-rond-feesten-terugblik-op-dag-van-elst",
+    "summary": "Welkom in het liveblog van de Vierdaagse van Nijmegen. De 108e editie van de marsen is begonnen en de wandelaars hebben vandaag de Dag van Elst, ook wel Blauwe Dinsdag. Steeds meer wandelaars melden zich bij de finish voor hun startkaart voor woensdag. Volg het laatste nieuws hier.",
+    "published": "2026-07-21T19:19:29Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B1,B2"
+  },
+  {
+    "id": "f7f7cf207c75",
+    "source": "gld",
+    "bron": "Gld",
+    "scopes": [
+      "R"
+    ],
+    "title": "Eerst brandt een scooter, daarna loopt de straat onder",
+    "link": "https://www.gld.nl/nieuws/8500624/eerst-brandt-een-scooter-daarna-loopt-de-straat-onder",
+    "summary": "Een brandende scooter heeft dinsdagavond voor een opvallende situatie gezorgd aan de Julianalaan in Buren. Toen de brandweer na het blussen water bijvulde, sprong een waterleiding.",
+    "published": "2026-07-21T19:14:08Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B1"
+  },
+  {
+    "id": "d304f35ba859",
+    "source": "gld",
+    "bron": "Gld",
+    "scopes": [
+      "R"
+    ],
+    "title": "Scooterbrand en wateroverlast • fietser gewond naar ziekenhuis",
+    "link": "https://www.gld.nl/nieuws/8500198/scooterbrand-en-wateroverlast-fietser-gewond-naar-ziekenhuis",
+    "summary": "Het actuele 112-nieuws uit Gelderland van deze dag bundelen we in een liveblog. Je leest en ziet hier een overzicht van ongelukken, branden, vermissingen en misdrijven in onze provincie.",
+    "published": "2026-07-21T19:12:21Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B1,B2"
+  },
+  {
+    "id": "e787776ef541",
+    "source": "gld",
+    "bron": "Gld",
+    "scopes": [
+      "R"
+    ],
+    "title": "Eerste dag Vierdaagse, zorgen om drugs en afscheid van Dieperink (38) op 21 juli",
+    "link": "https://www.gld.nl/nieuws/8500612/eerste-dag-vierdaagse-zorgen-om-drugs-en-afscheid-van-dieperink-38-op-21-juli",
+    "summary": "De eerste dag van de Nijmeegse Vierdaagse zit erop, burgemeester Hubert Bruls maakt zich zorgen over geweld en drugs tijdens de feesten en Borculo nam afscheid van scheidsrechter Rob Dieperink (38). Dat en meer lees je in dit avondoverzicht.",
+    "published": "2026-07-21T17:17:05Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B2"
+  },
+  {
+    "id": "bd5cf3da3aaa",
+    "source": "gld",
+    "bron": "Gld",
+    "scopes": [
+      "R"
+    ],
+    "title": "Bestuurder en zoon naar ziekenhuis na botsing boom",
+    "link": "https://www.gld.nl/nieuws/8500609/bestuurder-en-zoon-naar-ziekenhuis-na-botsing-boom",
+    "summary": "Een bestuurder van een personenauto is dinsdag aan het eind van de middag om 17.45 uur op een boom gebotst. De onfortuinlijke botsing gebeurde net buiten de bebouwde kom van Scherpenzeel, op de Lambalgseweg in Woudenberg.",
+    "published": "2026-07-21T17:12:11Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B2"
+  },
+  {
+    "id": "6dbf8aa7a6fc",
+    "source": "gld",
+    "bron": "Gld",
+    "scopes": [
+      "R"
+    ],
+    "title": "Hoop voor failliete papierfabriek in Eerbeek: 'In vergevorderd stadium'",
+    "link": "https://www.gld.nl/nieuws/8500362/hoop-voor-failliete-papierfabriek-in-eerbeek-in-vergevorderd-stadium",
+    "summary": "Er zijn concrete plannen voor een doorstart van papierfabriek Folding Boxboard in Eerbeek. 'We zijn er bijna', meldde het failliete bedrijf afgelopen week aan haar medewerkers. Curator Eric Looijen bevestigt dat er serieuze interesse is. \"Ik ben inderdaad in een vergevorderd stadium.\"",
+    "published": "2026-07-21T17:01:51Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B1"
+  },
+  {
+    "id": "f61da4a087ef",
+    "source": "gld",
+    "bron": "Gld",
+    "scopes": [
+      "R"
+    ],
+    "title": "Traumahelikopter opgeroepen na zware val van fietser: 'Situatie is ernstig'",
+    "link": "https://www.gld.nl/nieuws/8500599/traumahelikopter-opgeroepen-na-zware-val-van-fietser-situatie-is-ernstig",
+    "summary": "Een man of een vrouw op een fiets is dinsdagmiddag op de Randweg in Geldermalsen van de fiets gevallen. De situatie is ernstig, vertelt een 112-verslaggever.",
+    "published": "2026-07-21T16:12:15Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B1"
+  },
+  {
+    "id": "fe6c64889274",
+    "source": "gld",
+    "bron": "Gld",
+    "scopes": [
+      "R"
+    ],
+    "title": "Vrouw overlijdt na aanrijding met busje: pakketbezorger (20) krijgt taakstraf",
+    "link": "https://www.gld.nl/nieuws/8494430/vrouw-overlijdt-na-aanrijding-met-busje-pakketbezorger-20-krijgt-taakstraf",
+    "summary": "Een vrouw (20) uit Zetten krijgt een taakstraf van 180 uur en is een half jaar haar rijbewijs kwijt. Ze veroorzaakte een fatale aanrijding tijdens haar dienst als pakketbezorgster. Een 68-jarige vrouw kwam daarbij om het leven.",
+    "published": "2026-07-21T15:40:53Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B1,B2"
+  },
+  {
+    "id": "12b10662b92f",
+    "source": "gld",
+    "bron": "Gld",
+    "scopes": [
+      "R"
+    ],
+    "title": "Politie zoekt verdachte van ernstige mishandeling tijdens Vierdaagsefeesten",
+    "link": "https://www.gld.nl/nieuws/8500569/politie-zoekt-verdachte-van-ernstige-mishandeling-tijdens-vierdaagsefeesten",
+    "summary": "De politie zoekt een man die wordt verdacht van een ernstige mishandeling in het Hunnerpark in Nijmegen tijdens de Vierdaagsefeesten.",
+    "published": "2026-07-21T14:58:33Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B1,B2"
+  },
+  {
+    "id": "8546635c29e0",
+    "source": "gld",
+    "bron": "Gld",
+    "scopes": [
+      "R"
+    ],
+    "title": "Bewoner ontdekt brand in meterkast",
+    "link": "https://www.gld.nl/nieuws/8500548/bewoner-ontdekt-brand-in-meterkast",
+    "summary": "Een bewoonster van een woning aan de Mezenhof te Hattemerbroek ontdekte dinsdagmiddag rond 15.30 uur een brand in haar meterkast.",
+    "published": "2026-07-21T14:24:06Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B1"
+  },
+  {
+    "id": "97f1e7af7f1c",
+    "source": "gld",
+    "bron": "Gld",
+    "scopes": [
+      "R"
+    ],
+    "title": "Kop-staartbotsing in file voor grenscontrole",
+    "link": "https://www.gld.nl/nieuws/8500538/kop-staartbotsing-in-file-voor-grenscontrole",
+    "summary": "Twee auto's zijn dinsdagmiddag op elkaar gebotst op de A12 bij Babberich. Het gaat om een kop-staartbotsing in een file, die zich had gevormd vanwege een grenscontrole.",
+    "published": "2026-07-21T13:56:28Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B2"
+  },
+  {
+    "id": "8841554ac100",
+    "source": "gld",
+    "bron": "Gld",
+    "scopes": [
+      "R"
+    ],
+    "title": "KIJKEN | Wandelaars Vierdaagse zijn onderweg: kijk live mee!",
+    "link": "https://www.gld.nl/nieuws/8500215/kijken-wandelaars-vierdaagse-zijn-onderweg-kijk-live-mee",
+    "summary": "De 108e Vierdaagse is onderweg. 45.761 lopers hebben een startbewijs voor de marsen van dit jaar. Je hoeft bij ons niets van het evenement te missen en kunt hier live met ons meekijken naar de wandelaars.",
+    "published": "2026-07-21T12:45:25Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B5"
+  },
+  {
+    "id": "794775ed3751",
+    "source": "gld",
+    "bron": "Gld",
+    "scopes": [
+      "R"
+    ],
+    "title": "Vrachtwagenchauffeur test positief op drugs na frontale botsing",
+    "link": "https://www.gld.nl/nieuws/8500338/vrachtwagenchauffeur-test-positief-op-drugs-na-frontale-botsing",
+    "summary": "Eén van de chauffeurs die maandag betrokken was bij een ongeval tussen twee vrachtwagens testte positief op drugs. Dat bevestigt de politie.",
+    "published": "2026-07-21T10:52:37Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B2"
+  },
+  {
+    "id": "8ca51795066e",
+    "source": "gld",
+    "bron": "Gld",
+    "scopes": [
+      "R"
+    ],
+    "title": "Politie gebruikt stroomstootwapen, maar verdachte ontkomt",
+    "link": "https://www.gld.nl/nieuws/8500300/politie-gebruikt-stroomstootwapen-maar-verdachte-ontkomt",
+    "summary": "De politie heeft in Nijmegen twee mannen aangehouden die in het bezit waren van verdovende middelen. Een andere verdachte ontkwam ondanks de inzet van een stroomstootwapen.",
+    "published": "2026-07-21T09:22:00Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B2"
+  },
+  {
+    "id": "2e2464fe4987",
+    "source": "gld",
+    "bron": "Gld",
+    "scopes": [
+      "R"
+    ],
+    "title": "Van tussen de papiermachines naar thuis met ontslagbrief: deze zwagers zitten plots in hetzelfde schuitje",
+    "link": "https://www.gld.nl/nieuws/8499863/van-tussen-de-papiermachines-naar-thuis-met-ontslagbrief-deze-zwagers-zitten-plots-in-hetzelfde-schuitje",
+    "summary": "De Eerbeekse zwagers René van der Wijk (61) en Mark Westerhof (59) gingen (schoon)pa Westerhof, ome Leo en ome Henk achterna met een baan in de papierindustrie. Door faillissementen raakten ze kort na elkaar werkloos. Wat blijft er over van de industrie waar hun familie en hun dorp mee verweven zijn? \"Waar moeten we nu op verjaardagen over praten?\"",
+    "published": "2026-07-21T07:21:23Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B2"
+  },
+  {
+    "id": "ec21e4afbed7",
+    "source": "gld",
+    "bron": "Gld",
+    "scopes": [
+      "R"
+    ],
+    "title": "Waterschap wil dat glastuinbouw meer doet tegen watervervuiling",
+    "link": "https://www.gld.nl/nieuws/8500148/waterschap-wil-dat-glastuinbouw-meer-doet-tegen-watervervuiling",
+    "summary": "Ondernemers in de glastuinbouw in de Bommelerwaard moeten meer doen om vervuiling van het oppervlaktewater met bestrijdingsmiddelen te voorkomen. Dat meldt Waterschap Rivierenland. Volgens het waterschap blijft de glastuinbouw achter bij sectoren zoals de boomteelt, waar de waterkwaliteit al sterker is verbeterd.",
+    "published": "2026-07-21T06:12:20Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B2"
+  },
+  {
+    "id": "cdd101fb08df",
+    "source": "gld",
+    "bron": "Gld",
+    "scopes": [
+      "R"
+    ],
+    "title": "Omwonenden horen bewoner in tuin om hulp roepen bij woningbrand",
+    "link": "https://www.gld.nl/nieuws/8500204/omwonenden-horen-bewoner-in-tuin-om-hulp-roepen-bij-woningbrand",
+    "summary": "Bij een woningbrand in Varsseveld is een bewoner gewond geraakt door het inademen van rook. Omwonenden hoorden de bewoner om hulp roepen.",
+    "published": "2026-07-21T05:15:38Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B1"
+  },
+  {
+    "id": "fc912316df27",
+    "source": "gld",
+    "bron": "Gld",
+    "scopes": [
+      "R"
+    ],
+    "title": "Nijmeegs ziekenhuis stelt vrouwen vaker centraal bij medisch onderzoek",
+    "link": "https://www.gld.nl/nieuws/8499603/nijmeegs-ziekenhuis-stelt-vrouwen-vaker-centraal-bij-medisch-onderzoek",
+    "summary": "Als je als vrouw met een aandoening bij de dokter komt, is de kans groot dat het medisch onderzoek naar deze aandoening vooral onder mannen is uitgevoerd. Bij sommige ziektes gaan hierdoor verhoudingsgewijs meer vrouwen dood. Het Radboudumc wil dit veranderen door vaker juist wel onderzoek bij vrouwen te doen.",
+    "published": "2026-07-21T04:18:12Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B2"
+  },
+  {
+    "id": "02340b87ac38",
+    "source": "gld",
+    "bron": "Gld",
+    "scopes": [
+      "R"
+    ],
+    "title": "Auto schiet weiland in bij Bredevoort",
+    "link": "https://www.gld.nl/nieuws/8500167/auto-schiet-weiland-in-bij-bredevoort",
+    "summary": "Een automobilist schoot maandagavond met de auto een grasveld op aan de Goordiek in Bredevoort. Niemand raakte gewond.",
+    "published": "2026-07-20T19:25:09Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B2"
+  },
+  {
+    "id": "f17e63fbe9aa",
+    "source": "gld",
+    "bron": "Gld",
+    "scopes": [
+      "R"
+    ],
+    "title": "Slachtoffer uit water gehaald bij Eiland van Maurik",
+    "link": "https://www.gld.nl/nieuws/8500159/slachtoffer-uit-water-gehaald-bij-eiland-van-maurik",
+    "summary": "Maandagavond is aan de Rijnbanddijk in Maurik een persoon uit het water gehaald.",
+    "published": "2026-07-20T18:59:29Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B2"
+  },
+  {
+    "id": "fef82f544bb5",
+    "source": "gld",
+    "bron": "Gld",
+    "scopes": [
+      "R"
+    ],
+    "title": "Bedrijfswagen zwaar beschadigd door brand in Hedel",
+    "link": "https://www.gld.nl/nieuws/8500156/bedrijfswagen-zwaar-beschadigd-door-brand-in-hedel",
+    "summary": "Een bedrijfswagen vloog maandagavond in brand in de Kerkstraat in Hedel. Het vuur beschadigde de auto flink.",
+    "published": "2026-07-20T18:49:48Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B1"
+  },
+  {
+    "id": "5e2c1e2c9e4e",
+    "source": "gld",
+    "bron": "Gld",
+    "scopes": [
+      "R"
+    ],
+    "title": "Dode na mishandeling, bijna 46.000 wandelaars en zware loting NEC op 20 juli",
+    "link": "https://www.gld.nl/nieuws/8500135/dode-na-mishandeling-bijna-46000-wandelaars-en-zware-loting-nec-op-20-juli",
+    "summary": "De Nijmeegse Vierdaagse staat op het punt van beginnen, een 58-jarige man uit Harderwijk is overleden na een zware mishandeling en NEC treft Olympiakos Piraeus in de voorronde van de Champions League. Dat en meer lees je in dit avondoverzicht.",
+    "published": "2026-07-20T17:22:09Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B1"
+  },
+  {
+    "id": "60739445934d",
+    "source": "gld",
+    "bron": "Gld",
+    "scopes": [
+      "R"
+    ],
+    "title": "Fietser gewond • ravage na botsing vrachtwagens",
+    "link": "https://www.gld.nl/nieuws/8499807/fietser-gewond-ravage-na-botsing-vrachtwagens",
+    "summary": "Het actuele 112-nieuws uit Gelderland van deze dag bundelen we in een liveblog. Je leest en ziet hier een overzicht van ongelukken, branden, vermissingen en misdrijven in onze provincie.",
+    "published": "2026-07-20T16:13:12Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B1,B2"
+  },
+  {
+    "id": "96f2418656d6",
+    "source": "gld",
+    "bron": "Gld",
+    "scopes": [
+      "R"
+    ],
+    "title": "Politie onderzoekt drugsgebruik na kop-staartbotsing",
+    "link": "https://www.gld.nl/nieuws/8500129/politie-onderzoekt-drugsgebruik-na-kop-staartbotsing",
+    "summary": "De politie heeft na een kop-staartbotsing op de Zomerweg in Doesburg een bestuurder aangehouden. Agenten vermoeden dat die onder invloed van drugs reed.",
+    "published": "2026-07-20T16:06:53Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B2"
+  },
+  {
+    "id": "24af40d46537",
+    "source": "gld",
+    "bron": "Gld",
+    "scopes": [
+      "R"
+    ],
+    "title": "Gelderse brandweer helpt Spanje met bestrijden natuurbranden",
+    "link": "https://www.gld.nl/nieuws/8500076/gelderse-brandweer-helpt-spanje-met-bestrijden-natuurbranden",
+    "summary": "Een delegatie Gelderse brandweerlieden is aangekomen in Spanje om te helpen met het bestrijden van natuurbranden. De al langer geplande ondersteuningsmissie komt precies op het moment dat Spanje wordt geteisterd door een reeks grote bosbranden. Verslaggever Annemieke Schakelaar volgt de Gelderse delegatie.",
+    "published": "2026-07-20T16:00:00Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B1"
+  },
+  {
+    "id": "6e3ed28419e3",
+    "source": "gld",
+    "bron": "Gld",
+    "scopes": [
+      "R"
+    ],
+    "title": "Man (58) overleden na zware mishandeling",
+    "link": "https://www.gld.nl/nieuws/8500116/man-58-overleden-na-zware-mishandeling",
+    "summary": "De 58-jarige man die zondag werd gereanimeerd na een zware mishandeling op de Oranjelaan (N303) in Harderwijk, is overleden. Dat meldt de politie.",
+    "published": "2026-07-20T14:38:03Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B1"
+  },
+  {
+    "id": "f05cd1d0c067",
+    "source": "gld",
+    "bron": "Gld",
+    "scopes": [
+      "R"
+    ],
+    "title": "Gijzelnemer Corné H. hoort jaar voorwaardelijke celstraf eisen: 'Niet gedacht dat het nog eens zou gebeuren'",
+    "link": "https://www.gld.nl/nieuws/8500065/gijzelnemer-corne-h-hoort-jaar-voorwaardelijke-celstraf-eisen-niet-gedacht-dat-het-nog-eens-zou-gebeuren",
+    "summary": "Het Openbaar Ministerie heeft maandag een jaar voorwaardelijke celstraf geëist tegen Corné H. uit Ede. Corné H. krijgt die strafeis voor de gijzeling van meerdere medewerkers van de gevangenis in Vught in december vorig jaar.",
+    "published": "2026-07-20T12:52:40Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B1,B2"
+  },
+  {
+    "id": "b9ce60a82084",
+    "source": "gld_rvn",
+    "bron": "Gld RvN",
+    "scopes": [
+      "L",
+      "R"
+    ],
+    "title": "Man overlijdt na schietincident in Nijmegen",
+    "link": "https://www.gld.nl/nieuws/8500645/man-overlijdt-na-schietincident-in-nijmegen",
+    "summary": "De man die dinsdagavond gewond raakte bij een schietincident in de buurt van de Vierdaagsefeesten in Nijmegen is in het ziekenhuis overleden, meldt de politie. Over zijn identiteit is nog niets bekend.",
+    "published": "2026-07-21T21:54:28Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B1,B2"
+  },
+  {
+    "id": "c267a30bc368",
+    "source": "gld_rvn",
+    "bron": "Gld RvN",
+    "scopes": [
+      "L",
+      "R"
+    ],
+    "title": "VIERDAAGSE | Dode bij schietincident rond feesten • terugblik op Dag van Elst",
+    "link": "https://www.gld.nl/nieuws/8500060/vierdaagse-dode-bij-schietincident-rond-feesten-terugblik-op-dag-van-elst",
+    "summary": "Welkom in het liveblog van de Vierdaagse van Nijmegen. De 108e editie van de marsen is begonnen en de wandelaars hebben vandaag de Dag van Elst, ook wel Blauwe Dinsdag. Steeds meer wandelaars melden zich bij de finish voor hun startkaart voor woensdag. Volg het laatste nieuws hier.",
+    "published": "2026-07-21T19:19:29Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "duplicate"
+  },
+  {
+    "id": "d304f35ba859",
+    "source": "gld_rvn",
+    "bron": "Gld RvN",
+    "scopes": [
+      "L",
+      "R"
+    ],
+    "title": "Scooterbrand en wateroverlast • fietser gewond naar ziekenhuis",
+    "link": "https://www.gld.nl/nieuws/8500198/scooterbrand-en-wateroverlast-fietser-gewond-naar-ziekenhuis",
+    "summary": "Het actuele 112-nieuws uit Gelderland van deze dag bundelen we in een liveblog. Je leest en ziet hier een overzicht van ongelukken, branden, vermissingen en misdrijven in onze provincie.",
+    "published": "2026-07-21T19:12:21Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "duplicate"
+  },
+  {
+    "id": "994f21a5da0e",
+    "source": "gld_rvn",
+    "bron": "Gld RvN",
+    "scopes": [
+      "L",
+      "R"
+    ],
+    "title": "Marcel zag zijn vrienden één voor één afhaken en loopt nu de Vierdaagse alleen",
+    "link": "https://www.gld.nl/nieuws/8500593/marcel-zag-zijn-vrienden-een-voor-een-afhaken-en-loopt-nu-de-vierdaagse-alleen",
+    "summary": "Je voorbereiden op de Vierdaagse doe je natuurlijk door zoveel mogelijk te trainen en te wennen aan het lopen van lange afstanden. Maar hoe doe je dat als je pas op het laatste moment je startbewijs krijgt, nog nauwelijks getraind hebt en dan ook nog eens alleen moet lopen?",
+    "published": "2026-07-21T19:09:30Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "duplicate"
+  },
+  {
+    "id": "12b10662b92f",
+    "source": "gld_rvn",
+    "bron": "Gld RvN",
+    "scopes": [
+      "L",
+      "R"
+    ],
+    "title": "Politie zoekt verdachte van ernstige mishandeling tijdens Vierdaagsefeesten",
+    "link": "https://www.gld.nl/nieuws/8500569/politie-zoekt-verdachte-van-ernstige-mishandeling-tijdens-vierdaagsefeesten",
+    "summary": "De politie zoekt een man die wordt verdacht van een ernstige mishandeling in het Hunnerpark in Nijmegen tijdens de Vierdaagsefeesten.",
+    "published": "2026-07-21T14:58:33Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "duplicate"
+  },
+  {
+    "id": "c9d87c1618d5",
+    "source": "gld_rvn",
+    "bron": "Gld RvN",
+    "scopes": [
+      "L",
+      "R"
+    ],
+    "title": "'Geen reclame': Bordjes fietsknooppuntennetwerk zo 'groen als een peer'",
+    "link": "https://www.gld.nl/nieuws/8497974/geen-reclame-bordjes-fietsknooppuntennetwerk-zo-groen-als-een-peer",
+    "summary": "Het is voor de Vlaamse fietsliefhebber Alex Elaut een doorn in het oog. Vanuit zijn vakantieadres in Leur kwam hij tijdens fietstochten door Gelderland ontzettend veel vieze bordjes tegen van het fietsknooppuntennetwerk. \"In uw provincie zijn ze zo groen als een peer of ze zijn afgeplakt met stickers.\"",
+    "published": "2026-07-21T14:42:55Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "duplicate"
+  },
+  {
+    "id": "5a708867c4d5",
+    "source": "gld_rvn",
+    "bron": "Gld RvN",
+    "scopes": [
+      "L",
+      "R"
+    ],
+    "title": "'Zondag was pure pech', maar vuurwerkshow gaat dinsdag alsnog door",
+    "link": "https://www.gld.nl/nieuws/8500505/zondag-was-pure-pech-maar-vuurwerkshow-gaat-dinsdag-alsnog-door",
+    "summary": "Nijmegen kan zich opnieuw opmaken voor vuurwerkshow Waal in Vlammen. Het bedrijf achter de show is opgelucht dat het vuurwerk op dinsdagavond alsnog de lucht in kan. “Het was pure pech wat er zondag gebeurde.”",
+    "published": "2026-07-21T13:04:50Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "duplicate"
+  },
+  {
+    "id": "8841554ac100",
+    "source": "gld_rvn",
+    "bron": "Gld RvN",
+    "scopes": [
+      "L",
+      "R"
+    ],
+    "title": "KIJKEN | Wandelaars Vierdaagse zijn onderweg: kijk live mee!",
+    "link": "https://www.gld.nl/nieuws/8500215/kijken-wandelaars-vierdaagse-zijn-onderweg-kijk-live-mee",
+    "summary": "De 108e Vierdaagse is onderweg. 45.761 lopers hebben een startbewijs voor de marsen van dit jaar. Je hoeft bij ons niets van het evenement te missen en kunt hier live met ons meekijken naar de wandelaars.",
+    "published": "2026-07-21T12:45:25Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "duplicate"
+  },
+  {
+    "id": "7e3a2c5dd78a",
+    "source": "gld_rvn",
+    "bron": "Gld RvN",
+    "scopes": [
+      "L",
+      "R"
+    ],
+    "title": "Dit zijn de snelste lopers van de eerste Vierdaagsedag",
+    "link": "https://www.gld.nl/nieuws/8500341/dit-zijn-de-snelste-lopers-van-de-eerste-vierdaagsedag",
+    "summary": "Gebroederlijk zitten ze naast elkaar op een stoepje op de Wedren. De Limburgers Tom Tilmans en Camiel Haans zijn de eerste twee vijftigkilometerlopers die vanochtend over de finish kwamen. Met een snelheid van rond de 8 kilometer per uur kwamen ze rond 10.15 uur binnen.",
+    "published": "2026-07-21T11:30:42Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "duplicate"
+  },
+  {
+    "id": "1b8cc9f7ba43",
+    "source": "gld_rvn",
+    "bron": "Gld RvN",
+    "scopes": [
+      "L",
+      "R"
+    ],
+    "title": "Pechvogel Aletta moet Vierdaagse vanaf de bank volgen na polsbreuk",
+    "link": "https://www.gld.nl/nieuws/8500354/pechvogel-aletta-moet-vierdaagse-vanaf-de-bank-volgen-na-polsbreuk",
+    "summary": "Aletta Bulsink uit Duiven was vastberaden op dit jaar voor de zestiende keer de vierdaagse te lopen, maar haalde toch haar startbewijs niet op. Niet omdat ze niet wilde lopen, maar omdat ze ongeveer een maand geleden haar pols brak en geopereerd moest worden. En dat voor de tweede keer dit jaar.",
+    "published": "2026-07-21T11:09:45Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "duplicate"
+  },
+  {
+    "id": "9502414d8a4f",
+    "source": "gld_rvn",
+    "bron": "Gld RvN",
+    "scopes": [
+      "L",
+      "R"
+    ],
+    "title": "Tim behoort tot jongste lopers van de Nijmeegse Vierdaagse",
+    "link": "https://www.gld.nl/nieuws/8500153/tim-behoort-tot-jongste-lopers-van-de-nijmeegse-vierdaagse",
+    "summary": "De 11-jarige Tim van den Hoogen uit Zwaag (Noord-Holland) doet mee aan de Nijmeegse Vierdaagse. Hij wandelt per dag dertig kilometer en behoort daarmee dit jaar tot één van de jongste deelnemers van het evenement.",
+    "published": "2026-07-21T09:35:14Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "duplicate"
+  },
+  {
+    "id": "8ca51795066e",
+    "source": "gld_rvn",
+    "bron": "Gld RvN",
+    "scopes": [
+      "L",
+      "R"
+    ],
+    "title": "Politie gebruikt stroomstootwapen, maar verdachte ontkomt",
+    "link": "https://www.gld.nl/nieuws/8500300/politie-gebruikt-stroomstootwapen-maar-verdachte-ontkomt",
+    "summary": "De politie heeft in Nijmegen twee mannen aangehouden die in het bezit waren van verdovende middelen. Een andere verdachte ontkwam ondanks de inzet van een stroomstootwapen.",
+    "published": "2026-07-21T09:22:00Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "duplicate"
+  },
+  {
+    "id": "4ee64bd1e656",
+    "source": "gld_rvn",
+    "bron": "Gld RvN",
+    "scopes": [
+      "L",
+      "R"
+    ],
+    "title": "Stuur je mooiste Vierdaagsefoto’s in op de GLD fotokaart",
+    "link": "https://www.gld.nl/nieuws/8500304/stuur-je-mooiste-vierdaagsefotos-in-op-de-gld-fotokaart",
+    "summary": "Omroep Gelderland is op zoek naar de mooiste foto’s van de Vierdaagse en de Vierdaagsefeesten.",
+    "published": "2026-07-21T08:35:08Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "duplicate"
+  },
+  {
+    "id": "9d4ef7d34f5c",
+    "source": "gld_rvn",
+    "bron": "Gld RvN",
+    "scopes": [
+      "L",
+      "R"
+    ],
+    "title": "Geen 47.000, maar 45.761 startbewijzen opgehaald voor de Vierdaagse",
+    "link": "https://www.gld.nl/nieuws/8499902/geen-47000-maar-45761-startbewijzen-opgehaald-voor-de-vierdaagse",
+    "summary": "45.761 lopers zijn vanochtend aan de start van de Vierdaagse verschenen. Er mogen 47.000 mensen meedoen aan het wandelevenement, maar 1239 mensen hebben zondag of maandag niet hun startbewijs opgehaald.",
+    "published": "2026-07-21T05:00:00Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "duplicate"
+  },
+  {
+    "id": "fc912316df27",
+    "source": "gld_rvn",
+    "bron": "Gld RvN",
+    "scopes": [
+      "L",
+      "R"
+    ],
+    "title": "Nijmeegs ziekenhuis stelt vrouwen vaker centraal bij medisch onderzoek",
+    "link": "https://www.gld.nl/nieuws/8499603/nijmeegs-ziekenhuis-stelt-vrouwen-vaker-centraal-bij-medisch-onderzoek",
+    "summary": "Als je als vrouw met een aandoening bij de dokter komt, is de kans groot dat het medisch onderzoek naar deze aandoening vooral onder mannen is uitgevoerd. Bij sommige ziektes gaan hierdoor verhoudingsgewijs meer vrouwen dood. Het Radboudumc wil dit veranderen door vaker juist wel onderzoek bij vrouwen te doen.",
+    "published": "2026-07-21T04:18:12Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "duplicate"
+  },
+  {
+    "id": "2561d97589bc",
+    "source": "gld_rvn",
+    "bron": "Gld RvN",
+    "scopes": [
+      "L",
+      "R"
+    ],
+    "title": "Twintig wandelaars meten temperatuur tijdens de Nijmeegse Vierdaagse",
+    "link": "https://www.gld.nl/nieuws/8499920/twintig-wandelaars-meten-temperatuur-tijdens-de-nijmeegse-vierdaagse",
+    "summary": "Twintig deelnemers aan de Vierdaagse gaan morgen van start met een mobiel weerstation aan hun tas. Onderzoekers van het Radboudumc gebruiken die om het weer op de route precies in kaart te brengen.",
+    "published": "2026-07-20T18:57:44Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "duplicate"
+  },
+  {
+    "id": "1db2bf0caa96",
+    "source": "gld_rvn",
+    "bron": "Gld RvN",
+    "scopes": [
+      "L",
+      "R"
+    ],
+    "title": "'Soms sla ik een nacht over': Willie organiseert een Vierdaagsecamping",
+    "link": "https://www.gld.nl/nieuws/8500114/soms-sla-ik-een-nacht-over-willie-organiseert-een-vierdaagsecamping",
+    "summary": "Tijdens de Vierdaagseweek verandert voetbalclub DVOL in Lent in een camping voor Vierdaagsewandelaars. Willie Bartels (50) uit Oosterhout organiseert de camping al zo'n twintig jaar om geld op te halen voor de club.",
+    "published": "2026-07-20T17:47:22Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "duplicate"
+  },
+  {
+    "id": "935e3b7b0beb",
+    "source": "gld_rvn",
+    "bron": "Gld RvN",
+    "scopes": [
+      "L",
+      "R"
+    ],
+    "title": "Plassen tijdens de Nijmeegse Vierdaagse? Dit is er geregeld",
+    "link": "https://www.gld.nl/nieuws/8497373/plassen-tijdens-de-nijmeegse-vierdaagse-dit-is-er-geregeld",
+    "summary": "Wie tijdens de Nijmeegse Vierdaagse onderweg naar het toilet moet, kan langs de route op meerdere plekken terecht. Vrouwen kunnen weer gebruiken maken van een zogeheten 'Liberpee'.",
+    "published": "2026-07-20T17:00:00Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "duplicate"
+  },
+  {
+    "id": "035340761635",
+    "source": "gld_rvn",
+    "bron": "Gld RvN",
+    "scopes": [
+      "L",
+      "R"
+    ],
+    "title": "Jong brein achter groep nepagenten rooft 320.000 euro",
+    "link": "https://www.gld.nl/nieuws/8498982/jong-brein-achter-groep-nepagenten-rooft-320000-euro",
+    "summary": "Twee jongemannen moeten de cel in voor betrokkenheid bij een oplichtingszaak in Nijmegen. Een 69-jarige man werd bang gemaakt door zogenaamde politiemedewerkers en gaf hen daarom zijn spaargeld. Een zeer jonge nepagent wist zo 320.000 euro te cashen.",
+    "published": "2026-07-20T16:39:07Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "duplicate"
+  },
+  {
+    "id": "dbedd55cc83a",
+    "source": "gld_rvn",
+    "bron": "Gld RvN",
+    "scopes": [
+      "L",
+      "R"
+    ],
+    "title": "Aan de kant voor deze drieling en moeder Annie",
+    "link": "https://www.gld.nl/nieuws/8498874/aan-de-kant-voor-deze-drieling-en-moeder-annie",
+    "summary": "Dit zijn Marijke, Linda en Karin. Een Limburgse drieling en hun moeder Annie van Duijnhoven. Annie uit Siebengewald doet voor de zevende keer mee aan de Vierdaagse en dit jaar is ze in gezelschap van al haar meiden. Ze leggen de komende dagen de route van de 40 kilometer af.",
+    "published": "2026-07-20T13:00:54Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "duplicate"
+  },
+  {
+    "id": "4dfc92968632",
+    "source": "gld_rvn",
+    "bron": "Gld RvN",
+    "scopes": [
+      "L",
+      "R"
+    ],
+    "title": "Portugees naar Vitesse • Arnhemse aandeelhouder haakt af",
+    "link": "https://www.gld.nl/sport/8499518/portugees-naar-vitesse-arnhemse-aandeelhouder-haakt-af",
+    "summary": "Vitesse haalt Filipe de Carvalho naar Arnhem. En bij Vitesse gaat het aantal aandeelhouders terug van vijf naar vier.",
+    "published": "2026-07-20T12:28:51Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "duplicate"
+  },
+  {
+    "id": "772f9e98e886",
+    "source": "gld_rvn",
+    "bron": "Gld RvN",
+    "scopes": [
+      "L",
+      "R"
+    ],
+    "title": "Vuur slaat over bij barbecue • stuk bos in brand",
+    "link": "https://www.gld.nl/nieuws/8499503/vuur-slaat-over-bij-barbecue-stuk-bos-in-brand",
+    "summary": "Het actuele 112-nieuws uit Gelderland van deze dag bundelen we in een liveblog. Je leest en ziet hier een overzicht van ongelukken, branden, vermissingen en misdrijven in onze provincie.",
+    "published": "2026-07-19T17:31:27Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B1,B2"
+  },
+  {
+    "id": "8c2af5436a27",
+    "source": "gld_rvn",
+    "bron": "Gld RvN",
+    "scopes": [
+      "L",
+      "R"
+    ],
+    "title": "Scooterrijder gewond • lek aan boord",
+    "link": "https://www.gld.nl/nieuws/8499238/scooterrijder-gewond-lek-aan-boord",
+    "summary": "Het actuele 112-nieuws uit Gelderland van deze dag bundelen we in een liveblog. Je leest en ziet hier een overzicht van ongelukken, branden, vermissingen en misdrijven in onze provincie.",
+    "published": "2026-07-18T19:19:23Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B1"
+  },
+  {
+    "id": "5d1ff490466a",
+    "source": "gld_rvn",
+    "bron": "Gld RvN",
+    "scopes": [
+      "L",
+      "R"
+    ],
+    "title": "Steekvlam schiet omhoog terwijl verdachte explosie zelf filmt",
+    "link": "https://www.gld.nl/nieuws/8494572/steekvlam-schiet-omhoog-terwijl-verdachte-explosie-zelf-filmt",
+    "summary": "Een enorme explosie, een hoge steekvlam en slapende bewoners boven het pand. In de De Ruyterstraat in Nijmegen neemt een man midden in de nacht een enorm risico door een explosief af te steken. Opvallend: hij filmt zijn eigen actie mogelijk om de beelden te delen.",
+    "published": "2026-07-18T08:02:26Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B2"
+  },
+  {
+    "id": "a6a84854757f",
+    "source": "gld_rvn",
+    "bron": "Gld RvN",
+    "scopes": [
+      "L",
+      "R"
+    ],
+    "title": "Twee gewonden bij ernstig ongeval: automobilist rijdt tegen boom",
+    "link": "https://www.gld.nl/nieuws/8499241/twee-gewonden-bij-ernstig-ongeval-automobilist-rijdt-tegen-boom",
+    "summary": "Een ernstig verkeersongeval heeft in de nacht van vrijdag op zaterdag plaatsgevonden op de Groenestraat in Nijmegen. Een auto raakte door een nog onbekende oorzaak van de weg, meldt een 112-verslaggever ter plaatse.",
+    "published": "2026-07-18T04:43:55Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B1"
+  },
+  {
+    "id": "639d706988bf",
+    "source": "gld_rvn",
+    "bron": "Gld RvN",
+    "scopes": [
+      "L",
+      "R"
+    ],
+    "title": "Na de crash op de Zwarte Cross: hoe gevaarlijk is het vak van stuntman?",
+    "link": "https://www.gld.nl/nieuws/8499012/na-de-crash-op-de-zwarte-cross-hoe-gevaarlijk-is-het-vak-van-stuntman",
+    "summary": "Een stunt moet vooral gevaarlijk líjken, want geen enkele stunt is een mensenleven waard. Daarover zijn stuntprofessionals het roerend eens. Het ongeval met stuntman Jim van Nes tijdens de Zwarte Cross van donderdag maakt opnieuw duidelijk hoeveel risico's het vak met zich meebrengt. \"De kunst is om die risico's zo klein mogelijk te maken.\"",
+    "published": "2026-07-17T17:17:33Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B2"
+  },
+  {
+    "id": "99f6cdba9e19",
+    "source": "rijksoverheid",
+    "bron": "Overheid",
+    "scopes": [
+      "N"
+    ],
+    "title": "Extra maatregelen door aanhoudende droogte, opschaling naar feitelijk watertekort",
+    "link": "https://www.rijksoverheid.nl/actueel/nieuws/2026/07/16/extra-maatregelen-door-aanhoudende-droogte-opschaling-naar-feitelijk-watertekort",
+    "summary": "Door aanhoudende droogte komt er minder water ons land binnen via regen en rivieren, terwijl de vraag naar water stijgt. De rivierafvoeren (de hoeveelheid water die op een bepaald punt door een rivier stroomt) zijn historisch laag en de...",
+    "published": "2026-07-16T11:48:00Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B2"
+  },
+  {
+    "id": "12c3fb5f73e8",
+    "source": "nos_jeugd",
+    "bron": "NOS J",
+    "scopes": [
+      "N",
+      "I"
+    ],
+    "title": "Grootste en oudste rotskunst mogelijk verwoest: Australiërs boos",
+    "link": "https://jeugdjournaal.nl/l/2623906",
+    "summary": "De grootste en oudste verzameling rotstekeningen ter wereld dreigt te worden verwoest. De rotstekeningen zijn gemaakt door Aboriginals, de oorspronkelijke bewoners van Australië. Recht tegenover de oeroude rotsen ligt een gigantisch mijnbouwbedrijf. En door de stoffen die daar vrijkomen, kunnen de tekeningen op de rotsen gaan verdwijnen, zeggen deskundigen. Wie zijn de Aboriginals? De Aboriginals zijn de allereerste bewoners van Australië. Ze wonen er al tienduizenden jaren en zijn één van de oudste volken ter wereld. Toen Europeanen honderden jaren geleden kwamen, pakten ze het land van de Aboriginals af. Ze werden erg slecht behandeld en soms zelfs gedood. Nu wonen nog steeds honderdduizenden Aboriginals in Australië. Ze hebben hun eigen officiële vlag, cultuur en tradities. Maar nog altijd hebben ze te maken met discriminatie. De rotstekeningen zijn zeker 50.000 jaar oud. Dat is zeker tien keer zo oud als de beroemde piramides van Egypte. Ze staan op rotsblokken die in het gebied liggen waar vroeger Aboriginals woonden. En nu is daar dus een bedrijf dat aardgas uit de grond haalt. Rechtszaak Een aantal jaar geleden maakte het bedrijf al een andere heilige plek voor Aboriginals kapot. En nu gaat het mogelijk weer gebeuren, waarschuwen deskundigen. Daarom is er een rechtszaak begonnen in Australië. Aboriginals willen zo het bedrijf tegenhouden en hun belangrijke plekken beschermen.",
+    "published": "2026-07-21T18:23:05+02:00",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B2"
+  },
+  {
+    "id": "ce7bf18c2ac0",
+    "source": "nos_jeugd",
+    "bron": "NOS J",
+    "scopes": [
+      "N",
+      "I"
+    ],
+    "title": "YouTube wil dat je minder makkelijk geld kan verdienen met AI-video's",
+    "link": "https://jeugdjournaal.nl/l/2623889",
+    "summary": "YouTube is niet zo blij met alle AI-video's die op het platform staan. Dat zijn er namelijk miljoenen. De AI-video's worden vaak gemaakt om er makkelijk geld mee te verdienen, door reclames bijvoorbeeld. En dat wil YouTube tegengaan. Daarom heeft het platform de afgelopen tijd strengere regels gemaakt voor AI-video's. Zo kun je er een stuk minder makkelijk geld mee verdienen. En makers moeten het er altijd bij zetten, als het een video gemaakt met AI is. Romy legt het uit!",
+    "published": "2026-07-21T17:13:23+02:00",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B5"
+  },
+  {
+    "id": "99166d8fae14",
+    "source": "nos_jeugd",
+    "bron": "NOS J",
+    "scopes": [
+      "N",
+      "I"
+    ],
+    "title": "Studenten maken ambulance op zonne-energie",
+    "link": "https://jeugdjournaal.nl/l/2623840",
+    "summary": "Studenten uit Eindhoven hebben een nieuw soort ambulance gemaakt: een die op zonne-energie werkt. Het is de eerste ambulance ter wereld op zonne-energie. De ambulance heeft zonnepanelen op het dak. Die wekken elektriciteit op, waardoor de motor werkt. Ook zorgen de zonnepanelen ervoor dat de apparaten aan boord stroom krijgen. Afgelegen gebieden Volgens de bouwers kan de ambulance mensen helpen in afgelegen gebieden. Zij wonen ver van bijvoorbeeld een ziekenhuis. De ambulance is niet bedoeld om mensen naar het ziekenhuis te brengen. Hij brengt juist de medische spullen naar ze toe. Daarmee kunnen ze dan geholpen worden als ze ziek zijn. Nog niet gebruikt Het voertuig gaat nog niet meteen gebruikt worden. Er moet nog meer onderzoek naar worden gedaan.",
+    "published": "2026-07-21T11:12:15+02:00",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B2"
+  },
+  {
+    "id": "3ca4c3638143",
+    "source": "nos_jeugd",
+    "bron": "NOS J",
+    "scopes": [
+      "N",
+      "I"
+    ],
+    "title": "Nieuwswekker: Spanje gehuldigd + Nijmeegse Vierdaagse",
+    "link": "https://jeugdjournaal.nl/l/2623827",
+    "summary": "Goedemorgen, good morning, guten Morgen, bonjour of buen día. Waar in de wereld je nu ook zit, deze Nieuwswekker is voor jou! Het weer Verrassing: de zon gaat weer schijnen. Het wordt 20 tot 24 graden. Dit heb je misschien gemist: - De spelers van het Spaanse elftal zijn gehuldigd in Madrid. Eerst reden ze met een bus door de hoofdstad. Daarna kwamen ze aan op een groot plein, waar het feest pas echt losbarstte. Er kwamen wel twee miljoen mensen op af. Dit is vandaag in het nieuws: - Tienduizenden mensen zijn deze week in Nijmegen voor de Vierdaagse. Uit de hele wereld komen mensen naar de stad om 30, 40 of 50 kilometer te lopen - of langs de kant te kijken. Er doen ook steeds meer kinderen mee aan het wandelevenement. En daar hebben we een vraag over: - Voor onze serie De zomer van... gaan we langs bij Juub, Jippe en Jeerle. Zij treden deze vakantie wel 20 keer op in het circus in hun dorp Haaren. Ze hebben het hele jaar aan de show gewerkt. Het circus is een belangrijke traditie in het dorp. Eerder gingen we voor deze serie langs bij David. Hij rijdt deze zomer mee met zijn vader in de vrachtwagen: En dan nog even dit opvallende loopje van wasbeer Jimothy.... Fijne dag!",
+    "published": "2026-07-21T07:17:49+02:00",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B5"
+  },
+  {
+    "id": "1e571eac4aa5",
+    "source": "nos_jeugd",
+    "bron": "NOS J",
+    "scopes": [
+      "N",
+      "I"
+    ],
+    "title": "Hoe red je jezelf in een orkaan?",
+    "link": "https://jeugdjournaal.nl/l/2623767",
+    "summary": "In China hebben ze er regelmatig mee te maken: grote stormen en orkanen. Die veroorzaken veel problemen, zoals overstromingen. Om mensen beter voor te bereiden op noodweer, bedacht een bedrijf in China een speciale orkaantraining. De training is bedoeld om mensen te laten oefenen wat ze moeten doen tijdens extreem weer. Zo is er een overstroming nagemaakt en kun je leren hoe je uit een gebouw klimt als het overstroomt.",
+    "published": "2026-07-20T16:33:03+02:00",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B2"
+  },
+  {
+    "id": "9163eae3415c",
+    "source": "nos_jeugd",
+    "bron": "NOS J",
+    "scopes": [
+      "N",
+      "I"
+    ],
+    "title": "Duizenden 'kakkerlak'-jongeren protesteren tegen werkloosheid",
+    "link": "https://jeugdjournaal.nl/l/2623725",
+    "summary": "In de Indiase hoofdstad New Delhi zijn duizenden jonge mensen de straat opgegaan om te demonstreren. Ze zijn boos op de regering. De demonstranten willen dat politici iets doen aan de werkloosheid in het land. Er zijn te weinig banen. Ook willen ze dat het onderwijs verbeterd wordt. De groep noemt zichzelf de kakkerlak-partij. Wat is de kakkerlak-partij? Eerder dit jaar deed een Indiase rechter een opvallende uitspraak. Hij vergeleek werkloze jongeren met kakkerlakken. Daar waar veel jonge mensen boos over, en dus begonnen ze de kakkerlak-beweging. De protestgroep begon als grapje, maar de jongeren zijn ook boos over hoe dingen gaan in India. In mei werden belangrijke toetsen van een doktersopleiding gelekt. Daardoor moesten twee miljoen studenten het examen voor een tweede keer doen. De toets is belangrijk om toegelaten te worden tot de opleiding. Omdat er maar een paar duizend plekken beschikbaar zijn, zorgde dat voor veel stress. Ook hebben veel jonge mensen in het land dus geen baan. Daar is de kakkerlak-partij boos over. Ze voelen zich genegeerd door politici. De demonstranten protesteren al langer. Nu liepen ze in een mars naar het gebouw van de regering. De jongeren willen dat de premier en de minister van Onderwijs ontslagen worden. De politie hield de demonstranten tegen, omdat de groep geen toestemming had voor het protest.",
+    "published": "2026-07-20T10:38:25+02:00",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B2"
+  },
+  {
+    "id": "4b6f4499826c",
+    "source": "nos_binnenland",
+    "bron": "NOS Binnen",
+    "scopes": [
+      "N"
+    ],
+    "title": "Jonge man doodgeschoten rond feesten Nijmeegse Vierdaagse",
+    "link": "https://nos.nl/l/2623934",
+    "summary": "In Nijmegen is rond de Vierdaagsefeesten iemand doodgeschoten. Dat gebeurde iets na 22.00 uur. Het slachtoffer overleed niet veel later in het ziekenhuis. Volgens de politie is het slachtoffer een jonge man. Hij werd neergeschoten aan de Graafseweg, net buiten het festivalgebied. Er was op dat moment veel publiek in de stad aanwezig. Op de melding kwamen meerdere ambulances en een traumahelikopter af. Het is nog niet duidelijk wat de toedracht is van het incident. De politie heeft de plek waar het gebeurde afgezet voor onderzoek. Een dader is nog niet aangehouden. De politie roept getuigen op zich te melden.",
+    "published": "2026-07-21T22:53:25+02:00",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B1"
+  },
+  {
+    "id": "9e9de896b59d",
+    "source": "nos_binnenland",
+    "bron": "NOS Binnen",
+    "scopes": [
+      "N"
+    ],
+    "title": "Ali B spreker op ondernemersevenement ondanks veroordeling wegens verkrachting",
+    "link": "https://nos.nl/l/2623914",
+    "summary": "Rapper Ali B is nog geen drie maanden na zijn veroordeling wegens verkrachting spreker op een ondernemersbijenkomst in Vinkeveen. Bij het netwerkevenement Missing Pieces in The Harbour Club is hij donderdag een van de hoofdgasten. De 44-jarige B treedt er niet op als rapper, maar zal er onder zijn volledige naam Ali Bouali spreken over \"waarom de meeste ondernemers niet doorbreken, ondanks hun talent\", aldus de website van het evenement. Een ticket kost 49 euro. De organisatie presenteert het congres als een plek waar ondernemers ideeën kunnen pitchen en feedback kunnen ontvangen met de hulp van een \"AI matching systeem\" dat in kaart brengt wat ze nodig hebben. In een reactie aan RTL Boulevard laat de advocaat van een van B's slachtoffers weten dat \"zolang de straf nog niet onherroepelijk is, hij dit kan doen\", al is zijn cliënt er wel verontwaardigd over. Hogere straf Begin mei veroordeelde de rechter B tot drie jaar cel wegens twee verkrachtingen uit de tijd dat hij jurylid was bij The voice of Holland . De straf was hoger dan wat de lagere rechter had opgelegd en ook zwaarder dan de eis van het Openbaar Ministerie. B is tegen de uitspraak in cassatie gegaan . De behandeling daarvan mag hij van de rechter in vrijheid afwachten. Het is nog niet bekend wanneer die zitting plaatsvindt. Zelf heeft B altijd volgehouden onschuldig te zijn. \"Ik ben hier om te vechten voor mijn onschuld\", zei hij bij aankomst toen het hoger beroep diende. Zijn advocaat vroeg daarom ook tweemaal om vrijspraak bij de rechter. Gecanceld? B heeft niet meer opgetreden sinds in 2022 de eerste beschuldigingen tegen hem werden geuit. RTL zette hem daarna ook op non-actief bij The Voice. Muziekkenners zeiden eerder tegen de NOS te verwachten dat B na een veroordeling wegens verkrachting niet aan een comeback hoefde te denken. \"Bij andere vormen van geweld zie je nog wel dat het publiek vergevingsgezind is, maar niet bij seksueel geweld\", zei NPO Radio 2-presentator Tannaz Hajeby. Juist dat B een imago had opgebouwd als verbinder zou hem tegenwerken, voorspelde muziekjournalist Atze de Vrieze. \"Bij Ali B is dat verbindende element in zijn imago zo belangrijk, dat ik mij afvraag of hij daar nog overheen komt.\" Ali B keerde vorige week na een lange radiostilte weer terug op sociale media met een filmpje op Instagram. Onder het reggaenummer No Stress, Just Vibes toonde hij hoe hij van de zon genoot.",
+    "published": "2026-07-21T19:31:28+02:00",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B1"
+  },
+  {
+    "id": "ae3c68b6c2f6",
+    "source": "nos_binnenland",
+    "bron": "NOS Binnen",
+    "scopes": [
+      "N"
+    ],
+    "title": "Man krijgt vijftien maanden cel voor bedreiging van Groningse slagerijen",
+    "link": "https://nos.nl/l/2623868",
+    "summary": "De rechtbank in Groningen heeft een man uit Nieuwolda veroordeeld tot vijftien maanden cel, waarvan ruim vier maanden voorwaardelijk, voor het bedreigen van meerdere slagerijen in Groningen en Drenthe. De man komt direct vrij, omdat hij de straf in voorarrest heeft uitgezeten. Gedurende een proeftijd van ruim drie jaar mag hij niet opnieuw in de fout gaan, anders moet hij het voorwaardelijke deel van zijn celstraf alsnog uitzitten. In september vorig jaar stuurde Bas V. dreigmails naar twaalf slagerijen. \"Jullie krijgen één waarschuwing, meer niet. Als de winkel morgen niet dicht is, kom ik met een machete en steek ik iedereen dood\", stond in die mail. Volgens het Openbaar Ministerie handelde V. vanuit radicale overtuigingen over dieren- en milieubescherming. Zeven slagerijen deden aangifte en kort daarna werd de verdachte opgepakt. In zijn woning werd inderdaad een machete gevonden. Op zijn in beslag genomen telefoon stonden notities dat hij onder meer een kapmes en een pistool met geluidsdemper nodig had om \"mensen die verantwoordelijk zijn voor de vernedering van dieren te doden\". Terroristisch oogmerk Het OM verdenkt V. van het voorbereiden van moord met een terroristisch oogmerk en eiste twee weken geleden vier jaar cel. Maar volgens de rechter is niet bewezen dat de verdachte terreur wilde zaaien in de samenleving. \"De teksten op zijn telefoon zeggen iets over zijn gedachtewereld, maar niet dat hij de samenleving ermee wilde ontwrichten\", aldus de rechtbank. V. heeft bekend achter de dreigmails en de gevonden notities te zitten, schrijft RTV Noord . Beschermde woonvorm Volgens deskundigen die V. hebben onderzocht heeft hij een gameverslaving, een wietverslaving, ADHD en autisme. Ze willen dat hij wordt behandeld en verhuist naar een beschermde woonvorm. Daar gaat de rechter in mee. Er is een plek voor hem gevonden bij een project voor begeleid wonen.",
+    "published": "2026-07-21T15:11:51+02:00",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B1,B2"
+  },
+  {
+    "id": "0709e98dc769",
+    "source": "nos_binnenland",
+    "bron": "NOS Binnen",
+    "scopes": [
+      "N"
+    ],
+    "title": "Studenten TU Eindhoven ontwerpen 's werelds eerste ambulance op zonne-energie",
+    "link": "https://nos.nl/l/2623849",
+    "summary": "Een groep studenten aan de TU Eindhoven heeft een ambulance ontwikkeld die op zonne-energie rijdt. Volgens de bouwers is de Stella Juva de eerste ambulance ter wereld die volledig rijdt op de kracht van de zon en alle medische apparatuur aan boord van stroom voorziet. De 'zonne-ambulance' is ontworpen door Solar Team Eindhoven en heeft zonnepanelen op het dak. De wagen heeft volgens de studenten op een zonnige dag en op een verharde weg een bereik van zo'n 715 kilometer. In de ambulance zitten verschillende medische apparaten, zoals een AED en een mobiel röntgenapparaat. \"Zo kun je tuberculose ontdekken, wat in veel landen in Afrika doodsoorzaak nummer één is\", zegt de 23-jarige student Yarno Basten tegen Omroep Brabant . De ambulance biedt een alternatief voor afgelegen regio's waar brandstof- en elektriciteitstekorten de toegang tot gezondheidszorg momenteel ernstig limiteren. \"De ambulance is niet bedoeld om mensen naar het ziekenhuis te brengen, maar brengt juist in afgelegen gebieden de zorg naar mensen toe\", zegt Basten. Het Solar Team Eindhoven bestaat uit 23 studenten die een jaar lang hun studie op pauze zetten. Het team ontwikkelt ieder jaar een voertuig dat bijdraagt aan het oplossen van een maatschappelijk probleem. Het studententeam deed in het verleden mee aan de World Solar Challenge. Dat is een race met auto's die aangedreven door zonne-energie van Noord- naar Zuid-Australië rijden, een afstand van ruim 3000 kilometer dwars door het uitgestrekte binnenland. Met een andere zonneauto reed het studententeam ruim 1000 kilometer door Marokko en de Sahara. Testritten in Kenia In augustus gaat de Stella Juva naar Kenia, waar de wagen tijdens testritten locaties van hulporganisatie Amref Health Africa zal bezoeken. \"Dan gaan we demonstreren wat je ermee kan. We hebben natuurlijk in Nederland getest, maar we willen juist ook in die wat moeilijker begaanbare gebieden het voertuig gaan testen. Om te laten zien dat het daadwerkelijk een oplossing zou kunnen zijn.\" Of de ambulance ook echt in grotere schaal wordt geproduceerd, is nog maar de vraag. \"Wij zijn hier meer om de industrie te inspireren. Ik denk dat wij heel goed zijn in het laten zien wat kan\", aldus Basten.",
+    "published": "2026-07-21T11:48:09+02:00",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B2"
+  },
+  {
+    "id": "e4ea175c2fce",
+    "source": "nos_binnenland",
+    "bron": "NOS Binnen",
+    "scopes": [
+      "N"
+    ],
+    "title": "Wekdienst 21/7: Start Nijmeegse Vierdaagse • Libanese president in VS",
+    "link": "https://nos.nl/l/2623824",
+    "summary": "Goedemorgen! Vandaag verschijnen ruim 45.000 deelnemers aan de start van de Nijmeegse Vierdaagse en in Washington gaat de president van Libanon bij Trump op bezoek. Eerst het weer: vandaag wisselen zon en wolken elkaar af en blijft het vrijwel overal droog. Bij een matige noordwestenwind wordt het 20 tot lokaal 25 graden. De komende dagen is er vrij veel bewolking en vooral op woensdag kans op een beetje regen. Verder ook af en toe zon bij maxima tussen de 18 en 24 graden. Ga je vandaag op pad? Hier vind je het overzicht van de files en wegwerkzaamheden en hier alles over de situatie op het spoor. Wat kun je vandaag verwachten? Wat heb je gemist? De Amerikaanse president Trump heeft importheffingen van 50 procent aangekondigd op een groot aantal goederen uit Canada. Volgens hem zijn de maatregelen een reactie op wat hij omschrijft als oneerlijke handelspraktijken. Trump verwijt Canada op het gebied van auto's, alcohol en zuivel niet eerlijk te handelen en noemt het een \"discriminerende behandeling\". De nieuwe tarieven zouden over een maand, op 19 augustus, ingaan en gelden voor uiteenlopende producten zoals wijn, cement en ijshockeysticks. De Canadese premier Carney zegt in een reactie dat zijn land bereid is om met de Verenigde Staten in gesprek te gaan om openstaande kwesties op te lossen, maar ook \"alle nodige maatregelen te nemen\" om Canadese bedrijven te ondersteunen. Ander nieuws uit de nacht: En dan nog even dit: Het was ongetwijfeld een onwerkelijk etmaal voor de Spaanse voetballers. Ze werden zondagavond wereldkampioen, vierden tot diep in de nacht die overwinning op de Argentijnen en stapten met kleine oogjes in het vliegtuig om terug naar huis te vliegen. In Madrid werden ze gisteravond direct gehuldigd. Maar liefst twee miljoen mensen probeerden een glimp van de kersverse wereldkampioenen op te vangen. Kijk hier naar de uitzinnige Spanjaarden: Fijne dag!",
+    "published": "2026-07-21T06:25:55+02:00",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B5"
+  },
+  {
+    "id": "94f9db6e1783",
+    "source": "nos_binnenland",
+    "bron": "NOS Binnen",
+    "scopes": [
+      "N"
+    ],
+    "title": "Douaniers mogen strafzaak over stelen informatie in vrijheid afwachten",
+    "link": "https://nos.nl/l/2623806",
+    "summary": "Drie douaniers die in april werden aangehouden op verdenking van het stelen van informatie uit de computersystemen van hun werkgever, mogen hun strafzaak in vrijheid afwachten. Dat heeft de rechtbank in Rotterdam bepaald. Het gaat om twee douaniers (26 en 45 jaar) uit Rotterdam en een (41 jaar) uit Capelle aan den IJssel. Zij werken samen op een afdeling van de douane die de selectie doet voor controles. De douaniers worden ervan verdacht dat ze zich hebben laten omkopen, dat ze hun ambtsgeheim hebben geschonden, computervredebreuk hebben gepleegd en de invoer van cocaïne hebben voorbereid. Twee van hen worden ook vervolgd voor witwassen. 'Focussen op Vlissingen' Na een tip bij de inlichtingendienst van de politie begon een langlopend onderzoek naar de douaniers. Tijdens dat onderzoek zijn gesprekken opgenomen en werd een undercoveragent ingezet. Twee verdachten spraken volgens justitie onder meer over \"invoer, handeltjes, de boel overnemen bij de douane en focussen op Vlissingen\". Ook de broer van een van de douaniers zou betrokken zijn geweest. De mannen werden aangehouden door het Combiteam Havens. Dat is een samenwerkingsverband van de politie, de Fiscale Inlichtingen- en Opsporingsdienst (FIOD), de Rijksrecherche en het Openbaar Ministerie. Zij doen samen onderzoek naar zware criminaliteit in de havens. Bij de aanhouding werden panden in de regio Rotterdam doorzocht en werden gegevensdragers, contant geld en luxegoederen in beslag genomen. De douaniers werden na hun aanhouding op non-actief gezet door hun werkgever. Gebruik undercoveragent Volgens de rechter is er onvoldoende reden om de douaniers nu vast te houden. De verdenkingen tegen de mannen, die geen strafblad hebben, gelden nog wel. Zo zou uit een gesprek tussen een van de verdachten en de undercoveragent het beeld kunnen ontstaan van een \"drie-eenheid die geld wilde verdienen met informatie\", aldus de rechtbank. De eveneens aangehouden broer kwam eerder al op vrije voeten. De advocaten van de verdachten waren in de rechtbank kritisch op de duur van het politieonderzoek en het gebruik van een undercoveragent. Een van de verdachten claimt dat hij door de inzet van de undercoveragent PTSS heeft opgelopen.",
+    "published": "2026-07-20T21:49:05+02:00",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B2"
+  },
+  {
+    "id": "cf367255e4e8",
+    "source": "nos_binnenland",
+    "bron": "NOS Binnen",
+    "scopes": [
+      "N"
+    ],
+    "title": "Justitie waarschuwt voor swatten: 'Opeens onterecht een arrestatieteam voor je deur'",
+    "link": "https://nos.nl/l/2623795",
+    "summary": "De politie krijgt steeds vaker vergaande nepmeldingen, waardoor een zwaar gewapend arrestatieteam op iemands stoep staat. Het zogenoemde fenomeen swatten is overgekomen uit de Verenigde Staten. \"We zien nu dat het hier ook vaker voorkomt. Vooral onder jongeren\", zegt officier van justitie Linda van den Oever. Waarom mensen overgaan tot swatten verschilt per geval. Het kan een wraakactie zijn na een online ruzie, bedoeld om mensen shockeren, maar kan ook als middel worden gebruikt om iets af te dwingen. \"Slachtoffers worden onder druk gezet om iets te doen, wat ze eigenlijk helemaal niet willen doen\", zegt Van den Oever. Het eerste contact begint meestal vriendelijk en online. \"We zien vaak dat het ontstaat via gameplatforms of chatplatforms. Eerst krijg je veel aandacht en wordt er een soort vertrouwensband gecreëerd. Vanuit daar wordt er gevoelige informatie gedeeld, in extreme gevallen bijvoorbeeld naaktfoto's en kunnen mensen daarmee onder druk worden gezet.\" Zo ook de 17-jarige Dana, die online weigerde naaktfoto's te sturen. Als wraakactie werden er nepmeldingen bij de politie gedaan, waardoor afgelopen mei een groot arrestatieteam 's nachts voor haar deur stond. \"Ik gebruik online niet mijn echte naam, niet mijn echte leeftijd. Maar ook al ben je supervoorzichtig, dan nog kan zoiets je overkomen. En dan kan het kan razendsnel mis gaan\", vertelt zij aan het AD . COM-groepen Bij Dana werd haar adres gedeeld in een chatgroep, nadat zij weigerde opdrachten uit te voeren, zoals zichzelf iets aandoen. Mogelijk is dit onderdeel van de zogeheten COM-groepen. \"Dat zijn groepen waarbinnen geweld wordt verheerlijkt en ook veel geweld in wordt gedeeld\", zegt officier van justitie Van den Oever. Het OM ziet dat het dreigen met swatten vaker voorkomt in dit soort groepen. Als middel om iemand onder druk te zetten, maar ook om toegang te krijgen tot zo een groep. \"Dat als je een SWAT-team op iemand afstuurt, je in de groep mag\", zegt Van den Oever. Als je eenmaal in zo'n sadistische groep zit, dan is het volgens het OM lastig om eruit te komen, maar niet onmogelijk. \"Elk slachtoffer dat hulp zoekt helpen wij.\" SWAT SWAT is een Amerikaans begrip en staat voor Special Weapons and Tactics. De agenten in de VS zijn uitgerust met onder meer aanvalsgeweren, shotguns en flitsgranaten. Ook hebben ze beschermende kleding aan en een helm op. In Nederland spreken we niet van een SWAT-team, maar van een AOT: een Aanhoudings- en Ondersteuningsteam van de Dienst Speciale Interventies (DSI). Ook deze agenten zijn zwaarbewapend en dragen geheel of gedeeltelijk grijze kleding met grijze helmen. Digitaal wijkagent Malek Kariebo gamet wekelijks met jongeren en beantwoordt tijdens livestreams vragen. Hij herkent dat jongeren vaak niet durven te vertellen dat ze in zo'n groep zitten. \"Omdat ze dan moeten toegeven dat ze iets hebben gedaan waar ze eigenlijk niet trots op zijn.\" Zelf heeft Kariebo nog geen contact gehad met jongeren die zich schuldig hebben gemaakt aan swatten. Wel merken ze dat het nu ook hier gebeurt. \"Jongeren zijn constant online. Dus zij zien dit ook. Het mooie, maar ook het gevaar van het internet is dat het geen grenzen heeft.\" Hij waarschuwt voor de impact van swatten, het kan traumatiserend zijn. \"Je weet van niks en opeens staat er onterecht een arrestatieteam voor je deur. Het is echt heel erg schrikken als wij daar opeens staan.\" De politie maakt vooraf een inschatting of een melding echt of nep is. \"Maar als er een melding wordt gedaan dat ergens een vuurwapen in huis is, dan moeten we dat serieus nemen\", zegt Kariebo. Strafbaar Het frustreert de wijkagent dat de valse melding ten koste gaat van mensen die het wel nodig hebben. \"Als wij tegelijkertijd een melding krijgen van een reanimatie, dan gaan we daar uiteraard wel heen. Maar dat wordt dan wel later.\" Ook benadrukt Kariebo dat het doen van een valse melding strafbaar is. \"Mensen moeten beseffen dat je daarvoor vervolgd kan worden. Dat het impact kan hebben op je toekomst.\" Het is volgens het OM lastig te zeggen hoe vaak swatten nu voorkomt, de exacte cijfers zijn er nog niet. \"Wel lopen er een aantal zaken. Ook zijn er steeds meer Nederlandse daders geïdentificeerd, daar wordt verder onderzoek naar gedaan.\"",
+    "published": "2026-07-20T19:41:48+02:00",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B1,B2"
+  },
+  {
+    "id": "9ac449481e4f",
+    "source": "nos_binnenland",
+    "bron": "NOS Binnen",
+    "scopes": [
+      "N"
+    ],
+    "title": "OM eist jaar voorwaardelijke cel tegen Corné H. voor gijzeling gevangenis Vught",
+    "link": "https://nos.nl/l/2623766",
+    "summary": "Het Openbaar Ministerie heeft een voorwaardelijke gevangenisstraf van een jaar geëist tegen Corné H. voor het gijzelen van twee medewerkers in de gevangenis in Vught. De 30-jarige H. verbleef op de psychiatrische afdeling van de gevangenis na zijn veroordeling voor de gijzeling van cafépersoneel in Ede in maart 2024 . Op Sinterklaasavond 2025 gijzelde H. personeelsleden van de afdeling met aardappelschilmesjes die hij had gekregen om een smoothie te maken. Hij eiste onder meer medicijnen en overplaatsing naar een andere gevangenis. Een politieonderhandelaar kreeg H. uiteindelijk zover om zich over te geven. H. had voor de gijzeling in Ede al een gevangenisstraf van negen maanden en tbs met dwangverpleging uitgezeten. Hij verbleef in Vught in afwachting van plaatsing in een tbs-kliniek. 'Tbs niet onderbreken' Het OM zegt bij het bepalen van de strafeis nadrukkelijk te hebben gekeken naar de huidige situatie van H. en in het bijzonder zijn psychische problematiek. Inmiddels zit H. in een tbs-kliniek , en het OM erkent het belang van de eerder opgelegde tbs-maatregel. Een onvoorwaardelijke gevangenisstraf zou betekenen dat de eerder opgelegde tbs-maatregel moet worden onderbroken. \"Na het uitzitten van die straf is het maar zeer de vraag of verdachte daarna direct weer in een tbs-kliniek terecht kan\", aldus het OM. \" Het OM eist een proeftijd van twee jaar. Als H. opnieuw strafbare feiten pleegt of de voorwaarden niet naleeft, moet hij dan alsnog de gevangenis in. Ook eist de officier van justitie een schadevergoeding van H. die hij aan de betrokkenen moet betalen. Spijt H. zelf noemde de gijzeling in Vught een impulsieve daad. \"Ik had niet gedacht dat het na Ede nog een keer zou voorkomen\", zei hij tegen de rechter, schrijft Omroep Gelderland . Hij zei verder spijt te hebben van zijn daad. \"Het had eigenlijk nooit mogen gebeuren. Maar het is gebeurd en dat vind ik op zijn minst gezegd heel spijtig. Het heeft voor heel veel mensen een lange nasleep.\"",
+    "published": "2026-07-20T16:28:43+02:00",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B1,B2"
+  },
+  {
+    "id": "6fb59b27e775",
+    "source": "nos_buitenland",
+    "bron": "NOS Buiten",
+    "scopes": [
+      "I"
+    ],
+    "title": "Vorig jaar flink minder Amazoneregenwoud afgebrand",
+    "link": "https://nos.nl/l/2623941",
+    "summary": "Na jaren van alarmerende berichten over het Braziliaanse Amazoneregenwoud is er nu een beetje goed nieuws. Sinds het begin van de metingen, in 1985, brandde er nog nooit zo weinig bos af. Volgens MapBiomas , dat de ontbossing monitort, ging het in 2025 om een gebied van zo'n 3,1 miljoen hectare. Dat is een sterke daling met 2024, toen er nog 15,8 miljoen hectare Amazoneregenwoud in vlammen op ging. In 2024 werd het Amazonegebied getroffen door de ergste bosbranden in meer dan twintig jaar. Volgens de BBC is de daling in het jaar erna te verklaren door La Niña, de tegenhanger van El Niño die nu voor hoge temperaturen zorgt in grote delen van de wereld. Wat is El Niño? El Niño is een weerfenomeen dat om de twee tot zeven jaar ontstaat. Het water in de Stille Oceaan warmt dan op en verstoort de gebruikelijke wind- en zeestromingen. Dat brengt wereldwijd gemiddeld een hogere temperatuur met zich mee en kan in meerdere regio's leiden tot extreem weer, zoals droogte of juist veel regenval. De risico's op die extremen nemen al toe door klimaatverandering, en El Niño komt daar nog eens bovenop. Het weerfenomeen wordt afgewisseld door La Niña, die juist een afkoelende werking heeft. De laatste La Niña liep afgelopen voorjaar ten einde, gevolgd door een vrij snelle omslag naar El Niño. De vorige El Niño bracht in 2023 allerlei weerrecords met zich mee. Geen El Niño is hetzelfde, maar in de regel neemt het risico op extremen toe bij een zwaardere El Niño. Een van de onderzoekers van MapBiomas zegt dat Brazilië steeds beter voorbereid is op bosbranden. Zo is er steeds meer zicht op waar branden terugkeren en welke gebieden meer risico lopen. Daardoor kunnen er eerder preventieve maatregelen genomen worden. Het tegengaan van de branden in het regenwoud is een speerpunt van president Lula. Bij zijn aantreden, op 1 januari 2023, benadrukte hij dat het doel was om de ontbossing in het Amazonegebied \"volledig te stoppen\". De branden komen voor een deel doordat ze door mensen zijn aangestoken. Zo zijn er boeren die gebieden platbranden om ze geschikt te maken voor landbouw. Lula kondigde vlak na zijn aantreden aan dat het regenwoud met behulp van satellieten strenger zou worden gemonitord. Toch is er ook kritiek op zijn beleid; milieuactivisten zijn boos vanwege de goedkeuring die Lula gaf voor olieboringen aan de monding van de Amazonerivier.",
+    "published": "2026-07-22T04:36:02+02:00",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B1"
+  },
+  {
+    "id": "41a14741b330",
+    "source": "nos_buitenland",
+    "bron": "NOS Buiten",
+    "scopes": [
+      "I"
+    ],
+    "title": "Reisadviezen Midden-Oosten aangescherpt vanwege opgelaaid geweld Iran en VS",
+    "link": "https://nos.nl/l/2623939",
+    "summary": "Het ministerie van Buitenlandse Zaken heeft de reisadviezen voor een aantal landen in het Midden-Oosten aangescherpt. Volgens het ministerie is de situatie er verslechterd. Voor Qatar, Jordanië, Saudi-Arabië, Koeweit en de Verenigde Arabische Emiraten geldt nu een oranje reisadvies. Dat betekent dat vakanties naar die landen worden afgeraden en dat geadviseerd wordt alleen naar die landen te reizen als dat noodzakelijk is. De oranje code betekent ook dat Nederlandse ambassades bij problemen minder goed kunnen helpen. Het reisadvies voor Bahrein is zelfs rood. \"Wat uw situatie ook is: reis er niet heen. Het is er te gevaarlijk\", zegt het ministerie. Vier kleurcodes Het ministerie van Buitenlandse Zaken hanteert vier kleurcodes bij reisadviezen: Aanleiding voor de aanscherping van de reisadviezen is volgens het ministerie de opgelaaide oorlog tussen de Verenigde Staten en Iran. Iran voert als reactie op Amerikaanse aanvallen weer aanvallen uit op bondgenoten van de VS in het Midden-Oosten.",
+    "published": "2026-07-22T01:07:46+02:00",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B1"
+  },
+  {
+    "id": "f5240975b58c",
+    "source": "nos_buitenland",
+    "bron": "NOS Buiten",
+    "scopes": [
+      "I"
+    ],
+    "title": "Smithsonian bijt van zich af na kritiek van Witte Huis: 'We moeten hele verhaal vertellen'",
+    "link": "https://nos.nl/l/2623926",
+    "summary": "De directeur van het National Museum of American History in Washington wijst de scherpe kritiek van het Witte Huis op haar functioneren van de hand. Haar museum werd in een rapport weggezet als een bolwerk van \"radicale activisten\" die \"niet willen dat je van je land houdt\". Maar vaderlandsliefde hoeft niet automatisch neer te komen op blind patriottisme, vindt directeur Anthea Hartig. Die liefde kan volgens haar ook blijken uit het tonen van de onwelgevallige kanten van de nationale geschiedenis. Hartig sprak vandaag Congresleden over het rapport , dat verscheen op de 250ste verjaardag van de VS. Daarin wordt het prestigieuze Smithsonian Instituut, waar het museum onder valt, gekenschetst als een links bastion. Vooral Hartig zou met haar 'woke' ideologie alles waar Amerikanen trots op zijn in twijfel trekken. \"Het museum stelt Amerika voor als een problematisch land gesticht door mannen met grote tekortkomingen, gedefinieerd door witte superioriteit, slavernij, verovering, uitsluiting, onderwerping, racisme, xenofobie, misogynie en systemisch onrecht\", concludeerde het rapport. 'Zelf conclusies trekken' Bij het Congres bestreed Hartig die typering. \"Het rapport schetst geen eerlijk beeld van alles wat het museum doet\", meende ze. \"Met onderzoek, precisie en compromisloze toewijding willen wij het hele verhaal van Amerika vertellen.\" Het museum kiest geen partij in politieke debatten, voerde Hartig aan. \"We bewaren en vertonen aspecten van het Amerikaanse leven in zijn gehele breedte, zodat het publiek het verleden kan ontdekken en zelf conclusies trekken.\" Het is daarbij volgens haar niet onvaderlandslievend om ook de momenten te behandelen \"waarin het land zijn idealen niet waarmaakte\". \"Dat is niet on-Amerikaans, het getuigt juist van respect voor het Amerikaanse volk en de belofte constant te werken aan 'een betere vereniging'\", haalde ze de openingswoorden van de Amerikaanse grondwet aan. 180 jaar oud Het Smithsonian werd in 1846 opgericht met een legaat van de Britse wetenschapper James Smithson om \"kennis te vergaren en verspreiden\". Het instituut groeide uit tot een toeristische trekpleister met goedbezochte musea, galerieën en een dierentuin op prominente locaties in de hoofdstad van de VS. Vorig jaar trokken de locaties 15 miljoen bezoekers. Dat geliefde historische figuren als de oud-presidenten Washington, Lincoln en Jefferson of nationale symbolen er maar bekaaid van afkomen in haar museum, noemde ze onwaar. Bij binnenkomst wordt de bezoeker begroet door een enorm Washington-beeld, de schrijftafel waar Jefferson de Onafhankelijkheidsverklaring op schreef is een van de topstukken en de Star-Spangled Banner (de vlag uit het Amerikaanse volkslied) is in alle glorie te zien. \"Ik heb gezien hoe 10-jarigen hun hand op hun hart leggen bij de Star-Spangled Banner, zonder dat iemand zei dat ze dat moesten doen\", zei Hartig. \"Dat is het National Museum of American History op zijn best: als patriotisme niet wordt opgedrongen, maar wordt ingegeven.\" Hartig kreeg in het Congres bijval van Democraten, die waarschuwen dat president Trump alleen een chauvinistisch succesverhaal wil vertellen. \"Hij misbruikt zijn macht om politieke gehoorzaamheid af te dwingen van een gerespecteerd cultureel instituut\", meende Afgevaardigde Joe Morelle. \"Maar het is niet aan een president om de geschiedenis te herschrijven.\" Trump trekt in zijn nieuwe ambtstermijn geregeld ten strijde tegen meer diversiteit in de Amerikaanse geschiedschrijving. Zo werden teksten bij nationale parken aangepast als ze voor hem onwelgevallige feiten vermelden en werden panelen over zwarte WO II-militairen verwijderd op begraafplaats Margraten. Ook wees hij de Nederlandse directeur van de National Portrait Gallery de deur vanwege haar beleid . Hartig nodigde de Congresleden van harte uit voor een rondleiding in haar museum. \"Dan treft u niet een instituut aan dat zijn land is vergeten, maar juist een dat er genoeg van houdt om het hele verhaal te vertellen, de triomfen en de worstelingen, de moed en de beloftes.\"",
+    "published": "2026-07-21T21:54:33+02:00",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B2"
+  },
+  {
+    "id": "f6391847375d",
+    "source": "nos_buitenland",
+    "bron": "NOS Buiten",
+    "scopes": [
+      "I"
+    ],
+    "title": "Weer protest van 'Kakkerlakbeweging' India, oppositieleider aangehouden",
+    "link": "https://nos.nl/l/2623922",
+    "summary": "Duizenden aanhangers van de zogenoemde Kakkerlakbeweging in India hebben opnieuw gedemonstreerd in hoofdstad New Delhi. Oppositieleider Rahul Gandhi deed ook mee aan het protest tegen de regering, maar werd door agenten afgevoerd. Het protest volgt een dag na hevige confrontaties tussen de politie en betogers bij een grote protestmars in de stad. \"We zullen niet opnieuw marcheren, omdat de politie de jeugd weer pijn zal doen\", zei de oprichter van de beweging volgens nieuwszender Al Jazeera op een persconferentie. In plaats van een mars werd daarom onder meer een demonstratie gehouden op de plek waar al weken wordt betoogd, nabij Jantar Mantar. Bij dit astronomisch observatorium uit de achttiende eeuw, vlak bij een reeks overheidsgebouwen, eisen betogers al ruim een maand het vertrek van de minister van Onderwijs. 'Hard optreden tegen fraude' De aanleiding voor de protestgolf is een fraudeschandaal rondom toelatingsexamens voor medische opleidingen, waardoor 2,2 miljoen Indiërs het examen opnieuw moesten maken. Een lid van zijn kabinet zei daar volgens persbureau Reuters over dat er \"zo hard mogelijk\" wordt opgetreden tegen examenfraude, maar de betogers lijken geen genoegen te nemen met die toezegging. Oppositieleider Gandhi was met partijgenoten naar de ambtswoning van Modi gegaan om hun steun te betuigen aan de betogers. Op video's is te zien dat de politici werden aangehouden. De autoriteiten hadden vooraf gezegd dat deze locatie niet geschikt was voor een protestactie. Onderdrukking Mensenrechtenorganisaties hebben het hardhandige ingrijpen van de politie gisteren bij de protestmars veroordeeld. Amnesty International noemt het een voorbeeld van hoe dissidenten in het land worden onderdrukt. Agenten gebruikten traangas en wapenstokken. Volgens de politie zijn zeventig mensen opgepakt, zestig betogers gewond geraakt en ruim honderd agenten verwond. De Kakkerlakkenbeweging was in het begin satirisch bedoeld en vooral online actief . De naam is ontstaan doordat werkloze jongeren door een rechter van het Hooggerechtshof met kakkerlakken werden vergeleken. Als Cockroach Janta Party is de jongerenbeweging een parodie op de Bharatiya Janata Party van premier Modi, die sinds 2014 aan de macht is.",
+    "published": "2026-07-21T21:05:13+02:00",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B2"
+  },
+  {
+    "id": "7cec5859b3b7",
+    "source": "nos_buitenland",
+    "bron": "NOS Buiten",
+    "scopes": [
+      "I"
+    ],
+    "title": "Oeroude Aboriginal rotskunst bedreigd door Australisch aardgasproject",
+    "link": "https://nos.nl/l/2623920",
+    "summary": "Het Australische hooggerechtshof neemt deze week de verlenging en uitbreiding van een aardgasproject in het noordwesten van het land onder de loep. In september vorig jaar gaf de minister voor Natuur groen licht voor de gigantische aardgasverwerker, die nu tot 2070 actief mag blijven. Maar volgens deskundigen en de traditionele bewoners van het gebied tast de industrie mogelijk eeuwenoude Aboriginal rotskunst aan. Raelene Cooper vormt met haar handen een trechtervorm voor haar mond. Haar harde stem weerkaatst tussen de rotsen. \"Ik vraag de voorouders om toestemming om jullie de rotstekeningen te laten zien\", legt ze uit. Cooper is een traditionele bewoner van de Mardudhunera-gemeenschap in Karratha, in het noordwesten van Australië. Het landschap is bezaaid met bergen rode rotsen. Tegen het einde van de middag, als de zon laag staat, worden ineens de talloze rotstekeningen zichtbaar die op de rotsen zijn aangebracht. Dit gebied heet Murujuga in de Aboriginal taal. Het is de grootste en oudste verzameling rotstekeningen ter wereld. Eind vorig jaar werd het daarom ook opgenomen op de Werelderfgoedlijst van de VN-organisatie Unesco . In de gouden gloed van de ondergaande zon wordt een afbeelding van een kangoeroe zichtbaar op de rode rots. Iets verderop is een schildpad in de rode buitenlaag gekerfd. Ook een emoe siert een roodbruin rotsblok, een iconische Australische loopvogel zo groot als een struisvogel. De oudste rotstekeningen zijn zo'n 50.000 jaar oud. De oudste weergave van een menselijk gezicht is hier te vinden, net als afbeeldingen van megafauna en andere inmiddels uitgestorven dieren, zoals de Tasmaanse tijger. \"Dit is al generaties lang ons thuis\", zegt Cooper. \"Het is onze verantwoordelijkheid om voor onze oeroude kunst en geschiedenis te zorgen. We zijn enorm trots op deze heilige, bijzondere plek.\" De tekeningen staan in verbinding met de Aboriginal Droomtijd, de basis van het geloof van de oorspronkelijke bevolking van Australië. De verhalen uit de Droomtijd verklaren voor hen hoe de aarde is ontstaan en geven wetten en regels voor het leven. Van generatie op generatie wordt ook informatie over het gebied doorgegeven, zoals waar water en voedsel te vinden zijn. Maar sinds een paar jaar wordt deze unieke rotskunst bedreigd door de fossiele brandstofindustrie. Recht tegenover de rotsen van Murujuga ligt het gigantische aardgasproject van Woodside, de grootste producent van olie en aardgas in Australië. Het is de grootste exportfaciliteit van fossiele brandstoffen van het land. Hier wordt gas verwerkt en als vloeibaar aardgas verscheept. Jaarlijks is dat zo'n 14,3 miljoen ton, dat vooral naar de Aziatische markt gaat. Een kleine 15 procent wordt in West-Australië zelf gebruikt. Het levert de Australische economie miljarden op. Maar volgens tegenstanders zoals Cooper is het een gevaar voor de rotskunst die van onschatbare waarde is. \"Je ziet de veranderingen in de rotsen en de tekeningen, ze zijn minder duidelijk dan voorheen\", zegt Cooper. 'Schade aan natuur en cultuur' Daarnaast zijn er zorgen over de enorme uitstoot van broeikasgassen die verbranding van het aardgas veroorzaakt. De Australian Conservation Foundation klaagt de regering daarom aan voor het goedkeuren van het project dat \"massale schade aanricht aan de natuur, het klimaat en de cultuur\". \"De goedkeuring door de regering voor de klimaatbom van Woodside brengt onze toekomst en die van bijzondere natuurgebieden in Australië in gevaar\", zegt Adam Bandt, directeur van de natuurorganisatie . Cooper is betrokken bij een soortgelijke rechtszaak die het besluit van de regering aanvecht, omdat de aardgasverwerker volgens hen de rotskunst aantast. De regering heeft onderzoek laten uitvoeren en stelt dat de gevolgen minimaal zijn, maar die conclusie wordt betwist. Adrian Baddeley is hoogleraar aan de Curtin University en was als hoofdstatisticus betrokken bij het onderzoek in opdracht van de regering. \"Uit onze voorlopige onderzoeksresultaten bleek onomwonden dat vervuiling de rotsen beschadigt. Hoe dichter bij de industrie de rotsen liggen, hoe brozer ze zijn\", zegt de wetenschapper. Maar die conclusie zag hij niet terug in het rapport dat door regeringsambtenaren werd opgesteld en gepubliceerd. \"Ik vond het zorgelijk dat men de onderzoeksresultaten anders of verkeerd uitlegde.\" Zijn zorgen werden aan de kant geschoven. Uiteindelijk besloot Baddeley om zich terug te trekken uit het onderzoek. \"Ik had voor mijn gevoel geen andere keuze, want ik wil 's nachts kunnen slapen. Voor een gerust geweten moet ik erop aandringen dat de integriteit van het onderzoek overeind blijft.\" 'Vechten voor ons voortbestaan' Zelfs de speciale rapporteur van de Verenigde Naties voor het mensenrecht op een schoon, gezond en duurzaam milieu bemoeit zich inmiddels met de zaak. \"Australië is verplicht grote schade aan het milieu te voorkomen\", stelt de rapporteur in een verklaring. Volgens mijnbouwbedrijf Woodside is de beslissing van de Australische regering weloverwogen genomen. \"De goedkeuring van de verlenging van het project volgde na een uitgebreide en grondige beoordeling door zowel de landelijke als de lokale regeringen, en in overeenstemming met wettelijke procedures\", verklaart het bedrijf. Voor Cooper is het een zaak van leven of dood. \"We vechten voor onze geschiedenis, onze verhalen. We vechten voor ons voortbestaan.\" De komende dagen wordt de zaak behandeld door het hooggerechtshof in Melbourne. Een uitspraak wordt later dit jaar verwacht.",
+    "published": "2026-07-21T20:30:01+02:00",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B2"
+  },
+  {
+    "id": "a2aedcef67ad",
+    "source": "nos_buitenland",
+    "bron": "NOS Buiten",
+    "scopes": [
+      "I"
+    ],
+    "title": "Geen bier of schnaps meer op Duitse stations, spoorbedrijf is geweld beu",
+    "link": "https://nos.nl/l/2623915",
+    "summary": "Het wordt verboden om op stations in Duitsland alcohol te drinken. Na een incident waarbij een controleur zwaargewond raakte is de maat vol voor spoorbedrijf Deutsche Bahn. Op alle 5400 stations wordt de komende maanden stapsgewijs een alcoholverbod ingevoerd. Half oktober moet dat overal van kracht zijn. Vorig jaar meldde Deutsche Bahn zo'n 5600 geweldsincidenten. Hoeveel daarvan er plaatsvonden op stations en hoeveel in treinen, is niet bekend. In zo'n 3000 gevallen werd spoorpersoneel aangevallen. Op een aantal grote stations nam het aantal incidenten af na maatregelen, maar ging het nog steeds honderden keren mis. \"We pakken nu door\", zegt directeur Palla van Deutsche Bahn. Volgens haar is de maatregel nodig voor de veiligheid van reizigers en spoorpersoneel. \"We moeten te vaak constateren dat op plekken waar alcohol wordt gebruikt, ook meer geweld wordt gebruikt.\" Directe aanleiding voor het besluit is een incident waarbij vrijdag een conducteur uit een rijdende trein viel en zwaargewond achterbleef langs het spoor. In de trein had de man het aan de stok gekregen met een dronken zwartrijder. De man is inmiddels buiten levensgevaar. Op een aantal grote stations, zoals die van Keulen en Hamburg, geldt al een alcoholverbod. Bier en wijn mogen daar wel worden verkocht, maar niet worden gedronken. Palla zegt dat dat goed werkt: er zijn minder incidenten en er is ook minder afval. Correspondent Chiem Balduk over de situatie op Duitse stations: \"Een aantal grote stations staat in Duitsland bekend als hotspots van criminaliteit, wat er vooral 's avonds toe leidt dat mensen zich niet graag op stations begeven. Met name vrouwen geven aan zich dan niet veilig te voelen. Het is maar de vraag of een alcoholverbod de veiligheid flink vergroot. Volgens deskundigen spelen meer factoren mee bij gevoelens van onveiligheid, zoals achterstallig onderhoud, gebrek aan toezicht en vieze stations. Ook bestaan er geen poortjes, zoals in Nederland, om bijvoorbeeld bedelaars en overlastgevende drugsgebruikers buiten te houden. Voor de nieuwe CEO van Deutsche Bahn is het verhogen van de veiligheid een topprioriteit, naast het verbeteren van de historisch slechte punctualiteit . Daarbij kijkt ze nadrukkelijk ook naar de lokale overheden, want die moeten de stations volgens haar ook zien als een visitekaartje. Met dat argument wordt het een gedeelde verantwoordelijkheid, ook voor het prijskaartje van die operatie.\" Het alcoholverbod geldt straks alleen in stationsgebouwen en op perrons. Snelle ICE-treinen hebben restauratierijtuigen waar drank wordt verkocht en die blijven gewoon open. Meegenomen drank mag ook worden genuttigd. Voorwaarde is wel dat er geen overlast ontstaat voor andere reizigers. Over de handhaving van het alcoholverbod wordt inmiddels fel gediscussieerd. Zo staat de minister van Binnenlandse Zaken best open voor het idee, maar heeft hij nog veel vragen over de uitvoerbaarheid. Politiebond GdP is voor het verbod, maar zegt dat dat zonder extra politie-inzet waarschijnlijk niet te handhaven is. Deutsche Bahn zegt dat de combinatie van heldere regels en consequent optreden tot nu toe goed werkt.",
+    "published": "2026-07-21T19:46:05+02:00",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B1"
+  },
+  {
+    "id": "204769ef4719",
+    "source": "nos_buitenland",
+    "bron": "NOS Buiten",
+    "scopes": [
+      "I"
+    ],
+    "title": "Moord op Britse politica Ann Widdecombe werd vastgelegd op camera",
+    "link": "https://nos.nl/l/2623891",
+    "summary": "Er zijn meer details bekendgemaakt over de moord op de Britse politica Ann Widdecombe. Volgens aanklagers hebben camera's de daad vastgelegd. Op beeld is te zien hoe Widdecombe 21 keer met een hamer op haar hoofd wordt geslagen, zei de aanklager in de rechtszaal. De 78-jarige Widdecombe werd begin deze maand met ernstige verwondingen dood gevonden in haar huis in Haytor, een dorpje in het zuidwesten van Engeland. In eerste instantie werd een 26-jarige man aangehouden op verdenking van moord. Hij werd een paar dagen later vrijgelaten. Kort daarna werd een andere man opgepakt in South Yorkshire, zo'n 430 kilometer van de woning van Widdecombe. Deurbelcamera Het gaat om de 28-jarige Joshua Kerry. Volgens de aanklagers legde de deurbelcamera vast hoe zijn auto een dag voordat Widdecombe werd gevonden voor de woning stopte. Een andere camera in de hal toont hoe Kerry haar woning binnengaat, waar Widdecombe zit te eten. Hij zou haar hebben gevraagd of zij bankpassen en een ID had, waarna hij Widdecombe 21 keer met een hamer op haar hoofd sloeg, haar uit haar stoel duwde en haar portemonnee pakte. Widdecombe werd de volgende dag gevonden door een tuinman, nadat zij niet op een gepland interview was verschenen met Channel 5. In vuilnisbakken rondom de woning van Kerry werden een hamer en een paar zwarte handschoenen met het DNA van Widdecombe aangetroffen. Het was vandaag de eerste keer dat Kerry moest voorkomen in de rechtszaal. Hij sprak alleen om zijn naam, geboortedatum en adres te bevestigen. Hij wordt verdacht van moord. De politie doet nog onderzoek naar een mogelijk terroristisch of politiek motief. Brexit Widdecombe was jarenlang een prominent politica voor de Conservatieve Partij. Tussen 1987 en 2010 was zij lid van het Britse Lagerhuis en in de jaren 90 was ze staatssecretaris voor Werkgelegenheid. Later was ze ook nog staatssecretaris voor het Gevangeniswezen. Na haar vertrek uit de landelijke politiek werd zij lid van het Europees Parlement namens de Brexit Party. Ze was een uitgesproken voorstander van de Brexit. Sinds 2023 was Widdecombe de woordvoerder Immigratie en Justitie van de rechts-populistische partij Reform UK.",
+    "published": "2026-07-21T17:13:33+02:00",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B1"
+  },
+  {
+    "id": "4e09c8f8b511",
+    "source": "nos_buitenland",
+    "bron": "NOS Buiten",
+    "scopes": [
+      "I"
+    ],
+    "title": "Verdachte van schietpartij met zes doden in Duitsland dood aangetroffen in cel",
+    "link": "https://nos.nl/l/2623885",
+    "summary": "De man die werd verdacht van een schietincident waarbij vorige maand zes mensen om het leven kwamen in Noord-Duitsland, is dood aangetroffen in zijn gevangeniscel. Volgens het ministerie van Justitie van de deelstaat Nedersaksen wijst alles erop dat hij een einde aan zijn leven heeft gemaakt. De 45-jarige verdachte werd vanochtend dood gevonden in een gevangenis in Bremervörde. Een arts stelde vast dat hij is overleden door verwurging. Er zijn geen aanwijzingen dat anderen bij zijn dood betrokken waren. De schietpartij was op 29 juni in Stade, ten westen van Hamburg. De schutter opende het vuur in een opvanglocatie voor zwangere vrouwen en jonge moeders met kinderen. Zes medewerkers van de opvang en de regionale jeugdzorg kwamen daarbij om het leven. Volgens de Duitse autoriteiten hield de schietpartij verband met een conflict over de voogdij van de drie maanden oude dochter van de verdachte. De in Duitsland geboren man met de Turkse nationaliteit werd verdacht van moord. Zijn naam is door de autoriteiten niet bekendgemaakt. Moeder en baby ongedeerd Volgens Duitse media had de verdachte het vuurwapen een week voor de schietparti j gekocht. Aan de schietpartij zou een uithuisplaatsing van zijn dochter zijn voorafgegaan. Een arts vermoedde dat de baby leed aan het zogeheten shakenbabysyndroom. De verdachte verzette zich volgens mediaberichten tegen een medische ingreep. De moeder en de baby waren tijdens de schietpartij in de opvanglocatie aanwezig, maar bleven ongedeerd. De verdachte werd kort na de schietpartij na een achtervolging aangehouden. Hulp nodig? Denk je aan zelfdoding of maak je je zorgen om iemand? Praten erover helpt en kan anoniem via de chat op www.113.nl of telefonisch op 113 of 0800-0113.",
+    "published": "2026-07-21T16:49:24+02:00",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B1,B2"
+  },
+  {
+    "id": "71c75cc33eb0",
+    "source": "nos_buitenland",
+    "bron": "NOS Buiten",
+    "scopes": [
+      "I"
+    ],
+    "title": "21/7 in Nieuwsuur: 'Iconisch duurzaam gebouw' in Rotterdam • Houthi's blokkeren zeestraat • Zorgen over online zelfmedicatie",
+    "link": "https://nos.nl/l/2623884",
+    "summary": "'Rotterdam Rocks' prijswinnend gebouw in Rotterdam Het gebouw lijkt zo uit een film te komen. Het futuristische ontwerp, dat doet denken aan een paar met mos begroeide stenen, moet nog worden gebouwd. Toch is er nu al veel om te doen. Kan zo'n complex gebouw eigenlijk wel duurzaam zijn? Houthi's blokkeren zeestraat Problemen bij de ene zeestraat zijn nog niet voorbij, of de volgende dienen zich alweer aan. De Houthi-rebellen in Jemen hebben gisteren namelijk een maritieme blokkade tegen Saudi-Arabië afgekondigd. Wat zijn de economische gevolgen daarvan, zeker nu ook de Straat van Hormuz onder druk staat? Online zelfmedicatie Het Trimbos-instituut gaat nieuw onderzoek doen naar zelfmedicatie. Het gaat hierbij om mensen die online medicatie kopen, zonder toezicht van een arts. Hoe groot is deze groep en waarom zoeken mensen hun heil bij online medicatie?",
+    "published": "2026-07-21T16:39:03+02:00",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "duplicate"
+  },
+  {
+    "id": "89cb0ab7f17f",
+    "source": "nos_buitenland",
+    "bron": "NOS Buiten",
+    "scopes": [
+      "I"
+    ],
+    "title": "Tientallen agenten gewond bij protesten in Bologna na dood van arrestant",
+    "link": "https://nos.nl/l/2623874",
+    "summary": "Bij demonstraties in Bologna zijn gisteren ruim zestig agenten gewond geraakt, meldt de politie in de Italiaanse stad. Ook zeker vier demonstranten raakten gewond. De demonstranten gingen de straat op vanwege de dood van de 43-jarige Abderrahim Fakir bij een arrestatie zondag. In de stad werd grote schade aangericht. Winkelruiten werden ingeslagen, auto's in brand gestoken en geldautomaten vernield. Het Openbaar Ministerie is een onderzoek begonnen om de verantwoordelijke demonstranten op te sporen. Solidariteit De demonstranten waren op twee pleinen samengekomen. Op een plein bleef het vreedzaam en kwamen duizenden mensen bij elkaar om hun solidariteit te betuigen aan de nabestaanden van Fakir. Maar op het andere plein brak het geweld uit. Demonstranten gooiden onder meer met vuurwerk naar de politie. \"Iedereen die denkt geweld met geweld te kunnen beantwoorden, negeert de rechtsstaat\", schreef burgemeester Lepore op Instagram. De Italiaanse premier Meloni heeft opgeroepen om uitgebreid onderzoek te doen naar de dood van Fakir. Tegelijkertijd reageerde ze ook vol afschuw op het geweld tegen de politie en noemde het onaanvaardbaar. Psychose Fakir overleed eergisteren toen hij werd aangehouden. De politie was afgekomen op meldingen dat hij zich agressief gedroeg. De meldingen gingen volgens Italiaanse media over \"een persoon met een psychose\". Hij zou onder meer tegen een auto hebben geslagen die een garage in reed en vervolgens ook een politiewagen hebben geraakt. Agenten probeerden volgens Italiaanse media om de man te kalmeren en spoten pepperspray in zijn gezicht toen dat niet lukte. Op beelden die een omstander filmde, is te zien hoe twee politieagenten vervolgens op hem zitten met een derde man, terwijl Fakir meerdere keren om hulp roept. De agenten gaan niet van hem af. Vervolgens blijft hij levenloos op de grond liggen. Let op, de beelden zijn heftig: De betrokken agenten zijn 23 en 28 jaar oud. Zij zijn niet geschorst, maar werken momenteel niet, meldt de Italiaanse krant Corriere della Sera . Een van hen is met verlof, maar dat was volgens de politie al eerder gepland. De ander is met ziekteverlof. In een interview met de krant La Stampa zegt de zwager van Fakir het geweld van demonstranten te veroordelen. \"We vragen niet om wraak, maar om gerechtigheid\", zegt deze Zorgan Hamid. Hij was met andere nabestaanden bij de demonstraties. Hij hekelt het politieoptreden rond de dood van Fakir. \"De politie heeft haar werk niet goed gedaan; de ambulancebroeders stonden erbij en keken toe hoe iemand stierf zonder in te grijpen. Degenen die fouten hebben gemaakt, moeten zich verantwoorden.\"",
+    "published": "2026-07-21T15:30:00+02:00",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B1,B2"
+  },
+  {
+    "id": "9e348cdf0929",
+    "source": "nos_buitenland",
+    "bron": "NOS Buiten",
+    "scopes": [
+      "I"
+    ],
+    "title": "143 mensen dood gevonden op migrantenboot voor kust Mauritanië",
+    "link": "https://nos.nl/l/2623870",
+    "summary": "143 mensen zijn dood gevonden op een migrantenboot die al 25 dagen op zee dreef. Dat meldt de VN. Het schip werd aangetroffen met 38 overlevenden voor de kust van Mauritanië. De afgelopen jaren proberen migranten uit Sub-Sahara-Afrika vaker via de Atlantische Oceaan over te steken naar Europa. De Atlantische route naar de Canarische Eilanden is een van de dodelijkste migratieroutes ter wereld. Het schip vertrok uit Bufaloto in Gambia en werd afgelopen zaterdag aangetroffen. Het schip had op dat moment 143 stoffelijke overschotten en 38 overlevenden aan boord. VN-vluchtelingenorganisatie UNHCR zegt \"zeer bedroefd en bezorgd\" te zijn over het nieuws. \"Onder de overlevenden bevonden zich twee kinderen die tijdens de reis al hun familieleden hadden verloren en die nu in het ziekenhuis herstellen,\" zei een VN-woordvoerder. De doodsoorzaak werd er niet bij vermeld. Eén opvarende wordt nog vermist. 387 opvarenden gered Vorige week, tussen 14 en 18 juli, werden 387 mensen gered tijdens drie grote reddingsoperaties voor de kust van Mauritanië. Dit jaar werden bij 17 reddingsoperaties al 2147 migranten gered. Maar het aantal doden en verdwijningen blijft op een \"alarmerend niveau\", aldus de UNHCR. Migranten maken de overtocht vaak op fragiele, houten visserskano's. De kano's zijn niet gebouwd om door de sterke oceaanstromingen te varen. Desondanks besluiten ieder jaar honderden West-Afrikaanse migranten om met gevaar voor eigen leven de overtocht te maken. EU-deal Mauritanië en de Europese Unie hebben een overeenkomst van 210 miljoen euro gesloten om migranten te ontmoedigen om via het Afrikaanse land de EU te bereiken. Mensenrechtenorganisaties beschuldigen Mauritanië van het mishandelen van migranten en asielzoekers tijdens kustcontroles. De maatregelen lijken effect te hebben : voor het eerst in jaren is het aantal West-Afrikaanse migranten dat naar de Canarische Eilanden reist afgenomen.",
+    "published": "2026-07-21T15:19:41+02:00",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B1"
+  },
+  {
+    "id": "f8f9cc36017a",
+    "source": "nos_economie",
+    "bron": "NOS Econ",
+    "scopes": [
+      "N",
+      "I"
+    ],
+    "title": "Claimstichting eist miljoenen van ACM voor 'falend toezicht' op Flexenergie",
+    "link": "https://nos.nl/l/2623839",
+    "summary": "Een claimorganisatie wil via de rechter een schadevergoeding afdwingen voor consumenten die klant waren bij Flexenergie. De Stichting Benadeelden in Actie eist \"minimaal 15,7 miljoen euro\" van de Autoriteit Consument en Markt (ACM). Volgens de stichting had de toezichthouder het in 2018 failliet gegane Flexenergie nooit een vergunning mogen geven. EnergieFlex, ook bekend als Flexenergie, bood vanaf 2014 energie aan via een zogenoemd prepaidsysteem . Daarbij betalen klanten hun stroom en gas via een tegoed. Dit zou vooral aantrekkelijk moeten zijn voor huishoudens met een laag inkomen. Klanten werden gelokt met hoge welkomstkortingen. Achteraf bleek dat de boekhouding van EnergieFlex aan alle kanten rammelde en dat het bedrijf in de vier jaar van zijn bestaan nooit winst maakte. Mede door een miljoenenschuld aan de Belastingdienst zagen gedupeerde klanten niets terug van hun betaalde voorschotten en waarborgsommen. Onbehoorlijk bestuur Vijf jaar geleden sprak de door de rechtbank aangestelde curator van onbehoorlijk bestuur van de twee bestuurders van EnergieFlex. Tegelijk vroeg de jurist zich openlijk af hoe het mogelijk was dat het bedrijf ooit een vergunning had gekregen. De Stichting Benadeelden in Actie richt de massaclaim daarom op de toezichthouder. De claimorganisatie noemt het toelaten van EnergieFlex op de energiemarkt \"onrechtmatig\" en spreekt van \"falend toezicht\". Volgens de stichting had de ACM eerder moeten ingrijpen omdat de toezichthouder op de hoogte zou zijn geweest van de wanorde bij EnergieFlex. Voorzitter Frank Bentschap Knook zegt dat het niet gelukt is om met de ACM \"in goed overleg een oplossing te vinden voor de situatie\". Aangescherpte regels De ACM laat weten inhoudelijk niet op de claim in te kunnen gaan omdat de Stichting Benadeelden in Actie hiervoor naar de rechter is gestapt. Een woordvoerder wijst erop dat de ACM indertijd met boetes wel degelijk tegen EnergieFlex heeft opgetreden. Ook golden er toen soepelere regels om meer concurrentie op de energiemarkt toe te laten. Die regels zijn inmiddels aangescherpt.",
+    "published": "2026-07-21T10:51:44+02:00",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B2"
+  },
+  {
+    "id": "0f14699c845c",
+    "source": "nos_economie",
+    "bron": "NOS Econ",
+    "scopes": [
+      "N",
+      "I"
+    ],
+    "title": "'COA dient claim van bijna 200 miljoen in tegen hotelregelaar'",
+    "link": "https://nos.nl/l/2623751",
+    "summary": "Het Centraal Orgaan opvang asielzoekers (COA) heeft een claim van 184,7 miljoen euro neergelegd bij een bedrijf dat noodopvang regelde voor asielzoekers uit Oekraïne. Dat meldt het Financieele Dagblad . Volgens de krant gaat het om een van de hoogste claims ooit van een overheidsorgaan tegen een bedrijf. Het COA zelf was niet direct bereikbaar voor een reactie. Volgens het FD gaat het om een claim tegen LCHD. In het laatste jaarverslag, over 2025, meldt het eenmansbedrijf uit Didam dat het COA op 25 juni 2026 een claim heeft ingediend. Een bedrag wordt niet genoemd. De instantie houdt LCHD aansprakelijk voor \"alle schade die het heeft geleden of nog zal lijden\" over afgesloten huurcontracten met hotels. LCHD werd in 2022 als soort tussenpersoon ingehuurd om hotelkamers te regelen voor het COA. Hierin moesten voor de Russische inval gevluchte Oekraïners snel worden opvangen. Uit de jaarcijfers over die jaren blijkt dat LCHD hier miljoenen aan verdiende. Tegenclaim In de laatste jaarcijfers meldt LCHD dat het zelf ook een claim bij het COA heeft ingediend. Dit voor \"ongerechtvaardigde contractbreuken\". Het bedrijf schrijft nog voor ruim 43 miljoen aan huurverplichtingen met hotels te hebben afgesloten, maar dat het COA eind 2024 de samenwerking heeft opgezegd. Het FD stelt dat de zaak verband houdt met een nog lopende corruptiezaak rond de hotelopvang van asielzoekers. Hierbij zouden mogelijke onregelmatigheden hebben plaatsgevonden. Volgens het FD heeft het COA inmiddels beslag gelegd op de woning van René Derksen, eigenaar van LCHD. Zijn advocaat zegt tegen de krant \"op dit moment geen reactie te kunnen geven\". In een eerder interview in het FD zei Derksen zich van geen kwaad bewust te zijn: \"Ik heb het COA van A tot Z compleet ontzorgd.\"",
+    "published": "2026-07-20T14:44:56+02:00",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B2"
+  },
+  {
+    "id": "183698df4c8a",
+    "source": "nos_economie",
+    "bron": "NOS Econ",
+    "scopes": [
+      "N",
+      "I"
+    ],
+    "title": "20/7 in Nieuwsuur: Tegenvaller voor scheepsbouwer Damen • Medische crowdfunding • Ondergrondse hyperloop",
+    "link": "https://nos.nl/l/2623747",
+    "summary": "Scheepsbouwer Damen: nóg een tegenvaller Nadat scheepsbouwer Damen onlangs al een flinke tegenvaller moest incasseren toen het een Duitse order verloor, dreigt nu opnieuw een tegenvaller. De Belgische minister van Defensie, Theo Francken, onderzoekt alternatieven voor de Nederlandse scheepsbouwer bij de aanschaf van nieuwe fregatten. België bestelde eerder twee fregatten bij Damen, maar de kosten lopen op en de oplevering loopt vertraging op. Wat betekent dit voor de toekomst van de Nederlandse scheepsbouwer? Medische crowdfunding onethisch? Wat als je een medische behandeling nodig hebt die niet wordt vergoed? Steeds meer mensen starten dan een medische crowdfunding. Volgens deskundigen hebben crowdfundingplatforms én de overheid een verantwoordelijkheid. Maar hoe ziet die plicht er in de praktijk uit en wie bepaalt welke inzamelingsacties verantwoord zijn? Ondergrondse hyperloop In onze nieuwe zomerserie 'Ondergronds' kijken we naar ondergrondse oplossing voor bovengrondse problemen. In aflevering 2: de hyperloop. Capsules die door vacuümbuizen reizen met snelheden die bijna die van een vliegtuig evenaren: dat is het idee achter de hyperloop. In Veendam wordt al jaren aan deze technologie gewerkt. Hoe ver is de ontwikkeling? En is de hyperloop een realistisch alternatief voor reizen in de toekomst?",
+    "published": "2026-07-20T13:42:53+02:00",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "duplicate"
+  },
+  {
+    "id": "a548e8106566",
+    "source": "nos_economie",
+    "bron": "NOS Econ",
+    "scopes": [
+      "N",
+      "I"
+    ],
+    "title": "Amerikaanse heffingenchaos dreigt weer los te barsten",
+    "link": "https://nos.nl/l/2623628",
+    "summary": "President Trump horen we al een tijdje nauwelijks meer over de invoerheffingen. Desondanks dreigt er weer een nieuwe reeks te komen: volgende week lopen de in februari ingevoerde Amerikaanse heffingen van 10 procent af en zeer waarschijnlijk worden er dan weer nieuwe gepresenteerd. Trumps beleid kreeg een harde klap toen het Amerikaanse Hooggerechtshof begin dit jaar een streep zette door de importheffingen die voor ieder land afzonderlijk golden. Direct voerde hij een nieuwe belasting in van 10 procent op veel producten uit het buitenland. Deze importbelasting mag Trump alleen de eerste 150 dagen heffen zonder toestemming van het Congres. Deze termijn is voorbij op 24 juli, komende vrijdag dus. Nieuwe heffingen in de maak Op de achtergrond is de Amerikaanse overheid de afgelopen maanden heel druk geweest met de zoektocht naar nieuwe heffingen. \"President Trump leunt sterk op invoerheffingen voor zijn handelsbeleid en is voortdurend op zoek voor een juridische onderbouwing waarmee hij kan wegkomen\", zegt Elmar Otten van ondernemersvereniging Evofenedex. Zo heeft de VS onderzocht of andere landen zich schuldig maken aan \"overtollige productie\" . Maar nog opvallender is het onderzoek dat gedaan werd naar dwangarbeid. Ook de EU is hiervoor onder de loep genomen door de Amerikaanse regering. \"Het gaat vrij ver om de EU te beschuldigen van dwangarbeid\", zegt Martijn Schippers, douane-expert van EY en hoofddocent douanerechten aan de Erasmus Universiteit. De vrees is dat de nieuwe heffingen minder eenvoudig onwettig verklaard kunnen worden door een rechter. \"Deze heffingen kunnen veel moeilijker worden aangevochten omdat er een heel onderzoek aan vooraf is gegaan\", waarschuwt Schippers. Onduidelijkheid terug van nooit weggeweest Wat de nieuwe heffingen gaan betekenen voor Nederlandse bedrijven is niet duidelijk. Op 1 juli zijn handelsafspraken tussen de VS en de EU ingegaan. De afspraak is dat de Europese Unie de heffingen op Amerikaanse producten fors verlaagt en dat op de meeste Europese producten in de VS voortaan 15 procent aan importbelasting wordt geheven. De grote vraag die de Europese bedrijven nu bezighoudt: gaan nieuwe tarieven boven op de afgesproken 15 procent komen? Volgens de Europese Commissie zou dit in strijd zijn met de gemaakte afspraken. Maar de VS wil het nog niet uitsluiten. Maar ook de onduidelijkheid over bijvoorbeeld staal en aluminium is niet weg. Het afgelopen jaar heeft de Amerikaanse overheid de lijst van producten die onder deze heffing van 50 procent vallen telkens uitgebreid. Vooral bedrijven in de technologische industrie zitten met veel vragen. \"Zij willen vooral weten welke scenario's zich de komende maanden kunnen voordoen en hoe zij zich daarop kunnen voorbereiden\", zegt Geoffroy Feij van branchevereniging FME. Nieuwe handelsruzie? Vorig jaar nog beloofden Europese Commissie-voorzitter Von der Leyen en Trump elkaar nog dat ze beter gingen samenwerken. De komende weken moet duidelijk worden wat deze afspraken waard zijn. Blijft het bij de afgesproken heffing van 15 procent of komt er nog meer bij? En wat gaat de Europese Unie in dat geval doen? \"Dit kan leiden tot Europese tegenmaatregelen en uiteindelijk zelfs tot een handelsoorlog. Dat zou onze leden hard kunnen raken\", zegt Feij. Tot nu toe zijn de klappen voor het Nederlandse bedrijfsleven dat naar de VS exporteert meegevallen. Maar de vraag is of een nieuw handelsconflict tussen de EU en Amerika op dit moment niet toch grotere schade kan aanbrengen. \"De onrust en onzekerheid blijft en dat zet financieel natuurlijk behoorlijk wat druk op bedrijven\", zegt Otten.",
+    "published": "2026-07-19T15:31:05+02:00",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B2"
+  },
+  {
+    "id": "68fcffe0a18f",
+    "source": "nos_economie",
+    "bron": "NOS Econ",
+    "scopes": [
+      "N",
+      "I"
+    ],
+    "title": "FNV kondigt voor september weer stakingen en acties aan om sociale zekerheid",
+    "link": "https://nos.nl/l/2623306",
+    "summary": "FNV heeft aangekondigd in september weer actie te gaan voeren vanwege de dreigende bezuinigingen op de sociale zekerheid. Er komen stakingen in verschillende sectoren, waaronder waarschijnlijk een 24-uursstaking op het spoor. \"De stakingen worden groter dan de vorige keer\", meldde FNV-voorzitter Hans Spekman gisteravond in Goedenavond Nederland . Ze zullen worden gehouden in de eerste twee weken van september met naast de spoorstaking ook stakingen in de havens en bij de overheid. Ook in de zorg komen acties, maar daar wordt niet gestaakt, zei Spekman, \"want we willen de patiënten niet de dupe laten worden\". Een woordvoerder van de vakbond laat weten dat nog niet bekend is bij welke ov-organisaties acties zullen zijn: \"De precieze invulling daarvan wordt nog bepaald.\" Het kabinet is van plan om onder meer de WW in te korten en de WIA, de uitkering voor langdurig zieken, te versoberen. De FNV is daar fel tegen . Volgens Spekman \"beweegt het kabinet niet\" en zijn acties daarom gerechtvaardigd, ondanks de hinder die reizigers daarvan ondervinden. Nog geen datum gekozen Vorige maand werd ook actie gevoerd. Op 24 juni reden er vier uur lang geen treinen in het hele land vanwege een staking. In september gaat het dus om een langere staking. Volgens Spekman is er nog geen exacte datum gekozen. Er zullen dan hoogstwaarschijnlijk nog wel treinen rijden tussen Amsterdam Centraal, Schiphol en Hoofddorp. Bij andere stakingen probeerden vakbonden het treinvervoer naar de luchthaven volledig stil te leggen, maar daar stak de rechter een stokje voor . Stads- en streekvervoer Deze nieuwe acties staan los van mogelijke stakingen in het stads- en streekvervoer tegen het vastlopen van de cao-onderhandelingen. Gisteren liepen FNV en CNV weg uit het overleg, omdat ze geen basis zien om verder te praten. Volgens de vakbonden leidt het laatste voorstel, na zeven onderhandelingsrondes, nog steeds tot minder zekerheid , flexibilisering van het werk en een hoge werkdruk voor het personeel. Na de zomer willen de bonden de situatie voorleggen aan hun leden en beslissen of er ook in het stads- en streekvervoer gestaakt gaat worden. De cao openbaar vervoer geldt voor ongeveer 13.000 werknemers van Arriva, Transdev, EBS, Keolis, Qbuzz en de RET. De NS heeft een eigen cao.",
+    "published": "2026-07-17T07:52:14+02:00",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B1"
+  },
+  {
+    "id": "a2a3a745b568",
+    "source": "nos_economie",
+    "bron": "NOS Econ",
+    "scopes": [
+      "N",
+      "I"
+    ],
+    "title": "Cryptoplatform Knaken failliet, 7 miljoen euro van klanten is zoek",
+    "link": "https://nos.nl/l/2623199",
+    "summary": "Het cryptoplatform Knaken, bekend als voormalig sponsor van Ajax en Feyenoord, is failliet. De rechtbank in Rotterdam heeft het bedrijf op verzoek van het Openbaar Ministerie (OM) failliet verklaard. Volgens justitie is 7 miljoen euro van klanten van Knaken verdwenen. Ruim een maand geleden gingen de app en website van Knaken opeens op zwart. Het OM vroeg het faillissement aan, omdat klanten hun geld niet terugkregen. Het OM is ook een strafrechtelijk onderzoek gestart vanwege mogelijke misstanden bij het bedrijf. Het OM schat dat er ongeveer 30.000 klanten zijn. De rechtbank deelt de zorgen van justitie omdat er niet meer kan worden ingelogd bij Knaken. \"De klanten kunnen niet meer bij hun accounts en tegoeden. Bovendien worden de klanten via de website van Knaken ontmoedigd actie te ondernemen\", zo concludeert de rechter in de uitspraak . Volgens de rechtbank staat vast dat Knaken \"te weinig vermogen heeft om de klanten volledig te betalen\". Vergunning Bij het in 2017 opgerichte Knaken konden consumenten geld omzetten in cryptomunten en daarin handelen. Het bedrijf werd in 2021 als 'cryptopartner' sponsor bij enkele eredivisieclubs, waaronder Ajax en Feyenoord. Begin dit jaar kwam Knaken in de problemen doordat cryptobedrijven door nieuwe Europese regels een vergunning nodig hadden. Knaken bleek één van de jonge cryptobedrijven te zijn die niet zomaar aan alle nieuwe eisen konden voldoen. Ondertussen had Knaken het al enkele jaren financieel lastig, blijkt uit het laatste openbare jaarverslag over 2024. Om het bedrijf overeind te houden noemde de accountant de cryptovergunning \"cruciaal\". Stichting Het geld van klanten zou bij een aparte stichting moeten staan, die Knaken verplicht was op te richten om te voorkomen dat klanten bij een faillissement hun geld kwijt zouden zijn. Deze Stichting Knaken Payments is niet begonnen met uitkeren, volgens Knaken omdat dit \"juridisch, organisatorisch en operationeel zorgvuldig\" zou moeten worden voorbereid\". \"Dit kost tijd\", schreef Knaken op de eigen website. Twee weken geleden stapte het Openbaar Ministerie naar de rechter om Knaken en de Stichting Knaken Payments failliet te laten verklaren . Omdat er geen geld werd uitgekeerd waren bij justitie de alarmbellen afgegaan. Met een faillissement zou een curator volgens het OM moeten voorkomen dat er geld zou verdwijnen. Nadat een niet door justitie bij naam genoemde toezichthouder aangifte had gedaan, deed de opsporingsdienst FIOD eind juni ook al een inval bij het bedrijf. Hierbij werden computers en telefoons in beslag genomen en werd beslag gelegd op een deel van het vermogen van Knaken.",
+    "published": "2026-07-16T12:44:33+02:00",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B1"
+  },
+  {
+    "id": "8b694aaaecce",
+    "source": "nos_economie",
+    "bron": "NOS Econ",
+    "scopes": [
+      "N",
+      "I"
+    ],
+    "title": "Onrust in Straat van Hormuz dwingt ondernemers tot alternatieven: 'Overlevingsmodus'",
+    "link": "https://nos.nl/l/2623178",
+    "summary": "Na een paar relatief kalme weken is het opnieuw onrustig in de Straat van Hormuz. Iran zei eind vorige week de zeestraat weer te sluiten, maar volgens de VS is de doorgang gewoon open voor de scheepsvaart. De Amerikaanse president Trump kondigde aan tol te gaan heffen voor vrachtschepen die door de zeestraat gaan, maar even later trok hij dat plan weer in. Veel onzekerheden dus, ook voor ondernemers die afhankelijk zijn van de scheepvaart in dat deel van de wereld. Drie ondernemers vertellen hoe ze hun plannen aanpasten en naar alternatieven zoeken. Leon Schulz van Hapag-Lloyd: 'Omwegen werken' De Duitse containerrederij Hapag-Lloyd had in april nog zes schepen in de Straat van Hormuz liggen die niet weg konden. Inmiddels zijn de schepen veilig teruggekeerd. \"Om het zekere voor het onzekere te nemen, blijven de grote schepen voorlopig uit de Straat van Hormuz\", zegt woordvoerder Leon Schulz. Dat betekent wel dat een van de vaarroutes voorlopig wegvalt. \"De afsluiting van de zeestraat heeft een aanzienlijke impact gehad op de handel met de regio rond de Perzische Golf\", zegt Schulz. \"De directe verbinding is opgeschort en de schepen die daar normaal varen worden nu ergens anders ingezet. We schatten dat daardoor zo'n zestig tot tachtig procent minder containers die kant op gaan dan normaal.\" Als alternatief zocht de rederij naar andere routes via de zee en over land. \"Vracht kan bijvoorbeeld via de havens van Jeddah, Dammam of Khorfakkan verder worden geleid.\" Op die manier blijft de verbinding met markten zoals de Verenigde Arabische Emiraten, Saoedi-Arabië, Koeweit, Qatar en Irak in stand. De omwegen werken, maar vracht is langer onderweg en de beschikbare havens zijn snel vol. \"De nieuwe routes kunnen de capaciteit en de efficiëntie van de reguliere zeeverbindingen niet evenaren.\" Robert Lesmeister, Squiby Foods: 'Overlevingsmodus' \"Vorige week is de laatste container die voor de blokkade van de Straat van Hormuz was ingeladen, aangekomen. Die vracht heeft vijf maanden gedaan over een reis die normaal vier weken duurt\", zegt exporteur Robert Lesmeister. Zijn bedrijf Squiby Foods exporteert voedingsmiddelen, zoals kaas, vis en kruiden, naar het Midden-Oosten. Aan het begin van de afsluiting verwachtte Lesmeister niet dat de situatie zo snel zou escaleren. \"Er gebeurt elke keer weer iets nieuws, het einde lijkt nog lang niet in zicht.\" Ook hij zocht de afgelopen maanden naar alternatieve routes. \"Die zijn langer en duurder, maar je past je erop aan. Je moet wel. We zijn allang blij dat de producten überhaupt aankomen. We overleggen veel met onze klanten, die tot nu toe best bereid zijn om wat meer te betalen.\" Een groot deel van de vracht wordt nu vervoerd via de lucht of via tussenhavens en met vrachtwagens. \"Maar niet alleen de routes zijn anders, ook de vraag verandert. Er is bijvoorbeeld minder toerisme in het Midden-Oosten. Daardoor leveren we minder aan hotels. Tegelijkertijd neemt de vraag naar andere producten juist onverwachts toe. Soms word je negatief verrast, soms positief.\" De komende maanden blijven we in de \"overlevingsmodus\", zegt Lesmeister. \"Ondertussen doen we een poging onze afhankelijkheid van het Midden-Oosten steeds een beetje te verkleinen en proberen we onze producten ook in andere werelddelen te verkopen.\" Stephan Mangnus van Sakko: 'Toch geen aardbeienkraam' \"Een groot deel van onze brandstof kwam via de Straat van Hormuz\", zegt Stephan Mangnus van tankstationketen Sakko. \"Dat is nu een stuk minder.\" Dat is niet meteen een probleem voor de vijftig tankstations van Mangnus. \"We hebben vaste contracten met leveranciers die de brandstof nu uit andere landen en werelddelen halen, bijvoorbeeld uit Amerika, Saudi-Arabië of Venezuela. Die landen zijn meer gaan produceren en houden de markt in balans.\" Hoewel de prijzen aan de pomp hoger zijn dan eerst, komen mensen nog gewoon tanken. Alleen bij de tankstations aan de grens is het al weken rustig. \"Het is nu eenmaal goedkoper bij de buren\", zegt Mangnus. \"We hebben wel getwijfeld of we een pakketpunt of een aardbeienkraampje moesten openen ter compensatie, maar je moet heel wat aardbeien verkopen om de verloren tankomzet in te halen.\" Mangnus zoekt naar alternatieven voor de lange termijn. \"Het klinkt misschien een beetje gek uit de mond van een tankstationbaas, maar we moeten eraan geloven dat we minder afhankelijk moeten worden van olie.\" Daarom begon het bedrijf van Mangnus jaren geleden al met de aanleg van duizenden elektrische laadpunten. \"Dat blijkt nu een slimme zet te zijn geweest.\"",
+    "published": "2026-07-16T06:59:10+02:00",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B2"
+  },
+  {
+    "id": "712bc530640e",
+    "source": "nos_economie",
+    "bron": "NOS Econ",
+    "scopes": [
+      "N",
+      "I"
+    ],
+    "title": "Inflatie is 3 procent, maar Nederlanders denken dat die veel hoger is",
+    "link": "https://nos.nl/l/2623055",
+    "summary": "Mensen schatten de inflatie hoger in dan deze daadwerkelijk is, meldt het Centraal Bureau voor de Statistiek (CBS). De laatste jaren is de inflatie rond de 3 procent gebleven, terwijl mensen het gevoel hebben dat de inflatie zo'n 8 procent is. Vóór de energiecrisis van 2022 lag de gevoelsinflatie dichter bij de feitelijke inflatie. Sindsdien is dat verschil volgens het CBS veel groter geworden. Zo was in juli 2023 de inflatie 4,6 procent, terwijl mensen het idee hadden dat die 15 procent was. Hoewel de feitelijke inflatie volgens het CBS richting het niveau van voor de energiecrisis gaat, geldt dat nog niet voor de gevoelsinflatie. Die is ongeveer twee keer zo hoog als voor 2022. Spanningen Midden-Oosten Volgens het CBS verwachten steeds meer mensen dat de inflatie gaat stijgen. Dat komt volgens het CBS door de spanningen in het Midden-Oosten en de zorgen over de stijgende brandstofprijzen.",
+    "published": "2026-07-15T09:06:49+02:00",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B2"
+  },
+  {
+    "id": "38b0f9876ac8",
+    "source": "nos_sport",
+    "bron": "NOS Sport",
+    "scopes": [
+      "N"
+    ],
+    "title": "Zevenvoudig olympische roeier Tufte (50) plots overleden: 'Een van grootste Noorse sporthelden'",
+    "link": "https://nos.nl/l/2623930",
+    "summary": "De Noorse roeier Olaf Tufte is op 50-jarige leeftijd overleden. Tufte kwam in actie op zeven Olympische Spelen en wordt gezien als een van de grootste atleten in de Noorse sportgeschiedenis. Hij won twee gouden olympische medailles in de skiff op twee achtereenvolgende Spelen, in Athene in 2004 en in Peking in 2008. Zijn eerste olympische deelname was in Atlanta (1996), zijn laatste olympische deelname op 45-jarige leeftijd in Tokio (2021). Tufte won ook nog een zilveren en een bronzen olympische medaille en werd twee keer in zijn leven wereldkampioen. \"Tufte bracht het land veel plezier\", zei de Noorse premier Jonas Gahr Støre. \"Hij was een van de grootste Noorse sporthelden en een van de grootste roeiers die we hebben gekend.\" De roeicarrière van Tufte heeft 26 jaar geduurd en eindigde met een negende plek in de skiff op de Spelen van Tokio. Daarna trok Tufte zich terug op zijn boerderij waar hij met zijn vrouw en twee kinderen woonde. \"Ik heb twee families\", zei Tufte in 2021 nadat hij de prestigieuze Thomas Keller-medaille had ontvangen voor zijn roeicarrière. \"Ik heb de Tufte-familie, maar mijn grootste familie is de roeifamilie. Als je aan riemen trekken, ben je onderdeel van mijn familie. Roeien is de reden waarom ik ben wie ik ben geworden.\" Tufte werd maandag buiten bewustzijn gevonden op de boerderij en overleed later in het ziekenhuis. Over de doodsoorzaak is nog niets bekend.",
+    "published": "2026-07-21T22:42:04+02:00",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B1"
+  },
+  {
+    "id": "29564e2e1450",
+    "source": "nos_sport",
+    "bron": "NOS Sport",
+    "scopes": [
+      "N"
+    ],
+    "title": "Engelse voetballegende en Ballon d'Or-winnaar Kevin Keegan (75) overleden",
+    "link": "https://nos.nl/l/2623771",
+    "summary": "Kevin Keegan, oud-voetballer en bondscoach van Engeland, is op 75-jarige leeftijd overleden. Hij was al geruime tijd ernstig ziek. De aanvaller won in 1978 en 1979 de Ballon d'Or, toen hij bij het Duitse HSV voetbalde. Daarmee is hij de enige Engelsman die twee keer werd verkozen tot wereldvoetballer van het jaar. Michael Owen, Bobby Charlton en Stanley Matthews pakten de prijs één keer. Keegan speelde 63 interlands voor Engeland, waarin hij 21 keer scoorde. In de jaren zeventig maakte Keegan furore door met Liverpool driemaal landskampioen te worden, een keer de Europa Cup 1 te winnen en twee keer de UEFA Cup. Bij HSV haalde hij in 1979 opnieuw de finale van de Europa Cup, maar die ging verloren tegen Nottingham Forest. 'Keegan had iets magisch' De bescheiden Keegan noemde zichzelf \"waarschijnlijk de meest alledaagse speler die ooit de Ballon d'Or heeft gewonnen\", maar volgens Arjen van der Horst, correspondent Verenigd Koninkrijk, zijn weinig Britten het daar mee eens. \"Keegan geldt als een van de grootste voetballers uit de Engelse geschiedenis\", zegt Van der Horst. \"Zonder twijfel een van de beste spelers van zijn generatie. Er is met heel veel verdriet gereageerd op zijn overlijden, het drukte al het andere sportnieuws weg.\" \"De pijn zal het meest gevoeld worden in Newcastle, waar hij in de nadagen van zijn carrière speelde en zich echt onsterfelijk maakte als coach van de club in de jaren negentig.\" \"De fans liepen echt met hem weg, Keegan had iets magisch. Overal waar hij kwam, bracht hij kleur en energie met zich mee.\" Als trainer was Keegan vooral lang actief bij Newcastle United en Manchester City. Beide clubs leidde hij naar de Premier League. Ook was hij bondscoach tijdens het EK van 2000, waarop Engeland roemloos in de groepsfase werd uitgeschakeld. \"Met grote droefheid maken we bekend dat Kevin Keegan op 75-jarige leeftijd is overleden\", meldt zijn familie vandaag. \"Kevin vocht al enige tijd tegen kanker en werd tijdens zijn laatste momenten omringd door zijn vrouw en dochters.\"",
+    "published": "2026-07-20T16:52:50+02:00",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B1"
+  },
+  {
+    "id": "99ce6d4700b0",
+    "source": "nos_sport",
+    "bron": "NOS Sport",
+    "scopes": [
+      "N"
+    ],
+    "title": "Internationale media vol lof over Spanje en kritisch over 'Argentijns geweld'",
+    "link": "https://nos.nl/l/2623746",
+    "summary": "De Spaanse media zijn lyrisch, in Argentinië overheerst de trots en internationale media zijn eensgezind: Spanje is de meer dan terechte wereldkampioen voetbal. \"Spanje móest deze finale winnen, want als Argentinië had gewonnen, zou dat een belediging voor het voetbal zijn geweest.\" De Spaanse kranten komen hoofdletters tekort om de vreugde uit te drukken. Marca schrijft: \"Opnieuw de koningen van de wereld! Spanje heeft niet alleen een finale gewonnen. Het heeft een manier van spelen beschermd. Het heeft het voetbal gered.\" Mundo Deportivo: \"Wereldkampioen! Ze versloegen Argentinië in een zware en felbevochten wedstrijd die tot het allerlaatste moment spannend bleef.\" El Pais bejubelde doelpuntenmaker Ferran Torres: \"Nu al een icoon in de geschiedenis van het Spaanse team.\" Ook de internationale media steken de loftrompet over Spanje, al klinkt er ook teleurstelling door over de finale (\"Een teleurstellend schouwspel\") en de instelling van de Argentijnen. The Guardian: \"Een onsamenhangende wedstrijd die bijna werd verpest door de slooptactiek van Argentinië.\" Voetbal: 1, criminelen: 0 The Telegraph is duidelijk: \"Voetbal: 1, criminelen: 0\". De Engelse krant spreekt van een overwinning van het Spaanse voetbal op het Argentijnse geweld. \"Het duurde even voordat het zover was, maar gelukkig heeft de sport gezegevierd. Spanje won het WK en daar zijn we allemaal beter van geworden... Spanje móést deze finale winnen.\" \"Godzijdank\", schrijft The Sun. \"Dank aan Ferran Torres en Spanje... Argentinië betaalde uiteindelijk de prijs voor de poging om van een voetbalwedstrijd een straatgevecht te maken.\" Het Italiaanse La Gazzetta dello Sport: \" Spanje was geweldig, Argentinië was niet om aan te zien. Een doelpunt van Ferran Torres bezorgde de beker aan degenen die hem verdienden en wilden, zonder ook maar een millimeter af te wijken van een prachtige en winnende filosofie, die voor één avond werd bezoedeld door de tegenstander die er voor had gekozen om niet te spelen.\" L'Équipe noemde de Argentijnen \"slechts toeschouwers\" en doopte de Spanjaarden om tot \"het meest vooraanstaande team van de 21ste eeuw\". Volgens de Franse krant bleven \"de nieuwe koningen\" trouw aan hun reputatie. Vooral de Argentijn Enzo Fernández, die aan het einde van de tweede helft een rode kaart kreeg, moet het ontgelden in La Gazzetta dello Sport : \" Een terechte rode kaart voor Enzo Fernández, een geweldige speler, maar iemand die gelooft in: ik raak alles wat beweegt, als het de bal is, nog beter\". The Guardian laakt ook het gedrag van de Argentijnen na het laatste fluitsignaal: \"Beschamend... Donald Trump, die het podium niet wilde verlaten toen de Spaanse aanvoerder Rodri de zes kilo massief gouden trofee in handen kreeg, was niet de enige die zich belachelijk maakte.\" Ook de Argentijnse media kunnen er niet omheen dat Spanje de bovenliggende partij was. Toch zijn er vooral lovende woorden voor Messi & co. Clarin schrijft: \"Het team gaf alles wat ze hadden, maar Spanje was superieur.\" De krant spreekt van een finale \"die van de eerste tot de laatste minuut een zware strijd was voor het Argentijnse team.\" 'Een legendarisch team' \"Het nationale team vertrekt met opgeheven hoofd\", valt te lezen in sportkrant Olé. \"Wetende dat ze onder leiding van nummer tien een droom van het land hebben waargemaakt. Het beste nationale team uit de geschiedenis bereikte hoogten die niemand voor mogelijk had gehouden.\" \"Een team dat veerkracht als belangrijkste wapen gebruikte, dat epische overwinningen behaalde met voetbal en mentaliteit, in welke volgorde je maar wilt.\" Dankjewel, Leo Veel woorden werden gewijd aan Lionel Messi, die naar alle waarschijnlijkheid zijn laatste WK speelde. \"De vierde titel bleef uit, maar zijn nalatenschap is onuitwisbaar. Op 39-jarige leeftijd toonde hij zijn magie, zijn blijvende relevantie en bevestigde hij waarom hij de beste aller tijden is.\" Clarin: \"Messi heeft het tot het allerlaatste moment geprobeerd en heeft een hele generatie die de liefde voor het nationale team was kwijtgeraakt geleerd om niet op te geven.\" \"Zijn nalatenschap reikt veel verder dan zijn virale video's op het veld. Het is een manier om het leven te zien en te begrijpen.\" De krant richt zich direct tot Messi: \"Dankjewel, Leo. Je hebt ons heel blij gemaakt. Jouw tranen zijn onze tranen. Rust uit, je hebt het verdiend.\" Ook Olé bedankt Messi: \"Dankjewel voor deze reis van 20 jaar. Simpelweg, dankjewel voor de hoop dat met jou, met rugnummer 10, alles mogelijk was.\" Toch heeft de krant nog hoop: \"Hopelijk krijgt hij er spijt van en speelt hij in 2030 op zijn 43ste nog.\"",
+    "published": "2026-07-20T13:33:59+02:00",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B1,B2"
+  },
+  {
+    "id": "28332edd60bb",
+    "source": "nos_opmerkelijk",
+    "bron": "NOS Opm",
+    "scopes": [
+      "N",
+      "I"
+    ],
+    "title": "Vrouw probeert in haar bh een wurgslang het vliegtuig in te smokkelen",
+    "link": "https://nos.nl/l/2623228",
+    "summary": "Een Canadese vrouw heeft maandag geprobeerd een koningspython in haar bh het vliegtuig in te smokkelen. Ze werd betrapt bij de veiligheidscontrole op Schiphol, meldt de Nederlandse Voedsel- en Warenautoriteit (NVWA). De vrouw verklaarde dat ze de wurgslang had gevonden bij een hotel in Amsterdam. \"Dat lijkt ons sterk\", aldus de NVWA. De slang is in beslag genomen. Koningspythons zijn niet giftig. De wurgslangen staan bekend als rustig en niet agressief. Ze worden ook wel als huisdier gehouden in een terrarium. Strafbaar Tegen de vrouw is proces-verbaal opgemaakt. \"Je mag niet zomaar beschermde dieren meenemen op reis, ook niet als je ze op straat hebt gevonden\", schrijft de NVWA. De koningspython is overgebracht naar een gespecialiseerde dierenopvang, zoals altijd gebeurt als er een dier in beslag wordt genomen. De NVWA zegt dat het welzijn van het dier belangrijk is en dat het in de opvang nu op een betere plek is.",
+    "published": "2026-07-16T15:03:29+02:00",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B1"
+  },
+  {
+    "id": "9e9de896b59d",
+    "source": "nos_cultuur",
+    "bron": "NOS Cultuur",
+    "scopes": [
+      "N",
+      "I"
+    ],
+    "title": "Ali B spreker op ondernemersevenement ondanks veroordeling wegens verkrachting",
+    "link": "https://nos.nl/l/2623914",
+    "summary": "Rapper Ali B is nog geen drie maanden na zijn veroordeling wegens verkrachting spreker op een ondernemersbijenkomst in Vinkeveen. Bij het netwerkevenement Missing Pieces in The Harbour Club is hij donderdag een van de hoofdgasten. De 44-jarige B treedt er niet op als rapper, maar zal er onder zijn volledige naam Ali Bouali spreken over \"waarom de meeste ondernemers niet doorbreken, ondanks hun talent\", aldus de website van het evenement. Een ticket kost 49 euro. De organisatie presenteert het congres als een plek waar ondernemers ideeën kunnen pitchen en feedback kunnen ontvangen met de hulp van een \"AI matching systeem\" dat in kaart brengt wat ze nodig hebben. In een reactie aan RTL Boulevard laat de advocaat van een van B's slachtoffers weten dat \"zolang de straf nog niet onherroepelijk is, hij dit kan doen\", al is zijn cliënt er wel verontwaardigd over. Hogere straf Begin mei veroordeelde de rechter B tot drie jaar cel wegens twee verkrachtingen uit de tijd dat hij jurylid was bij The voice of Holland . De straf was hoger dan wat de lagere rechter had opgelegd en ook zwaarder dan de eis van het Openbaar Ministerie. B is tegen de uitspraak in cassatie gegaan . De behandeling daarvan mag hij van de rechter in vrijheid afwachten. Het is nog niet bekend wanneer die zitting plaatsvindt. Zelf heeft B altijd volgehouden onschuldig te zijn. \"Ik ben hier om te vechten voor mijn onschuld\", zei hij bij aankomst toen het hoger beroep diende. Zijn advocaat vroeg daarom ook tweemaal om vrijspraak bij de rechter. Gecanceld? B heeft niet meer opgetreden sinds in 2022 de eerste beschuldigingen tegen hem werden geuit. RTL zette hem daarna ook op non-actief bij The Voice. Muziekkenners zeiden eerder tegen de NOS te verwachten dat B na een veroordeling wegens verkrachting niet aan een comeback hoefde te denken. \"Bij andere vormen van geweld zie je nog wel dat het publiek vergevingsgezind is, maar niet bij seksueel geweld\", zei NPO Radio 2-presentator Tannaz Hajeby. Juist dat B een imago had opgebouwd als verbinder zou hem tegenwerken, voorspelde muziekjournalist Atze de Vrieze. \"Bij Ali B is dat verbindende element in zijn imago zo belangrijk, dat ik mij afvraag of hij daar nog overheen komt.\" Ali B keerde vorige week na een lange radiostilte weer terug op sociale media met een filmpje op Instagram. Onder het reggaenummer No Stress, Just Vibes toonde hij hoe hij van de zon genoot.",
+    "published": "2026-07-21T19:31:28+02:00",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "duplicate"
+  },
+  {
+    "id": "18709280d7b5",
+    "source": "nos_cultuur",
+    "bron": "NOS Cultuur",
+    "scopes": [
+      "N",
+      "I"
+    ],
+    "title": "Gewonden door zware hagelbui tijdens concert Bad Bunny in Milaan",
+    "link": "https://nos.nl/l/2623586",
+    "summary": "Een concert van de Puerto Ricaanse zanger Bad Bunny in Milaan is gisteravond afgebroken, omdat er zware hagelbuien over het terrein trokken. Op de renbaan Ippodromo La Maura kwamen zo'n 80.000 fans na vijf liedjes in het plotselinge noodweer terecht. Aanvankelijk werd er nog omgeroepen dat het twee uur durende concert een paar minuten onderbroken zou worden en het publiek op zijn plek moest blijven. Omdat het noodweer heftiger bleek dan aanvankelijk gedacht, werd toch besloten het optreden af te gelasten. Op beelden die bezoekers maakten van de chaos is te zien hoe het doorweekte publiek een veilig heenkomen probeerde te zoeken tussen de flinke hagelstenen door: Groepjes mensen schuilden onder paraplu's, bomen en overkappingen. Meerdere personen raakten volgens de brandweer gewond toen ze door hagelstenen op het hoofd werden geraakt. Het optreden maakte deel uit van de wereldtournee van de zanger. Het is nog niet duidelijk of het op een later moment zal worden ingehaald.",
+    "published": "2026-07-19T09:48:10+02:00",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B1"
+  },
+  {
+    "id": "fb9e213ca83d",
+    "source": "ftm",
+    "bron": "FTM",
+    "scopes": [
+      "N",
+      "I"
+    ],
+    "title": "Podcast | Hoe gevaarlijke designerdrugs ongezien vanuit India in Nederland belanden",
+    "link": "https://www.ftm.nl/artikelen/podcast-hoe-gevaarlijke-designerdrugs-ongezien-vanuit-india-in-nederland-belanden",
+    "summary": "Nikki Brands en Sarah Burmann ontdekten grote ladingen designerdrugs die in India gemaakt worden voor de Nederlandse markt. De online verkoop gaat heel soepel en loopt in de miljarden. De overheid heeft het nakijken. Sommige handelaren spraken openhartig met Nikki en Sarah. In ‘Frederique vraagt door’ vertellen zij hoe ze deze internationale handelsroute hebben blootgelegd.",
+    "published": "2026-07-20T06:00:00+02:00",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B2"
+  },
+  {
+    "id": "699fb412a8cb",
+    "source": "ftm",
+    "bron": "FTM",
+    "scopes": [
+      "N",
+      "I"
+    ],
+    "title": "FIFA betaalt Russische clubs en riskeert straf­rechtelijke vervolging voor negeren sancties",
+    "link": "https://www.ftm.nl/artikelen/fifa-riskeert-strafvervolging-met-geld-voor-russisch-voetbal",
+    "summary": "Na het WK in Qatar kende de FIFA geld toe aan Russische voetbalclubs. De internationale voetbalfederatie riskeert hiermee strafvervolging voor het overtreden van Europese, Zwitserse en Amerikaanse sanctiewetten, blijkt uit onderzoek van Follow the Money. ‘Het schenden van de sancties behoort tot de internationaal georganiseerde misdaad.’",
+    "published": "2026-07-18T06:00:00+02:00",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B1,B2"
+  },
+  {
+    "id": "3a4a9e5603c0",
+    "source": "ftm",
+    "bron": "FTM",
+    "scopes": [
+      "N",
+      "I"
+    ],
+    "title": "Hoe een Oostenrijkse metaalbewerker munt slaat uit de verrechtsing in Europa",
+    "link": "https://www.ftm.nl/artikelen/hoe-een-oostenrijkse-metaalbewerker-munt-slaat-uit-de-verrechtsing-in-europa",
+    "summary": "De Oostenrijkse ondernemer Paul Rübig heeft in dertig jaar tijd een netwerk opgebouwd dat reikt tot diep in de Europese bureaucratie. Dankzij de verrechtsing van het politieke landschap heeft zijn lobby nu de wind mee.",
+    "published": "2026-07-15T06:00:00+02:00",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B2"
+  },
+  {
+    "id": "bbaa18e4e110",
+    "source": "ew",
+    "bron": "EW",
+    "scopes": [
+      "N",
+      "I"
+    ],
+    "title": "Ophef over late abortuszorg: vijf vragen en antwoorden",
+    "link": "https://www.ewmagazine.nl/kennis/achtergrond/2026/07/late-abortus-nvog-pilot-ziekenhuizen-1579261/",
+    "summary": "Te weinig ziekenhuizen bieden abortuszorg aan tussen de 22ste en 24ste week van de zwangerschap. Daarom heeft de Nederlandse Vereniging voor Obstetrie en Gynaecologie (NVOG) ziekenhuizen opgeroepen hun ‘professionele verantwoordelijkheid’ te nemen en deze zorg aan te bieden, zo werd vorige week duidelijk. Het betreft abortus met niet-medische noodzaak, dus om persoonlijke of sociale redenen. […]",
+    "published": "2026-07-21T15:00:20Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B2"
+  },
+  {
+    "id": "00bfb70bacf1",
+    "source": "ew",
+    "bron": "EW",
+    "scopes": [
+      "N",
+      "I"
+    ],
+    "title": "Nét geen crisis, maar watertekort houdt aan",
+    "link": "https://www.ewmagazine.nl/kennis/blog/2026/07/watertekort-nationale-crisis-1579222/",
+    "summary": "1. Wat is er aan de hand? Nederland kampt sinds 16 juli officieel met een ‘feitelijk watertekort’. De Landelijke Coördinatiecommissie Waterverdeling constateert nu, dinsdag 21 juli, dat de situatie ernstiger is geworden, maar dat het nog net nodig is over te schakelen naar niveau 3, een nationale crisis. De situatie blijft vooralsnog op niveau 2. […]",
+    "published": "2026-07-21T13:58:36Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B2"
+  },
+  {
+    "id": "6feaf6c1556c",
+    "source": "ew",
+    "bron": "EW",
+    "scopes": [
+      "N",
+      "I"
+    ],
+    "title": "Stikstof-protest | Bedreiging LTO-voorman was volgens FDF-leider ‘wel een mooie headline’",
+    "link": "https://www.ewmagazine.nl/politiek/achtergrond/2026/07/stikstof-protest-fdf-mark-van-den-oever-ger-koopmans-dreigementen-1579188/",
+    "summary": "1 Stikstof-protest | Wat is er precies gezegd? Het ANP meldde vrijdag 17 juli dat actiekoepel Farmers Defence Force (FDF) ‘vreest voor de veiligheid van Ger Koopmans’. Dat gebeurde na een vergadering van lokale boerenactiegroepen in Apeldoorn. Volgens FDF-voorman Mark van den Oever dreigden meerdere boeren de voorzitter van de landbouworganisatie LTO thuis op te […]",
+    "published": "2026-07-20T16:01:53Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B2"
+  },
+  {
+    "id": "557eb926c0e5",
+    "source": "ew",
+    "bron": "EW",
+    "scopes": [
+      "N",
+      "I"
+    ],
+    "title": "LIVE | Gasprijs terug op niveau van begin onrust in Iran; 6% hoger dan begin juli",
+    "link": "https://www.ewmagazine.nl/buitenland/blog/2026/02/iran-vs-oorlog-donald-trump-ali-khamenei-israel-1543634/",
+    "summary": "Volg hier alle ontwikkelingen over het militaire conflict in het Midden-Oosten.",
+    "published": "2026-07-20T15:22:00Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B2,B5"
+  },
+  {
+    "id": "9ffef73be693",
+    "source": "dw",
+    "bron": "DW",
+    "scopes": [
+      "I"
+    ],
+    "title": "Hegseth says Iran war has cost $37.5 billion so far",
+    "link": "https://www.dw.com/en/hegseth-says-iran-war-has-cost-37-5-billion-so-far/live-78060128?maca=en-rss-en-top-1022-rdf",
+    "summary": "US Pentagon chief Pete Hegseth is also pushing for more funding for the war. It comes as the US military struck Iran for the 11th consecutive night. DW has the latest.",
+    "published": "2026-07-22T03:18:00Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B4"
+  },
+  {
+    "id": "7d514fdde697",
+    "source": "dw",
+    "bron": "DW",
+    "scopes": [
+      "I"
+    ],
+    "title": "Trump allows direct US flights to Lebanon in historic move",
+    "link": "https://www.dw.com/en/trump-allows-direct-us-flights-to-lebanon-in-historic-move/a-78059787?maca=en-rss-en-top-1022-rdf",
+    "summary": "It comes over 40 years after the US suspended the direct route with Lebanon. The announcement was made after US President Donald Trump met with Lebanese President Joseph Aoun.",
+    "published": "2026-07-21T22:22:00Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B5"
+  },
+  {
+    "id": "0baaa26974e6",
+    "source": "dw",
+    "bron": "DW",
+    "scopes": [
+      "I"
+    ],
+    "title": "Spain: Firefighters battle major wildfire north of Madrid",
+    "link": "https://www.dw.com/en/spain-firefighters-battle-major-wildfire-north-of-madrid/a-78059592?maca=en-rss-en-top-1022-rdf",
+    "summary": "Officials say the blaze, which has forced about 1,200 people to evacuate and has burned at least 30,000 hectares of land, is one of the most complex to affect the country in years.",
+    "published": "2026-07-21T21:40:00Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B3"
+  },
+  {
+    "id": "14b7df0d2876",
+    "source": "dw",
+    "bron": "DW",
+    "scopes": [
+      "I"
+    ],
+    "title": "Ukraine's Zelenskyy fires military chief after days of protests",
+    "link": "https://www.dw.com/en/ukraine-s-zelenskyy-fires-military-chief-after-days-of-protests/a-78059652?maca=en-rss-en-top-1022-rdf",
+    "summary": "Mass protests in recent days in Kyiv and other Ukrainian cities had called for the removal of commander-in-chief Oleksandr Syrskyi. Volodymyr Zelenskyy has named Mykhailo Drapatyi as the army's new chief.",
+    "published": "2026-07-21T21:03:00Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B2,B4"
+  },
+  {
+    "id": "4047ea8b0a90",
+    "source": "dw",
+    "bron": "DW",
+    "scopes": [
+      "I"
+    ],
+    "title": "Trump says the United States is 'not finished' with Iran",
+    "link": "https://www.dw.com/en/trump-says-the-united-states-is-not-finished-with-iran/live-78042474?maca=en-rss-en-top-1022-rdf",
+    "summary": "A 10th straight day of hostilities between the United States and Iran across the Middle East overshadowed diplomatic efforts in Pakistan to salvage an interim ceasefire deal.",
+    "published": "2026-07-21T20:57:00Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B5"
+  },
+  {
+    "id": "1cd0afb8d875",
+    "source": "dw",
+    "bron": "DW",
+    "scopes": [
+      "I"
+    ],
+    "title": "Jordan faces growing risk of becoming latest frontline state in US-Iran conflict",
+    "link": "https://www.dw.com/en/jordan-faces-growing-risk-of-becoming-latest-frontline-state-in-us-iran-conflict/a-78055209?maca=en-rss-en-top-1022-rdf",
+    "summary": "As Iranian attacks intensify, Jordan is emerging as the latest frontline state in the widening Middle East conflict. Why is the Hashemite Kingdom a target for Tehran?",
+    "published": "2026-07-21T18:39:00Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B2,B4"
+  },
+  {
+    "id": "90a804b3fa8a",
+    "source": "dw",
+    "bron": "DW",
+    "scopes": [
+      "I"
+    ],
+    "title": "Fact check: Trump wasn't edited out of Spain World Cup photo",
+    "link": "https://www.dw.com/en/fact-check-trump-wasn-t-edited-out-of-spain-world-cup-photo/a-78055221?maca=en-rss-en-top-1022-rdf",
+    "summary": "After Spain won the FIFA World Cup, the Spanish Football Federation posted a photo of the trophy celebrations, raising questions about whether Donald Trump had been edited out. We took a closer look.",
+    "published": "2026-07-21T16:18:00Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B5"
+  },
+  {
+    "id": "5d797c412f13",
+    "source": "dw",
+    "bron": "DW",
+    "scopes": [
+      "I"
+    ],
+    "title": "DW correspondent Alican Uludag re-arrested in Turkey",
+    "link": "https://www.dw.com/en/dw-correspondent-alican-uludag-re-arrested-in-turkey/a-78057910?maca=en-rss-en-top-1022-rdf",
+    "summary": "The latest arrest comes two months after he was released from detention on charges including \"insulting\" President Recep Tayyip Erdogan.",
+    "published": "2026-07-21T15:49:00Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B4"
+  },
+  {
+    "id": "791270012f06",
+    "source": "dw",
+    "bron": "DW",
+    "scopes": [
+      "I"
+    ],
+    "title": "India: Police forcibly remove Rahul Gandhi from protest outside Modi residence",
+    "link": "https://www.dw.com/en/india-police-forcibly-remove-rahul-gandhi-from-protest-outside-modi-residence/live-78043926?maca=en-rss-en-top-1022-rdf",
+    "summary": "Rahul Gandhi and other leaders of the main opposition Congress party have been dragged away by police from a rally outside PM Narendra Modi's residence, a day after dozens of youth protesters were arrested.",
+    "published": "2026-07-21T15:43:00Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B2"
+  },
+  {
+    "id": "f07027b94023",
+    "source": "dw",
+    "bron": "DW",
+    "scopes": [
+      "I"
+    ],
+    "title": "Germany: Mass shooting suspect found dead in prison",
+    "link": "https://www.dw.com/en/germany-mass-shooting-suspect-found-dead-in-prison/a-78055706?maca=en-rss-en-top-1022-rdf",
+    "summary": "A man suspected of carrying out one of the worst mass shootings in recent German history was found dead in his cell after an apparent suicide.",
+    "published": "2026-07-21T14:23:00Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B3,B4"
+  },
+  {
+    "id": "c77c581e1efa",
+    "source": "dw",
+    "bron": "DW",
+    "scopes": [
+      "I"
+    ],
+    "title": "Is Germany investing in the right weapons?",
+    "link": "https://www.dw.com/en/is-germany-investing-in-the-right-weapons/a-78054394?maca=en-rss-en-top-1022-rdf",
+    "summary": "Germany wants to build up its army and pour hundreds of millions of euros into its defenses. But in a world where the battlefield is increasingly dominated by cheap drones, how many expensive tanks does the country need?",
+    "published": "2026-07-21T14:13:00Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B3"
+  },
+  {
+    "id": "424ec2af0a07",
+    "source": "dw",
+    "bron": "DW",
+    "scopes": [
+      "I"
+    ],
+    "title": "Italy: Protests in Bologna over death of immigrant in police custody",
+    "link": "https://www.dw.com/en/italy-protests-in-bologna-over-death-of-immigrant-in-police-custody/a-78048027?maca=en-rss-en-top-1022-rdf",
+    "summary": "Demonstrators are demanding answers over the death of 42-year-old Abderrahim Fakir. Local authorities have urged calm while the investigation is underway.",
+    "published": "2026-07-21T11:15:00Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B2,B3"
+  },
+  {
+    "id": "30acc944d416",
+    "source": "dw",
+    "bron": "DW",
+    "scopes": [
+      "I"
+    ],
+    "title": "Why the youth jobs crisis is becoming global",
+    "link": "https://www.dw.com/en/why-the-youth-jobs-crisis-is-becoming-global/a-77991886?maca=en-rss-en-top-1022-rdf",
+    "summary": "Young people in much of the world face growing competition for entry-level jobs as graduate numbers rise, hiring slows and AI-driven disruption adds uncertainty to career prospects.",
+    "published": "2026-07-21T09:06:00Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B2"
+  },
+  {
+    "id": "451d0e57ea56",
+    "source": "dw_env",
+    "bron": "DW Env",
+    "scopes": [
+      "I"
+    ],
+    "title": "The EU climate policy the world copied is under fire — what's at stake?",
+    "link": "https://www.dw.com/en/the-eu-climate-policy-the-world-copied-is-under-fire-what-s-at-stake/a-77979725?maca=en-rss_en_environment-22607-xml-mrss",
+    "summary": "The EU Commission has proposed to weaken Europe's emissions trading system, a global blueprint for pricing carbon and cutting CO2. How effective is the scheme and where does it fall short?",
+    "published": "2026-07-17T10:51:00Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B4"
+  },
+  {
+    "id": "e3584dc8bb5a",
+    "source": "dw_env",
+    "bron": "DW Env",
+    "scopes": [
+      "I"
+    ],
+    "title": "East-West border death zone now Germany's biodiversity oasis",
+    "link": "https://www.dw.com/en/east-west-border-death-zone-now-germany-s-biodiversity-oasis/a-77917041?maca=en-rss_en_environment-22607-xml-mrss",
+    "summary": "Many endangered species now live in the area that once formed the border between East and West Germany. Environment Minister Carsten Schneider recently visited the \"Green Belt,\" and DW went along for the ride.",
+    "published": "2026-07-16T07:39:00Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B3"
+  },
+  {
+    "id": "a1f673e450a0",
+    "source": "positive_news",
+    "bron": "Positive",
+    "scopes": [
+      "I"
+    ],
+    "title": "The underground fridge that keeps food cool – even in a heatwave",
+    "link": "https://www.positive.news/society/the-underground-fridge-that-keeps-food-cool-even-in-a-heatwave/",
+    "summary": "Inspired by olden days ice houses, this underground fridge uses the earth’s stable temperature to keep food cool The post The underground fridge that keeps food cool – even in a heatwave appeared first on Positive News .",
+    "published": "2026-07-20T13:24:35Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B3"
+  },
+  {
+    "id": "bade2a62207b",
+    "source": "positive_news",
+    "bron": "Positive",
+    "scopes": [
+      "I"
+    ],
+    "title": "What went right this week: the good news that matters",
+    "link": "https://www.positive.news/society/good-news-stories-from-week-29-of-2026/",
+    "summary": "Heath wins for El Salvador and Cambodia, a ‘step forward for ocean protection’, and an elusive new species, plus more The post What went right this week: the good news that matters appeared first on Positive News .",
+    "published": "2026-07-17T05:36:22Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B5"
+  },
+  {
+    "id": "5ae22549dc26",
+    "source": "fix_the_news",
+    "bron": "FixNews",
+    "scopes": [
+      "I"
+    ],
+    "title": "346 (Audio): Nightlights. Numbat. Crime watch. Spudcell.",
+    "link": "https://fixthenews.com/p/346-audio-nightlights-numbat-crime",
+    "summary": "92% percent of humanity now has power, solar's compounding faster than anyone predicted, and murder rates are falling on four continents at once.",
+    "published": "2026-07-17T01:53:32Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B5"
+  },
+  {
+    "id": "7d0395051c71",
+    "source": "fix_the_news",
+    "bron": "FixNews",
+    "scopes": [
+      "I"
+    ],
+    "title": "346: Nightlights. Numbat. Crime watch. Spudcell.",
+    "link": "https://fixthenews.com/p/346-nightlight-numbat-crime-watch",
+    "summary": "We built a Wright Flyer.",
+    "published": "2026-07-16T20:02:44Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B5"
+  },
+  {
+    "id": "fea36a79c2c9",
+    "source": "mongabay",
+    "bron": "Mongabay",
+    "scopes": [
+      "I"
+    ],
+    "title": "Amazon tree rings reveal more intense drought and rainfall in the rainforest",
+    "link": "https://news.mongabay.com/short-article/2026/07/amazon-tree-rings-reveal-more-intense-drought-and-rainfall-in-the-rainforest/",
+    "summary": "Tree rings from the Amazon show that the world’s largest rainforest has developed wetter wet seasons and drier dry seasons over the past four decades. The findings point to intense seasonal swings that can cause significant harm to biodiversity and suggest that widespread drying out across the entire Amazon basin is unlikely. Researchers collected tree […]",
+    "published": "2026-07-21T16:39:55Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B3"
+  },
+  {
+    "id": "1dea088fb126",
+    "source": "mongabay",
+    "bron": "Mongabay",
+    "scopes": [
+      "I"
+    ],
+    "title": "‘We couldn’t breathe’: DRC villagers revive protest against Perenco over pollution",
+    "link": "https://news.mongabay.com/2026/07/we-couldnt-breathe-drc-villagers-revive-protest-against-perenco-over-pollution/",
+    "summary": "“I had diarrhea and dizziness. Food no longer tasted the same. … I wasn’t the only one who noticed it — it was the same for everyone in the village; we couldn’t breathe,” Benoît Packera, secretary of the vigilance committee of Kitombe, told Mongabay. He was recounting what happened in April 2025, when toxic gases […]",
+    "published": "2026-07-21T14:54:47Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B2"
+  },
+  {
+    "id": "b1a19d440cea",
+    "source": "mongabay",
+    "bron": "Mongabay",
+    "scopes": [
+      "I"
+    ],
+    "title": "Pangolin DNA study links local wild meat markets to global trafficking networks",
+    "link": "https://news.mongabay.com/short-article/2026/07/pangolin-dna-study-links-local-wild-meat-markets-to-global-trafficking-networks/",
+    "summary": "Pangolin scales and other body parts trafficked internationally appear to come from the same areas that supply the animals for local wild meat markets, a new study has found. It created a DNA database and location-prediction model for three threatened species: the white-bellied (Phataginus tricuspis), Sunda (Manis javanica) and Chinese (Manis pentadactyla) pangolins. Pangolins are […]",
+    "published": "2026-07-21T11:39:36Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B3"
+  },
+  {
+    "id": "56c2a3eeae4c",
+    "source": "mongabay",
+    "bron": "Mongabay",
+    "scopes": [
+      "I"
+    ],
+    "title": "WHO evacuated health workers from Ebola treatment center due to armed clashes",
+    "link": "https://news.mongabay.com/short-article/2026/07/who-evacuated-health-workers-from-ebola-treatment-center-due-to-armed-clashes/",
+    "summary": "On July 15, gunfire erupted between armed groups near an Ebola Treatment Center (ETC) in Nyankunde (or Nyakunde), located 45 kilometers (28 miles) southwest of Bunia in the eastern Democratic Republic of Congo (DRC). Following the fighting, medical personnel from the World Health Organization (WHO), Africa CDC and the NGO Samaritan’s Purse evacuated from Nyankunde, […]",
+    "published": "2026-07-20T18:43:55Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B2"
+  },
+  {
+    "id": "ab65d990687c",
+    "source": "human_progress",
+    "bron": "HumanProg",
+    "scopes": [
+      "I"
+    ],
+    "title": "Road Deaths Fall by 21 Percent Globally",
+    "link": "https://humanprogress.org/road-deaths-fall-by-21-percent-globally/",
+    "summary": "“Despite the addition of more than one billion motor-vehicles to the world’s roads, the global rate of road traffic deaths declined by 21% between 2011 and 2025, according to new data released by the World Health Organization (WHO). The world has experienced profound changes in road traffic during this time with the emergence of new […] The post Road Deaths Fall by 21 Percent Globally appeared first on Human Progress .",
+    "published": "2026-07-21T18:51:41Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B3"
+  },
+  {
+    "id": "eeefbce9d62d",
+    "source": "naturetoday",
+    "bron": "NatureToday",
+    "scopes": [
+      "N"
+    ],
+    "title": "Natuurjournaal 21 juli 2026",
+    "link": "https://www.naturetoday.com/intl/nl/nature-reports/message/?msg=35611&utm_source=rssfeed&utm_medium=rss&utm_campaign=web-rss-nb",
+    "summary": "Zoek de rups van de kolibrievlinder en blinde bij imiteert honingbij.",
+    "published": "2026-07-21T04:45:00Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B5"
+  },
+  {
+    "id": "9f78ba66598b",
+    "source": "naturetoday",
+    "bron": "NatureToday",
+    "scopes": [
+      "N"
+    ],
+    "title": "Natuurjournaal 20 juli 2026",
+    "link": "https://www.naturetoday.com/intl/nl/nature-reports/message/?msg=35594&utm_source=rssfeed&utm_medium=rss&utm_campaign=web-rss-nb",
+    "summary": "Tweede generatie voor kaasjeskruiddikkopje en groot kaasjeskruid bloeit.",
+    "published": "2026-07-20T04:45:00Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B5"
+  },
+  {
+    "id": "caec2e84ecee",
+    "source": "naturetoday",
+    "bron": "NatureToday",
+    "scopes": [
+      "N"
+    ],
+    "title": "Natuurjournaal 19 juli 2026",
+    "link": "https://www.naturetoday.com/intl/nl/nature-reports/message/?msg=35593&utm_source=rssfeed&utm_medium=rss&utm_campaign=web-rss-nb",
+    "summary": "Lief bedoeld, maar niet bellen voor mekkerende meeuwtjes.",
+    "published": "2026-07-19T04:45:00Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B5"
+  },
+  {
+    "id": "3a2b9595ec91",
+    "source": "naturetoday",
+    "bron": "NatureToday",
+    "scopes": [
+      "N"
+    ],
+    "title": "Natuurjournaal 18 juli 2026",
+    "link": "https://www.naturetoday.com/intl/nl/nature-reports/message/?msg=35577&utm_source=rssfeed&utm_medium=rss&utm_campaign=web-rss-nb",
+    "summary": "Kamperfoelie en grote teunisbloem, bar voor nachtvlinders.",
+    "published": "2026-07-18T04:45:00Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B5"
+  },
+  {
+    "id": "447eed0d3f6c",
+    "source": "naturetoday",
+    "bron": "NatureToday",
+    "scopes": [
+      "N"
+    ],
+    "title": "Zwanenwater ernstig vervuild",
+    "link": "https://www.naturetoday.com/intl/nl/nature-reports/message/?msg=35575&utm_source=rssfeed&utm_medium=rss&utm_campaign=web-rss-nb",
+    "summary": "Uit onderzoek van MOB blijkt dat Natura 2000-gebied het Zwanenwater ernstig vervuild is met bestrijdingsmiddelen. Omdat het meer alleen wordt gevoed door regen- en kwelwater, is dit erg zorgwekkend. Het toont (opnieuw) aan dat pesticiden zich niet alleen via directe stromen verspreiden, zoals landbouwwater of rioolwaterzuiveringen, maar ook via de lucht tot diep in natuurgebieden doordringen.",
+    "published": "2026-07-17T10:00:00Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B2"
+  },
+  {
+    "id": "b319f6beff9c",
+    "source": "naturetoday",
+    "bron": "NatureToday",
+    "scopes": [
+      "N"
+    ],
+    "title": "Hoe oud is jouw stoep? Kijk naar de korstmossen",
+    "link": "https://www.naturetoday.com/intl/nl/nature-reports/message/?msg=35597&utm_source=rssfeed&utm_medium=rss&utm_campaign=web-rss-nb",
+    "summary": "De meeste stoepen in Nederland zijn gemaakt van vierkante, grijze betontegels. Op oudere stoeptegels zie je vaak grijze cirkels, zo groot als de afdruk van een colablikje. Dat zijn korstmossen die elk jaar een paar millimeter groeien. Hoe snel dat precies gaat, is nu wetenschappelijk onderzocht. Met de resultaten van het onderzoek kun je nu ook eenvoudig zelf bepalen hoe oud je eigen stoep is.",
+    "published": "2026-07-17T05:00:00Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B5"
+  },
+  {
+    "id": "13faaabc11a5",
+    "source": "naturetoday",
+    "bron": "NatureToday",
+    "scopes": [
+      "N"
+    ],
+    "title": "Natuurjournaal 17 juli 2026",
+    "link": "https://www.naturetoday.com/intl/nl/nature-reports/message/?msg=35591&utm_source=rssfeed&utm_medium=rss&utm_campaign=web-rss-nb",
+    "summary": "Bloeiende apenbomen en moordende gazonmaaiers.",
+    "published": "2026-07-17T04:45:00Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B5"
+  },
+  {
+    "id": "145ad0354308",
+    "source": "naturetoday",
+    "bron": "NatureToday",
+    "scopes": [
+      "N"
+    ],
+    "title": "Natuurjournaal 16 juli 2026",
+    "link": "https://www.naturetoday.com/intl/nl/nature-reports/message/?msg=35574&utm_source=rssfeed&utm_medium=rss&utm_campaign=web-rss-nb",
+    "summary": "Groot avondrood ziet 's nachts ook in kleur en zoek dennenpijlstaart op kamperfoelie.",
+    "published": "2026-07-16T04:45:00Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B5"
+  },
+  {
+    "id": "1efa01094a52",
+    "source": "naturetoday",
+    "bron": "NatureToday",
+    "scopes": [
+      "N"
+    ],
+    "title": "Natuurjournaal 15 juli 2026",
+    "link": "https://www.naturetoday.com/intl/nl/nature-reports/message/?msg=35589&utm_source=rssfeed&utm_medium=rss&utm_campaign=web-rss-nb",
+    "summary": "Breedscheenjuffer(s) in Nederland en Zuid-Europa.",
+    "published": "2026-07-15T04:45:00Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B5"
+  },
+  {
+    "id": "f6bf33f2b26a",
+    "source": "ark",
+    "bron": "ARK",
+    "scopes": [
+      "N"
+    ],
+    "title": "Water in tijden van droogte",
+    "link": "https://arkrewilding.nl/nieuws/2026/water-tijden-van-droogte",
+    "summary": "Water in tijden van droogte Leander vr, 07/17/2026 - 17:04 Na weken zonder regen is de droogte in Zuid-Limburg goed zichtbaar. Bodems drogen uit, beken voeren weinig water en veel planten en dieren hebben het zwaar. Toch laat de natuur ook haar veerkracht zien. Water dat in natte perioden in het landschap wordt vastgehouden, helpt juist nu om droogte beter op te vangen. Regenval blijft al weken uit, bodems worden droger, planten alsmaar dorstiger. Waterstanden in beken en rivieren laag geworden, watertemperaturen juist heel hoog. Veel planten en dieren hebben last van de aanhoudende droogte en warmte, maar niet álle soorten, denk aan de warmte minnende pioniers. En het is ook weer niet overál gortdroog. Het filmpje ‘ Water in tijden van droogte ’ laat dat mooi zien. Het is opgenomen in het Geuldal in 2022, toen de zomer zeer droog was evenals nu. Het is verrassend hoeveel water de natuur in nattere tijden heeft opgespaard, dat tijdens extreme droogte van pas komt. Het filmpje ‘Water in tijden van droogte’ is een nieuw hoofdstuk dat is toegevoegd aan de film “Buien Beter Bergen ”, gemaakt door filmbedrijf Rombus in het Gulpdal en Geuldal in opdracht van ARK. De beelden van laatstgenoemde film zijn grotendeels opgenomen in 2021, in de aanloop naar en tijdens de grote overstromingen. Het contrast tussen nu en vijf jaar geleden kan bijna niet groter zijn. Image In deze droge, warme zomer snakt iedereen naar water. Foto: Hettie Meertens Video over water bergen Buien Beter bergen",
+    "published": "2026-07-17T15:04:57Z",
+    "fetched": "2026-07-22T05:39:55.848373+02:00",
+    "reason": "bucket:B2"
+  }
+]
