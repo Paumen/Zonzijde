@@ -38,10 +38,10 @@ def split_items(
 
 
 def run(ctx: RunContext) -> None:
-    items = load_artifact(ctx.work_dir / "10-items.json", FeedItem)
+    items = load_artifact(ctx.work_dir / "f1-items.json", FeedItem)
     kept, rejected = split_items(items, compile_buckets(ctx.buckets))
-    save_artifact(ctx.work_dir / "20-filtered.json", kept)
-    save_artifact(ctx.work_dir / "20-rejected.json", rejected)
+    save_artifact(ctx.work_dir / "f2-filtered.json", kept)
+    save_artifact(ctx.work_dir / "f2-rejected.json", rejected)
     dupes = sum(1 for r in rejected if r.reason == "duplicate")
-    print(f"S2 filter: {len(items)} in → {len(kept)} kept, "
+    print(f"F2 filter: {len(items)} in → {len(kept)} kept, "
           f"{dupes} duplicates, {len(rejected) - dupes} bucket-blocked")

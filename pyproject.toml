@@ -11,23 +11,23 @@ dependencies = [
     "pydantic>=2",
     "PyYAML>=6",
     "requests>=2.31",
-    # S5 enrich (PIPE-5): body-text extraction from fetched article pages.
+    # F5 enrich (PIPE-5): body-text extraction from fetched article pages.
     "trafilatura>=1.8",
-    # Frontier tier (S4+) — imported lazily, only live runs need it (§6).
+    # Frontier tier (F4+) — imported lazily, only live runs need it (§6).
     "claude-agent-sdk>=0.1.1",
-    # S9 compose: pinned so the typeset layout stays deterministic.
+    # F9 compose: pinned so the typeset layout stays deterministic.
     "typst==0.15.0",
     "pypdf>=6",
 ]
 
 [project.optional-dependencies]
 dev = ["pytest>=8"]
-# S5's headless-browser fallback for blocked links; without it those links
+# F5's headless-browser fallback for blocked links; without it those links
 # stay blocked and PIPE-5's re-source-or-drop handles them.
 browser = ["playwright>=1.40"]
 
 [tool.setuptools]
-packages = ["zonzijde", "zonzijde.stages"]
+packages = ["zonzijde", "zonzijde.fases"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

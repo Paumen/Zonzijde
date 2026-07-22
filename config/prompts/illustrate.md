@@ -1,7 +1,7 @@
 ---
 version: 3
 rol: illustratie-instructies.
-Fase: S9
+Fase: F9
 ---
 <rol>
 Je bent de illustrator van De Zonzijde, een kalme, zwart-witte weekkrant met

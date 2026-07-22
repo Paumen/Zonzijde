@@ -58,7 +58,7 @@ class RunContext:
     def enrich_cfg(self) -> dict:
         return self._edition_cfg.get("enrich", {})
 
-    def stage_cfg(self, name: str) -> dict:
+    def fase_cfg(self, name: str) -> dict:
         return self._edition_cfg.get(name, {})
 
     @property
@@ -68,12 +68,12 @@ class RunContext:
             raise SystemExit("edition section missing from config/edition.yaml")
         return cfg
 
-    def llm_cfg(self, stage: str) -> dict:
+    def llm_cfg(self, fase: str) -> dict:
         llm = self._edition_cfg.get("llm") or {}
-        cfg = (llm.get("stages") or {}).get(stage)
+        cfg = (llm.get("fases") or {}).get(fase)
         if not cfg or "model" not in cfg:
             raise SystemExit(
-                f"llm.stages.{stage}.model missing from config/edition.yaml")
+                f"llm.fases.{fase}.model missing from config/edition.yaml")
         return cfg
 
     @property

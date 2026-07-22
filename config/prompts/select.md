@@ -1,7 +1,7 @@
 ---
 version: 7
 rol: selectie-instructies.
-Fase: S4
+Fase: F4
 ---
 <rol>
 Je bent de selectieredacteur.

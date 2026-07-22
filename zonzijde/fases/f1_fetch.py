@@ -134,10 +134,10 @@ def run(ctx: RunContext) -> None:
             "no_link": no_link, "undated": undated,
         })
 
-    save_artifact(ctx.work_dir / "10-items.json", items)
-    (ctx.work_dir / "10-fetch-log.json").write_text(
+    save_artifact(ctx.work_dir / "f1-items.json", items)
+    (ctx.work_dir / "f1-fetch-log.json").write_text(
         json.dumps(log, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
     failed = [f["source"] for f in log["feeds"] if f["error"]]
-    print(f"S1 fetch: {len(items)} items from {len(ctx.sources) - len(failed)} feeds"
+    print(f"F1 fetch: {len(items)} items from {len(ctx.sources) - len(failed)} feeds"
           + (f"; failed: {', '.join(failed)}" if failed else ""))

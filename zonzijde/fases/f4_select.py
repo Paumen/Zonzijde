@@ -106,23 +106,23 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
             model=cfg["model"], effort=cfg.get("effort"), max_turns=2,
             usage_sink=usage)
 
-    scored = load_artifact(ctx.work_dir / "30-scored.json", ScoredItem)
+    scored = load_artifact(ctx.work_dir / "f3-scored.json", ScoredItem)
     positive = [i for i in scored if i.score >= 1]
     if not positive:
-        raise SystemExit("S4 select: no +1/+2 items to select from (PIPE-4)")
+        raise SystemExit("F4 select: no +1/+2 items to select from (PIPE-4)")
     by_id = {i.id: i for i in positive}
 
     prompt = build_prompt(select.body, positive)
     try:
         payload = call(prompt, system)
     except llm.LlmError as e:
-        raise SystemExit(f"S4 select: call failed: {e}")
+        raise SystemExit(f"F4 select: call failed: {e}")
     candidates, problems = ground(payload, by_id)
     if problems:
-        raise SystemExit(f"S4 select: invalid selection: {problems}")
+        raise SystemExit(f"F4 select: invalid selection: {problems}")
 
     candidates.sort(key=lambda c: ["L", "R", "N", "I"].index(c.scope))
-    save_artifact(ctx.work_dir / "40-candidates.json", candidates)
+    save_artifact(ctx.work_dir / "f4-candidates.json", candidates)
     log = {
         "model": cfg["model"], "effort": cfg.get("effort"),
         "prompt_versions": {"brief": brief.version,
@@ -134,9 +134,9 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
         "schema": RESPONSE_SCHEMA,
         "llm": llm.summarize_usage(usage),
     }
-    (ctx.work_dir / "40-select-log.json").write_text(
+    (ctx.work_dir / "f4-select-log.json").write_text(
         json.dumps(log, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
     rows = sum(len(c.items) for c in candidates)
-    print(f"S4 select: {len(positive)} +1/+2 items → {len(candidates)} topics"
+    print(f"F4 select: {len(positive)} +1/+2 items → {len(candidates)} topics"
           f" ({rows} rows)")

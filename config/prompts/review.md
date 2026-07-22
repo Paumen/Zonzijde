@@ -1,7 +1,7 @@
 ---
 version: 11
 rol: eimdredactie-instructies.
-Fase: S8
+Fase: F8
 ---
 <rol>
 Je bent de eindredacteur van De Zonzijde.

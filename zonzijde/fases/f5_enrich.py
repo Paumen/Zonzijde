@@ -130,8 +130,8 @@ def _material_words(bron_titel: str, samenvatting: str, text: str) -> int:
     return len(bron_titel.split()) + len(samenvatting.split()) + len(text.split())
 
 
-def _stage1(item: CandidateItem, fetch: Fetch, timeout: float,
-            min_words: int) -> ArticleText:
+def _direct_fetch(item: CandidateItem, fetch: Fetch, timeout: float,
+                  min_words: int) -> ArticleText:
     art = ArticleText(**item.model_dump(), ok=False, method="requests",
                       text="", words=0, links=[], note="")
     thin = ""
@@ -251,9 +251,9 @@ def run(ctx: RunContext, fetch: Fetch | None = None,
         classify = make_classify(prompts.load_prompt(ctx.root, "classify").body,
                                   ctx.llm_cfg("enrich")["model"], usage)
 
-    candidates = load_artifact(ctx.work_dir / "40-candidates.json", Candidate)
+    candidates = load_artifact(ctx.work_dir / "f4-candidates.json", Candidate)
     if not candidates:
-        raise SystemExit("S5 enrich: 40-candidates.json is empty (PIPE-5)")
+        raise SystemExit("F5 enrich: f4-candidates.json is empty (PIPE-5)")
 
     rows: dict[str, CandidateItem] = {}
     for cand in candidates:
@@ -262,7 +262,7 @@ def run(ctx: RunContext, fetch: Fetch | None = None,
 
     t0 = time.perf_counter()
     with ThreadPoolExecutor(max_workers=concurrency) as ex:
-        fetched = ex.map(lambda r: _stage1(r, fetch, timeout, min_words),
+        fetched = ex.map(lambda r: _direct_fetch(r, fetch, timeout, min_words),
                          rows.values())
         articles = {a.id: a for a in fetched}
 
@@ -296,7 +296,7 @@ def run(ctx: RunContext, fetch: Fetch | None = None,
                     art.note = (art.note + "; topic dropped (PIPE-5)").lstrip("; ")
         topics_log.append(entry)
 
-    save_artifact(ctx.work_dir / "50-articles.json", list(articles.values()))
+    save_artifact(ctx.work_dir / "f5-articles.json", list(articles.values()))
     methods = {m: sum(1 for a in articles.values() if a.ok and a.method == m)
                for m in ("requests", "playwright")}
     dropped = [t["topic"] for t in topics_log if t["dropped"]]
@@ -314,10 +314,10 @@ def run(ctx: RunContext, fetch: Fetch | None = None,
         "duration_s": round(time.perf_counter() - t0, 1),
         "llm": llm.summarize_usage(usage),
     }
-    (ctx.work_dir / "50-enrich-log.json").write_text(
+    (ctx.work_dir / "f5-enrich-log.json").write_text(
         json.dumps(log, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
-    print(f"S5 enrich: {log['rows']} source rows → {log['full_text']} full texts"
+    print(f"F5 enrich: {log['rows']} source rows → {log['full_text']} full texts"
           f" (requests {methods['requests']}, playwright {methods['playwright']});"
           f" {ref_ok}/{ref_selected} references; "
           f"{len(dropped)} topic(s) dropped in {log['duration_s']}s")

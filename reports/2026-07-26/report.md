@@ -45,15 +45,15 @@ Written,Reviewed,9
 ## Funnel
 
 - window: 7 days (from 2026-07-19T00:00:00+02:00, SRC-4)
-- S1 fetch: 983 feed items → 317 in window (37/40 feeds ok)
-- S2 filter: 317 → 180 candidates (137 rejected)
-- S3 score: 180 scored → 73 at +1/+2
-- S4 select: 24 topics (25 source rows)
-- S5 enrich: 25 source rows → 18 full texts (requests 18, playwright 0); 7 topics dropped (PIPE-5)
-- S6 outline: 9 slots, planned 2350–4500 words
-- S7 write: 9 articles, 2998 words
-- S8 review: 74 correction(s), 3066 words body text (ED-5 target 2800–3400)
-- S9 compose: nr 4, 0 recompile(s) — typeset checks clean (LAY-1..5, LAY-7)
+- F1 fetch: 983 feed items → 317 in window (37/40 feeds ok)
+- F2 filter: 317 → 180 candidates (137 rejected)
+- F3 score: 180 scored → 73 at +1/+2
+- F4 select: 24 topics (25 source rows)
+- F5 enrich: 25 source rows → 18 full texts (requests 18, playwright 0); 7 topics dropped (PIPE-5)
+- F6 outline: 9 slots, planned 2350–4500 words
+- F7 write: 9 articles, 2998 words
+- F8 review: 74 correction(s), 3066 words body text (ED-5 target 2800–3400)
+- F9 compose: nr 4, 0 recompile(s) — typeset checks clean (LAY-1..5, LAY-7)
 
 ## Feeds
 
@@ -102,15 +102,15 @@ Written,Reviewed,9
 
 ## LLM usage (OPS-4)
 
-| stage | model | effort | calls | turns | in tok | out tok | tools | think chars | wall | cost |
+| fase | model | effort | calls | turns | in tok | out tok | tools | think chars | wall | cost |
 |---|---|---|---|---|---|---|---|---|---|---|
-| S3 score | claude-haiku-4-5-20251001 | — | 3 | 7 | 116,390 | 13,323 | 3 | 30,372 | 143.8s | $0.2684 |
-| S4 select | claude-sonnet-5 | medium | 1 | 3 | 128,539 | 8,426 | 2 | 0 | 124.2s | $0.5739 |
-| S5 enrich | claude-haiku-4-5-20251001 | — | 12 | 30 | 373,585 | 15,855 | 12 | 33,179 | 192.7s | $0.2657 |
-| S6 outline | claude-opus-4-8 | medium | 1 | 2 | 30,546 | 8,183 | 1 | 0 | 118.6s | $0.5155 |
-| S7 write | claude-sonnet-5 | medium | 9 | 27 | 595,448 | 18,271 | 9 | 0 | 299.8s | $1.2454 |
-| S8 review | claude-sonnet-5 | medium | 9 | 18 | 277,807 | 36,435 | 9 | 0 | 457.0s | $0.9930 |
-| S9 compose | — | — | 1 | 6 | 78,074 | 4,191 | 5 | 0 | 60.5s | $0.3534 |
+| F3 score | claude-haiku-4-5-20251001 | — | 3 | 7 | 116,390 | 13,323 | 3 | 30,372 | 143.8s | $0.2684 |
+| F4 select | claude-sonnet-5 | medium | 1 | 3 | 128,539 | 8,426 | 2 | 0 | 124.2s | $0.5739 |
+| F5 enrich | claude-haiku-4-5-20251001 | — | 12 | 30 | 373,585 | 15,855 | 12 | 33,179 | 192.7s | $0.2657 |
+| F6 outline | claude-opus-4-8 | medium | 1 | 2 | 30,546 | 8,183 | 1 | 0 | 118.6s | $0.5155 |
+| F7 write | claude-sonnet-5 | medium | 9 | 27 | 595,448 | 18,271 | 9 | 0 | 299.8s | $1.2454 |
+| F8 review | claude-sonnet-5 | medium | 9 | 18 | 277,807 | 36,435 | 9 | 0 | 457.0s | $0.9930 |
+| F9 compose | — | — | 1 | 6 | 78,074 | 4,191 | 5 | 0 | 60.5s | $0.3534 |
 | **total** |  |  | 36 | 93 | 1,600,389 | 104,684 | 41 | 63,551 | 1396.6s | $4.2153 |
 
 ## Rejected (PIPE-2)
@@ -302,6 +302,6 @@ model claude-haiku-4-5-20251001, prompt score.md v1
 
 ## Typeset & compose (PIPE-9)
 
-- illustration (EL-3): 'Vleermuizenpaal met batvormige uitsparing langs het fietspad' with the article at pos 5 — `work/85-illustration.svg`
+- illustration (EL-3): 'Vleermuizenpaal met batvormige uitsparing langs het fietspad' with the article at pos 5 — `work/f9-illustration.svg`
 - 0 recompile(s)
 - all typeset checks passed (LAY-1..5, LAY-7)

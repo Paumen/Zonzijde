@@ -1,7 +1,7 @@
 ---
 version: 3
 rol: scoren.
-Fase: S3
+Fase: F3
 ---
 <rol>
 Je bent nieuwsanalist.

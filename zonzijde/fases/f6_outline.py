@@ -186,19 +186,19 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
     outline_prompt = prompts.load_prompt(ctx.root, "outline")
     system = prompts.system_base(brief.body, pipeline.body)
 
-    candidates = load_artifact(ctx.work_dir / "40-candidates.json", Candidate)
+    candidates = load_artifact(ctx.work_dir / "f4-candidates.json", Candidate)
     articles = {a.id: a for a in
-                load_artifact(ctx.work_dir / "50-articles.json", ArticleText)}
+                load_artifact(ctx.work_dir / "f5-articles.json", ArticleText)}
     published = {s.id: s.published.date() if s.published else None
-                 for s in load_artifact(ctx.work_dir / "30-scored.json",
+                 for s in load_artifact(ctx.work_dir / "f3-scored.json",
                                         ScoredItem)}
     enrich_log = json.loads(
-        (ctx.work_dir / "50-enrich-log.json").read_text(encoding="utf-8"))
+        (ctx.work_dir / "f5-enrich-log.json").read_text(encoding="utf-8"))
     dropped = enrich_log.get("dropped_topics", [])
 
     keyed = eligible_candidates(candidates, articles)
     if not keyed:
-        raise SystemExit("S6 outline: no candidate has usable source text (PIPE-5)")
+        raise SystemExit("F6 outline: no candidate has usable source text (PIPE-5)")
     by_key = {key: cand for key, cand in keyed}
     usage: list[dict] = []
     schema = response_schema([key for key, _ in keyed], ed_cfg["woorden"])
@@ -217,12 +217,12 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
     try:
         payload = call(prompt, system)
     except llm.LlmError as e:
-        raise SystemExit(f"S6 outline: call failed: {e}")
+        raise SystemExit(f"F6 outline: call failed: {e}")
     outline, problems = ground(payload, ctx.edition, by_key, articles, published)
     if problems:
-        raise SystemExit(f"S6 outline: unusable response: {problems}")
+        raise SystemExit(f"F6 outline: unusable response: {problems}")
 
-    save_model(ctx.work_dir / "60-outline.json", outline)
+    save_model(ctx.work_dir / "f6-outline.json", outline)
     woorden = ed_cfg["woorden"]
     planned = {
         "min": sum(woorden[s.length]["min"] for s in outline.slots),
@@ -241,11 +241,11 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
         "schema": schema,
         "llm": llm.summarize_usage(usage),
     }
-    (ctx.work_dir / "60-outline-log.json").write_text(
+    (ctx.work_dir / "f6-outline-log.json").write_text(
         json.dumps(log, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
     mix = {cls: sum(1 for s in outline.slots if s.length == cls)
            for cls in ("lang", "mid", "kort")}
-    print(f"S6 outline: {len(outline.slots)} slots "
+    print(f"F6 outline: {len(outline.slots)} slots "
           f"({mix['lang']} lang, {mix['mid']} mid, {mix['kort']} "
           f"kort; planned {planned['min']}–{planned['max']} words)")

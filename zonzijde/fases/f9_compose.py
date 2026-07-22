@@ -45,7 +45,7 @@ def try_prompt(ctx: RunContext, name: str):
 
 
 def fetch_weather(ctx: RunContext) -> Weather:
-    cfg = ctx.stage_cfg("compose").get("weather") or {}
+    cfg = ctx.fase_cfg("compose").get("weather") or {}
     place = cfg.get("place", "Wijchen")
     lat = float(cfg.get("latitude", 51.8103))
     lon = float(cfg.get("longitude", 5.7256))
@@ -61,7 +61,7 @@ def fetch_weather(ctx: RunContext) -> Weather:
         r.raise_for_status()
         daily = r.json()["daily"]
     except (requests.RequestException, KeyError, ValueError) as e:
-        raise SystemExit(f"S9 compose: weather fetch failed (EL-2): {e}")
+        raise SystemExit(f"F9 compose: weather fetch failed (EL-2): {e}")
 
     day_list = []
     for i, iso in enumerate(daily["time"]):
@@ -78,7 +78,7 @@ def fetch_weather(ctx: RunContext) -> Weather:
 
 
 def edition_nr(ctx: RunContext) -> int:
-    offset = int(ctx.stage_cfg("compose").get("nr_offset", 0))
+    offset = int(ctx.fase_cfg("compose").get("nr_offset", 0))
     editions_dir = ctx.root / "editions"
     prior = 0
     if editions_dir.is_dir():
@@ -90,8 +90,8 @@ def edition_nr(ctx: RunContext) -> int:
 
 def collect_prompt_versions(ctx: RunContext) -> dict:
     out: dict = {}
-    for fn in ("30-score-log.json", "40-select-log.json", "50-enrich-log.json",
-               "60-outline-log.json", "70-write-log.json", "80-review-log.json"):
+    for fn in ("f3-score-log.json", "f4-select-log.json", "f5-enrich-log.json",
+               "f6-outline-log.json", "f7-write-log.json", "f8-review-log.json"):
         path = ctx.work_dir / fn
         if not path.is_file():
             continue
@@ -103,13 +103,13 @@ def collect_prompt_versions(ctx: RunContext) -> dict:
 
 
 def build_articles(ctx: RunContext) -> list[EditionArticle]:
-    reviewed = load_artifact(ctx.work_dir / "80-reviewed.json", ReviewedArticle)
-    outline = load_model(ctx.work_dir / "60-outline.json", EditionOutline)
+    reviewed = load_artifact(ctx.work_dir / "f8-reviewed.json", ReviewedArticle)
+    outline = load_model(ctx.work_dir / "f6-outline.json", EditionOutline)
     slots = {s.pos: s for s in outline.slots}
     missing = [r.pos for r in reviewed if r.pos not in slots]
     if missing:
-        raise SystemExit(f"S9 compose: reviewed slot(s) {missing} not in the "
-                         "outline — artifacts out of step, re-run S6..S8")
+        raise SystemExit(f"F9 compose: reviewed slot(s) {missing} not in the "
+                         "outline — artifacts out of step, re-run F6..F8")
     articles = [
         EditionArticle(
             pos=r.pos, scope=slots[r.pos].scope, length=slots[r.pos].length,
@@ -117,7 +117,7 @@ def build_articles(ctx: RunContext) -> list[EditionArticle]:
             text=r.text, words=r.words, source_ids=slots[r.pos].source_ids)
         for r in sorted(reviewed, key=lambda r: r.pos)]
     if articles[0].scope != "L":
-        raise SystemExit("S9 compose: first slot is not lokaal (ED-6)")
+        raise SystemExit("F9 compose: first slot is not lokaal (ED-6)")
     return articles
 
 
@@ -217,19 +217,19 @@ def draw_illustration(ctx: RunContext, articles: list[EditionArticle],
                      f"moved to {candidates[0]}")
         pos = candidates[0]
     ctx.work_dir.mkdir(parents=True, exist_ok=True)
-    (ctx.work_dir / "85-illustration.svg").write_text(svg + "\n",
-                                                      encoding="utf-8")
+    (ctx.work_dir / "f9-illustration.svg").write_text(svg + "\n",
+                                                       encoding="utf-8")
     problems = svg_problems(svg)
     if problems:
         notes.append("illustration drawn but left out of the render: "
                      + "; ".join(problems))
         return None, None, payload.get("subject")
-    return "work/85-illustration.svg", pos, payload.get("subject")
+    return "work/f9-illustration.svg", pos, payload.get("subject")
 
 
 def run(ctx: RunContext, illustrate_call: JsonCall | None = None) -> None:
-    stage_cfg = ctx.stage_cfg("compose")
-    max_recompiles = int(stage_cfg.get("max_recompiles", 3))
+    fase_cfg = ctx.fase_cfg("compose")
+    max_recompiles = int(fase_cfg.get("max_recompiles", 3))
 
     articles = build_articles(ctx)
     weather = fetch_weather(ctx)
@@ -266,7 +266,7 @@ def run(ctx: RunContext, illustrate_call: JsonCall | None = None) -> None:
             "violations": [v.to_dict() for v in violations],
             "llm": llm.summarize_usage(usage),
         }
-        (ctx.work_dir / "90-compose-log.json").write_text(
+        (ctx.work_dir / "f9-compose-log.json").write_text(
             json.dumps(log, indent=2, ensure_ascii=False) + "\n",
             encoding="utf-8")
 
@@ -284,7 +284,7 @@ def run(ctx: RunContext, illustrate_call: JsonCall | None = None) -> None:
                 illustration, ill_pos = None, None
                 continue
             write_log()
-            raise SystemExit(f"S9 compose: Typst compile failed: {e}")
+            raise SystemExit(f"F9 compose: Typst compile failed: {e}")
         attempts.append([v.to_dict() for v in violations])
         if not violations:
             break
@@ -299,15 +299,15 @@ def run(ctx: RunContext, illustrate_call: JsonCall | None = None) -> None:
                 continue
         write_log()
         raise SystemExit(
-            f"S9 compose: {len(violations)} typeset violation(s) after "
-            f"{recompiles} recompile(s) — see 90-compose-log.json. The "
+            f"F9 compose: {len(violations)} typeset violation(s) after "
+            f"{recompiles} recompile(s) — see f9-compose-log.json. The "
             "editorial gate resolves layout (SPEC §6): edit the article "
             "texts or reflow, then re-run compose.")
 
     booklet = typeset.impose_booklet(pdf)
     (ctx.edition_dir / "krant-A3boekje.pdf").write_bytes(booklet)
     write_log()
-    print(f"S9 compose: nr {nr}, {len(articles)} articles, "
+    print(f"F9 compose: nr {nr}, {len(articles)} articles, "
           f"{sum(a.words for a in articles)} words, "
           f"{typeset.TARGET_PAGES} pages, {recompiles} recompile(s) → "
           f"{ctx.edition_dir / 'krant-A3boekje.pdf'}")

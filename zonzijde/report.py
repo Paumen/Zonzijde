@@ -42,7 +42,7 @@ def _sankey(flows: list[tuple[str, str, int]]) -> list[str]:
 
 
 def _overview(work) -> list[str]:
-    fetch_path = work / "10-fetch-log.json"
+    fetch_path = work / "f1-fetch-log.json"
     if not fetch_path.is_file():
         return []
     feeds = json.loads(fetch_path.read_text(encoding="utf-8"))["feeds"]
@@ -54,18 +54,18 @@ def _overview(work) -> list[str]:
         ("Fetched", "Out of window", entries - kept),
     ]
     filtered = positive = rows = None
-    if (work / "20-filtered.json").is_file():
-        filtered = len(load_artifact(work / "20-filtered.json", FeedItem))
+    if (work / "f2-filtered.json").is_file():
+        filtered = len(load_artifact(work / "f2-filtered.json", FeedItem))
         item.append(("in", "Candidates", filtered))
-        if (work / "20-rejected.json").is_file():
+        if (work / "f2-rejected.json").is_file():
             reasons = Counter()
-            for r in load_artifact(work / "20-rejected.json", RejectedItem):
+            for r in load_artifact(work / "f2-rejected.json", RejectedItem):
                 reasons["duplicate" if r.reason == "duplicate" else "buckets"] += 1
             for k in ("buckets", "duplicate"):
                 if reasons[k]:
                     item.append(("in", f"Reject: {k}", reasons[k]))
-    if filtered and (work / "30-score-log.json").is_file():
-        slog = json.loads((work / "30-score-log.json").read_text(encoding="utf-8"))
+    if filtered and (work / "f3-score-log.json").is_file():
+        slog = json.loads((work / "f3-score-log.json").read_text(encoding="utf-8"))
         dist = slog["distribution"]
         positive = int(dist.get("1", 0)) + int(dist.get("2", 0))
         item.append(("Candidates", "Positive (+1/+2)", positive))
@@ -73,30 +73,30 @@ def _overview(work) -> list[str]:
                      int(dist.get("-1", 0)) + int(dist.get("-2", 0))))
         item.append(("Candidates", "Unscored", len(slog.get("unscored_ids", []))))
         item.append(("Candidates", "Score 0", int(dist.get("0", 0))))
-    if positive and (work / "40-candidates.json").is_file():
+    if positive and (work / "f4-candidates.json").is_file():
         rows = sum(len(c.items) for c in
-                   load_artifact(work / "40-candidates.json", Candidate))
+                   load_artifact(work / "f4-candidates.json", Candidate))
         item.append(("Positive (+1/+2)", "Selected rows", rows))
         item.append(("Positive (+1/+2)", "Not selected", positive - rows))
-    if rows and (work / "50-enrich-log.json").is_file():
-        ft = json.loads((work / "50-enrich-log.json")
+    if rows and (work / "f5-enrich-log.json").is_file():
+        ft = json.loads((work / "f5-enrich-log.json")
                         .read_text(encoding="utf-8")).get("full_text")
         if ft is not None:
             item.append(("Selected rows", "Enriched", ft))
             item.append(("Selected rows", "No full text", rows - ft))
 
     edition: list[tuple[str, str, int]] = []
-    if (work / "60-outline.json").is_file():
-        n_slots = len(load_model(work / "60-outline.json", EditionOutline).slots)
+    if (work / "f6-outline.json").is_file():
+        n_slots = len(load_model(work / "f6-outline.json", EditionOutline).slots)
         written = n_slots
-        if (work / "70-write-log.json").is_file():
-            wf = len(json.loads((work / "70-write-log.json")
+        if (work / "f7-write-log.json").is_file():
+            wf = len(json.loads((work / "f7-write-log.json")
                                 .read_text(encoding="utf-8")).get("failed_slots") or [])
             written = n_slots - wf
             edition += [("Outline slots", "Written", written),
                         ("Outline slots", "Write failed", wf)]
-        if (work / "80-review-log.json").is_file():
-            rf = len(json.loads((work / "80-review-log.json")
+        if (work / "f8-review-log.json").is_file():
+            rf = len(json.loads((work / "f8-review-log.json")
                                 .read_text(encoding="utf-8")).get("failed_slots") or [])
             edition += [("Written", "Reviewed", written - rf),
                         ("Written", "Review failed", rf)]
@@ -117,13 +117,13 @@ def _overview(work) -> list[str]:
 
 
 def _llm_usage(work) -> list[str]:
-    stages = [("S3 score", "30-score-log.json"), ("S4 select", "40-select-log.json"),
-              ("S5 enrich", "50-enrich-log.json"), ("S6 outline", "60-outline-log.json"),
-              ("S7 write", "70-write-log.json"), ("S8 review", "80-review-log.json"),
-              ("S9 compose", "90-compose-log.json")]
+    fases = [("F3 score", "f3-score-log.json"), ("F4 select", "f4-select-log.json"),
+             ("F5 enrich", "f5-enrich-log.json"), ("F6 outline", "f6-outline-log.json"),
+             ("F7 write", "f7-write-log.json"), ("F8 review", "f8-review-log.json"),
+             ("F9 compose", "f9-compose-log.json")]
     rows = []
     tot = Counter()
-    for label, fn in stages:
+    for label, fn in fases:
         p = work / fn
         if not p.is_file():
             continue
@@ -153,7 +153,7 @@ def _llm_usage(work) -> list[str]:
                  f"{tot['wall_ms'] / 1000:.1f}s",
                  f"${tot['cost_usd']:.4f}" if tot["cost_usd"] else "—"])
     return ["## LLM usage", "",
-            _table(["stage", "model", "effort", "calls", "turns", "in tok",
+            _table(["fase", "model", "effort", "calls", "turns", "in tok",
                     "out tok", "tools", "think chars", "wall", "cost"], rows)]
 
 
@@ -162,18 +162,18 @@ def build(ctx: RunContext) -> str:
     parts = [f"# Run report — edition {ctx.edition.isoformat()}", ""]
     parts += _overview(work)
 
-    log_path = work / "10-fetch-log.json"
-    items_path = work / "20-filtered.json"
-    rejected_path = work / "20-rejected.json"
-    score_log_path = work / "30-score-log.json"
-    candidates_path = work / "40-candidates.json"
-    enrich_log_path = work / "50-enrich-log.json"
-    articles_path = work / "50-articles.json"
-    outline_path = work / "60-outline.json"
-    write_log_path = work / "70-write-log.json"
-    review_log_path = work / "80-review-log.json"
-    reviewed_path = work / "80-reviewed.json"
-    compose_log_path = work / "90-compose-log.json"
+    log_path = work / "f1-fetch-log.json"
+    items_path = work / "f2-filtered.json"
+    rejected_path = work / "f2-rejected.json"
+    score_log_path = work / "f3-score-log.json"
+    candidates_path = work / "f4-candidates.json"
+    enrich_log_path = work / "f5-enrich-log.json"
+    articles_path = work / "f5-articles.json"
+    outline_path = work / "f6-outline.json"
+    write_log_path = work / "f7-write-log.json"
+    review_log_path = work / "f8-review-log.json"
+    reviewed_path = work / "f8-reviewed.json"
+    compose_log_path = work / "f9-compose-log.json"
 
     if log_path.is_file():
         log = json.loads(log_path.read_text(encoding="utf-8"))
@@ -184,45 +184,45 @@ def build(ctx: RunContext) -> str:
         parts += [
             "## Funnel", "",
             f"- window: {log['window_days']} days (from {log['window_start']}, SRC-4)",
-            f"- S1 fetch: {entries} feed items → {kept} in"
+            f"- F1 fetch: {entries} feed items → {kept} in"
             f" ({len(feeds) - len(failed)}/{len(feeds)} feeds ok)",
         ]
         if items_path.is_file():
             filtered = load_artifact(items_path, FeedItem)
             rejected = load_artifact(rejected_path, RejectedItem)
-            parts += [f"- S2 filter: {kept} → {len(filtered)} candidates"
+            parts += [f"- F2 filter: {kept} → {len(filtered)} candidates"
                       f" ({len(rejected)} rejected)"]
         if score_log_path.is_file():
-            scored = load_artifact(work / "30-scored.json", ScoredItem)
+            scored = load_artifact(work / "f3-scored.json", ScoredItem)
             positive = sum(1 for s in scored if s.score >= 1)
             unscored = len(json.loads(score_log_path.read_text(encoding="utf-8"))
                            ["unscored_ids"])
-            parts += [f"- S3 score: {len(scored)} scored → {positive} at +1/+2"
-                      + (f" ({unscored} unscored, excluded — S3)"
+            parts += [f"- F3 score: {len(scored)} scored → {positive} at +1/+2"
+                      + (f" ({unscored} unscored, excluded — F3)"
                          if unscored else "")]
         if candidates_path.is_file():
             candidates = load_artifact(candidates_path, Candidate)
             rows = sum(len(c.items) for c in candidates)
-            parts += [f"- S4 select: {len(candidates)} topics ({rows} source rows)"]
+            parts += [f"- F4 select: {len(candidates)} topics ({rows} source rows)"]
         if enrich_log_path.is_file():
             elog = json.loads(enrich_log_path.read_text(encoding="utf-8"))
             m = elog["methods"]
-            parts += [f"- S5 enrich: {elog['rows']} source rows → "
+            parts += [f"- F5 enrich: {elog['rows']} source rows → "
                       f"{elog['full_text']} full texts"
                       f" (requests {m['requests']}, playwright {m['playwright']})"
-                      + (f"; {len(elog['dropped_topics'])} topics dropped (S5)"
+                      + (f"; {len(elog['dropped_topics'])} topics dropped (F5)"
                          if elog["dropped_topics"] else "")]
         if outline_path.is_file():
             outline = load_model(outline_path, EditionOutline)
-            olog = json.loads((work / "60-outline-log.json")
+            olog = json.loads((work / "f6-outline-log.json")
                               .read_text(encoding="utf-8"))
             planned = olog["planned_words"]
-            parts += [f"- S6 outline: {len(outline.slots)} slots, planned "
+            parts += [f"- F6 outline: {len(outline.slots)} slots, planned "
                       f"{planned['min']}–{planned['max']} words"]
         if write_log_path.is_file():
             wlog = json.loads(write_log_path.read_text(encoding="utf-8"))
             wfailed = wlog.get("failed_slots") or []
-            parts += [f"- S7 write: {len(wlog['slots'])} articles, "
+            parts += [f"- F7 write: {len(wlog['slots'])} articles, "
                       f"{wlog['words_total']} words"
                       + (f"; **{len(wfailed)} slot(s) failed to write — "
                          f"hole(s) at pos {wfailed}**" if wfailed else "")]
@@ -231,7 +231,7 @@ def build(ctx: RunContext) -> str:
             corr = sum(len(a["corrections"]) for a in rlog["articles"])
             rfailed = rlog.get("failed_slots") or []
             body = ctx.edition_cfg["body_words"]
-            parts += [f"- S8 review: {corr} "
+            parts += [f"- F8 review: {corr} "
                       f"correction(s), {rlog['words_total']} words body text"
                       f" (ED-5 target {body['min']}–{body['max']})"
                       + (f"; **{len(rfailed)} slot(s) failed review at "
@@ -239,7 +239,7 @@ def build(ctx: RunContext) -> str:
         if compose_log_path.is_file():
             clog = json.loads(compose_log_path.read_text(encoding="utf-8"))
             open_v = clog.get("violations") or []
-            parts += [f"- S9 compose: nr {clog['nr']}, "
+            parts += [f"- F9 compose: nr {clog['nr']}, "
                       f"{clog['recompiles']} recompile(s)"
                       + (f"; **{len(open_v)} unresolved typeset "
                          f"violation(s)**" if open_v
@@ -261,13 +261,13 @@ def build(ctx: RunContext) -> str:
             else:
                 for b in r.reason.removeprefix("bucket:").split(","):
                     reasons[b] += 1
-        parts += ["", "## Rejected (S2)", "",
+        parts += ["", "## Rejected (F2)", "",
                   _table(["reason", "count"],
                          [[k, v] for k, v in sorted(reasons.items())])]
 
     if score_log_path.is_file():
         log = json.loads(score_log_path.read_text(encoding="utf-8"))
-        parts += ["", "## Scores (S3)", "",
+        parts += ["", "## Scores (F3)", "",
                   f"model {log['model']}, prompt score.md v{log['prompt_version']}",
                   "",
                   _table(["score", "count"],
@@ -279,7 +279,7 @@ def build(ctx: RunContext) -> str:
 
     if candidates_path.is_file():
         candidates = load_artifact(candidates_path, Candidate)
-        parts += ["", "## Selected topics (S4)", "",
+        parts += ["", "## Selected topics (F4)", "",
                   _table(["s", "topic", "bronnen"],
                          [[c.scope, c.topic,
                            ", ".join(r.bron for r in c.items)]
@@ -307,13 +307,13 @@ def build(ctx: RunContext) -> str:
                 rows.append([c.scope, c.topic, a.bron,
                              len(a.samenvatting.split()), len(a.text.split()),
                              len(refs), ref_words, ref_links, status])
-        parts += ["", "## Enrichment (S5)", "",
+        parts += ["", "## Enrichment (F5)", "",
                   _table(["s", "topic", "bron", "sum", "text",
                           "refs", "ref words", "ref links", "status"], rows)]
 
     if outline_path.is_file():
         outline = load_model(outline_path, EditionOutline)
-        parts += ["", "## Edition plan (S6)", "",
+        parts += ["", "## Edition plan (F6)", "",
                   _table(["pos", "s", "length", "topic",
                           "locatie", "datum"],
                          [[s.pos, s.scope, s.length, s.topic,
@@ -327,7 +327,7 @@ def build(ctx: RunContext) -> str:
             rlog = json.loads(review_log_path.read_text(encoding="utf-8"))
             draft_words = {a["pos"]: a["words"]["draft"]
                           for a in rlog["articles"]}
-        parts += ["", "## Articles (S7/8)", "",
+        parts += ["", "## Articles (F7/8)", "",
                   _table(["pos", "title", "words draft → reviewed"],
                          [[r.pos, r.title,
                            f"{draft_words.get(r.pos, '—')} → {r.words}"]
@@ -336,16 +336,16 @@ def build(ctx: RunContext) -> str:
         for r in reviewed:
             for corr in r.review.corrections:
                 correction_lines.append(f"- slot {r.pos}: {corr}")
-        parts += ["", "## Correction log (S8)", ""]
+        parts += ["", "## Correction log (F8)", ""]
         parts += correction_lines or ["No corrections — clean review."]
 
     if compose_log_path.is_file():
         clog = json.loads(compose_log_path.read_text(encoding="utf-8"))
-        parts += ["", "## Typeset & compose (S9)", ""]
+        parts += ["", "## Typeset & compose (F9)", ""]
         ill = clog.get("illustration") or {}
         if ill.get("file"):
             parts += [f"- illustration (EL-3): {ill['subject']!r} with the "
-                      f"article at pos {ill['pos']} — `work/85-illustration.svg`"]
+                      f"article at pos {ill['pos']} — `work/f9-illustration.svg`"]
         parts += [f"- {clog['recompiles']} recompile(s)"]
         for note in clog.get("notes") or []:
             parts += [f"- {note}"]
