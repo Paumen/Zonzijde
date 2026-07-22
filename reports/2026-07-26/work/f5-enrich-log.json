@@ -1,207 +1,204 @@
 {
   "model": "claude-haiku-4-5-20251001",
-  "rows": 25,
-  "full_text": 18,
+  "rows": 35,
+  "full_text": 30,
   "methods": {
-    "requests": 18,
+    "requests": 30,
     "playwright": 0
   },
   "min_words": 100,
   "references": {
-    "selected": 19,
-    "ok": 14
+    "selected": 35,
+    "ok": 27
   },
   "topics": [
     {
       "scope": "L",
-      "topic": "Toezichthouders werken over gemeentegrenzen tegen overlast",
+      "topic": "Dag van Wijchen tijdens de Vierdaagse",
+      "rows": 4,
+      "ok_rows": 4,
+      "dropped": false
+    },
+    {
+      "scope": "L",
+      "topic": "Zomerprogramma voor gezinnen in Wijchen",
+      "rows": 3,
+      "ok_rows": 3,
+      "dropped": false
+    },
+    {
+      "scope": "L",
+      "topic": "Toezichthouders werken over gemeentegrenzen",
       "rows": 1,
       "ok_rows": 1,
       "dropped": false
     },
     {
       "scope": "L",
-      "topic": "Gratis zomerspeurtocht 'De verdwenen ijscoupes' in Wijchen",
+      "topic": "Batenburg Baroque Festival trekt meer bezoekers",
       "rows": 1,
       "ok_rows": 1,
       "dropped": false
     },
     {
       "scope": "L",
-      "topic": "Kapper Theo mag na 40 jaar tóch goede doelen knippen",
+      "topic": "Groot onderhoud openbare ruimte Wijchen",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "L",
+      "topic": "Minder mensen in Wijchen met WW-uitkering",
       "rows": 1,
       "ok_rows": 0,
       "dropped": true
     },
     {
       "scope": "L",
-      "topic": "Tweeling miste vlag van Guinee bij Vierdaagse, doet nu zelf mee",
+      "topic": "Reanimatiecursus voor iedereen",
       "rows": 1,
-      "ok_rows": 0,
-      "dropped": true
+      "ok_rows": 1,
+      "dropped": false
     },
     {
-      "scope": "L",
-      "topic": "Vereniging Gouden-Kruisdragers verrast met koninklijke status",
-      "rows": 1,
-      "ok_rows": 0,
-      "dropped": true
+      "scope": "R",
+      "topic": "Doorzetters van de Vierdaagse",
+      "rows": 4,
+      "ok_rows": 3,
+      "dropped": false
     },
     {
-      "scope": "L",
-      "topic": "Duizenden uren werk om Vierdaagseplek Kelfkensbos klaar te krijgen",
-      "rows": 1,
-      "ok_rows": 0,
-      "dropped": true
-    },
-    {
-      "scope": "L",
-      "topic": "Slechtziende Boaz (11) wandelt Vierdaagse voor klasgenoten",
+      "scope": "R",
+      "topic": "Sharda haalt de finish net op tijd",
       "rows": 1,
       "ok_rows": 0,
       "dropped": true
     },
     {
       "scope": "R",
-      "topic": "Wilde dieren krijgen meer ruimte op ecoducten bij Hoge Veluwe",
+      "topic": "Via Flamingo maakt Weurt uitbundiger",
+      "rows": 1,
+      "ok_rows": 0,
+      "dropped": true
+    },
+    {
+      "scope": "R",
+      "topic": "Liefde gevonden bij de Vierdaagse, dochter loopt nu mee",
+      "rows": 1,
+      "ok_rows": 0,
+      "dropped": true
+    },
+    {
+      "scope": "R",
+      "topic": "A30 gaat eerder open na maanden werk",
       "rows": 1,
       "ok_rows": 1,
       "dropped": false
     },
     {
       "scope": "R",
-      "topic": "Burgemeester Rheden debuteert in de Vierdaagse na jaren zwaaien",
+      "topic": "Ecopassages Hoge Veluwe verbeterd voor wilde dieren",
       "rows": 1,
       "ok_rows": 1,
       "dropped": false
     },
     {
       "scope": "R",
-      "topic": "Wolf met prooi en ijsvogel: mooie momenten in de Gelderse natuur",
-      "rows": 1,
-      "ok_rows": 1,
+      "topic": "NEC naar Champions League voorronde",
+      "rows": 3,
+      "ok_rows": 3,
       "dropped": false
     },
     {
-      "scope": "R",
-      "topic": "Nijmegen krijgt wegwijsborden voor vleermuizen",
-      "rows": 1,
-      "ok_rows": 1,
-      "dropped": false
-    },
-    {
-      "scope": "R",
-      "topic": "Steeds meer mensen kamperen in Gelderland, en dat is goed",
-      "rows": 1,
-      "ok_rows": 1,
-      "dropped": false
-    },
-    {
-      "scope": "R",
-      "topic": "Gelderse wijngaarden floreren dankzij droog weer",
-      "rows": 1,
-      "ok_rows": 1,
-      "dropped": false
-    },
-    {
-      "scope": "R",
-      "topic": "Steeds meer jongeren ontdekken wandelen als sport",
+      "scope": "N",
+      "topic": "Arnhemse schuldenaanpak krijgt vervolg",
       "rows": 1,
       "ok_rows": 1,
       "dropped": false
     },
     {
       "scope": "N",
-      "topic": "Stikstofdoelen 2035 in zicht met nieuwe kabinetsplannen",
+      "topic": "Stikstofdoelen 2035 in zicht",
       "rows": 1,
       "ok_rows": 1,
       "dropped": false
     },
     {
       "scope": "N",
-      "topic": "Gestrande walvis krijgt hulp van dolfijnen terug naar zee",
+      "topic": "Nederlanders produceren minder afval",
       "rows": 1,
       "ok_rows": 1,
       "dropped": false
     },
     {
       "scope": "N",
-      "topic": "Oranje wint Fair Play-prijs op het WK voetbal",
+      "topic": "EK Rubiks kubus brengt Europa samen in Arnhem",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "N",
+      "topic": "Nederland gastland EK padel 2027",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "I",
+      "topic": "Amazoncanopybruggen voorkomen wegverkeersslachtoffers",
       "rows": 2,
       "ok_rows": 2,
       "dropped": false
     },
     {
-      "scope": "N",
-      "topic": "Historische vereniging redt vervallen molen van sloop",
-      "rows": 1,
-      "ok_rows": 0,
-      "dropped": true
-    },
-    {
-      "scope": "N",
-      "topic": "Veertien kraamhotels vangen tekorten in kraamzorg op",
-      "rows": 1,
-      "ok_rows": 0,
-      "dropped": true
-    },
-    {
       "scope": "I",
-      "topic": "EU-verbod op vernietigen onverkochte kleding gaat in",
+      "topic": "Bultruggen keren massaal terug bij Rio",
       "rows": 1,
       "ok_rows": 1,
       "dropped": false
     },
     {
       "scope": "I",
-      "topic": "Hoe Cuba omschakelde van zeeschildpaddenvangst naar bescherming",
+      "topic": "Landbouwprogramma helpt amputees in Sierra Leone",
       "rows": 1,
       "ok_rows": 1,
       "dropped": false
     },
     {
       "scope": "I",
-      "topic": "Zwitserse architect bewijst: het groenste gebouw staat er al",
+      "topic": "Scholeksters maken comeback dankzij natuurbescherming",
       "rows": 1,
       "ok_rows": 1,
       "dropped": false
     },
     {
       "scope": "I",
-      "topic": "Zeldzame gier keert na tien jaar terug in Cambodjaans reservaat",
-      "rows": 1,
-      "ok_rows": 1,
-      "dropped": false
-    },
-    {
-      "scope": "I",
-      "topic": "Wetenschappers laten menselijke tanden opnieuw groeien",
+      "topic": "Gemarginaliseerde groepen vinden gemeenschap via voetbal",
       "rows": 1,
       "ok_rows": 1,
       "dropped": false
     }
   ],
   "dropped_topics": [
-    "Kapper Theo mag na 40 jaar tóch goede doelen knippen",
-    "Tweeling miste vlag van Guinee bij Vierdaagse, doet nu zelf mee",
-    "Vereniging Gouden-Kruisdragers verrast met koninklijke status",
-    "Duizenden uren werk om Vierdaagseplek Kelfkensbos klaar te krijgen",
-    "Slechtziende Boaz (11) wandelt Vierdaagse voor klasgenoten",
-    "Historische vereniging redt vervallen molen van sloop",
-    "Veertien kraamhotels vangen tekorten in kraamzorg op"
+    "Minder mensen in Wijchen met WW-uitkering",
+    "Sharda haalt de finish net op tijd",
+    "Via Flamingo maakt Weurt uitbundiger",
+    "Liefde gevonden bij de Vierdaagse, dochter loopt nu mee"
   ],
-  "duration_s": 60.7,
+  "duration_s": 164.4,
   "llm": {
-    "calls": 12,
-    "input_tokens": 180,
-    "output_tokens": 15855,
-    "cache_read_tokens": 301340,
-    "cache_creation_tokens": 72065,
-    "cost_usd": 0.2657,
-    "turns": 30,
-    "tool_uses": 12,
-    "thinking_chars": 33179,
-    "wall_ms": 192708,
-    "api_ms": 203027
+    "calls": 24,
+    "input_tokens": 410,
+    "output_tokens": 27087,
+    "cache_read_tokens": 720413,
+    "cache_creation_tokens": 129642,
+    "cost_usd": 0.4911,
+    "turns": 64,
+    "tool_uses": 23,
+    "thinking_chars": 52076,
+    "wall_ms": 354830,
+    "api_ms": 355651
   }
 }

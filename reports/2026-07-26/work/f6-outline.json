@@ -4,137 +4,103 @@
     {
       "pos": 1,
       "scope": "L",
-      "topic": "Gratis zomerspeurtocht 'De verdwenen ijscoupes' in het centrum van Wijchen",
-      "length": "standard",
-      "devices": [
-        "playful humor",
-        "direct address to reader (walk over and do it)"
-      ],
+      "topic": "Dag van Wijchen tijdens de Vierdaagse",
+      "length": "lang",
+      "angle": "Ga-en-kijk met menselijke synecdoche: de doorkomst van de 4Daagse als lokaal ochtendfeest, verankerd in één of twee doorzetters (Willie Heij, 83, recordhouder met zijn 66e tocht; Wout Loeffen die voor het Campagneteam Huntington loopt). Auteur mag het zwaartepunt kiezen tussen het collectieve feest en het individuele portret; warm-in-terughoudendheid, laat de emotie impliciet.",
       "source_ids": [
-        "2b5c0cd56f7f"
+        "ef39b5297860",
+        "70f026667e52",
+        "8a1774633b68",
+        "a0075d173b34"
       ],
-      "location": "Centrum Wijchen",
-      "source_date": "2026-07-20"
+      "location": "Wijchen",
+      "source_date": "2026-07-21"
     },
     {
       "pos": 2,
       "scope": "L",
-      "topic": "Toezichthouders werken voortaan over de gemeentegrens samen in het buitengebied",
-      "length": "short",
-      "devices": [
-        "aphoristic kicker",
-        "positive reframe (cooperation leads, not the crime)"
-      ],
+      "topic": "Batenburg Baroque Festival trekt meer bezoekers",
+      "length": "mid",
+      "angle": "Vooruitgangsverhaal met uitgangscijfer: vijfde editie, (nagenoeg) uitverkochte concerten en 5 procent meer bezoekers — een klein festival dat gestaag groeit. Techniek: trendsignalering. Toon nieuwsgierig/warm; laat de plek (historisch Batenburg, concertschuur Appeltern) meespelen.",
       "source_ids": [
-        "7b728efb63c2"
+        "f1f69f295308"
       ],
-      "location": "Gemeente Wijchen / buitengebied",
-      "source_date": "2026-07-20"
+      "location": "Batenburg",
+      "source_date": "2026-07-16"
     },
     {
       "pos": 3,
       "scope": "R",
-      "topic": "Gelderse wijngaarden floreren juist dankzij de droogte",
-      "length": "long",
-      "devices": [
-        "metaphor/analogy",
-        "gentle irony (the drought others dread is their blessing)"
-      ],
+      "topic": "A30 gaat eerder open na maanden werk",
+      "length": "mid",
+      "angle": "Herstel/oplossingsverhaal met erkennen-en-keren: benoem kort de maandenlange omrijmiserie en keer dan — de A30 gaat 46 uur eerder open dan gepland, groot onderhoud netjes afgerond. Wrang/droog register past hier.",
       "source_ids": [
-        "0434f78efa4e"
+        "0a44ea58303d"
       ],
-      "location": "Gelderland (wijngaarden)",
-      "source_date": "2026-07-19"
+      "location": "Barneveld",
+      "source_date": "2026-07-21"
     },
     {
       "pos": 4,
       "scope": "R",
-      "topic": "Burgemeester van Rheden debuteert in de Vierdaagse na jaren zwaaien",
-      "length": "standard",
-      "devices": [
-        "irony/humor (from waving to walking)",
-        "human portrait"
-      ],
+      "topic": "NEC naar Champions League voorronde",
+      "length": "kort",
+      "angle": "Opgewekt met vangrails: NEC's stap naar de Champions League-voorronde als streekfeest. Leun op de sfeer en het supporterscitaat op het Faberplein; mijd de wedstrijdvoorspelling en de speculatieve Tadic-transfer. Menselijke synecdoche via een enkele fan.",
       "source_ids": [
-        "90c563ac4895"
+        "7879c2ee8908",
+        "da1a947270e2",
+        "4ead924c944d"
       ],
-      "location": "Rheden / Nijmegen (Vierdaagse)",
+      "location": "Nijmegen",
       "source_date": "2026-07-20"
     },
     {
       "pos": 5,
-      "scope": "R",
-      "topic": "Nijmegen krijgt wegwijsborden voor vleermuizen",
-      "length": "short",
-      "devices": [
-        "whimsy",
-        "curiosity hook"
-      ],
+      "scope": "N",
+      "topic": "Arnhemse schuldenaanpak krijgt vervolg",
+      "length": "lang",
+      "angle": "Oplossingsverhaal: probleem (onoplosbare schulden bij kwetsbare gezinnen) → interventie (kwijtschelding plus een coach) → resultaat, met als kern dat de proef juist vanwege de resultaten een vervolg krijgt. Menselijke synecdoche (Shaquina, 'geen druk meer'). Toon warm-in-terughoudendheid; land de pointe niet te nadrukkelijk.",
       "source_ids": [
-        "5266f35f3bed"
+        "edfbdda71ce4"
       ],
-      "location": "Nijmegen, Nelson Mandelaplein",
-      "source_date": "2026-07-19"
+      "location": "Arnhem",
+      "source_date": "2026-07-15"
     },
     {
       "pos": 6,
       "scope": "N",
-      "topic": "Stikstofdoelen 2035 binnen bereik met nieuwe kabinetsplannen",
-      "length": "standard",
-      "devices": [
-        "measured data-led lead (no cute kicker)",
-        "perspective/context"
-      ],
+      "topic": "EK Rubiks kubus brengt Europa samen in Arnhem",
+      "length": "kort",
+      "angle": "Contra-intuïtief/juxtapositie: een kampioenschap dat draait om snelheid maar vooral om gezelligheid — 1200 puzzelaars uit 53 landen die het 'gezellig met elkaar' hebben. Speelgoed dat samenbrengt. Licht en opgewekt.",
       "source_ids": [
-        "47b433c95632"
+        "b62a8444078c"
       ],
-      "location": "Nederland",
-      "source_date": "2026-07-19"
+      "location": "Arnhem",
+      "source_date": "2026-07-17"
     },
     {
       "pos": 7,
-      "scope": "N",
-      "topic": "Oranje wint de Fair Play-prijs op het WK ondanks vroege uitschakeling",
-      "length": "short",
-      "devices": [
-        "light irony (out early, home with a prize)"
-      ],
+      "scope": "I",
+      "topic": "Landbouwprogramma helpt amputees in Sierra Leone",
+      "length": "mid",
+      "angle": "Verandermaker/oplossingsverhaal met erkennen-en-keren: benoem de erfenis van de burgeroorlog en keer dan naar wat werkt — pastor-boer Mambud Samai die amputees duurzaam leren boeren, richting eigen voedsel, inkomen en waardigheid. Gezaghebbend-warm.",
       "source_ids": [
-        "4c0a262700b2",
-        "980406cf2d3e"
+        "fcae521b5ae4"
       ],
-      "location": "Nederland / WK (Verenigde Staten)",
-      "source_date": "2026-07-20"
+      "location": "Sierra Leone",
+      "source_date": "2026-07-16"
     },
     {
       "pos": 8,
       "scope": "I",
-      "topic": "Wetenschappers laten menselijke tanden opnieuw groeien",
-      "length": "long",
-      "devices": [
-        "hopeful explainer",
-        "relatable framing (everyone has teeth)"
-      ],
+      "topic": "Bultruggen keren massaal terug bij Rio",
+      "length": "kort",
+      "angle": "Herstel met uitgangscijfer: bultruggen keren massaal terug bij Rio — van ruwweg 2.000 naar zo'n 35.000 in veertig jaar, bijna terug op het niveau van vóór de walvisvaart. Laat het cijfer het werk doen; nieuwsgierige toon.",
       "source_ids": [
-        "abc7974f0991"
+        "082d1811afd0"
       ],
-      "location": "Internationaal (onderzoek/lab)",
-      "source_date": "2026-07-19"
-    },
-    {
-      "pos": 9,
-      "scope": "I",
-      "topic": "Cuba schakelde om van zeeschildpaddenvangst naar bescherming",
-      "length": "standard",
-      "devices": [
-        "arc-of-change narrative",
-        "human portrait (Moncada Gavilan)"
-      ],
-      "source_ids": [
-        "576fafa4872e"
-      ],
-      "location": "Cuba",
-      "source_date": "2026-07-20"
+      "location": "Rio de Janeiro",
+      "source_date": "2026-07-17"
     }
   ]
 }
