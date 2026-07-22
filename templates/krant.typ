@@ -213,8 +213,10 @@
     }
     for (i, a) in sel.enumerate() {
       if i > 0 { scheiding }
-      if ed.illustration != none and ed.illustration_pos == a.pos {
-        illustratie("/editions/" + ed.edition + "/" + ed.illustration, a.pos)
+      for illus in ed.illustrations {
+        if illus.pos == a.pos {
+          illustratie("/editions/" + ed.edition + "/" + illus.file, illus.pos)
+        }
       }
       artikel(a)
     }

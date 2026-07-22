@@ -11,18 +11,29 @@ from pathlib import Path
 from .. import llm, prompts, typeset
 from ..context import RunContext
 from ..contracts import (EditionArticle, EditionManifest, EditionOutline,
-                         ReviewedArticle, Weather, WeatherDay, load_artifact,
-                         load_model, save_model)
+                         Illustration, ReviewedArticle, Weather, WeatherDay,
+                         load_artifact, load_model, save_model)
 from ..net import VERIFY
 
 ILLUSTRATE_SCHEMA = {
     "type": "object",
     "properties": {
-        "subject": {"type": "string"},
-        "pos": {"type": "integer"},
-        "svg": {"type": "string"},
+        "illustrations": {
+            "type": "array",
+            "minItems": 2, "maxItems": 2,
+            "items": {
+                "type": "object",
+                "properties": {
+                    "subject": {"type": "string"},
+                    "pos": {"type": "integer"},
+                    "svg": {"type": "string"},
+                },
+                "required": ["subject", "pos", "svg"],
+                "additionalProperties": False,
+            },
+        },
     },
-    "required": ["subject", "pos", "svg"],
+    "required": ["illustrations"],
     "additionalProperties": False,
 }
 
@@ -183,15 +194,15 @@ def build_illustrate_prompt(articles: list[EditionArticle],
     return "\n".join(lines)
 
 
-def draw_illustration(ctx: RunContext, articles: list[EditionArticle],
-                      call: JsonCall | None, usage: list,
-                      notes: list[str]) -> tuple[str | None, int | None, str | None]:
+def draw_illustrations(ctx: RunContext, articles: list[EditionArticle],
+                       call: JsonCall | None, usage: list,
+                       notes: list[str]) -> list[tuple[str, int, str | None]]:
     if call is None:
         rules = try_prompt(ctx, "illustrate")
         if rules is None:
-            notes.append("illustration skipped: config/prompts/illustrate.md "
+            notes.append("illustrations skipped: config/prompts/illustrate.md "
                          "does not exist yet")
-            return None, None, None
+            return []
         brief = prompts.load_prompt(ctx.root, "brief")
         cfg = ctx.llm_cfg("illustrate")
         call = lambda prompt: llm.agent_json(
@@ -205,26 +216,63 @@ def draw_illustration(ctx: RunContext, articles: list[EditionArticle],
     try:
         payload = call(prompt)
     except llm.LlmError as e:
-        notes.append(f"illustration failed: {e}")
-        return None, None, None
-    if not isinstance(payload, dict) or not isinstance(payload.get("svg"), str):
-        notes.append("illustration failed: invalid response shape")
-        return None, None, None
-    svg = payload["svg"].strip()
-    pos = payload.get("pos")
-    if pos not in candidates:
-        notes.append(f"illustration pos {pos!r} not eligible; "
-                     f"moved to {candidates[0]}")
-        pos = candidates[0]
-    ctx.work_dir.mkdir(parents=True, exist_ok=True)
-    (ctx.work_dir / "f9-illustration.svg").write_text(svg + "\n",
-                                                       encoding="utf-8")
-    problems = svg_problems(svg)
-    if problems:
-        notes.append("illustration drawn but left out of the render: "
-                     + "; ".join(problems))
-        return None, None, payload.get("subject")
-    return "work/f9-illustration.svg", pos, payload.get("subject")
+        notes.append(f"illustrations failed: {e}")
+        return []
+    if not isinstance(payload, dict) or not isinstance(payload.get("illustrations"), list):
+        notes.append("illustrations failed: invalid response shape")
+        return []
+
+    results: list[tuple[str, int, str | None]] = []
+    used: set[int] = set()
+    for i, item in enumerate(payload["illustrations"], start=1):
+        if not isinstance(item, dict) or not isinstance(item.get("svg"), str):
+            notes.append(f"illustration {i} failed: invalid response shape")
+            continue
+        svg = item["svg"].strip()
+        pos = item.get("pos")
+        if pos not in candidates or pos in used:
+            fallback = next((c for c in candidates if c not in used), None)
+            if fallback is None:
+                notes.append(f"illustration {i} dropped: no eligible "
+                             "position left")
+                continue
+            notes.append(f"illustration {i} pos {pos!r} not eligible; "
+                         f"moved to {fallback}")
+            pos = fallback
+        used.add(pos)
+        fname = f"f9-illustration-{i}.svg"
+        (ctx.work_dir / fname).write_text(svg + "\n", encoding="utf-8")
+        problems = svg_problems(svg)
+        if problems:
+            notes.append(f"illustration {i} drawn but left out of the "
+                         "render: " + "; ".join(problems))
+            continue
+        results.append((f"work/{fname}", pos, item.get("subject")))
+    return results
+
+
+def advance_illustrations(illustrations: list[tuple[str, int, str | None]],
+                          candidates: list[int],
+                          notes: list[str],
+                          ) -> tuple[list[tuple[str, int, str | None]], bool]:
+    used = {pos for _, pos, _ in illustrations}
+    moved: list[tuple[str, int, str | None]] = []
+    changed = False
+    for file, pos, subject in illustrations:
+        if pos not in candidates:
+            moved.append((file, pos, subject))
+            continue
+        i = candidates.index(pos)
+        nxt = next((c for c in candidates[i + 1:] if c not in used), None)
+        if nxt is None:
+            moved.append((file, pos, subject))
+            continue
+        used.discard(pos)
+        used.add(nxt)
+        notes.append(f"illustration moved to pos {nxt} (reflow)")
+        moved.append((file, nxt, subject))
+        changed = True
+    return moved, changed
 
 
 def run(ctx: RunContext, illustrate_call: JsonCall | None = None) -> None:
@@ -237,8 +285,8 @@ def run(ctx: RunContext, illustrate_call: JsonCall | None = None) -> None:
 
     notes: list[str] = []
     usage: list[dict] = []
-    illustration, ill_pos, ill_subject = draw_illustration(
-        ctx, articles, illustrate_call, usage, notes)
+    illustrations = draw_illustrations(ctx, articles, illustrate_call, usage,
+                                       notes)
 
     data_path = ctx.edition_dir / "edition.json"
     attempts: list[list[dict]] = []
@@ -248,7 +296,8 @@ def run(ctx: RunContext, illustrate_call: JsonCall | None = None) -> None:
     def manifest() -> EditionManifest:
         return EditionManifest(
             edition=ctx.edition, nr=nr, articles=articles, weather=weather,
-            illustration=illustration, illustration_pos=ill_pos,
+            illustrations=[Illustration(file=f, pos=p)
+                          for f, p, _ in illustrations],
             pdf="krant-A3boekje.pdf",
             counts={"words_body": sum(a.words for a in articles),
                     "pages": typeset.TARGET_PAGES},
@@ -258,8 +307,8 @@ def run(ctx: RunContext, illustrate_call: JsonCall | None = None) -> None:
     def write_log() -> None:
         log = {
             "nr": nr,
-            "illustration": {"file": illustration, "pos": ill_pos,
-                             "subject": ill_subject},
+            "illustrations": [{"file": f, "pos": p, "subject": s}
+                              for f, p, s in illustrations],
             "notes": notes,
             "recompiles": recompiles,
             "attempts": attempts,
@@ -278,23 +327,22 @@ def run(ctx: RunContext, illustrate_call: JsonCall | None = None) -> None:
             marks = typeset.query_marks(ctx.root, data_path)
             violations = typeset.check(pdf, marks)
         except typeset.CompileError as e:
-            if illustration is not None:
-                notes.append(f"illustration dropped from the render, "
+            if illustrations:
+                notes.append("illustrations dropped from the render, "
                              f"compile failed: {e}")
-                illustration, ill_pos = None, None
+                illustrations = []
                 continue
             write_log()
             raise SystemExit(f"F9 compose: Typst compile failed: {e}")
         attempts.append([v.to_dict() for v in violations])
         if not violations:
             break
-        if illustration is not None and recompiles < max_recompiles and any(
+        if illustrations and recompiles < max_recompiles and any(
                 v.rule in ("LAY-4", "LAY-5") for v in violations):
             candidates = illustration_candidates(articles)
-            i = candidates.index(ill_pos) if ill_pos in candidates else -1
-            if i + 1 < len(candidates):
-                ill_pos = candidates[i + 1]
-                notes.append(f"illustration moved to pos {ill_pos} (reflow)")
+            illustrations, changed = advance_illustrations(
+                illustrations, candidates, notes)
+            if changed:
                 recompiles += 1
                 continue
         write_log()
@@ -309,5 +357,6 @@ def run(ctx: RunContext, illustrate_call: JsonCall | None = None) -> None:
     write_log()
     print(f"F9 compose: nr {nr}, {len(articles)} articles, "
           f"{sum(a.words for a in articles)} words, "
+          f"{len(illustrations)} illustration(s), "
           f"{typeset.TARGET_PAGES} pages, {recompiles} recompile(s) → "
           f"{ctx.edition_dir / 'krant-A3boekje.pdf'}")
