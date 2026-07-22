@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>De Zonzijde — de krant zien ontstaan</title>
+<link rel="stylesheet" href="viz/viz.css">
+</head>
+<body>
+<div id="app">
+  <header id="rail" aria-label="pijplijn"></header>
+
+  <main id="stage">
+    <section id="flow" aria-label="stroom">
+      <div id="lanes"></div>
+      <div id="bins" aria-label="afvallers"></div>
+      <div id="items"></div>
+    </section>
+    <aside id="paper" aria-label="de krant">
+      <div class="paper-head">De Zonzijde</div>
+      <div class="paper-sub"></div>
+      <div class="paper-page"></div>
+    </aside>
+  </main>
+
+  <footer id="hud">
+    <div id="llm" hidden>
+      <span class="llm-dot"></span>
+      <span class="llm-label">model</span>
+      <div class="llm-bars"></div>
+      <span class="llm-note"></span>
+    </div>
+    <p id="caption">De Zonzijde — een editie zien ontstaan uit ruwe nieuwsstroom.</p>
+    <div id="controls"></div>
+  </footer>
+</div>
+<script type="module" src="viz/app.js"></script>
+</body>
+</html>
