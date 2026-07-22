@@ -33,12 +33,6 @@ def response_schema(candidate_keys: list[str], woorden: dict) -> dict:
                             "type": "string", "enum": candidate_keys,
                             "description": "De shortlist-key van het onderwerp "
                                            "voor dit slot (bijv. L1, R2)."},
-                        "topic": {
-                            "type": "string",
-                            "description": "De werktitel — een korte werknaam "
-                                           "voor het stuk, voor de opdracht aan "
-                                           "de auteur. Niet de gedrukte kop; "
-                                           "die bepaalt de auteur."},
                         "length": {
                             "type": "string",
                             "enum": ["lang", "mid", "kort"],
@@ -56,7 +50,7 @@ def response_schema(candidate_keys: list[str], woorden: dict) -> dict:
                                            "(plaats, regio of land), "
                                            "afgeleid uit het bronmateriaal."},
                     },
-                    "required": ["candidate", "topic", "length",
+                    "required": ["candidate", "length",
                                  "angle", "location"],
                     "additionalProperties": False,
                 },
@@ -163,7 +157,7 @@ def ground(payload: object, edition: date,
         dates = [published.get(sid) for sid in sids if published.get(sid)]
         slots.append({
             "pos": pos_of_index[i], "scope": cand.scope,
-            "topic": slot.get("topic"), "length": slot.get("length"),
+            "topic": cand.topic, "length": slot.get("length"),
             "angle": slot.get("angle"),
             "source_ids": sids, "location": slot.get("location"),
             "source_date": max(dates) if dates else None,

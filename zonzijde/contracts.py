@@ -147,13 +147,17 @@ class EditionArticle(BaseModel):
     source_ids: list[str] = Field(min_length=1)
 
 
+class Illustration(BaseModel):
+    file: str
+    pos: int = Field(ge=1)
+
+
 class EditionManifest(BaseModel):
     edition: date
     nr: int = Field(ge=1)
     articles: list[EditionArticle] = Field(min_length=1)
     weather: Weather
-    illustration: str | None
-    illustration_pos: int | None
+    illustrations: list[Illustration] = Field(default_factory=list)
     pdf: str
     counts: dict[str, int]
     pipeline: dict

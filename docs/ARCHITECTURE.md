@@ -108,11 +108,11 @@ order, producing the fold-ready `krant-A3boekje.pdf` — the deliverable (OPS-2)
 Weather (EL-2) is fetched from Open-Meteo at compose time and baked into
 `edition.json`, so the rendered edition is a closed artifact (principle 4).
 
-**Illustration (EL-3): drawn anew every edition.** F9 has the model pick a subject and draw a fresh one-column SVG in the house style — black-and-white, minimalist fine lines,
+**Illustration (EL-3): drawn anew every edition.** F9 has the model pick two subjects and draw two fresh one-column SVGs in the house style — black-and-white, minimalist fine lines,
 patterns, strokes. The style
 lives in `prompts/illustrate.md` together with two or three reference drawings from
 past editions (references teach the *style*, they are never reused as the drawing).
-Saved as `work/f9-illustration.svg`, referenced from `edition.json`, and judged by the
+Saved as `work/f9-illustration-1.svg`/`f9-illustration-2.svg`, referenced from `edition.json`, and judged by the
 editor at the gate like any article: redraw or replace before merge. Only the masthead
 sunflower and the closing landscape (EL-1/EL-4) are fixed assets.
 
@@ -124,9 +124,9 @@ sunflower and the closing landscape (EL-1/EL-4) are fixed assets.
 | F5 classify | Claude Haiku | ~10–15 (per article) | small | best-effort |
 | F4 select | Claude Sonnet | 1 | ~30k in / 2k out | no retry; fatal on failure or invalid output |
 | F6 outline | Claude Opus | 1 | ~8k in / 3k out | idem |
-| F7 write | Claude Sonnet | ~10–12 (per article) | ~6k in / 1k out each | no retry; a failed article fails the run |
+| F7 write | Claude Sonnet (one random slot on Claude Opus, effort high) | ~10–12 (per article) | ~6k in / 1k out each | no retry; a failed article fails the run |
 | F8 review | Claude Sonnet | ~10–12 | ~5k in / 1k out each | idem |
-| F9 illustration | Claude Sonnet | 1 | ~5k in / 5k out | reads brief + views/reads the two house drawings (Read tool), then draws; invalid SVG surfaces at the gate |
+| F9 illustration | Claude Sonnet | 1 | ~5k in / 9k out | reads brief + views/reads the two house drawings (Read tool), then draws two; either invalid SVG surfaces at the gate |
 
 Order of magnitude: a few dollars per edition, dominated by F6–F8. Every response that
 feeds a later fase is JSON-schema-validated at the call layer; an invalid response is
