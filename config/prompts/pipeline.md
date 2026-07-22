@@ -1,5 +1,6 @@
 ---
 versie: 2
+Fase: Meerdere
 rol: pijplijn achtergrond.
 ---
 De Zonzijde wordt geproduceerd via een vaste pijplijn. Sommige stappen zijn geautomatiseerd; andere worden uitgevoerd door een LLM-collega in een andere sessie, gebrieft voor die ene rol, net zoals jij voor de jouwe wordt gebrieft. In volgorde:
