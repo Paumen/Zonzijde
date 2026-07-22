@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import random
 from concurrent.futures import ThreadPoolExecutor
 from string import Template
 from typing import Callable
@@ -30,6 +31,9 @@ RESPONSE_SCHEMA = {
 }
 
 JsonCall = Callable[[str, str], object]
+
+OPUS_MODEL = "claude-opus-4-8"
+OPUS_EFFORT = "high"
 
 
 def word_count(text: str) -> int:
@@ -101,18 +105,27 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
     rules = prompts.load_prompt(ctx.root, "write")
     system = prompts.system_base(brief.body, pipeline.body, stijlgids.body)
     usage: list[dict] = []
-    if call is None:
-        call = lambda prompt, system: llm.agent_json(
-            prompt, system=system, schema=RESPONSE_SCHEMA,
-            model=cfg["model"], effort=cfg.get("effort"), max_turns=2,
-            usage_sink=usage)
 
     outline = load_model(ctx.work_dir / "f6-outline.json", EditionOutline)
     articles = {a.id: a for a in
                 load_artifact(ctx.work_dir / "f5-articles.json", ArticleText)}
+    opus_pos = random.choice(outline.slots).pos if outline.slots else None
+
+    def default_call(model: str, effort: str | None) -> JsonCall:
+        return lambda prompt, system: llm.agent_json(
+            prompt, system=system, schema=RESPONSE_SCHEMA,
+            model=model, effort=effort, max_turns=2, usage_sink=usage)
+
+    def call_for(pos: int) -> JsonCall:
+        if call is not None:
+            return call
+        if pos == opus_pos:
+            return default_call(OPUS_MODEL, OPUS_EFFORT)
+        return default_call(cfg["model"], cfg.get("effort"))
 
     def work(slot: OutlineSlot) -> tuple[str, Draft | None, list[str]]:
-        return write_slot(slot, articles, ed_cfg, rules.body, system, call)
+        return write_slot(slot, articles, ed_cfg, rules.body, system,
+                          call_for(slot.pos))
 
     with ThreadPoolExecutor(max_workers=concurrency) as pool:
         results = list(pool.map(work, outline.slots))
@@ -121,6 +134,7 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
     failed = [s.pos for s, (_, d, _) in zip(outline.slots, results) if d is None]
     log = {
         "model": cfg["model"], "effort": cfg.get("effort"),
+        "opus_slot": opus_pos,
         "prompt_versions": {"brief": brief.version,
                             "pipeline": pipeline.version,
                             "stijlgids": stijlgids.version,
@@ -128,6 +142,8 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
         "system": system,
         "schema": RESPONSE_SCHEMA,
         "slots": [{"pos": s.pos, "length": s.length,
+                   "model": OPUS_MODEL if s.pos == opus_pos else cfg["model"],
+                   "effort": OPUS_EFFORT if s.pos == opus_pos else cfg.get("effort"),
                    "words": d.words if d else None, "problems": p,
                    "prompt": prompt}
                   for s, (prompt, d, p) in zip(outline.slots, results)],
