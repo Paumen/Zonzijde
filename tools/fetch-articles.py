@@ -264,7 +264,7 @@ def main():
 
     blocked = [r for r in recs if not r["ok"]]
     if blocked and not a.no_browser:
-        print(f"stage 1: {len(recs) - len(blocked)}/{len(recs)} ok — "
+        print(f"direct fetch: {len(recs) - len(blocked)}/{len(recs)} ok — "
               f"rendering {len(blocked)} blocked link(s) in a browser…", file=sys.stderr)
         render_blocked(blocked, a.timeout, a.min_words)
 

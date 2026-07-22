@@ -50,7 +50,7 @@ compose:
     timeout_s: 15
 
 llm:
-  stages:
+  fases:
     score:   {model: claude-haiku-4-5-20251001, batch_size: 80, concurrency: 6}
     select:  {model: claude-sonnet-5, effort: low}
     enrich:  {model: claude-haiku-4-5-20251001}

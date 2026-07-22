@@ -6,21 +6,21 @@ from pathlib import Path
 
 from . import report
 from .context import RunContext
-from .stages import (compose, enrich, fetch, filter as filter_stage, outline,
-                     review, score, select, write)
+from .fases import f1_fetch, f2_filter, f3_score, f4_select, f5_enrich
+from .fases import f6_outline, f7_write, f8_review, f9_compose
 
-STAGES: dict[str, object] = {
-    "fetch": fetch.run,
-    "filter": filter_stage.run,
-    "score": score.run,
-    "select": select.run,
-    "enrich": enrich.run,
-    "outline": outline.run,
-    "write": write.run,
-    "review": review.run,
-    "compose": compose.run,
+FASES: dict[str, object] = {
+    "fetch": f1_fetch.run,
+    "filter": f2_filter.run,
+    "score": f3_score.run,
+    "select": f4_select.run,
+    "enrich": f5_enrich.run,
+    "outline": f6_outline.run,
+    "write": f7_write.run,
+    "review": f8_review.run,
+    "compose": f9_compose.run,
 }
-STAGE_NAMES = list(STAGES)
+FASE_NAMES = list(FASES)
 
 
 def parse_edition(value: str) -> date:
@@ -44,21 +44,21 @@ def build_parser() -> argparse.ArgumentParser:
         p.add_argument("--root", type=Path, default=Path.cwd(),
                        help="repo root (default: current directory)")
 
-    run_p = sub.add_parser("run", help="chain the stages")
+    run_p = sub.add_parser("run", help="chain the fases")
     common(run_p)
-    run_p.add_argument("--from", dest="from_stage", choices=STAGE_NAMES,
-                       default=STAGE_NAMES[0], help="resume from this stage")
-    run_p.add_argument("--until", dest="until_stage", choices=STAGE_NAMES,
-                       default=STAGE_NAMES[-1], help="stop after this stage")
+    run_p.add_argument("--from", dest="from_fase", choices=FASE_NAMES,
+                       default=FASE_NAMES[0], help="resume from this fase")
+    run_p.add_argument("--until", dest="until_fase", choices=FASE_NAMES,
+                       default=FASE_NAMES[-1], help="stop after this fase")
 
-    for name in STAGE_NAMES:
-        common(sub.add_parser(name, help=f"run stage {name} only"))
+    for name in FASE_NAMES:
+        common(sub.add_parser(name, help=f"run fase {name} only"))
     common(sub.add_parser("report", help="regenerate the run report"))
     return parser
 
 
-def run_stage(name: str, ctx: RunContext) -> None:
-    STAGES[name](ctx)
+def run_fase(name: str, ctx: RunContext) -> None:
+    FASES[name](ctx)
 
 
 def main(argv: list[str] | None = None) -> None:
@@ -70,14 +70,14 @@ def main(argv: list[str] | None = None) -> None:
         report.run(ctx)
         return
     if args.command != "run":
-        run_stage(args.command, ctx)
+        run_fase(args.command, ctx)
         report.run(ctx)
         return
 
-    start = STAGE_NAMES.index(args.from_stage)
-    stop = STAGE_NAMES.index(args.until_stage)
+    start = FASE_NAMES.index(args.from_fase)
+    stop = FASE_NAMES.index(args.until_fase)
     if stop < start:
-        raise SystemExit(f"--until '{args.until_stage}' comes before --from '{args.from_stage}'")
-    for name in STAGE_NAMES[start:stop + 1]:
-        run_stage(name, ctx)
+        raise SystemExit(f"--until '{args.until_fase}' comes before --from '{args.from_fase}'")
+    for name in FASE_NAMES[start:stop + 1]:
+        run_fase(name, ctx)
     report.run(ctx)

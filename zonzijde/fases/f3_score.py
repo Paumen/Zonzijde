@@ -105,7 +105,7 @@ def run(ctx: RunContext, call: ScoreCall | None = None) -> None:
     if call is None:
         call = make_call(cfg, usage)
 
-    items = load_artifact(ctx.work_dir / "20-filtered.json", FeedItem)
+    items = load_artifact(ctx.work_dir / "f2-filtered.json", FeedItem)
     batches = [items[off:off + batch_size] for off in range(0, len(items), batch_size)]
 
     with ThreadPoolExecutor(max_workers=concurrency) as pool:
@@ -123,7 +123,7 @@ def run(ctx: RunContext, call: ScoreCall | None = None) -> None:
         log_batches.append({"items": len(batch), "scored": len(scores),
                             "problems": problems, "prompt": prompt_text})
 
-    save_artifact(ctx.work_dir / "30-scored.json", scored)
+    save_artifact(ctx.work_dir / "f3-scored.json", scored)
     distribution = Counter(s.score for s in scored)
     log = {
         "model": cfg["model"], "effort": cfg.get("effort"),
@@ -134,9 +134,9 @@ def run(ctx: RunContext, call: ScoreCall | None = None) -> None:
         "unscored_ids": unscored_ids, "batches": log_batches,
         "llm": llm.summarize_usage(usage),
     }
-    (ctx.work_dir / "30-score-log.json").write_text(
+    (ctx.work_dir / "f3-score-log.json").write_text(
         json.dumps(log, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
     positive = sum(1 for s in scored if s.score >= 1)
-    print(f"S3 score: {len(items)} in → {len(scored)} scored"
+    print(f"F3 score: {len(items)} in → {len(scored)} scored"
           f" ({positive} at +1/+2), {len(unscored_ids)} unscored (excluded)")

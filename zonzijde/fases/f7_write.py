@@ -102,8 +102,8 @@ def write_slot(slot: OutlineSlot, articles: dict[str, ArticleText],
 def run(ctx: RunContext, call: JsonCall | None = None) -> None:
     cfg = ctx.llm_cfg("write")
     ed_cfg = ctx.edition_cfg
-    stage_cfg = ctx.stage_cfg("write")
-    concurrency = int(stage_cfg.get("concurrency", 3))
+    fase_cfg = ctx.fase_cfg("write")
+    concurrency = int(fase_cfg.get("concurrency", 3))
     brief = prompts.load_prompt(ctx.root, "brief")
     pipeline = prompts.load_prompt(ctx.root, "pipeline")
     rules = prompts.load_prompt(ctx.root, "write")
@@ -115,9 +115,9 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
             model=cfg["model"], effort=cfg.get("effort"), max_turns=2,
             usage_sink=usage)
 
-    outline = load_model(ctx.work_dir / "60-outline.json", EditionOutline)
+    outline = load_model(ctx.work_dir / "f6-outline.json", EditionOutline)
     articles = {a.id: a for a in
-                load_artifact(ctx.work_dir / "50-articles.json", ArticleText)}
+                load_artifact(ctx.work_dir / "f5-articles.json", ArticleText)}
 
     def work(slot: OutlineSlot) -> tuple[str, Draft | None, list[str]]:
         return write_slot(slot, articles, ed_cfg, rules.body, system, call)
@@ -142,16 +142,16 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
         "failed_slots": failed,
         "llm": llm.summarize_usage(usage),
     }
-    (ctx.work_dir / "70-write-log.json").write_text(
+    (ctx.work_dir / "f7-write-log.json").write_text(
         json.dumps(log, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
     if failed:
         raise SystemExit(
-            f"S7 write: no valid draft for slot(s) {failed} "
-            "— see 70-write-log.json")
+            f"F7 write: no valid draft for slot(s) {failed} "
+            "— see f7-write-log.json")
 
     drafts.sort(key=lambda d: d.pos)
-    save_artifact(ctx.work_dir / "70-drafts.json", drafts)
-    print(f"S7 write: {len(drafts)} articles, {log['words_total']} words "
+    save_artifact(ctx.work_dir / "f7-drafts.json", drafts)
+    print(f"F7 write: {len(drafts)} articles, {log['words_total']} words "
           f"(ED-5 target {ed_cfg['body_words']['min']}–"
           f"{ed_cfg['body_words']['max']})")

@@ -12,7 +12,7 @@ from ..context import RunContext
 from ..contracts import (Draft, EditionOutline, OutlineSlot, Review,
                          ReviewedArticle, load_artifact, load_model,
                          save_artifact)
-from .write import word_count
+from .f7_write import word_count
 
 RESPONSE_SCHEMA = {
     "type": "object",
@@ -95,8 +95,8 @@ def review_draft(draft: Draft, slot: OutlineSlot, ed_cfg: dict,
 def run(ctx: RunContext, call: JsonCall | None = None) -> None:
     cfg = ctx.llm_cfg("review")
     ed_cfg = ctx.edition_cfg
-    stage_cfg = ctx.stage_cfg("review")
-    concurrency = int(stage_cfg.get("concurrency", 3))
+    fase_cfg = ctx.fase_cfg("review")
+    concurrency = int(fase_cfg.get("concurrency", 3))
     brief = prompts.load_prompt(ctx.root, "brief")
     pipeline = prompts.load_prompt(ctx.root, "pipeline")
     rules = prompts.load_prompt(ctx.root, "review")
@@ -108,13 +108,13 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
             model=cfg["model"], effort=cfg.get("effort"), max_turns=2,
             usage_sink=usage)
 
-    drafts = load_artifact(ctx.work_dir / "70-drafts.json", Draft)
-    outline = load_model(ctx.work_dir / "60-outline.json", EditionOutline)
+    drafts = load_artifact(ctx.work_dir / "f7-drafts.json", Draft)
+    outline = load_model(ctx.work_dir / "f6-outline.json", EditionOutline)
     slots = {s.pos: s for s in outline.slots}
     missing = [d.pos for d in drafts if d.pos not in slots]
     if missing:
-        raise SystemExit(f"S8 review: draft slot(s) {missing} not in the "
-                         "outline — artifacts out of step, re-run S6/S7")
+        raise SystemExit(f"F8 review: draft slot(s) {missing} not in the "
+                         "outline — artifacts out of step, re-run F6/F7")
 
     def work(draft: Draft) -> tuple[str, ReviewedArticle | None, list[str]]:
         return review_draft(draft, slots[draft.pos], ed_cfg, rules.body,
@@ -142,16 +142,16 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
         "failed_slots": failed,
         "llm": llm.summarize_usage(usage),
     }
-    (ctx.work_dir / "80-review-log.json").write_text(
+    (ctx.work_dir / "f8-review-log.json").write_text(
         json.dumps(log, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
     if failed:
         raise SystemExit(
-            f"S8 review: no valid review for slot(s) {failed} "
-            "— see 80-review-log.json")
+            f"F8 review: no valid review for slot(s) {failed} "
+            "— see f8-review-log.json")
 
     reviewed.sort(key=lambda r: r.pos)
-    save_artifact(ctx.work_dir / "80-reviewed.json", reviewed)
+    save_artifact(ctx.work_dir / "f8-reviewed.json", reviewed)
     corrections = sum(len(r.review.corrections) for r in reviewed)
-    print(f"S8 review: {len(reviewed)} articles, "
+    print(f"F8 review: {len(reviewed)} articles, "
           f"{corrections} correction(s), {log['words_total']} words")
