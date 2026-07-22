@@ -1,6 +1,7 @@
 ---
 versie: 1
 rol: stijlgids.
+Fase: Meerdere
 ---
 
 Deze gids legt de notatie- en vormconventies van De Zonzijde vast. Toon, stem en
