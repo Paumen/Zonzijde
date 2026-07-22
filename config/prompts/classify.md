@@ -1,6 +1,7 @@
 ---
 version: 3
 rol: linkclassificatie.
+Fase: S5
 ---
 <rol>
 Je bent analist.
