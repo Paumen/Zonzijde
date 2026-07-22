@@ -1,6 +1,7 @@
 ---
 version: 12
 rol: volgende editie plannen.
+Fase: S6
 ---
 <rol>
 Je bent de hoofdredacteur.
