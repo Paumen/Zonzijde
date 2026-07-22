@@ -1,0 +1,407 @@
+{
+  "fetched_at": "2026-07-20T16:59:46.713583+02:00",
+  "window_start": "2026-07-19T00:00:00+02:00",
+  "window_days": 7,
+  "feeds": [
+    {
+      "source": "gem_wijchen",
+      "bron": "Gem Wijchen",
+      "error": "",
+      "entries": 20,
+      "kept": 0,
+      "out_of_window": 20,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "nieuws_nl",
+      "bron": "nieuws.nl",
+      "error": "",
+      "entries": 54,
+      "kept": 4,
+      "out_of_window": 50,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "dg_wijchen",
+      "bron": "DG Wijchen",
+      "error": "",
+      "entries": 30,
+      "kept": 30,
+      "out_of_window": 0,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "gld",
+      "bron": "Gld",
+      "error": "",
+      "entries": 50,
+      "kept": 40,
+      "out_of_window": 10,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "gld_rvn",
+      "bron": "Gld RvN",
+      "error": "",
+      "entries": 50,
+      "kept": 16,
+      "out_of_window": 34,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "dg",
+      "bron": "DG",
+      "error": "",
+      "entries": 30,
+      "kept": 30,
+      "out_of_window": 0,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "dg_binnen",
+      "bron": "DG Binnen",
+      "error": "",
+      "entries": 30,
+      "kept": 30,
+      "out_of_window": 0,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "rijksoverheid",
+      "bron": "Overheid",
+      "error": "",
+      "entries": 1,
+      "kept": 1,
+      "out_of_window": 0,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "nos_jeugd",
+      "bron": "NOS J",
+      "error": "",
+      "entries": 20,
+      "kept": 20,
+      "out_of_window": 0,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "nos_algemeen",
+      "bron": "NOS Alg",
+      "error": "",
+      "entries": 20,
+      "kept": 20,
+      "out_of_window": 0,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "nos_binnenland",
+      "bron": "NOS Binnen",
+      "error": "",
+      "entries": 20,
+      "kept": 19,
+      "out_of_window": 1,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "nos_buitenland",
+      "bron": "NOS Buiten",
+      "error": "",
+      "entries": 20,
+      "kept": 20,
+      "out_of_window": 0,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "nos_economie",
+      "bron": "NOS Econ",
+      "error": "",
+      "entries": 20,
+      "kept": 6,
+      "out_of_window": 14,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "nos_sport",
+      "bron": "NOS Sport",
+      "error": "",
+      "entries": 20,
+      "kept": 20,
+      "out_of_window": 0,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "nos_opmerkelijk",
+      "bron": "NOS Opm",
+      "error": "",
+      "entries": 20,
+      "kept": 1,
+      "out_of_window": 19,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "nos_cultuur",
+      "bron": "NOS Cultuur",
+      "error": "",
+      "entries": 20,
+      "kept": 1,
+      "out_of_window": 19,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "ftm",
+      "bron": "FTM",
+      "error": "",
+      "entries": 10,
+      "kept": 2,
+      "out_of_window": 8,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "ew",
+      "bron": "EW",
+      "error": "",
+      "entries": 10,
+      "kept": 10,
+      "out_of_window": 0,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "hp",
+      "bron": "HP",
+      "error": "HTTPError: 403 Client Error: Forbidden for url: https://www.hpdetijd.nl/rss",
+      "entries": 0,
+      "kept": 0,
+      "out_of_window": 0,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "dw",
+      "bron": "DW",
+      "error": "",
+      "entries": 21,
+      "kept": 21,
+      "out_of_window": 0,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "dw_env",
+      "bron": "DW Env",
+      "error": "",
+      "entries": 20,
+      "kept": 0,
+      "out_of_window": 20,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "dw_science",
+      "bron": "DW Science",
+      "error": "",
+      "entries": 2,
+      "kept": 0,
+      "out_of_window": 2,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "positive_news",
+      "bron": "Positive",
+      "error": "",
+      "entries": 10,
+      "kept": 1,
+      "out_of_window": 9,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "wijwijchen",
+      "bron": "WijWijchen",
+      "error": "",
+      "entries": 20,
+      "kept": 0,
+      "out_of_window": 20,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "druten",
+      "bron": "Druten",
+      "error": "",
+      "entries": 20,
+      "kept": 0,
+      "out_of_window": 20,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "knmi",
+      "bron": "KNMI",
+      "error": "",
+      "entries": 5,
+      "kept": 0,
+      "out_of_window": 5,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "cbs_natuur_milieu",
+      "bron": "CBS n&m",
+      "error": "",
+      "entries": 50,
+      "kept": 0,
+      "out_of_window": 50,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "cbs_vrije_tijd_cultuur",
+      "bron": "CBS v&c",
+      "error": "",
+      "entries": 50,
+      "kept": 0,
+      "out_of_window": 50,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "natuurmonumenten",
+      "bron": "Natuurmon",
+      "error": "",
+      "entries": 30,
+      "kept": 4,
+      "out_of_window": 26,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "ivn",
+      "bron": "IVN",
+      "error": "",
+      "entries": 10,
+      "kept": 0,
+      "out_of_window": 10,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "maatschapwij",
+      "bron": "MaatschapWij",
+      "error": "",
+      "entries": 8,
+      "kept": 1,
+      "out_of_window": 7,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "bbc_future",
+      "bron": "BBC Future",
+      "error": "",
+      "entries": 10,
+      "kept": 2,
+      "out_of_window": 8,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "reasons_to_be_cheerful",
+      "bron": "RtbC",
+      "error": "",
+      "entries": 10,
+      "kept": 1,
+      "out_of_window": 9,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "fix_the_news",
+      "bron": "FixNews",
+      "error": "",
+      "entries": 20,
+      "kept": 0,
+      "out_of_window": 20,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "mongabay",
+      "bron": "Mongabay",
+      "error": "",
+      "entries": 32,
+      "kept": 8,
+      "out_of_window": 24,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "human_progress",
+      "bron": "HumanProg",
+      "error": "",
+      "entries": 10,
+      "kept": 0,
+      "out_of_window": 10,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "naturetoday",
+      "bron": "NatureToday",
+      "error": "",
+      "entries": 200,
+      "kept": 8,
+      "out_of_window": 192,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "ark",
+      "bron": "ARK",
+      "error": "",
+      "entries": 10,
+      "kept": 1,
+      "out_of_window": 9,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "wijchens_nieuws",
+      "bron": "WijchensNws",
+      "error": "HTTPError: 404 Client Error: Not Found for url: https://www.wijchensnieuws.nl/feed/",
+      "entries": 0,
+      "kept": 0,
+      "out_of_window": 0,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "wegwijs",
+      "bron": "Wegwijs",
+      "error": "HTTPError: 403 Client Error: Forbidden for url: https://www.weekblad-wegwijs.nl/feed",
+      "entries": 0,
+      "kept": 0,
+      "out_of_window": 0,
+      "no_link": 0,
+      "undated": 0
+    }
+  ]
+}

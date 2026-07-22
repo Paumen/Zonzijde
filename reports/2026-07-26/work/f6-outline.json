@@ -1,0 +1,140 @@
+{
+  "edition": "2026-07-26",
+  "slots": [
+    {
+      "pos": 1,
+      "scope": "L",
+      "topic": "Gratis zomerspeurtocht 'De verdwenen ijscoupes' in het centrum van Wijchen",
+      "length": "standard",
+      "devices": [
+        "playful humor",
+        "direct address to reader (walk over and do it)"
+      ],
+      "source_ids": [
+        "2b5c0cd56f7f"
+      ],
+      "location": "Centrum Wijchen",
+      "source_date": "2026-07-20"
+    },
+    {
+      "pos": 2,
+      "scope": "L",
+      "topic": "Toezichthouders werken voortaan over de gemeentegrens samen in het buitengebied",
+      "length": "short",
+      "devices": [
+        "aphoristic kicker",
+        "positive reframe (cooperation leads, not the crime)"
+      ],
+      "source_ids": [
+        "7b728efb63c2"
+      ],
+      "location": "Gemeente Wijchen / buitengebied",
+      "source_date": "2026-07-20"
+    },
+    {
+      "pos": 3,
+      "scope": "R",
+      "topic": "Gelderse wijngaarden floreren juist dankzij de droogte",
+      "length": "long",
+      "devices": [
+        "metaphor/analogy",
+        "gentle irony (the drought others dread is their blessing)"
+      ],
+      "source_ids": [
+        "0434f78efa4e"
+      ],
+      "location": "Gelderland (wijngaarden)",
+      "source_date": "2026-07-19"
+    },
+    {
+      "pos": 4,
+      "scope": "R",
+      "topic": "Burgemeester van Rheden debuteert in de Vierdaagse na jaren zwaaien",
+      "length": "standard",
+      "devices": [
+        "irony/humor (from waving to walking)",
+        "human portrait"
+      ],
+      "source_ids": [
+        "90c563ac4895"
+      ],
+      "location": "Rheden / Nijmegen (Vierdaagse)",
+      "source_date": "2026-07-20"
+    },
+    {
+      "pos": 5,
+      "scope": "R",
+      "topic": "Nijmegen krijgt wegwijsborden voor vleermuizen",
+      "length": "short",
+      "devices": [
+        "whimsy",
+        "curiosity hook"
+      ],
+      "source_ids": [
+        "5266f35f3bed"
+      ],
+      "location": "Nijmegen, Nelson Mandelaplein",
+      "source_date": "2026-07-19"
+    },
+    {
+      "pos": 6,
+      "scope": "N",
+      "topic": "Stikstofdoelen 2035 binnen bereik met nieuwe kabinetsplannen",
+      "length": "standard",
+      "devices": [
+        "measured data-led lead (no cute kicker)",
+        "perspective/context"
+      ],
+      "source_ids": [
+        "47b433c95632"
+      ],
+      "location": "Nederland",
+      "source_date": "2026-07-19"
+    },
+    {
+      "pos": 7,
+      "scope": "N",
+      "topic": "Oranje wint de Fair Play-prijs op het WK ondanks vroege uitschakeling",
+      "length": "short",
+      "devices": [
+        "light irony (out early, home with a prize)"
+      ],
+      "source_ids": [
+        "4c0a262700b2",
+        "980406cf2d3e"
+      ],
+      "location": "Nederland / WK (Verenigde Staten)",
+      "source_date": "2026-07-20"
+    },
+    {
+      "pos": 8,
+      "scope": "I",
+      "topic": "Wetenschappers laten menselijke tanden opnieuw groeien",
+      "length": "long",
+      "devices": [
+        "hopeful explainer",
+        "relatable framing (everyone has teeth)"
+      ],
+      "source_ids": [
+        "abc7974f0991"
+      ],
+      "location": "Internationaal (onderzoek/lab)",
+      "source_date": "2026-07-19"
+    },
+    {
+      "pos": 9,
+      "scope": "I",
+      "topic": "Cuba schakelde om van zeeschildpaddenvangst naar bescherming",
+      "length": "standard",
+      "devices": [
+        "arc-of-change narrative",
+        "human portrait (Moncada Gavilan)"
+      ],
+      "source_ids": [
+        "576fafa4872e"
+      ],
+      "location": "Cuba",
+      "source_date": "2026-07-20"
+    }
+  ]
+}
