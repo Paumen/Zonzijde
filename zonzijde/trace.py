@@ -240,7 +240,9 @@ def build(work: Path, edition_json: Path) -> dict:
         {"id": "F5", **_fase("F5"), "real_ms": _wall(enrich_log),
          "in": selrows, "out": len(ok_ids),
          "calls": len(enrich_log.get("topics", [])),
-         "methods": enrich_log.get("methods")},
+         "methods": enrich_log.get("methods"),
+         "dropped_topics": enrich_log.get("dropped_topics") or [],
+         "references": enrich_log.get("references")},
         {"id": "F6", **_fase("F6"), "real_ms": _wall(outline_log),
          "in": len(ok_ids), "out": picked,
          "model": outline_log.get("model"), "slots": len(outline.slots)},
@@ -255,7 +257,9 @@ def build(work: Path, edition_json: Path) -> dict:
         {"id": "F9", **_fase("F9"), "real_ms": _wall(compose_log),
          "in": len(reviewed), "out": len(manifest.articles),
          "recompiles": compose_log.get("recompiles"),
-         "illustrations": len(ill_by_pos)},
+         "illustrations": len(ill_by_pos),
+         "violations": compose_log.get("violations") or [],
+         "accepted": compose_log.get("accepted_violations") or {}},
     ]
 
     scopes_by_source: dict[str, list[str]] = {}

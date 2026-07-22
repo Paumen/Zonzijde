@@ -2,7 +2,7 @@
   "meta": {
     "edition": "2026-07-26",
     "nr": 4,
-    "generated_at": "2026-07-22T23:11:37.530766+00:00",
+    "generated_at": "2026-07-22T23:32:48.432639+00:00",
     "scopes": [
       "L",
       "R",
@@ -101,6 +101,16 @@
       "methods": {
         "requests": 30,
         "playwright": 0
+      },
+      "dropped_topics": [
+        "Minder mensen in Wijchen met WW-uitkering",
+        "Sharda haalt de finish net op tijd",
+        "Via Flamingo maakt Weurt uitbundiger",
+        "Liefde gevonden bij de Vierdaagse, dochter loopt nu mee"
+      ],
+      "references": {
+        "selected": 35,
+        "ok": 27
       }
     },
     {
@@ -145,7 +155,20 @@
       "in": 8,
       "out": 8,
       "recompiles": 0,
-      "illustrations": 2
+      "illustrations": 2,
+      "violations": [
+        {
+          "rule": "LAY-1",
+          "detail": "content fills 3.01 pages, below 3.3",
+          "page": 4
+        }
+      ],
+      "accepted": {
+        "note": "PO explicitly accepted the LAY-1 page-fill shortfall for this edition only (2026-07-26) — one-off waiver, no change to MIN_FILL/body_words targets for future editions.",
+        "rules": [
+          "LAY-1"
+        ]
+      }
     }
   ],
   "sources": [
