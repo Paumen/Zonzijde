@@ -50,20 +50,20 @@ def _overview(work) -> list[str]:
     kept = sum(f["kept"] for f in feeds)
 
     item: list[tuple[str, str, int]] = [
-        ("Fetched", "In window", kept),
+        ("Fetched", "in", kept),
         ("Fetched", "Out of window", entries - kept),
     ]
     filtered = positive = rows = None
     if (work / "20-filtered.json").is_file():
         filtered = len(load_artifact(work / "20-filtered.json", FeedItem))
-        item.append(("In window", "Candidates", filtered))
+        item.append(("in", "Candidates", filtered))
         if (work / "20-rejected.json").is_file():
             reasons = Counter()
             for r in load_artifact(work / "20-rejected.json", RejectedItem):
                 reasons["duplicate" if r.reason == "duplicate" else "buckets"] += 1
             for k in ("buckets", "duplicate"):
                 if reasons[k]:
-                    item.append(("In window", f"Reject: {k}", reasons[k]))
+                    item.append(("in", f"Reject: {k}", reasons[k]))
     if filtered and (work / "30-score-log.json").is_file():
         slog = json.loads((work / "30-score-log.json").read_text(encoding="utf-8"))
         dist = slog["distribution"]
@@ -107,7 +107,7 @@ def _overview(work) -> list[str]:
         return []
     out = ["## Funnel overview", ""]
     if item_sankey:
-        out += ["Items — fetched → in window → filtered → scored → selected → "
+        out += ["Items — fetched → in → filtered → scored → selected → "
                 "enriched (drop branches show why and what type):", ""]
         out += item_sankey + [""]
     if edition_sankey:
@@ -152,7 +152,7 @@ def _llm_usage(work) -> list[str]:
                  tot["tool_uses"], f"{tot['thinking_chars']:,}",
                  f"{tot['wall_ms'] / 1000:.1f}s",
                  f"${tot['cost_usd']:.4f}" if tot["cost_usd"] else "—"])
-    return ["## LLM usage (OPS-4)", "",
+    return ["## LLM usage", "",
             _table(["stage", "model", "effort", "calls", "turns", "in tok",
                     "out tok", "tools", "think chars", "wall", "cost"], rows)]
 
@@ -184,7 +184,7 @@ def build(ctx: RunContext) -> str:
         parts += [
             "## Funnel", "",
             f"- window: {log['window_days']} days (from {log['window_start']}, SRC-4)",
-            f"- S1 fetch: {entries} feed items → {kept} in window"
+            f"- S1 fetch: {entries} feed items → {kept} in"
             f" ({len(feeds) - len(failed)}/{len(feeds)} feeds ok)",
         ]
         if items_path.is_file():
@@ -198,7 +198,7 @@ def build(ctx: RunContext) -> str:
             unscored = len(json.loads(score_log_path.read_text(encoding="utf-8"))
                            ["unscored_ids"])
             parts += [f"- S3 score: {len(scored)} scored → {positive} at +1/+2"
-                      + (f" ({unscored} unscored, excluded — PIPE-3)"
+                      + (f" ({unscored} unscored, excluded — S3)"
                          if unscored else "")]
         if candidates_path.is_file():
             candidates = load_artifact(candidates_path, Candidate)
@@ -210,7 +210,7 @@ def build(ctx: RunContext) -> str:
             parts += [f"- S5 enrich: {elog['rows']} source rows → "
                       f"{elog['full_text']} full texts"
                       f" (requests {m['requests']}, playwright {m['playwright']})"
-                      + (f"; {len(elog['dropped_topics'])} topics dropped (PIPE-5)"
+                      + (f"; {len(elog['dropped_topics'])} topics dropped (S5)"
                          if elog["dropped_topics"] else "")]
         if outline_path.is_file():
             outline = load_model(outline_path, EditionOutline)
@@ -243,10 +243,10 @@ def build(ctx: RunContext) -> str:
                       f"{clog['recompiles']} recompile(s)"
                       + (f"; **{len(open_v)} unresolved typeset "
                          f"violation(s)**" if open_v
-                         else " — typeset checks clean (LAY-1..5, LAY-7)")]
+                         else " — typeset checks clean")]
         parts += ["", "## Feeds", "",
-                  _table(["bron", "items", "in window", "undated", "error"],
-                         [[f["bron"], f["entries"], f["kept"], f["undated"],
+                  _table(["bron", "items", "in", "error"],
+                         [[f["bron"], f["entries"], f["kept"],
                            f["error"] or "—"] for f in feeds])]
         usage = _llm_usage(work)
         if usage:
@@ -261,13 +261,13 @@ def build(ctx: RunContext) -> str:
             else:
                 for b in r.reason.removeprefix("bucket:").split(","):
                     reasons[b] += 1
-        parts += ["", "## Rejected (PIPE-2)", "",
+        parts += ["", "## Rejected (S2)", "",
                   _table(["reason", "count"],
                          [[k, v] for k, v in sorted(reasons.items())])]
 
     if score_log_path.is_file():
         log = json.loads(score_log_path.read_text(encoding="utf-8"))
-        parts += ["", "## Scores (PIPE-3)", "",
+        parts += ["", "## Scores (S3)", "",
                   f"model {log['model']}, prompt score.md v{log['prompt_version']}",
                   "",
                   _table(["score", "count"],
@@ -279,8 +279,8 @@ def build(ctx: RunContext) -> str:
 
     if candidates_path.is_file():
         candidates = load_artifact(candidates_path, Candidate)
-        parts += ["", "## Selected topics (PIPE-4)", "",
-                  _table(["scope", "topic", "bronnen"],
+        parts += ["", "## Selected topics (S4)", "",
+                  _table(["s", "topic", "bronnen"],
                          [[c.scope, c.topic,
                            ", ".join(r.bron for r in c.items)]
                           for c in candidates])]
@@ -307,15 +307,15 @@ def build(ctx: RunContext) -> str:
                 rows.append([c.scope, c.topic, a.bron,
                              len(a.samenvatting.split()), len(a.text.split()),
                              len(refs), ref_words, ref_links, status])
-        parts += ["", "## Enrichment (PIPE-5)", "",
-                  _table(["scope", "topic", "bron", "summary", "text",
+        parts += ["", "## Enrichment (S5)", "",
+                  _table(["s", "topic", "bron", "sum", "text",
                           "refs", "ref words", "ref links", "status"], rows)]
 
     if outline_path.is_file():
         outline = load_model(outline_path, EditionOutline)
-        parts += ["", "## Edition plan (PIPE-6)", "",
-                  _table(["pos", "scope", "length", "topic",
-                          "location", "source date"],
+        parts += ["", "## Edition plan (S6)", "",
+                  _table(["pos", "s", "length", "topic",
+                          "locatie", "datum"],
                          [[s.pos, s.scope, s.length, s.topic,
                            s.location, s.source_date or "—"]
                           for s in outline.slots])]
@@ -327,7 +327,7 @@ def build(ctx: RunContext) -> str:
             rlog = json.loads(review_log_path.read_text(encoding="utf-8"))
             draft_words = {a["pos"]: a["words"]["draft"]
                           for a in rlog["articles"]}
-        parts += ["", "## Articles (PIPE-7/8)", "",
+        parts += ["", "## Articles (S7/8)", "",
                   _table(["pos", "title", "words draft → reviewed"],
                          [[r.pos, r.title,
                            f"{draft_words.get(r.pos, '—')} → {r.words}"]
@@ -336,12 +336,12 @@ def build(ctx: RunContext) -> str:
         for r in reviewed:
             for corr in r.review.corrections:
                 correction_lines.append(f"- slot {r.pos}: {corr}")
-        parts += ["", "## Correction log (PIPE-8)", ""]
+        parts += ["", "## Correction log (S8)", ""]
         parts += correction_lines or ["No corrections — clean review."]
 
     if compose_log_path.is_file():
         clog = json.loads(compose_log_path.read_text(encoding="utf-8"))
-        parts += ["", "## Typeset & compose (PIPE-9)", ""]
+        parts += ["", "## Typeset & compose (S9)", ""]
         ill = clog.get("illustration") or {}
         if ill.get("file"):
             parts += [f"- illustration (EL-3): {ill['subject']!r} with the "
@@ -351,14 +351,14 @@ def build(ctx: RunContext) -> str:
             parts += [f"- {note}"]
         open_v = clog.get("violations") or []
         if open_v:
-            parts += ["", "**Unresolved violations (LAY hard gates):**", ""]
+            parts += ["", "**Unresolved violations:**", ""]
             parts += [f"- {v['rule']}: {v['detail']}"
                       + (f" (page {v['page']}" +
                          (f", column {v['col'] + 1}" if "col" in v else "")
                          + ")" if "page" in v else "")
                       for v in open_v]
         else:
-            parts += ["- all typeset checks passed (LAY-1..5, LAY-7)"]
+            parts += ["- all typeset checks passed"]
 
     return "\n".join(parts) + "\n"
 
