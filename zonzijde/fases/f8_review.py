@@ -49,8 +49,6 @@ def build_prompt(review_body: str, draft: Draft, slot: OutlineSlot,
     draft_block = "\n".join([
         f"<concept slot={draft.pos} lengte={slot.length} "
         f"richtlijn={budget['min']}–{budget['max']}>",
-        f"werktitel: {draft.title}",
-        "",
         f"artikel_concept:\n{draft.text}",
         "</concept>",
     ])

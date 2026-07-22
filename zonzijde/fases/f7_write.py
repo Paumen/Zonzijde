@@ -15,24 +15,17 @@ from ..contracts import (ArticleText, Draft, EditionOutline, OutlineSlot,
 RESPONSE_SCHEMA = {
     "type": "object",
     "properties": {
-        "artikelkop": {
-            "type": "string",
-            "description": "De kop precies zoals hij boven het artikel in de "
-                           "krant komt te staan. Alleen platte tekst — geen "
-                           "label ervoor, geen aanhalingstekens.",
-        },
         "artikellichaam": {
             "type": "string",
             "description": "De artikeltekst precies zoals hij onder de kop "
                            "wordt afgedrukt, beginnend bij de eerste zin. "
-                           "Herhaal de kop hier niet, zet er geen plaats- of "
-                           "datumregel boven (dat wordt apart afgedrukt), en "
-                           "voeg geen opmerkingen toe over woordentelling of "
-                           "het schrijfproces — alleen de af te drukken "
-                           "tekst.",
+                           "Zet er geen kop, plaats- of datumregel boven "
+                           "(die worden apart bepaald/afgedrukt), en voeg "
+                           "geen opmerkingen toe over woordentelling of het "
+                           "schrijfproces — alleen de af te drukken tekst.",
         },
     },
-    "required": ["artikelkop", "artikellichaam"],
+    "required": ["artikellichaam"],
     "additionalProperties": False,
 }
 
@@ -73,12 +66,10 @@ def build_prompt(write_body: str, slot: OutlineSlot, budget: dict,
 def ground(payload: object, slot: OutlineSlot) -> tuple[Draft | None, list[str]]:
     if not isinstance(payload, dict):
         return None, [f"not a JSON object: {type(payload).__name__}"]
-    title = payload.get("artikelkop").strip() \
-        if isinstance(payload.get("artikelkop"), str) else ""
     text = payload.get("artikellichaam").strip() \
         if isinstance(payload.get("artikellichaam"), str) else ""
     try:
-        draft = Draft(pos=slot.pos, title=title, location=slot.location,
+        draft = Draft(pos=slot.pos, title=slot.topic, location=slot.location,
                       source_date=slot.source_date, text=text,
                       words=word_count(text))
     except ValidationError as e:

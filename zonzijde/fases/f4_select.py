@@ -23,8 +23,10 @@ RESPONSE_SCHEMA = {
                                              "behoort: L (lokaal), R (regionaal), "
                                              "N (nationaal), I (internationaal)."},
                     "topic": {"type": "string",
-                              "description": "Een kort label voor het "
-                                             "gegroepeerde verhaal."},
+                              "description": "Een korte werktitel voor het "
+                                             "gegroepeerde verhaal — een "
+                                             "werknaam voor het stuk, niet "
+                                             "de gedrukte kop."},
                     "items": {
                         "type": "array", "minItems": 1,
                         "items": {
