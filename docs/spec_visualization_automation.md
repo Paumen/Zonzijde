@@ -1,23 +1,20 @@
 Requirements live visualization pipeline automation
 
 Purpose
-A viewer can watch and feel the newspaper being made and come away understanding how the pipeline turns massivee raw input into a finished edition.
-The visualization is compelling enough to demo and share as a way to intuitively understand the system, for a non-technical person.
-The experience feels ALIVE — like watching a newsroom work — rather than reading a dashboard or log.
+A viewer can watch and feel the newspaper being made and come away understanding how the pipeline turns masive raw input into a finished streamlimed edition.
+The visualization is compelling enough to demo and share as a way to intuitively understand the flow, also for a non-technical person.
+The experience feels ALIVE — like watching a newsroom work — not a dashboard or log.
 
 Fidelity to the real run
 Every headline, date, score, werktitel, and artikelkop shown is taken from a real pipeline run, never invented, or incomplete. And actually visible and readable.
-The numbers and visuals at match the real run's actual numbers.
 
 What the viewer sees
-The whole pipeline is shown end to end, from a broad, unsorted intake to a single shaped, printed paper.
-The progression advances step by step through the fases as work happens.
-The full volume of incoming items is conveyed, not a tiny sample, so the scale of the funnel is felt, and seen.
-All real items are shown at each stage, rather than a token a few. This is clearly recognizable, eg trough real titles.
+The progression advances step by step through the fases as work happens. From a broad, unsorted intake to a single shaped, printed paper.
+The full volume of incoming items is conveyed, not a tiny sample, so the scale of the funnel is felt, and seen. All real items are shown at each stage, rather than a token a few. This is clearly recognizable, eg trough real titles.
 The stream narrows stage by stage while the surviving items visibly grow richer (from headline, to full text, to draft, to finished article).
 Every surviving item retains a persistent identity throughout the visualization — a viewer can see which sources survive and which are dropped.
 The four geographic rings (lokaal, regionaal, nationaal, internationaal) are visible, especially towards the end and their balance across the edition is apparent.
-The paper itself is seen taking shape. The edition is perceived as an object gradually emerging from the pipeline rather than appearing only at the end. Werktitels becoming text, gaining final titles, receiving an illustration, and ending as a finished paper.
+The paper itself is seen taking shape. The edition is perceived as an object gradually emerging from the rather than appearing only at the end. Werktitels becoming text, gaining final titles, receiving an illustration, and ending as a finished paper.
 The paper roughly looks like (simplified) actual Zonzijde layout and pages. 
 
 Why things happen 
@@ -30,7 +27,7 @@ Motion
 Items move continuously to their outcomes as the same persistent objects, rather than one arrangement fading into a different one.
 Start and transitions are smooth. The intake ramps up gradually, like scraping and gathering, rather than beginning at full volume instantly. The handoff from one stage to the next is logical and smooth.
 A stage visibly settles before attention moves to the next stage.
-Pipeline failures, retries, and skipped work are represented rather than hidden.
+Failures, retries, and skipped work are represented rather than hidden.
 
 Timing
 Real duration. Step's duration reflects the real time that step takes, so the heavy stages read as the long ones.
