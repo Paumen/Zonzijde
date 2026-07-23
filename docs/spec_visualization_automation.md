@@ -9,6 +9,7 @@ Fidelity to the real run
 Every headline, date, score, werktitel, and artikelkop shown is taken from a real pipeline run, never invented, or incomplete. And actually visible and readable.
 
 What the viewer sees
+Mobile portrait mode.
 Newsroom, not a dashboard. paper clipping that flies in and piles up organically — overlapping, rotated, a growing heap on the desk. Volume is felt as a pile.
 The progression advances step by step through the fases as work happens. From a broad, unsorted intake to a single shaped, printed paper.
 The full volume of incoming items is conveyed, not a tiny sample, so the scale of the funnel is felt, and seen. All real items are shown at each stage, rather than a token a few. This is clearly recognizable, eg trough real titles.
