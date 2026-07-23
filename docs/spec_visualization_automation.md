@@ -1,84 +1,114 @@
-Requirements live visualization pipeline automation
+# Spec: Live visualization of the De Zonzijde pipeline
 
-Purpose
-A viewer can watch and feel the newspaper being made and come away understanding how the pipeline turns masive raw input into a finished streamlimed edition.
-The visualization is compelling enough to intuitively understand the flow.
-The experience feels ALIVE — like watching a newsroom work — not a dashboard or log.
+---
+Version: v0.7
+---
 
-Fidelity to the real run
-Every headline, date, score, werktitel, and artikelkop shown is taken from a real pipeline run, never invented, or incomplete. And actually visible and readable, technically, if there's still massive number of items, it not nrvesarry for all to be readable at exact same time. If data is missing for mockups/prototyping, use a placeholder. 
+## Intent
 
-What the viewer sees
-Mobile portrait mode.  
-Newsroom, not a dashboard, not a log.
-In early stages, paper clipping that flies in and piles up **organically** — overlapping, rotated, a growing heap on the desk. Volume is **felt** as a pile.
-The progression advances step by step through the fases as work happens. From a broad, unsorted intake to a single shaped, printed paper.
-The full volume of incoming items is conveyed, not a tiny sample, so the scale of the funnel is felt, and seen. All real items are shown at each stage, rather than a token a few. This is clearly recognizable, eg trough real titles.
-The stream narrows stage by stage while the surviving items visibly grow richer (from headline, to full text, to draft, to finished article).
-Every surviving item retains a persistent identity throughout the visualization — a viewer can see which survive and which are dropped.
-Moving trough stages feels naturally and logically, user sees where thing move and can follow. Moving between stages as a smooth transition, not a start/stop, snap, or reshape. Whole pipe feels one holistic continuous experience. modern html, css, and js, best practices are uttilized. (Illustrative examples: (auto)moving trough stages by scroll, segmented tabs/controls, single page, horizontal swipes, etc).
-The four geographic rings (lokaal, regionaal, nationaal, internationaal) are visible, especially towards the end and their balance across the edition is apparent.
-The paper itself is seen taking shape. The edition is perceived as an object gradually emerging from the rather than appearing only at the end. Werktitels becoming text, gaining final titles, receiving an illustration, and ending as a finished paper.
-The paper roughly looks like (simplified) actual Zonzijde layout and pages. One landscape A3, content on 4 A4 pages, outer [4,1], inner [2, 3].
+A viewer watching a run understands and feels how a massive raw intake becomes one structured, coherent, finished edition.
 
-Why things happen 
-Whenever items are filtered out, the reason is obvious and intuitive. This both via visual style and the way they move/animate/transition. eg items removed for being outside the date window are clearly seen leaving because they are too old.
-When an LLM performs a step, it is unmistakable that a model is doing the work, and what kind, and roughly how. Rating, selecting, determining angle/length, writing, reviewing, etc. 
-An LLM's progress is visible as it works through a task and and/or batches.
-The transformation performed by an LLM is visible on the affected item, allowing the viewer to understand what changed and why.
+This sentence is the tiebreaker whenever two requirements pull apart.
 
-Motion
-Items move continuously to their outcomes as the same persistent objects, rather than one arrangement fading into a different one.
-Start and transitions are smooth. The intake ramps up gradually, like scraping and gathering, rather than beginning at full volume instantly. The handoff from one stage to the next is logical and smooth.
-Failures, retries, and skipped work are represented rather than hidden.
+Running live against the pipeline is the end state. A recorded run may be used to prototype toward it; requirements marked *(proto only)* apply to replay alone.
 
-Timing
-Real duration. Step's duration reflects the real time that step takes, so the heavy stages read as the long ones. In total that's at least 10+ min.
-Longer taking steps show REAL progress within that step, giving reassurances and triggering animation and showing outcome/results, to give user something to look at and make it less of a wait.
-The visualization never advances beyond the real pipeline state.
-Presentation duration. Steps and transitions take sufficient time to convey what happened during the step/transition including outcomes/results and visualize this, regardless of how fast it really was. Time taken in excess is used later to make longer taking steps feel less of a wait. 
-Synchronisation. Next step only starts if a) previous step is finished in reality, b) previous step is finished for animation and transition required   for T2, c) next step started in reality.
-Control. Speed x4, x8, x12 (replay only)
+## Invariants
 
-Delivery
-The replay of a recorded run is understood as a stepping stone toward the same view eventually running live against the real pipeline.
+- Mobile portrait.
 
-Assume:
-- F1 1000 rss items
-  - 600 out of time window
-  - F2 400 remaining in window with titel
-    - 50 duplicate
-    - 350 remaning
-      - 100 with negative words
-      - F3 250 remaining
-        - 100 negative
-        - 50 neutral
-        - F4 100 remaining positive
-          - 78 not selected
-          - S5 22 remaning selected
-            - 4 not enough source material
-            - S6 18 remaining
-              - 6-10 not picked
-              - 8-12 remaining picked
+## Buckets
 
-For early mockups or prototypes, using only half or quarter of these numbers, for first few stages is allowed.
+Requirements sit in exactly one of three buckets and are stated in exactly one place.
 
-F1 Titel + Samenvatting
-F2 Titel + Samenvatting
-F3 Titel + Samenvatting
-F4 Werktitel + 1-3x Titel + Samenvatting
-F5 Werktitel + 1-3x Titel + Samenvatting + brontekst + reference links + reference tekst
-F6 Werktitel + 1-3x Titel + Samenvatting + brontekst + reference links + reference tekst + Invalshoek + Lengte richtlijn
-F7 Draft artikellichaam
-F8 Final artikellichaam + artikelkop
-F9 Final artikellichaam + artikelkop + Final vormgeving in paper + illustratie
+- **States** — what the thing can be.
+- **Logic** — how it behaves and what drives change.
+- **UX** — what the viewer sees and does.
 
-F1 Bronnen
-F2 Corresoondenten
-F3 Analysten
-F4 Sectie redacteurs
-F5 Onderzoeksjournalisten 
-F6 Hoofdredacteur
-F7 Reporters / Schrijvers
-F8 Eindredacteuren
-F9 Vormgevers
+IDs are permanent from v1.0 onwards. A removed ID is retired, never reused.
+
+---
+
+## States
+
+- **S11** — A topic groups one to three items and carries a werktitel; topics that reach the edition also carry an artikelkop, an artikellichaam, and possibly an illustratie.
+- **S21** — The edition under construction holds a growing set of placed articles across four pages.
+- **S91** — *(proto only)* Playback runs at one speed at a time: x1 (default), x4, x8, or x12.
+
+---
+
+## Logic
+
+- **L11** — A stage's on-screen duration follows real time, except that every stage plays for at least 60 seconds of x1 time — a floor that scales with playback speed — even when the real step was faster.
+- **L12** — Within a stage, progress follows the real sub-events. Mandatory for stages over 90 seconds; best-effort below.
+- **L13** — Time spent holding short stages at their minimum puts playback behind the real timeline; that lag is worked off during later long stages instead of added to total runtime.
+- **L14** — Every item the run processed appears at the stage it entered; items the log holds only as a per-source count appear in the right number, individually, without titles.
+- **L15** — An item keeps one identity from intake until it ends placed or dropped; at any moment it reads as in flight, dropped, or surviving into the next stage.
+
+---
+
+## UX
+
+**Generic**
+
+- **U11** — The scene reads as a newsroom at work, not as a dashboard or a log.
+- **U12** — Any text on screen is real and accurate — never filler or gibberish. An item may be too small or too overlapped to read in dense moments, but whatever can be read, reads correctly.
+- **U13** — The finished paper resembles De Zonzijde layout.
+
+**Progression**
+
+- **U21** — The whole run is one continuous view; the viewer never leaves it for another screen.
+- **U22** — The size of the intake is felt as accumulating mass, and the narrowing of the stream is apparent as it happens in stages following.
+- **U23** — Surviving topics visibly gain substance stage by stage, from headline to source text to draft to finished article.
+- **U24** — The edition is seen emerging as an object throughout, rather than appearing only at the end.
+
+**Motion, animation, transitions**
+
+- **U31** — Why an item was dropped is legible from the way it leaves, not only from a label on it, if an item needs explanatory text it failed
+, and it does not linger once its departure has shown.
+- **U32** — When a model performs a stage, it is unmistakable that a model is working and what kind of work it is doing. If it needs explanatory text it failed
+- **U33** — Where a stage records sub-events, the model's progress shows as its results arrive, batch by batch or article by article, rather than as a bare progress indicator.
+- **U34** — Items travel to their outcome as the same objects, and movement from stage to stage is one continuous motion — no snapping, reshaping, or cross-fading of one arrangement into another.
+
+---
+
+## Non-goals
+
+- Desktop or landscape layout.
+- Sound.
+- Accessibility and ARIA features.
+
+---
+
+## Appendix A — Reference data
+
+### Fields present after each stage
+
+| Stage | Fields |
+|---|---|
+| F1 | titel, samenvatting, bron, datum |
+| F2 | unchanged |
+| F3 | + score |
+| F4 | + topic, werktitel (S21) |
+| F5 | + brontekst, referentielinks, referentietekst |
+| F6 | + invalshoek, lengterichtlijn |
+| F7 | + draft artikellichaam (S21) |
+| F8 | + final artikellichaam, artikelkop (S21) |
+| F9 | + positie in de krant; illustratie (S21) |
+
+---
+
+## Appendix B — Illustrative examples
+
+Non-binding. These show ideas that were in mind when a requirement was written or read; they are not instructions and can be ignored. They **might** help convey the context and intent of a requirement, when a requirement could be interpreted in different ways, or when the magnitude of intent is unclear. These examples may be used or drawn on for production, but using them **never** implies meeting the requirement on its own.
+
+**UX — Motion, animation, transitions; newsroom, volume felt.**
+Paper clippings fly in and pile up organically on a desk — overlapping, rotated, a growing heap. Any image that makes the intake or transitions feel physical might serve similar ends.
+
+**UX — Progression.**
+Auto-advance on a timeline, scroll-driven progression, segmented controls, horizontal swipes. These might contribute to avoiding a start-stop feel.
+
+**UX — Motion, animation, transitions.**
+Items outside the date window drift away; duplicates collapse into the item they duplicate; items move from top to bottom through the screen, through filters or a bar, where only surviving items pass through; they are rapidly sorted in different directions; stamps on cards; negative words highlighted on cards.
+
+**UX — Motion, animation, transitions; model at work.**
+F3 rapidly ticks through batches of 80, items being stamped positive, neutral, and negative.
