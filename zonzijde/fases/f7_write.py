@@ -97,8 +97,7 @@ def write_slot(slot: OutlineSlot, articles: dict[str, ArticleText],
 def run(ctx: RunContext, call: JsonCall | None = None) -> None:
     cfg = ctx.llm_cfg("write")
     ed_cfg = ctx.edition_cfg
-    fase_cfg = ctx.fase_cfg("write")
-    concurrency = int(fase_cfg.get("concurrency", 3))
+    concurrency = int(ctx.fase_cfg("write")["concurrency"])
     brief = prompts.load_prompt(ctx.root, "brief")
     pipeline = prompts.load_prompt(ctx.root, "pipeline")
     stijlgids = prompts.load_prompt(ctx.root, "stijlgids")

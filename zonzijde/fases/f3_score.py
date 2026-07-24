@@ -99,7 +99,7 @@ def score_batch(prompt_body: str, batch: list[FeedItem],
 def run(ctx: RunContext, call: ScoreCall | None = None) -> None:
     cfg = ctx.llm_cfg("score")
     batch_size = int(cfg.get("batch_size", 80))
-    concurrency = int(cfg.get("concurrency", 6))
+    concurrency = int(ctx.fase_cfg("score")["concurrency"])
     prompt = prompts.load_prompt(ctx.root, "score")
     usage: list[dict] = []
     if call is None:

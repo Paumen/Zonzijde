@@ -237,7 +237,7 @@ def run(ctx: RunContext, fetch: Fetch | None = None,
     cfg = ctx.enrich_cfg
     timeout = float(cfg.get("timeout_s", 25))
     min_words = int(cfg.get("min_words", 120))
-    concurrency = int(cfg.get("concurrency", 8))
+    concurrency = int(ctx.fase_cfg("enrich")["concurrency"])
     fetch = fetch or fetch_html
     render = render or render_blocked
 

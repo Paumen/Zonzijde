@@ -5,11 +5,11 @@ window:
   days: 3
 
 fetch:
-  concurrency: 6
+  concurrency: 16
   timeout_s: 15
 
 enrich:
-  concurrency: 12
+  concurrency: 16
   timeout_s: 20
   min_words: 100
   browser: true
@@ -33,11 +33,14 @@ edition:
     kort: {min: 150, max: 300}
   body_words: {min: 2800, max: 3400}
 
+score:
+  concurrency: 16
+
 write:
-  concurrency: 3
+  concurrency: 16
 
 review:
-  concurrency: 3
+  concurrency: 16
 
 compose:
   nr_offset: 3
@@ -51,7 +54,7 @@ compose:
 
 llm:
   fases:
-    score:   {model: claude-haiku-4-5-20251001, batch_size: 80, concurrency: 6, max_turns: 2}
+    score:   {model: claude-haiku-4-5-20251001, batch_size: 80, max_turns: 2}
     select:  {model: claude-sonnet-5, effort: low, max_turns: 2}
     enrich:  {model: claude-haiku-4-5-20251001, max_turns: 2}
     outline: {model: claude-opus-4-8, effort: medium, max_turns: 2}
