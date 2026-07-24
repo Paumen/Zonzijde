@@ -1,0 +1,125 @@
+{
+  "edition": "2026-07-26",
+  "slots": [
+    {
+      "pos": 1,
+      "scope": "L",
+      "topic": "Vierdaagse als beweegritueel",
+      "length": "kort",
+      "angle": "Ga-en-kijk met warm-in-terughoudendheid: Wijchen kleurt roze op Roze Woensdag — inclusie die je deze week gewoon in de straten van je dorp ziet. Alternatief: stille bekwaamheid (iedereen hoort erbij, zonder ophef). Gebruik de wethouderscolumn slechts als aanleiding; maak er een zichtbaar-in-het-dorp-vignet van en leg het accent op samenkomen/inclusie, niet op de Vierdaagse (die krijgt elders al twee slots).",
+      "source_ids": [
+        "d165a7e127ba"
+      ],
+      "location": "Wijchen",
+      "source_date": "2026-07-22"
+    },
+    {
+      "pos": 2,
+      "scope": "L",
+      "topic": "Groesbeekse vriendinnen lopen Vierdaagse samen door",
+      "length": "mid",
+      "angle": "Menselijke synecdoche: deze Groesbeekse vriendinnen ('Blaren en Borrels') staan voor waarom tienduizenden blijven lopen — gezelligheid als brandstof. Warme, licht wrange toon; laat het detail (TikTok-trainingen, een borrel onderweg, 'nooit meer' en toch weer) het werk doen.",
+      "source_ids": [
+        "7b720b1bb2cb"
+      ],
+      "location": "Groesbeek",
+      "source_date": "2026-07-23"
+    },
+    {
+      "pos": 3,
+      "scope": "R",
+      "topic": "Lochem vernieuwt twee buitenzwembaden",
+      "length": "lang",
+      "angle": "Contra-intuïtief als motor: terwijl buitenbaden elders sluiten, bouwt Lochem er juist twee nieuwe. Aanvullend een oplossings-/herstelframe (verouderde baden → volledige vernieuwing, met de buurt aan tafel). Dit stuk verdient de ruimte: de volle zaal buurtbewoners tussen de schooltafels, het laatste vertrouwde seizoen, wat een dorpsbad voor een gemeenschap betekent.",
+      "source_ids": [
+        "30a8a3fad963"
+      ],
+      "location": "Gorssel",
+      "source_date": "2026-07-23"
+    },
+    {
+      "pos": 4,
+      "scope": "R",
+      "topic": "Koninklijke onderscheiding voor decorontwerper Roland de Groot",
+      "length": "mid",
+      "angle": "Verandermaker: het lintje voor Roland de Groot (86) erkent decennia beeldtaal — Pipo, en de Songfestival-'video postcards' die tot vandaag gebruikt worden. Techniek: menselijke synecdoche (één decor als venster op een halve eeuw televisie). Late erkenning, ingetogen gevierd.",
+      "source_ids": [
+        "b39bcc1d6d59"
+      ],
+      "location": "Hoog Soeren",
+      "source_date": "2026-07-23"
+    },
+    {
+      "pos": 5,
+      "scope": "R",
+      "topic": "Bloemist Joost zorgt voor bloemen op de Zwarte Cross",
+      "length": "kort",
+      "angle": "Juxtapositie: bier, modder en ronkende motoren — en daartussen de bloemen van Joost. Wrang-droge, warme toon; een kort vignet over vakmanschap op de meest onwaarschijnlijke plek, met zijn 'eigen sausje'.",
+      "source_ids": [
+        "9804457706d1"
+      ],
+      "location": "Nunspeet",
+      "source_date": "2026-07-23"
+    },
+    {
+      "pos": 6,
+      "scope": "N",
+      "topic": "42.000 lopers halen de eindstreep van de Vierdaagse",
+      "length": "mid",
+      "angle": "Vooruitgangsverhaal met uitgangscijfer: 42.137 haalden de finish — de schaal en het ritueel van het volksfeest van de buren, in proportie gebracht via uitzoomen. Feestelijk maar feitelijk; laat een enkel menselijk finish-moment (op het nippertje binnen, het kruisje) meelopen zonder de recap generiek te maken.",
+      "source_ids": [
+        "594c2b894689"
+      ],
+      "location": "Nijmegen",
+      "source_date": "2026-07-24"
+    },
+    {
+      "pos": 7,
+      "scope": "N",
+      "topic": "Publiek mag meebeslissen over nieuwe eurobiljetten",
+      "length": "lang",
+      "angle": "Ga-en-kijk/participatie: jij mag meebeslissen over de nieuwe eurobiljetten — vogels en rivieren óf beroemde Europeanen. Nieuwsgierige toon, met een uitzoom op wat we dagelijks ongemerkt in onze zak dragen. Ruimte voor de keuzes en de Nederlandse hand in het ontwerp; nodig de lezer uit zelf te gaan kijken en te stemmen.",
+      "source_ids": [
+        "8543f8d5b2c6"
+      ],
+      "location": "Frankfurt",
+      "source_date": "2026-07-23"
+    },
+    {
+      "pos": 8,
+      "scope": "N",
+      "topic": "WorldPride Amsterdam viert 25 jaar homohuwelijk",
+      "length": "mid",
+      "angle": "Vooruitgangsverhaal met macro-uitzoom: niet het feest maar de mijlpaal — 25 jaar geleden was Nederland het eerste land met het homohuwelijk, en dat wordt nu op de eerste Nederlandse WorldPride gevierd. Laddert bewust naar de lokale Roze Woensdag (L1). Vermijd de generieke festivalrecap; houd de blik op de behaalde vooruitgang.",
+      "source_ids": [
+        "ff2875dcf1eb"
+      ],
+      "location": "Amsterdam",
+      "source_date": "2026-07-24"
+    },
+    {
+      "pos": 9,
+      "scope": "I",
+      "topic": "Wilde honden na tien jaar terug in Malawi's nationaal park",
+      "length": "kort",
+      "angle": "Herstel: na ruim tien jaar zijn er weer Afrikaanse wilde honden gezien in Kasungu National Park — een roedel van vier die honderden kilometers door bewoond grensland trok om er te komen. Verwondering om de terugkeer; kort en verhalend, met het reisdetail als kern.",
+      "source_ids": [
+        "cc1050107d00"
+      ],
+      "location": "Kasungu, Malawi",
+      "source_date": "2026-07-24"
+    },
+    {
+      "pos": 10,
+      "scope": "I",
+      "topic": "Eerste dengue-vaccin goedgekeurd in India",
+      "length": "kort",
+      "angle": "Oplossingsverhaal met uitgangscijfer: probleem (dengue in twintig jaar elfvoudig gestegen) → interventie (eerste goedgekeurde denguevaccin in India) → resultaat (ruim 80% werkzaamheid, 90% tegen ziekenhuisopname). Nuchter-gezaghebbende toon.",
+      "source_ids": [
+        "186b0bafdb95"
+      ],
+      "location": "India",
+      "source_date": "2026-07-23"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "nr": 4,
+  "illustrations": [
+    {
+      "file": "work/f9-illustration-1.svg",
+      "pos": 6,
+      "subject": "Vierdaagse-kruisje aan lint"
+    },
+    {
+      "file": "work/f9-illustration-2.svg",
+      "pos": 7,
+      "subject": "Nieuw eurobiljet met potlood"
+    }
+  ],
+  "notes": [],
+  "recompiles": 0,
+  "attempts": [
+    []
+  ],
+  "violations": [],
+  "llm": {
+    "calls": 1,
+    "input_tokens": 4,
+    "output_tokens": 4064,
+    "cache_read_tokens": 27863,
+    "cache_creation_tokens": 47009,
+    "cost_usd": 0.5873,
+    "turns": 7,
+    "tool_uses": 6,
+    "thinking_chars": 0,
+    "wall_ms": 57864,
+    "api_ms": 59739
+  }
+}

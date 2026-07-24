@@ -1,5 +1,5 @@
 ---
-version: 14
+version: 15
 rol: eindredactie-instructies.
 Fase: F8
 ---
@@ -18,12 +18,11 @@ Verantwoordelijkheden:
 <taak>
 - Beoordeel en herschrijft het onderstaande artikellichaam zodat het aan het niveau voldoet.
 - Bedenk een geef een goede artikelkop.
-- Noteer welke correcties je hebt gemaakt.
 
 </taak>
 
 <regels>
-- Corrigeer Nederlandse grammatica, spelling en onhandige formuleringen; scherp onduidelijke of stroeve zinnen aan. Noteer betekenisvolle correcties (niet elke komma).
+- Corrigeer Nederlandse grammatica, spelling en onhandige formuleringen; scherp onduidelijke of stroeve zinnen aan.
 - De toon moet passen bij het verhaal en de krant; Rijke woordkeuze, woordspel en zinsbouw zijn welkom zolang het artikellichaam prettig leesbaar blijft — vertrouw op een vlotte lezer, leg niet te veel uit.
 - Geef altijd het volledige artikellichaam terug, ook als er niets hoefde te veranderen.
 </regels>

@@ -1,0 +1,178 @@
+{
+  "model": "claude-haiku-4-5-20251001",
+  "rows": 21,
+  "full_text": 21,
+  "methods": {
+    "requests": 21,
+    "playwright": 0
+  },
+  "min_words": 100,
+  "references": {
+    "selected": 21,
+    "ok": 15
+  },
+  "topics": [
+    {
+      "scope": "L",
+      "topic": "Vierdaagse als beweegritueel",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "L",
+      "topic": "Wijchense Wereldwinkel fairtrade actie",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "L",
+      "topic": "Gratis Happy Mind Moment workshop",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "L",
+      "topic": "Groesbeekse vriendinnen lopen Vierdaagse samen door",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "R",
+      "topic": "Huwelijksaanzoek tijdens de Vierdaagse",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "R",
+      "topic": "Lochem vernieuwt twee buitenzwembaden",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "R",
+      "topic": "Zestig jaar trouw aan de Oud Veluwse Markt",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "R",
+      "topic": "Koninklijke onderscheiding voor decorontwerper Roland de Groot",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "R",
+      "topic": "Bloemist Joost zorgt voor bloemen op de Zwarte Cross",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "R",
+      "topic": "Wibren Jonkers wordt organist van de Sint-Joriskerk",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "R",
+      "topic": "Liek loopt Vierdaagse voor ongeneeslijk zieke dochter Bo",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "N",
+      "topic": "42.000 lopers halen de eindstreep van de Vierdaagse",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "N",
+      "topic": "Publiek mag meebeslissen over nieuwe eurobiljetten",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "N",
+      "topic": "WorldPride Amsterdam viert 25 jaar homohuwelijk",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "N",
+      "topic": "Opvallend kwarteljaar in Nederland",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "N",
+      "topic": "Ecologisch bermbeheer wordt de standaard, goed voor insecten",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "I",
+      "topic": "Hawaiiaanse steltloper herstelt van 200 naar 1500 vogels",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "I",
+      "topic": "Razorback sucker van bedreigd naar kwetsbaar",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "I",
+      "topic": "Japan rondt herstelprogramma voor zeldzame vogels af",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "I",
+      "topic": "Wilde honden na tien jaar terug in Malawi's nationaal park",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "I",
+      "topic": "Eerste dengue-vaccin goedgekeurd in India",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    }
+  ],
+  "dropped_topics": [],
+  "duration_s": 49.8,
+  "llm": {
+    "calls": 14,
+    "input_tokens": 270,
+    "output_tokens": 16465,
+    "cache_read_tokens": 479141,
+    "cache_creation_tokens": 86055,
+    "cost_usd": 0.3166,
+    "turns": 41,
+    "tool_uses": 14,
+    "thinking_chars": 30190,
+    "wall_ms": 229328,
+    "api_ms": 224818
+  }
+}

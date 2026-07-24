@@ -228,11 +228,9 @@ def build(ctx: RunContext) -> str:
                          f"hole(s) at pos {wfailed}**" if wfailed else "")]
         if review_log_path.is_file():
             rlog = json.loads(review_log_path.read_text(encoding="utf-8"))
-            corr = sum(len(a["correcties"]) for a in rlog["articles"])
             rfailed = rlog.get("failed_slots") or []
             body = ctx.edition_cfg["body_words"]
-            parts += [f"- F8 review: {corr} "
-                      f"correction(s), {rlog['words_total']} words body text"
+            parts += [f"- F8 review: {rlog['words_total']} words body text"
                       f" (ED-5 target {body['min']}–{body['max']})"
                       + (f"; **{len(rfailed)} slot(s) failed review at "
                          f"pos {rfailed}**" if rfailed else "")]
@@ -332,12 +330,6 @@ def build(ctx: RunContext) -> str:
                          [[r.pos, r.title,
                            f"{draft_words.get(r.pos, '—')} → {r.words}"]
                           for r in reviewed])]
-        correction_lines = []
-        for r in reviewed:
-            for corr in r.review.correcties:
-                correction_lines.append(f"- slot {r.pos}: {corr}")
-        parts += ["", "## Correction log (F8)", ""]
-        parts += correction_lines or ["No corrections — clean review."]
 
     if compose_log_path.is_file():
         clog = json.loads(compose_log_path.read_text(encoding="utf-8"))

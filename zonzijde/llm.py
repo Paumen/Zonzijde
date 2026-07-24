@@ -1,10 +1,29 @@
 from __future__ import annotations
 
 import json
+import re
 
 
 class LlmError(RuntimeError):
     pass
+
+
+_MARKUP_RE = re.compile(
+    r"</?(?:antml:)?(?:invoke|parameter|function_calls|function_results)\b[^>]*>")
+
+
+def _strip_markup(value: object, names: tuple[str, ...]) -> object:
+    if isinstance(value, str):
+        out = _MARKUP_RE.sub("", value)
+        if names:
+            out = re.sub(r"</(?:%s)\s*>" % "|".join(re.escape(n) for n in names),
+                         "", out)
+        return out.strip()
+    if isinstance(value, list):
+        return [_strip_markup(v, names) for v in value]
+    if isinstance(value, dict):
+        return {k: _strip_markup(v, names) for k, v in value.items()}
+    return value
 
 
 def _record_usage(result: object, tool_uses: int, thinking_chars: int) -> dict:
@@ -103,10 +122,12 @@ def agent_json(prompt: str, *, model: str, system: str | None = None,
         raise LlmError(f"agent session errored: {result!r:.500}")
     if usage_sink is not None:
         usage_sink.append(_record_usage(result, tool_uses, thinking_chars))
+    names = tuple((schema or {}).get("properties", {}))
     payload = getattr(result, "structured_output", None)
-    if payload is not None:
-        return payload
-    try:
-        return json.loads(result.result or "")
-    except ValueError as e:
-        raise LlmError(f"agent returned non-JSON: {e}: {str(result.result)[:200]!r}")
+    if payload is None:
+        try:
+            payload = json.loads(result.result or "")
+        except ValueError as e:
+            raise LlmError(
+                f"agent returned non-JSON: {e}: {str(result.result)[:200]!r}")
+    return _strip_markup(payload, names)

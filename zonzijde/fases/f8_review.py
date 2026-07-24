@@ -9,7 +9,7 @@ from pydantic import ValidationError
 
 from .. import llm, prompts
 from ..context import RunContext
-from ..contracts import (Draft, EditionOutline, OutlineSlot, Review,
+from ..contracts import (Draft, EditionOutline, OutlineSlot,
                          ReviewedArticle, load_artifact, load_model,
                          save_artifact)
 from .f7_write import word_count
@@ -32,17 +32,10 @@ RESPONSE_SCHEMA = {
                            "zin. Herhaal de kop hier niet, zet er geen "
                            "plaats- of datumregel boven (dat wordt apart "
                            "afgedrukt), en voeg geen opmerkingen toe over "
-                           "woordentelling of correcties — dat hoort "
-                           "alleen in 'correcties' thuis.",
-        },
-        "correcties": {
-            "type": "array",
-            "items": {"type": "string"},
-            "description": "De betekenisvolle correcties die je hebt "
-                           "gemaakt, als losse zinnen. Altijd verplicht. "
+                           "woordentelling of aangebrachte correcties.",
         },
     },
-    "required": ["artikelkop", "artikellichaam", "correcties"],
+    "required": ["artikelkop", "artikellichaam"],
     "additionalProperties": False,
 }
 
@@ -52,10 +45,10 @@ JsonCall = Callable[[str, str], object]
 def build_prompt(review_body: str, draft: Draft, slot: OutlineSlot,
                  budget: dict) -> str:
     draft_block = "\n".join([
-        f"<artikellichaam slot={draft.pos} lengte={slot.length} "
+        f"<concept slot={draft.pos} lengte={slot.length} "
         f"richtlijn={budget['min']}–{budget['max']}>",
         draft.text,
-        "</artikellichaam>",
+        "</concept>",
     ])
     return Template(review_body).safe_substitute({"draft": draft_block})
 
@@ -68,16 +61,11 @@ def ground(payload: object, draft: Draft) -> tuple[ReviewedArticle | None, list[
     text = payload.get("artikellichaam").strip() \
         if isinstance(payload.get("artikellichaam"), str) else ""
 
-    raw = payload.get("correcties")
-    correcties = [s.strip() for s in raw if isinstance(s, str) and s.strip()] \
-        if isinstance(raw, list) else []
-
     try:
         reviewed = ReviewedArticle(
             pos=draft.pos, title=title, location=draft.location,
             source_date=draft.source_date, text=text,
-            words=word_count(text),
-            review=Review(correcties=correcties))
+            words=word_count(text))
     except ValidationError as e:
         return None, [f"invalid reviewed article: {e}"]
     return reviewed, []
@@ -139,7 +127,6 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
         "articles": [{"pos": d.pos,
                       "words": {"draft": d.words,
                                 "reviewed": r.words if r else None},
-                      "correcties": r.review.correcties if r else [],
                       "problems": p, "prompt": prompt}
                      for d, (prompt, r, p) in zip(drafts, results)],
         "words_total": sum(r.words for r in reviewed),
@@ -156,6 +143,4 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
 
     reviewed.sort(key=lambda r: r.pos)
     save_artifact(ctx.work_dir / "f8-reviewed.json", reviewed)
-    correcties = sum(len(r.review.correcties) for r in reviewed)
-    print(f"F8 review: {len(reviewed)} articles, "
-          f"{correcties} correction(s), {log['words_total']} words")
+    print(f"F8 review: {len(reviewed)} articles, {log['words_total']} words")
