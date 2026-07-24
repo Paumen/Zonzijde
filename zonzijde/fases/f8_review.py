@@ -98,8 +98,7 @@ def review_draft(draft: Draft, slot: OutlineSlot, ed_cfg: dict,
 def run(ctx: RunContext, call: JsonCall | None = None) -> None:
     cfg = ctx.llm_cfg("review")
     ed_cfg = ctx.edition_cfg
-    fase_cfg = ctx.fase_cfg("review")
-    concurrency = int(fase_cfg.get("concurrency", 3))
+    concurrency = int(ctx.fase_cfg("review")["concurrency"])
     brief = prompts.load_prompt(ctx.root, "brief")
     pipeline = prompts.load_prompt(ctx.root, "pipeline")
     stijlgids = prompts.load_prompt(ctx.root, "stijlgids")
