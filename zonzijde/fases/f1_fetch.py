@@ -102,7 +102,7 @@ def in_window(published: datetime | None, ctx: RunContext) -> bool:
 
 def run(ctx: RunContext) -> None:
     timeout = float(ctx.fetch_cfg.get("timeout_s", 15))
-    concurrency = int(ctx.fetch_cfg.get("concurrency", 6))
+    concurrency = int(ctx.fase_cfg("fetch")["concurrency"])
     fetched_at = ctx.now()
 
     with ThreadPoolExecutor(max_workers=concurrency) as pool:

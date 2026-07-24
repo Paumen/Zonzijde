@@ -105,8 +105,8 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
     if call is None:
         call = lambda prompt, system: llm.agent_json(
             prompt, system=system, schema=RESPONSE_SCHEMA,
-            model=cfg["model"], effort=cfg.get("effort"), max_turns=2,
-            usage_sink=usage)
+            model=cfg["model"], effort=cfg.get("effort"),
+            max_turns=cfg["max_turns"], usage_sink=usage)
 
     scored = load_artifact(ctx.work_dir / "f3-scored.json", ScoredItem)
     positive = [i for i in scored if i.score >= 1]

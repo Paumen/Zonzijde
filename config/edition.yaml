@@ -2,20 +2,20 @@ cadence:
   weekday: sunday
 
 window:
-  days: 3
+  days: 4
 
 fetch:
-  concurrency: 6
+  concurrency: 10
   timeout_s: 15
 
 enrich:
-  concurrency: 12
+  concurrency: 16
   timeout_s: 20
   min_words: 100
   browser: true
   references:
     max: 3
-    min_words: 60
+    min_words: 20
     max_words: 1200
     deny:
       - google.com/preferences
@@ -33,11 +33,14 @@ edition:
     kort: {min: 150, max: 300}
   body_words: {min: 2800, max: 3400}
 
+score:
+  concurrency: 16
+
 write:
-  concurrency: 3
+  concurrency: 16
 
 review:
-  concurrency: 3
+  concurrency: 16
 
 compose:
   nr_offset: 3
@@ -51,10 +54,10 @@ compose:
 
 llm:
   fases:
-    score:   {model: claude-haiku-4-5-20251001, batch_size: 80, concurrency: 6}
-    select:  {model: claude-sonnet-5, effort: low}
-    enrich:  {model: claude-haiku-4-5-20251001}
-    outline: {model: claude-opus-4-8, effort: medium}
-    write:   {model: claude-sonnet-5, effort: high}
+    score:   {model: claude-haiku-4-5-20251001, batch_size: 80, max_turns: 2}
+    select:  {model: claude-sonnet-5, effort: low, max_turns: 2}
+    enrich:  {model: claude-haiku-4-5-20251001, max_turns: 2}
+    outline: {model: claude-opus-4-8, effort: medium, max_turns: 2}
+    write:   {model: claude-sonnet-5, effort: high, max_turns: 2}
     review:  {model: claude-sonnet-5, effort: medium, max_turns: 8}
-    illustrate: {model: claude-opus-4-8, effort: low}
+    illustrate: {model: claude-opus-4-8, effort: low, max_turns: 8}

@@ -48,7 +48,7 @@ def _unwrap_scores(payload: object) -> object:
 def make_call(cfg: dict, usage_sink: list | None = None) -> ScoreCall:
     return lambda p: _unwrap_scores(
         llm.agent_json(p, model=cfg["model"], schema=RESPONSE_SCHEMA,
-                       max_turns=2, usage_sink=usage_sink))
+                       max_turns=cfg["max_turns"], usage_sink=usage_sink))
 
 
 def item_line(index: int, item: FeedItem) -> str:
@@ -99,7 +99,7 @@ def score_batch(prompt_body: str, batch: list[FeedItem],
 def run(ctx: RunContext, call: ScoreCall | None = None) -> None:
     cfg = ctx.llm_cfg("score")
     batch_size = int(cfg.get("batch_size", 80))
-    concurrency = int(cfg.get("concurrency", 6))
+    concurrency = int(ctx.fase_cfg("score")["concurrency"])
     prompt = prompts.load_prompt(ctx.root, "score")
     usage: list[dict] = []
     if call is None:

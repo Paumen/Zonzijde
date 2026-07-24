@@ -18,6 +18,7 @@ class Source(BaseModel):
     url: str | None = None
     builder: str | None = None
     scopes: list[str]
+    enabled: bool = True
 
 
 @dataclass
@@ -43,7 +44,7 @@ class RunContext:
     @cached_property
     def sources(self) -> list[Source]:
         raw = yaml.safe_load((self.root / "config" / "sources.yaml").read_text(encoding="utf-8"))
-        return [Source.model_validate(s) for s in raw["sources"]]
+        return [s for s in (Source.model_validate(s) for s in raw["sources"]) if s.enabled]
 
     @cached_property
     def buckets(self) -> dict[str, str]:

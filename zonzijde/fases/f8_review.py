@@ -39,9 +39,7 @@ RESPONSE_SCHEMA = {
             "type": "array",
             "items": {"type": "string"},
             "description": "De betekenisvolle correcties die je hebt "
-                           "gemaakt, als losse zinnen. Altijd verplicht — "
-                           "geef een lege array als er geen correcties "
-                           "waren.",
+                           "gemaakt, als losse zinnen. Altijd verplicht. "
         },
     },
     "required": ["artikelkop", "artikellichaam", "correcties"],
@@ -100,8 +98,7 @@ def review_draft(draft: Draft, slot: OutlineSlot, ed_cfg: dict,
 def run(ctx: RunContext, call: JsonCall | None = None) -> None:
     cfg = ctx.llm_cfg("review")
     ed_cfg = ctx.edition_cfg
-    fase_cfg = ctx.fase_cfg("review")
-    concurrency = int(fase_cfg.get("concurrency", 3))
+    concurrency = int(ctx.fase_cfg("review")["concurrency"])
     brief = prompts.load_prompt(ctx.root, "brief")
     pipeline = prompts.load_prompt(ctx.root, "pipeline")
     stijlgids = prompts.load_prompt(ctx.root, "stijlgids")
@@ -112,7 +109,7 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
         call = lambda prompt, system: llm.agent_json(
             prompt, system=system, schema=RESPONSE_SCHEMA,
             model=cfg["model"], effort=cfg.get("effort"),
-            max_turns=cfg.get("max_turns", 2), usage_sink=usage)
+            max_turns=cfg["max_turns"], usage_sink=usage)
 
     drafts = load_artifact(ctx.work_dir / "f7-drafts.json", Draft)
     outline = load_model(ctx.work_dir / "f6-outline.json", EditionOutline)
