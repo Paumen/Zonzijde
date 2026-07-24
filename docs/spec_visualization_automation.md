@@ -1,7 +1,7 @@
 # Spec: Live visualization of the De Zonzijde pipeline
 
 ~~~
-Version: v0.7
+Version: v0.8
 ~~~
 
 ## Intent
@@ -30,7 +30,7 @@ IDs are permanent from v1.0 onwards. A removed ID is retired, never reused.
 
 ## States
 
-- **S11** — A topic groups one to three items and carries a werktitel; topics that reach the edition also carry an artikelkop, an artikellichaam, and possibly an illustratie.
+- **S11** — A topic groups one to four items and carries a werktitel; topics that reach the edition also eventually carry an *artikelkop*, an *artikellichaam*, and possibly an *illustratie*.
 - **S21** — The edition under construction holds a growing set of placed articles across four pages.
 - **S91** — *(proto only)* Playback runs at one speed at a time: x1 (default), x4, x8, or x12.
 
@@ -53,18 +53,20 @@ IDs are permanent from v1.0 onwards. A removed ID is retired, never reused.
 - **U11** — The scene reads as a newsroom at work, not as a dashboard or a log.
 - **U12** — Any text on screen is real and accurate — never filler or gibberish. An item may be too small or too overlapped to read in dense moments, but whatever can be read, reads correctly.
 - **U13** — The finished paper resembles De Zonzijde layout.
-
+- **U14** — (mostly ) light themed.
+- 
 **Progression**
 
 - **U21** — The whole run is one continuous view; the viewer never leaves it for another screen.
 - **U22** — The size of the intake is felt as accumulating mass, and the narrowing of the stream is apparent as it happens in stages following.
-- **U23** — Surviving topics visibly gain substance stage by stage, from headline to source text to draft to finished article.
-- **U24** — The edition is seen emerging as an object throughout, rather than appearing only at the end.
+- **U23** — Surviving topics visibly gain substance, stage by stage, from headline to source text to draft to finished article.
+- **U24** — The edition is seen emerging as an object throughout the latter stahes, rather than appearing only at the end.
 
 **Motion, animation, transitions**
 
 - **U31** — Why an item was dropped is legible from the way it leaves, not only from a label on it, if an item needs explanatory text it failed
 , and it does not linger once its departure has shown.
+- **U32** — Items do not linger once their departure  and reason for it has shown.
 - **U32** — When a model performs a stage, it is unmistakable that a model is working and what kind of work it is doing. If it needs explanatory text it failed
 - **U33** — Where a stage records sub-events, the model's progress shows as its results arrive, batch by batch or article by article, rather than as a bare progress indicator.
 - **U34** — Items travel to their outcome as the same objects, and movement from stage to stage is one continuous motion — no snapping, reshaping, or cross-fading of one arrangement into another.
