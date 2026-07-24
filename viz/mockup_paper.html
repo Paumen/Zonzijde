@@ -1,0 +1,787 @@
+<!doctype html>
+<html lang="nl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <title>De Zonzijde — run proto v4</title>
+    <style>
+        :root {
+            --paper: #f4ede0;
+            --ink: #241f1a;
+            --muted: #8a7f70;
+            --lokaal: #c85a3a;
+            --regionaal: #c9962b;
+            --nationaal: #3f7d6e;
+            --internationaal: #4a6fa5;
+            --bad: #a83a2a;
+            --good: #3f6d9e;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
+            background: #d8ccb0;
+            -webkit-user-select: none;
+            user-select: none;
+            font-family: "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+        }
+        #field {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            touch-action: none;
+            background: radial-gradient(120% 90% at 50% -10%, #efe6d4 0%, #e6dcc6 45%, #d8ccb0 100%);
+        }
+        #field::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background: linear-gradient(180deg, transparent 70%, rgba(60, 40, 20, .08) 100%);
+        }
+        #world {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 520px;
+            height: 3200px;
+            transform-origin: 0 0;
+        }
+
+        /* ---------- clips ---------- */
+        .clip {
+            position: absolute;
+            width: 150px;
+            background: #fffdf6;
+            border: 1px solid #e3d8c2;
+            border-radius: 2px;
+            padding: 5px 7px;
+            font-size: 9.5px;
+            color: #2a251f;
+            box-shadow: 1px 2px 4px rgba(40, 25, 10, .18);
+            transform-origin: 0 0;
+            overflow: visible;
+        }
+
+        /* ---------- topic clusters ---------- */
+        .topic {
+            position: absolute;
+            width: 150px;
+            height: 46px;
+            transform-origin: 0 0;
+        }
+        .topic .base {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 150px;
+            height: 40px;
+            border: 1.5px dashed #b3a488;
+            background: rgba(255, 253, 246, .6);
+            border-radius: 2px;
+        }
+        .topic .clip {
+            box-shadow: 0 1px 3px rgba(40, 25, 10, .2);
+        }
+        .topic .tag {
+            position: absolute;
+            left: 2px;
+            bottom: -14px;
+            z-index: 8;
+            max-width: 150px;
+            background: #efe4cc;
+            border: 1px solid #d8ccb8;
+            border-left: 3px solid var(--tagc, #8a7f70);
+            padding: 1px 5px;
+            font-size: 8px;
+            font-weight: 700;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            border-radius: 2px;
+            box-shadow: 0 1px 3px rgba(40, 25, 10, .15);
+        }
+        .topic .sheet {
+            position: absolute;
+            width: 120px;
+            height: 64px;
+            background: #fbf7ea;
+            z-index: 0;
+            border: 1px solid #d8ccb8;
+            box-shadow: 0 1px 3px rgba(40, 25, 10, .18);
+            background-image: repeating-linear-gradient(180deg, transparent 0 7px, rgba(42, 38, 32, .14) 7px 8px);
+        }
+        .topic .rib {
+            position: absolute;
+            width: 30px;
+            height: 9px;
+            background: #dfd2ac;
+            border: 1px solid #b3a67f;
+            z-index: 7;
+        }
+
+        /* ---------- paper ---------- */
+        .page {
+            position: absolute;
+            width: 244px;
+            height: 322px;
+            transform-origin: 0 0;
+            background: linear-gradient(180deg, #fbf7ea, #f4eed9);
+            border: 1px solid #d8ceb1;
+            box-shadow: 0 3px 9px rgba(38, 30, 16, .28);
+            transition: box-shadow 1s;
+        }
+        .page.done {
+            box-shadow: 0 5px 16px rgba(38, 30, 16, .38);
+        }
+        .page .mast {
+            position: absolute;
+            top: 6px;
+            left: 10px;
+            right: 10px;
+            text-align: center;
+            border-bottom: 2px solid #26221b;
+            padding-bottom: 3px;
+        }
+        .page .mast b {
+            font-size: 21px;
+            font-weight: 900;
+            letter-spacing: 1.2px;
+            color: #26221b;
+            line-height: 1;
+        }
+        .page .mast s {
+            display: block;
+            font-size: 5.6px;
+            font-style: italic;
+            color: #6b6152;
+            line-height: 1.6;
+            text-decoration: none;
+            opacity: 0;
+            transition: opacity .9s;
+        }
+        .page.done .mast s {
+            opacity: 1;
+        }
+        .page .hdr {
+            position: absolute;
+            top: 8px;
+            left: 10px;
+            right: 10px;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid #26221b;
+            padding-bottom: 2px;
+            font-size: 6px;
+            color: #5c5342;
+        }
+        .slot {
+            position: absolute;
+        }
+        .slot .hl {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            max-height: 15px;
+            overflow: hidden;
+            font-size: 7.5px;
+            font-weight: 700;
+            line-height: 1.06;
+            color: #26221b;
+        }
+        .ln {
+            position: absolute;
+            height: 2.6px;
+            background: #33302a;
+            opacity: .32;
+            transform: scaleX(var(--sx, 0));
+            transform-origin: 0 50%;
+            transition: transform .25s ease, background .3s, opacity .3s;
+        }
+        .ln.on {
+            --sx: 1;
+        }
+        .ln.hot {
+            background: var(--bad);
+            opacity: .66;
+        }
+        .ln.on.edit {
+            --sx: .78;
+        }
+        .caret {
+            position: absolute;
+            width: 3px;
+            height: 4.5px;
+            background: #26221b;
+            transform-origin: 0 0;
+        }
+        .illo {
+            position: absolute;
+            border: 1px solid transparent;
+            transition: border-color .6s;
+            overflow: hidden;
+        }
+        .illo .h {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            height: 0;
+            transition: height 1s ease;
+            background: repeating-linear-gradient(45deg, rgba(42, 38, 32, .34) 0 1px, transparent 1px 4px);
+        }
+        .illo.draw {
+            border-color: rgba(42, 38, 32, .6);
+        }
+        .illo.draw .h {
+            height: 100%;
+        }
+        .gb {
+            position: absolute;
+            border: 1px solid transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all .7s;
+        }
+        .gb em {
+            font-size: 6px;
+            font-style: italic;
+            color: #6b6152;
+            opacity: 0;
+            transition: opacity .7s;
+        }
+        .gb.on {
+            border-color: rgba(42, 38, 32, .5);
+            background: repeating-linear-gradient(-45deg, rgba(42, 38, 32, .1) 0 1px, transparent 1px 5px);
+        }
+        .gb.on em {
+            opacity: 1;
+            background: #f8f2e1;
+            padding: 0 2px;
+        }
+        #wx {
+            position: absolute;
+            left: 132px;
+            top: 54px;
+            width: 96px;
+            height: 50px;
+            text-align: center;
+            color: #3c352a;
+            border: 1px dashed transparent;
+            transition: border-color .6s;
+            overflow: hidden;
+        }
+        #wx b {
+            display: block;
+            font-size: 6px;
+            font-style: italic;
+            margin-top: 3px;
+            opacity: 0;
+            transition: opacity .6s;
+        }
+        #wx .sun {
+            display: block;
+            width: 13px;
+            height: 13px;
+            margin: 2px auto;
+            border-radius: 50%;
+            border: 1.4px solid #3c352a;
+            box-shadow: 0 0 0 2.5px rgba(60, 53, 42, .16);
+            opacity: 0;
+            transition: opacity .6s;
+        }
+        #wx s {
+            display: block;
+            text-decoration: none;
+            font-size: 7px;
+            font-weight: 700;
+            opacity: 0;
+            transition: opacity .6s;
+        }
+        #wx.filled {
+            border: 1px solid rgba(42, 38, 32, .6);
+        }
+        #wx.filled b,
+        #wx.filled .sun,
+        #wx.filled s {
+            opacity: 1;
+        }
+
+        /* ---------- HUD ---------- */
+        #hud {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+        }
+        #stampx {
+            position: fixed;
+            right: 10px;
+            top: 12px;
+            transform: rotate(-5deg);
+            border: 2px solid var(--bad);
+            color: var(--bad);
+            padding: 3px 7px;
+            border-radius: 2px;
+            font: 700 10px/1.2 "Courier New", monospace;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            background: rgba(250, 244, 226, .72);
+            box-shadow: 0 1px 3px rgba(38, 30, 16, .25);
+        }
+        @keyframes th {
+            0% {
+                transform: rotate(-5deg) scale(1.4);
+                opacity: .3;
+            }
+            100% {
+                transform: rotate(-5deg) scale(1);
+                opacity: 1;
+            }
+        }
+        #stampx.th {
+            animation: th .32s ease-out;
+        }
+        #fin {
+            position: fixed;
+            bottom: 52px;
+            left: 50%;
+            transform: translate(-50%, 8px);
+            opacity: 0;
+            transition: all .8s;
+            pointer-events: auto;
+            background: #f7f0dc;
+            border: 1.5px solid #4a4334;
+            border-radius: 3px;
+            padding: 5px 10px;
+            font-size: 11px;
+            font-style: italic;
+            color: #2a2620;
+            box-shadow: 0 2px 6px rgba(38, 30, 16, .3);
+            white-space: nowrap;
+        }
+        #fin.on {
+            opacity: 1;
+            transform: translate(-50%, 0);
+        }
+        #fin button {
+            margin-left: 8px;
+            font: 700 9px "Courier New", monospace;
+            background: none;
+            border: 1px solid #4a4334;
+            border-radius: 2px;
+            padding: 1px 5px;
+            cursor: pointer;
+            color: #3a3428;
+        }
+    </style>
+</head>
+<body>
+    <div id="field"></div>
+    <script>
+        const DATA = {
+            "edition": { "nr": 4, "date": "2026-07-26", "pages": 4, "words": 2489 },
+            "counts": { "f0": 908, "f1": 425, "f2rej": 148, "f2kept": 277, "positive": 134, "candis": 35, "topics": 24,
+                "final": 8 },
+            "slots": [{
+                "pos": 1,
+                "geo": "L",
+                "length": "lang",
+                "topic": "Wijchen Vierdaagse dag",
+                "werktitel": "Wijchen Vierdaagse dag",
+                "finalttl": "Trouwe wandelaars jaar na jaar",
+                "location": "Wijchen",
+                "angle": "Ga-en-kijk met menselijke synecdoche: de doorkomst van de 4Daagse als lokaal ochtendfeest, verankerd in één of twee doorzetters (Willie Heij, 83, recordhouder m"
+            }, {
+                "pos": 2,
+                "geo": "L",
+                "length": "mid",
+                "topic": "Batenburg Baroque Festival meer bezoekers",
+                "werktitel": "Batenburg Baroque Festival meer bezoekers",
+                "finalttl": "Batenburgs barokfestival bereikt ook radioluisteraars",
+                "location": "Batenburg",
+                "angle": "Vooruitgangsverhaal met uitgangscijfer: vijfde editie, (nagenoeg) uitverkochte concerten en 5 procent meer bezoekers — een klein festival dat gestaag groeit. Te"
+            }, {
+                "pos": 3,
+                "geo": "R",
+                "length": "mid",
+                "topic": "A30 eerder open na werk",
+                "werktitel": "A30 eerder open na werk",
+                "finalttl": "A30 Ede Barneveld eerder open",
+                "location": "Barneveld",
+                "angle": "Herstel/oplossingsverhaal met erkennen-en-keren: benoem kort de maandenlange omrijmiserie en keer dan — de A30 gaat 46 uur eerder open dan gepland, groot onderh"
+            }, {
+                "pos": 4,
+                "geo": "R",
+                "length": "kort",
+                "topic": "NEC naar Champions League voorronde",
+                "werktitel": "NEC naar Champions League voorronde",
+                "finalttl": "Faberplein juicht bij Champions loting",
+                "location": "Nijmegen",
+                "angle": "Opgewekt met vangrails: NEC's stap naar de Champions League-voorronde als streekfeest. Leun op de sfeer en het supporterscitaat op het Faberplein; mijd de wedst"
+            }, {
+                "pos": 5,
+                "geo": "N",
+                "length": "lang",
+                "topic": "Arnhemse schuldenaanpak krijgt vervolg",
+                "werktitel": "Arnhemse schuldenaanpak krijgt vervolg",
+                "finalttl": "Vaste coach schone lei Arnhem-Oost",
+                "location": "Arnhem",
+                "angle": "Oplossingsverhaal: probleem (onoplosbare schulden bij kwetsbare gezinnen) → interventie (kwijtschelding plus een coach) → resultaat, met als kern dat de proef j"
+            }, {
+                "pos": 6,
+                "geo": "N",
+                "length": "kort",
+                "topic": "EK Rubiks kubus brengt Europa",
+                "werktitel": "EK Rubiks kubus brengt Europa",
+                "finalttl": "EK speedcuben draait om vriendschap",
+                "location": "Arnhem",
+                "angle": "Contra-intuïtief/juxtapositie: een kampioenschap dat draait om snelheid maar vooral om gezelligheid — 1200 puzzelaars uit 53 landen die het 'gezellig met elkaar"
+            }, {
+                "pos": 7,
+                "geo": "I",
+                "length": "mid",
+                "topic": "Landbouw helpt amputees Sierra Leone",
+                "werktitel": "Landbouw helpt amputees Sierra Leone",
+                "finalttl": "Boerderij Sierra Leone geeft vak",
+                "location": "Sierra Leone",
+                "angle": "Verandermaker/oplossingsverhaal met erkennen-en-keren: benoem de erfenis van de burgeroorlog en keer dan naar wat werkt — pastor-boer Mambud Samai die amputees "
+            }, {
+                "pos": 8,
+                "geo": "I",
+                "length": "kort",
+                "topic": "Bultruggen keren terug bij Rio",
+                "werktitel": "Bultruggen keren terug bij Rio",
+                "finalttl": "Walvissen keren terug naar Guanabara-baai",
+                "location": "Rio de Janeiro",
+                "angle": "Herstel met uitgangscijfer: bultruggen keren massaal terug bij Rio — van ruwweg 2.000 naar zo'n 35.000 in veertig jaar, bijna terug op het niveau van vóór de wa"
+            }],
+            "items": [
+                { "id": "3698", "ttl": "Wat doet u deze zomer?", "b": "Gem Wijchen", "geo": "L", "ft": "candi",
+                    "topic": "Zomerprogramma voor gezinnen in Wijchen", "scr": 1 },
+                { "id": "ef39", "ttl": "Dag van Wijchen begint vroeg", "b": "nieuws.nl", "geo": "L", "ft": "final", "slot": { "pos": 1,
+                        "topic": "Dag van Wijchen tijdens de Vierdaagse", "geo": "L", "length": "lang",
+                        "werktitel": "Dag van Wijchen tijdens de Vierdaagse",
+                        "finalttl": "Trouwe wandelaars lopen door, jaar na jaar", "primary": true }, "scr": 1 },
+                { "id": "70f0", "ttl": "Willie Heij voor 66e Vierdaagse", "b": "nieuws.nl", "geo": "L", "ft": "final", "slot": { "pos": 1,
+                        "topic": "Dag van Wijchen tijdens de Vierdaagse", "geo": "L", "length": "lang",
+                        "werktitel": "Dag van Wijchen tijdens de Vierdaagse",
+                        "finalttl": "Trouwe wandelaars lopen door, jaar na jaar", "primary": false }, "scr": 2 },
+                { "id": "8a17", "ttl": "Wout Loeffen voor team Huntington", "b": "nieuws.nl", "geo": "L", "ft": "final", "slot": { "pos": 1,
+                        "topic": "Dag van Wijchen tijdens de Vierdaagse", "geo": "L", "length": "lang",
+                        "werktitel": "Dag van Wijchen tijdens de Vierdaagse",
+                        "finalttl": "Trouwe wandelaars lopen door, jaar na jaar", "primary": false }, "scr": 1 },
+                { "id": "7b72", "ttl": "Toezichthouders over grenzen", "b": "nieuws.nl", "geo": "L", "ft": "candi",
+                    "topic": "Toezichthouders werken over gemeentegrenzen", "scr": 1 },
+                { "id": "2b5c", "ttl": "Op zoek naar verdwenen ijscoupes", "b": "nieuws.nl", "geo": "L", "ft": "candi",
+                    "topic": "Zomerprogramma voor gezinnen in Wijchen", "scr": 1 },
+                { "id": "a007", "ttl": "Aandacht voor ‘Hoe is het’", "b": "nieuws.nl", "geo": "L", "ft": "final", "slot": { "pos": 1,
+                        "topic": "Dag van Wijchen tijdens de Vierdaagse", "geo": "L", "length": "lang",
+                        "werktitel": "Dag van Wijchen tijdens de Vierdaagse",
+                        "finalttl": "Trouwe wandelaars lopen door, jaar na jaar", "primary": false }, "scr": 1 },
+                { "id": "f1f6", "ttl": "Batenburg Baroque trekt meer publiek", "b": "nieuws.nl", "geo": "L", "ft": "final",
+                    "slot": { "pos": 2, "topic": "Batenburg Baroque Festival trekt meer bezoekers", "geo": "L",
+                        "length": "mid", "werktitel": "Batenburg Baroque Festival trekt meer bezoekers",
+                        "finalttl": "Batenburgs barokfestival bereikt ook radioluisteraars", "primary": true },
+                    "scr": 2 },
+                { "id": "1ea0", "ttl": "Roze vogel van 5 meter", "b": "DG Wijchen", "geo": "L", "ft": "candi",
+                    "topic": "Via Flamingo maakt Weurt uitbundiger", "scr": 2 },
+                { "id": "5bbe", "ttl": "Erik Nienke vonden liefde Vierdaagse", "b": "DG Wijchen", "geo": "L", "ft": "candi",
+                    "topic": "Liefde gevonden bij de Vierdaagse, dochter loopt nu mee", "scr": 1 },
+                { "id": "b67f", "ttl": "Minder mensen in Wijchen WW-uitkering", "b": "DG Wijchen", "geo": "L", "ft": "candi",
+                    "topic": "Minder mensen in Wijchen met WW-uitkering", "scr": 1 },
+
+                { "id": "0a44", "ttl": "A30 eerder open na werk", "b": "Gld", "geo": "R", "ft": "final", "slot": { "pos": 3,
+                        "topic": "A30 gaat eerder open na maanden werk", "geo": "R", "length": "mid",
+                        "werktitel": "A30 gaat eerder open na maanden werk",
+                        "finalttl": "A30 tussen Ede en Barneveld eerder open", "primary": true }, "scr": 1 },
+                { "id": "e755", "ttl": "Herten wolven zwijnen oversteken", "b": "Gld", "geo": "R", "ft": "candi",
+                    "topic": "Ecopassages Hoge Veluwe verbeterd voor wilde dieren", "scr": 2 },
+                { "id": "7879", "ttl": "Supporters NEC niet bang Olympiakos", "b": "Gld RvN", "geo": "L", "ft": "final", "slot": { "pos": 4,
+                        "topic": "NEC naar Champions League voorronde", "geo": "R", "length": "kort",
+                        "werktitel": "NEC naar Champions League voorronde",
+                        "finalttl": "Faberplein juicht bij loting Champions League", "primary": true }, "scr": 1 },
+                { "id": "da1a", "ttl": "NEC Olympiakos zware dobber", "b": "Gld RvN", "geo": "L", "ft": "final", "slot": { "pos": 4,
+                        "topic": "NEC naar Champions League voorronde", "geo": "R", "length": "kort",
+                        "werktitel": "NEC naar Champions League voorronde",
+                        "finalttl": "Faberplein juicht bij loting Champions League", "primary": false }, "scr": 1 },
+                { "id": "4ead", "ttl": "NEC wil Tadic", "b": "Gld RvN", "geo": "L", "ft": "final", "slot": { "pos": 4,
+                        "topic": "NEC naar Champions League voorronde", "geo": "R", "length": "kort",
+                        "werktitel": "NEC naar Champions League voorronde",
+                        "finalttl": "Faberplein juicht bij loting Champions League", "primary": false }, "scr": 1 },
+                { "id": "edfb", "ttl": "Arnhemse schuldenproef vervolg", "b": "NOS Econ", "geo": "N", "ft": "final",
+                    "slot": { "pos": 5, "topic": "Arnhemse schuldenaanpak krijgt vervolg", "geo": "N",
+                        "length": "lang", "werktitel": "Arnhemse schuldenaanpak krijgt vervolg",
+                        "finalttl": "Vaste coach en een schone lei in Arnhem-Oost", "primary": true }, "scr": 1 },
+            ]
+        };
+
+        const field = document.getElementById('field');
+        const H = () => window.innerHeight;
+
+        let _s = 987654321;
+
+        function rnd() { _s = (_s * 1664525 + 1013904223) & 0x7fffffff; return _s / 0x7fffffff; }
+
+        const TOTAL = 484,
+            END = TOTAL + 10;
+
+        let simT = 0;
+        const tweens = [],
+            events = [];
+        const at = (t, fn) => events.push([t, fn]);
+        const eio = t => t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+        const eo = t => 1 - Math.pow(1 - t, 3);
+        const lin = t => t;
+
+        function tw(o, to, t0, dur, es, done) { tweens.push({ o, to, t0, t1: t0 + Math.max(.01, dur), es: es || eio, done }); }
+
+        function cutTweens(o) { for (let i = tweens.length - 1; i >= 0; i--) if (tweens[i].o === o) tweens.splice(i, 1); }
+
+        function sp(cls, html, x, y, r, o) {
+            const el = document.createElement('div');
+            el.className = cls;
+            if (html) el.innerHTML = html;
+            world.appendChild(el);
+            const s = { el, x, y, r: r || 0, s: 1, o: o == null ? 1 : o, dead: false,
+                apply() { el.style.transform =
+                    `translate(${s.x}px,${s.y}px) rotate(${s.r}deg) scale(${s.s})`; el.style.opacity = s.o; } };
+            s.apply();
+            return s;
+        }
+
+        function kill(s) { if (s.dead) return;
+            s.dead = true;
+            cutTweens(s);
+            s.el.remove(); }
+        const esc = t => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        const GEOC = { L: 'var(--lokaal)', R: 'var(--regionaal)', N: 'var(--nationaal)', I: 'var(--internationaal)' };
+
+        /* ---------- camera ---------- */
+        const cam = { cy: 348, fh: 736, apply() {} };
+
+        function layoutCam() {
+            const vw = innerWidth,
+                vh = innerHeight,
+                sc = Math.min(vw / 520, vh / cam.fh);
+            world.style.transform =
+            `translate(${(vw - 520 * sc) / 2}px,${vh / 2 - cam.cy * sc}px) scale(${sc})`;
+        }
+
+        /* ---------- paper ---------- */
+        const world = document.createElement('div');
+        world.id = 'world';
+        field.appendChild(world);
+
+        const PG = [{ x: 8, y: 10 }, { x: 268, y: 10 }, { x: 8, y: 348 }, { x: 268, y: 348 }];
+        const SLOTMETA = {};
+        DATA.slots.forEach(s => SLOTMETA[s.pos] = s);
+        const NL_M = ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober',
+            'november', 'december'
+        ];
+        const ed = DATA.edition,
+            edD = ed.date.split('-');
+        const DATELINE =
+            `zaterdag ${+edD[2]} ${NL_M[+edD[1] - 1]} ${edD[0]} \u00b7 nr. ${ed.nr} \u00b7 alleen goed nieuws`;
+
+        function pageHTML(i) {
+            if (i === 0) return `<div class="mast"><b>De Zonzijde</b><s>${DATELINE}</s></div>` +
+                `<div id="wx"><b>het weer</b><span class="sun"></span><s>zonnig \u00b7 27\u00b0 \u00b7 Wijchen</s></div>`;
+            let ex = '';
+            if (i === 1) ex =
+                `<div class="gb" data-gb style="left:148px;top:172px;width:86px;height:138px"><em>colofon</em></div>`;
+            if (i === 3) ex =
+                `<div class="gb" data-gb style="left:158px;top:190px;width:76px;height:120px"><em>puzzel</em></div>`;
+            return `<div class="hdr"><span>De Zonzijde</span><span>pagina ${i + 1}</span></div>` + ex;
+        }
+        const pages = PG.map((p, i) => sp('page', pageHTML(i), p.x, p.y, 0, 0));
+
+        const SLOTDEF = [
+            { pos: 1, pg: 0, x: 10, y: 56, w: 112, h: 254, illo: { x: 0, y: 15, w: 112, h: 54 } },
+            { pos: 2, pg: 0, x: 132, y: 112, w: 96, h: 198, illo: null },
+            { pos: 3, pg: 1, x: 10, y: 34, w: 224, h: 130, illo: { x: 138, y: 15, w: 86, h: 52 } },
+            { pos: 4, pg: 1, x: 10, y: 172, w: 130, h: 138, illo: null },
+            { pos: 5, pg: 2, x: 10, y: 34, w: 224, h: 196, illo: { x: 0, y: 15, w: 224, h: 56 } },
+            { pos: 6, pg: 2, x: 10, y: 238, w: 224, h: 72, illo: null },
+            { pos: 7, pg: 3, x: 10, y: 34, w: 224, h: 148, illo: { x: 144, y: 15, w: 80, h: 50 } },
+            { pos: 8, pg: 3, x: 10, y: 190, w: 138, h: 120, illo: null },
+        ];
+        const SLOTS = SLOTDEF.map(def => {
+            const el = document.createElement('div');
+            el.className = 'slot';
+            el.style.cssText = `left:${def.x}px;top:${def.y}px;width:${def.w}px;height:${def.h}px`;
+            const hl = document.createElement('div');
+            hl.className = 'hl';
+            el.appendChild(hl);
+            let illoEl = null;
+            if (def.illo) {
+                illoEl = document.createElement('div');
+                illoEl.className = 'illo';
+                illoEl.style.cssText =
+                `left:${def.illo.x}px;top:${def.illo.y}px;width:${def.illo.w}px;height:${def.illo.h}px`;
+                illoEl.innerHTML = '<span class="h"></span>';
+                el.appendChild(illoEl);
+            }
+            const topIllo = def.illo && def.illo.x === 0 && def.illo.w >= def.w - 2;
+            const lines = [];
+            let y = topIllo ? def.illo.y + def.illo.h + 8 : 17,
+                li = 0;
+            for (; y <= def.h - 4; y += 7, li++) {
+                let w = def.w;
+                if (def.illo && !topIllo && y > def.illo.y - 4 && y < def.illo.y + def.illo.h + 4) w = def.illo.x - 6;
+                w *= (li % 6 === 5) ? (.42 + rnd() * .22) : (.95 + rnd() * .05);
+                const ln = document.createElement('i');
+                ln.className = 'ln';
+                ln.style.cssText = `left:0;top:${y}px;width:${w.toFixed(1)}px`;
+                el.appendChild(ln);
+                lines.push({ el: ln, wx: PG[def.pg].x + def.x, wy: PG[def.pg].y + def.y + y, w });
+            }
+            pages[def.pg].el.appendChild(el);
+            return { def, meta: SLOTMETA[def.pos], el, hl, illoEl, lines,
+                wx: PG[def.pg].x + def.x, wy: PG[def.pg].y + def.y };
+        });
+
+        /* ---------- topic bundles ---------- */
+        const finalsByPos = {};
+        DATA.items.forEach(d => { if (d.ft === 'final' && d.scr > 0) (finalsByPos[d.slot.pos] = finalsByPos[d.slot.pos] || [])
+                .push(d); });
+        const chosenG = DATA.slots.map(s => {
+            const members = finalsByPos[s.pos] || [];
+            return { pos: s.pos, geo: s.geo, kind: members.length ? 'final' : 'ghost', members, label: s.werktitel };
+        });
+        chosenG.forEach((g, i) => {
+            const S = SLOTS.find(s => s.def.pos === g.pos);
+            const cs = S.def.w / 150 * .98;
+            g.cs = cs;
+            const mem = g.members.map((d, mi) =>
+                `<div class="clip" style="transform:translate(${3 + mi * 4}px,${3 + mi * 4}px) rotate(${mi === 0 ? 0 : (mi % 2 ? 4 : -4)}deg)">` +
+                `<div class="b">${esc(d.b)}</div><div class="ttl">${esc(d.ttl)}</div></div>`).join('');
+            const sheets =
+                `<span class="sheet" style="transform:translate(4px,11px) rotate(${(rnd() * 6 - 3).toFixed(1)}deg)"></span>` +
+                (g.members.length > 1 ?
+                    `<span class="sheet" style="transform:translate(7px,14px) rotate(${(rnd() * 6 - 3).toFixed(1)}deg)"></span>` :
+                    '');
+            const ribs =
+                `<span class="rib" style="left:132px;top:4px;transform:rotate(${(rnd() * 10 - 5).toFixed(1)}deg)"></span>`;
+            g.b = sp('topic' + (g.kind === 'ghost' ? ' ghost' : ''),
+                sheets + (g.kind === 'ghost' ? '<span class="base"></span>' : '') + mem +
+                `<div class="tag" style="--tagc:${GEOC[g.geo]}">${esc(g.label)}</div>` + ribs,
+                S.wx + 1, S.wy + 4, 0, 0);
+            g.b.s = cs;
+            g.b.apply();
+        });
+
+        /* ---------- timeline ---------- */
+        at(.4, () => pages.forEach(p => tw(p, { o: 1 }, simT, 1.6, eio)));
+        at(1.2, () => chosenG.forEach((g, i) => tw(g.b, { o: 1 }, simT, .5 + i * .06, eo)));
+
+        /* F7 · Schrijven */
+        chosenG.forEach((g, i) => {
+            const S = SLOTS.find(s => s.def.pos === g.pos);
+            const t0 = 5 + i * 29,
+                L = S.lines.length,
+                wdur = 21;
+            at(t0, () => { g.caret = sp('caret', '', S.lines[0].wx, S.lines[0].wy, 0, 1); });
+            S.lines.forEach((ln, j) => {
+                at(t0 + j * (wdur / L), () => {
+                    ln.el.classList.add('on');
+                    if (g.caret && !g.caret.dead) {
+                        cutTweens(g.caret);
+                        g.caret.x = ln.wx;
+                        g.caret.y = ln.wy - 1;
+                        g.caret.apply();
+                        tw(g.caret, { x: ln.wx + ln.w }, simT, (wdur / L) * .92, lin);
+                    }
+                });
+            });
+            at(t0 + wdur + .8, () => { if (g.caret) kill(g.caret); });
+            at(t0 + 1.4, () => tw(g.b, { s: g.cs * .22, o: 0, y: g.b.y + 8 }, simT, 9.5, eio, () => kill(g.b)));
+        });
+
+        /* F8 · Redactie */
+        chosenG.forEach((g, i) => {
+            const S = SLOTS.find(s => s.def.pos === g.pos);
+            const t0 = 246 + i * 21,
+                full = S.meta.finalttl,
+                L = S.lines.length;
+            for (let cix = 1; cix <= full.length; cix++)
+                at(t0 + cix * .085, () => { S.hl.textContent = full.slice(0, cix); });
+            S.lines.forEach((ln, j) => {
+                const tj = t0 + 4.5 + j * (9.5 / L);
+                at(tj, () => ln.el.classList.add('hot'));
+                at(tj + .85, () => ln.el.classList.remove('hot'));
+            });
+            const e1 = Math.floor(rnd() * L),
+                e2 = Math.floor(rnd() * L);
+            at(t0 + 7, () => S.lines[e1] && S.lines[e1].el.classList.add('edit'));
+            at(t0 + 11, () => S.lines[e2] && S.lines[e2].el.classList.add('edit'));
+        });
+
+        /* F9 · Vormgeven + finale */
+        let ii = 0;
+        SLOTS.forEach(S => { if (S.illoEl) { at(426 + ii * 4, () => S.illoEl.classList.add('draw'));
+                ii++; } });
+        at(440, () => { const w = document.getElementById('wx'); if (w) w.classList.add('filled'); });
+        at(446, () => document.querySelectorAll('[data-gb]').forEach(el => el.classList.add('on')));
+        at(452, () => pages.forEach(p => p.el.classList.add('done')));
+        at(TOTAL - 2, () => tw(cam, { fh: 712 }, simT, 2.5, eio));
+        at(TOTAL + 1, () => document.getElementById('fin').classList.add('on'));
+
+        /* ---------- HUD ---------- */
+        const hud = document.createElement('div');
+        hud.id = 'hud';
+        hud.innerHTML = `<div id="stampx"></div><div id="fin"></div>`;
+        document.body.appendChild(hud);
+
+        const stampEl = document.getElementById('stampx');
+
+        function setStamp(t) { stampEl.textContent = t;
+            stampEl.classList.remove('th');
+            void stampEl.offsetWidth;
+            stampEl.classList.add('th'); }
+        document.getElementById('fin').innerHTML =
+            `Editie ${ed.nr} \u00b7 ${+edD[2]} ${NL_M[+edD[1] - 1]} \u00b7 ${DATA.counts.final} artikelen \u00b7 ${ed.words} woorden` +
+            `<button onclick="location.reload()">opnieuw</button>`;
+        at(.05, () => setStamp('F7 \u00b7 Schrijven'));
+        at(245, () => setStamp('F8 \u00b7 Redactie'));
+        at(425, () => setStamp('F9 \u00b7 Vormgeven'));
+        at(TOTAL + .5, () => setStamp('klaar \u2713'));
+
+        /* ---------- main loop ---------- */
+        events.sort((a, b) => a[0] - b[0]);
+        let evi = 0,
+            lastRt = performance.now();
+
+        function frame(rt) {
+            const dt = Math.min(.09, (rt - lastRt) / 1000);
+            lastRt = rt;
+            if (simT < END) simT = Math.min(END, simT + dt);
+            while (evi < events.length && events[evi][0] <= simT) { events[evi][1]();
+                evi++; }
+            for (let i = tweens.length - 1; i >= 0; i--) {
+                const t = tweens[i];
+                if (simT < t.t0) continue;
+                if (!t.from) { t.from = {};
+                    for (const k in t.to) t.from[k] = t.o[k]; }
+                let p = (simT - t.t0) / (t.t1 - t.t0);
+                if (p > 1) p = 1;
+                const e = t.es(p);
+                for (const k in t.to) t.o[k] = t.from[k] + (t.to[k] - t.from[k]) * e;
+                t.o.apply && t.o.apply();
+                if (p === 1) { tweens.splice(i, 1); if (t.done) t.done(); }
+            }
+            layoutCam();
+            requestAnimationFrame(frame);
+        }
+        layoutCam();
+        requestAnimationFrame(t => { lastRt = t;
+            frame(t); });
+    </script>
+</body>
+</html>
