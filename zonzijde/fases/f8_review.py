@@ -110,7 +110,7 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
         call = lambda prompt, system: llm.agent_json(
             prompt, system=system, schema=RESPONSE_SCHEMA,
             model=cfg["model"], effort=cfg.get("effort"),
-            max_turns=cfg.get("max_turns", 2), usage_sink=usage)
+            max_turns=cfg["max_turns"], usage_sink=usage)
 
     drafts = load_artifact(ctx.work_dir / "f7-drafts.json", Draft)
     outline = load_model(ctx.work_dir / "f6-outline.json", EditionOutline)

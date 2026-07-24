@@ -61,7 +61,7 @@ def agent_json(prompt: str, *, model: str, system: str | None = None,
                schema: dict | None = None, effort: str | None = None,
                allowed_tools: list[str] | None = None,
                permission_mode: str | None = None, cwd: str | None = None,
-               max_turns: int = 1, usage_sink: list | None = None) -> object:
+               max_turns: int, usage_sink: list | None = None) -> object:
     import asyncio
 
     from claude_agent_sdk import ClaudeAgentOptions, ResultMessage, query

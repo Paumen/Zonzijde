@@ -48,7 +48,7 @@ def _unwrap_scores(payload: object) -> object:
 def make_call(cfg: dict, usage_sink: list | None = None) -> ScoreCall:
     return lambda p: _unwrap_scores(
         llm.agent_json(p, model=cfg["model"], schema=RESPONSE_SCHEMA,
-                       max_turns=2, usage_sink=usage_sink))
+                       max_turns=cfg["max_turns"], usage_sink=usage_sink))
 
 
 def item_line(index: int, item: FeedItem) -> str:
