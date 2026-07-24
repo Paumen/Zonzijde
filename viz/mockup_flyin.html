@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+#stage {
+  position: relative;
+  height: 100dvh;
+  overflow: hidden;
+  background: radial-gradient(120% 90% at 50% -10%, #efe6d4, #e6dcc6 45%, #d8ccb0);
+}
+#field { position: absolute; inset: 0; }
+
+.clip {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 150px;
+  height: 34px;
+  background: #fffdf6;
+  border: 1px solid #e3d8c2;
+  box-shadow: 1px 2px 4px rgba(40, 25, 10, .18);
+  transform: translate(-400px, -400px);
+  transition: transform 1.15s cubic-bezier(.22, .61, .36, 1), opacity .7s;
+  will-change: transform, opacity;
+}
+
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="field"></div>
+</div>
+
+<script>
+const COUNT = 220, DURATION = 60;
+
+const field = document.getElementById('field');
+const W = () => window.innerWidth, H = () => window.innerHeight;
+
+let _s = 987654321;
+function rnd() { _s = (_s * 1664525 + 1013904223) & 0x7fffffff; return _s / 0x7fffffff; }
+
+const clips = [];
+for (let i = 0; i < COUNT; i++) {
+  const el = document.createElement('div');
+  el.className = 'clip';
+  field.appendChild(el);
+  clips.push({ el, home: { x: 0, y: 0, r: 0 }, in: false });
+}
+
+function computePile() {
+  const cx = W() * 0.5, cy = H() * 0.52;
+  const spreadX = Math.min(W() * 0.42, 560), spreadY = Math.min(H() * 0.30, 300);
+  clips.forEach(c => {
+    const a = rnd() * Math.PI * 2, r = Math.sqrt(rnd());
+    c.home.x = cx + Math.cos(a) * r * spreadX - 60;
+    c.home.y = cy + Math.sin(a) * r * spreadY - 20 + (rnd() - .5) * 40;
+    c.home.r = (rnd() - .5) * 26;
+  });
+}
+
+function place(c) {
+  c.el.style.transform = `translate(${c.home.x}px,${c.home.y}px) rotate(${c.home.r}deg)`;
+  c.el.style.opacity = 1;
+}
+function hide(c) {
+  c.el.style.transform = `translate(${W() * 0.5}px,-260px) rotate(0deg)`;
+  c.el.style.opacity = 0;
+}
+
+function intakeProgress(frac) {
+  const n = Math.min(Math.floor(frac * clips.length), clips.length);
+  for (let k = 0; k < n; k++) {
+    if (!clips[k].in) { clips[k].in = true; place(clips[k]); }
+  }
+}
+
+let acc = 0, t0 = performance.now();
+function tick(now) {
+  acc += (now - t0) / 1000;
+  t0 = now;
+  intakeProgress(Math.min(1, acc / DURATION));
+  requestAnimationFrame(tick);
+}
+
+function reset() {
+  clips.forEach(c => { c.el.style.transition = 'none'; hide(c); c.in = false; });
+  _s = 987654321;
+  computePile();
+  requestAnimationFrame(() => clips.forEach(c => c.el.style.transition = ''));
+  acc = 0;
+}
+
+window.addEventListener('resize', computePile);
+
+computePile();
+clips.forEach(hide);
+requestAnimationFrame(t => { t0 = t; requestAnimationFrame(tick); });
+</script>
+</bod
