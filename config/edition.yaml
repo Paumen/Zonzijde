@@ -2,10 +2,10 @@ cadence:
   weekday: sunday
 
 window:
-  days: 3
+  days: 4
 
 fetch:
-  concurrency: 16
+  concurrency: 10
   timeout_s: 15
 
 enrich:
@@ -15,7 +15,7 @@ enrich:
   browser: true
   references:
     max: 3
-    min_words: 60
+    min_words: 20
     max_words: 1200
     deny:
       - google.com/preferences
