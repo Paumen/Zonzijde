@@ -72,7 +72,7 @@ CLASSIFY_SCHEMA = {
 Classify = Callable[[ArticleText], dict[int, str]]
 
 
-def make_classify(body: str, model: str,
+def make_classify(body: str, model: str, max_turns: int,
                   usage_sink: list | None = None) -> Classify:
     def classify(art: ArticleText) -> dict[int, str]:
         lines = [body, "", f"Titel: {art.bron_titel}",
@@ -82,7 +82,7 @@ def make_classify(body: str, model: str,
         prompt = "\n".join(lines) + (
             "\n\nGeef voor elke hierboven getoonde linkindex een classificatie.")
         payload = llm.agent_json(prompt, model=model, schema=CLASSIFY_SCHEMA,
-                                 allowed_tools=[], max_turns=2,
+                                 allowed_tools=[], max_turns=max_turns,
                                  usage_sink=usage_sink)
         cats: dict[int, str] = {}
         rows = payload.get("links") if isinstance(payload, dict) else None
@@ -248,8 +248,10 @@ def run(ctx: RunContext, fetch: Fetch | None = None,
     ref_deny = list(ref_cfg.get("deny", []))
     usage: list[dict] = []
     if classify is None:
+        enrich_cfg = ctx.llm_cfg("enrich")
         classify = make_classify(prompts.load_prompt(ctx.root, "classify").body,
-                                  ctx.llm_cfg("enrich")["model"], usage)
+                                  enrich_cfg["model"], enrich_cfg["max_turns"],
+                                  usage)
 
     candidates = load_artifact(ctx.work_dir / "f4-candidates.json", Candidate)
     if not candidates:

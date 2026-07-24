@@ -199,8 +199,8 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
     if call is None:
         call = lambda prompt, system: llm.agent_json(
             prompt, system=system, schema=schema,
-            model=cfg["model"], effort=cfg.get("effort"), max_turns=2,
-            usage_sink=usage)
+            model=cfg["model"], effort=cfg.get("effort"),
+            max_turns=cfg["max_turns"], usage_sink=usage)
 
     available: dict[str, int] = {s: 0 for s in RING}
     for _, cand in keyed:
