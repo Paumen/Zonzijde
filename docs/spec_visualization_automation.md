@@ -90,12 +90,12 @@ IDs are permanent from v1.0 onwards. A removed ID is retired, never reused.
 | F1 | titel, samenvatting, bron, datum |
 | F2 | unchanged |
 | F3 | + score |
-| F4 | + topic, werktitel (S21) |
+| F4 | + topic, werktitel |
 | F5 | + brontekst, referentielinks, referentietekst |
 | F6 | + invalshoek, lengterichtlijn |
-| F7 | + draft artikellichaam (S21) |
-| F8 | + final artikellichaam, artikelkop (S21) |
-| F9 | + positie in de krant; illustratie (S21) |
+| F7 | + draft artikellichaam |
+| F8 | + final artikellichaam, artikelkop |
+| F9 | + positie in de krant; illustratie |
 
 ---
 
