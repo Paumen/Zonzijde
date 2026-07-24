@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root {
+  --lokaal: #c85a3a;
+  --regionaal: #c9962b;
+  --nationaal: #3f7d6e;
+  --internationaal: #4a6fa5;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font: 12px/1.35 "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  background: #e6dcc6;
+  padding: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.clip {
+  position: relative;
+  width: 150px;
+  padding: 5px 7px;
+  background: #fffdf6;
+  border: 1px solid #e3d8c2;
+  border-radius: 2px;
+  box-shadow: 1px 2px 4px rgba(40, 25, 10, .18);
+  font-size: 9.5px;
+  color: #2a251f;
+  overflow: hidden;
+}
+.clip .b {
+  font-size: 7px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: #a2937a;
+  font-weight: 700;
+}
+.clip .ttl { font-weight: 600; }
+.clip .sc {
+  position: absolute;
+  right: 3px;
+  top: 3px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+.sc-L { background: var(--lokaal); }
+.sc-R { background: var(--regionaal); }
+.sc-N { background: var(--nationaal); }
+.sc-I { background: var(--internationaal); }
+</style>
+</head>
+<body>
+  <div class="clip">
+    <span class="sc sc-L"></span>
+    <div class="b">DG Wijchen</div>
+    <div class="ttl">Roze vogel van 5 meter</div>
+  </div>
+  <div class="clip">
+    <span class="sc sc-R"></span>
+    <div class="b">Gld</div>
+    <div class="ttl">A30 eerder open na werk</div>
+  </div>
+  <div class="clip">
+    <span class="sc sc-N"></span>
+    <div class="b">NOS Econ</div>
+    <div class="ttl">Arnhemse schuldenproef vervolg</div>
+  </div>
+  <div class="clip">
+    <span class="sc sc-I"></span>
+    <div class="b">NOS Buiten</div>
+    <div class="ttl">Spanje verbiedt roken</div>
+  </div>
+</body>
+</html>
