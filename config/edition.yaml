@@ -56,5 +56,5 @@ llm:
     enrich:  {model: claude-haiku-4-5-20251001, max_turns: 2}
     outline: {model: claude-opus-4-8, effort: medium, max_turns: 2}
     write:   {model: claude-sonnet-5, effort: high, max_turns: 2}
-    review:  {model: claude-sonnet-5, effort: medium, max_turns: 2}
-    illustrate: {model: claude-opus-4-8, effort: low, max_turns: 12}
+    review:  {model: claude-sonnet-5, effort: medium, max_turns: 3}
+    illustrate: {model: claude-opus-4-8, effort: low, max_turns: 8}
