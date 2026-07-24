@@ -109,12 +109,8 @@ class Draft(BaseModel):
     words: int
 
 
-class Review(BaseModel):
-    correcties: list[str]
-
-
 class ReviewedArticle(Draft):
-    review: Review
+    pass
 
 
 class WeatherDay(BaseModel):
