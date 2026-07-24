@@ -39,9 +39,7 @@ RESPONSE_SCHEMA = {
             "type": "array",
             "items": {"type": "string"},
             "description": "De betekenisvolle correcties die je hebt "
-                           "gemaakt, als losse zinnen. Altijd verplicht — "
-                           "geef een lege array als er geen correcties "
-                           "waren.",
+                           "gemaakt, als losse zinnen. Altijd verplicht. "
         },
     },
     "required": ["artikelkop", "artikellichaam", "correcties"],
