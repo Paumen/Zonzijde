@@ -2,7 +2,7 @@ cadence:
   weekday: sunday
 
 window:
-  days: 11
+  days: 3
 
 fetch:
   concurrency: 6
