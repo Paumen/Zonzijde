@@ -14,7 +14,7 @@ sources:
     bron: DG Wijchen
     url: https://www.gelderlander.nl/wijchen/rss.xml
     scopes: [L, R, N]
-    enabled: true
+    enabled: false
   - id: gld
     bron: Gld
     url: https://www.gld.nl/rss
@@ -174,9 +174,9 @@ sources:
     bron: WijchensNws
     url: https://wijchensnieuws.nl/feed/
     scopes: [L]
-    enabled: true
+    enabled: false
   - id: wegwijs
     bron: Wegwijs
     url: https://www.weekblad-wegwijs.nl/feed/
     scopes: [L]
-    enabled: true
+    enabled: false
