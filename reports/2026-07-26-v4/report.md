@@ -233,18 +233,18 @@ model claude-haiku-4-5-20251001, prompt score.md v5
 
 ## Articles (F7/8)
 
-| pos | artikelkop | woorden concept → artikel |
-|---|---|---|
-| 1 | Willie Heij loopt al 66 jaar mee | 128 → 126 |
-| 2 | Ruziënde broer en zus redden de bijen | 200 → 200 |
-| 3 | Kinderen speuren naar verdwenen ijscoupes | 185 → 183 |
-| 4 | Laatste zomer in oude baden Gorssel en Almen | 533 → 532 |
-| 5 | Eerst koffie, dan de meterkast | 345 → 343 |
-| 6 | Rotterdamse moeder eerste Queen van Zomercarnaval | 354 → 362 |
-| 7 | Brief op 21e geeft donorkeuze een herkansing | 175 → 177 |
-| 8 | Razorbaars, steltkluut en houtsnip klimmen terug | 335 → 334 |
-| 9 | Terug naar het voetbal om de hoek | 784 → 784 |
-| 10 | Eerste proefpersoon krijgt vaccin tegen nieuwe ebolavariant | 159 → 158 |
+| pos | artikelkop | woorden concept → artikel | model (F7) | effort |
+|---|---|---|---|---|
+| 1 | Willie Heij loopt al 66 jaar mee | 128 → 126 | claude-sonnet-5 | high |
+| 2 | Ruziënde broer en zus redden de bijen | 200 → 200 | claude-opus-4-8 | high |
+| 3 | Kinderen speuren naar verdwenen ijscoupes | 185 → 183 | claude-sonnet-5 | high |
+| 4 | Laatste zomer in oude baden Gorssel en Almen | 533 → 532 | claude-sonnet-5 | high |
+| 5 | Eerst koffie, dan de meterkast | 345 → 343 | claude-sonnet-5 | high |
+| 6 | Rotterdamse moeder eerste Queen van Zomercarnaval | 354 → 362 | claude-sonnet-5 | high |
+| 7 | Brief op 21e geeft donorkeuze een herkansing | 175 → 177 | claude-sonnet-5 | high |
+| 8 | Razorbaars, steltkluut en houtsnip klimmen terug | 335 → 334 | claude-sonnet-5 | high |
+| 9 | Terug naar het voetbal om de hoek | 784 → 784 | claude-sonnet-5 | high |
+| 10 | Eerste proefpersoon krijgt vaccin tegen nieuwe ebolavariant | 159 → 158 | claude-sonnet-5 | high |
 
 ## Typeset & compose (F9)
 

@@ -360,11 +360,20 @@ def build(ctx: RunContext) -> str:
             rlog = json.loads(review_log_path.read_text(encoding="utf-8"))
             draft_words = {a["pos"]: a["words"]["draft"]
                           for a in rlog["articles"]}
+        models = {}
+        if write_log_path.is_file():
+            wlog = json.loads(write_log_path.read_text(encoding="utf-8"))
+            models = {s["pos"]: (s.get("model"), s.get("effort"))
+                      for s in wlog["slots"]}
+        rows = []
+        for r in reviewed:
+            model, effort = models.get(r.pos, (None, None))
+            rows.append([r.pos, r.title,
+                         f"{draft_words.get(r.pos, '—')} → {r.words}",
+                         model or "—", effort or "—"])
         parts += ["", "## Articles (F7/8)", "",
-                  _table(["pos", "artikelkop", "woorden concept → artikel"],
-                         [[r.pos, r.title,
-                           f"{draft_words.get(r.pos, '—')} → {r.words}"]
-                          for r in reviewed])]
+                  _table(["pos", "artikelkop", "woorden concept → artikel",
+                          "model (F7)", "effort"], rows)]
 
     if compose_log_path.is_file():
         clog = json.loads(compose_log_path.read_text(encoding="utf-8"))
