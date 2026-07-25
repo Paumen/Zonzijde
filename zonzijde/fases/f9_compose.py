@@ -206,7 +206,8 @@ def draw_illustrations(ctx: RunContext, articles: list[EditionArticle],
         brief = prompts.load_prompt(ctx.root, "brief")
         cfg = ctx.llm_cfg("illustrate")
         call = lambda prompt: llm.agent_json(
-            prompt, system=f"{brief.body}\n\n{rules.body}", schema=ILLUSTRATE_SCHEMA,
+            prompt, system=f"<krant>\n{brief.body}\n</krant>\n\n{rules.body}",
+            schema=ILLUSTRATE_SCHEMA,
             model=cfg["model"], effort=cfg.get("effort"),
             max_turns=cfg["max_turns"], allowed_tools=["Read"],
             cwd=str(ctx.root), usage_sink=usage)

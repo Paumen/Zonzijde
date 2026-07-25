@@ -29,10 +29,10 @@ def response_schema(candidate_keys: list[str], woorden: dict) -> dict:
                 "items": {
                     "type": "object",
                     "properties": {
-                        "candidate": {
+                        "onderwerp": {
                             "type": "string", "enum": candidate_keys,
-                            "description": "De shortlist-key van het onderwerp "
-                                           "voor dit slot (bijv. L1, R2)."},
+                            "description": "De key van het onderwerp voor dit "
+                                           "slot (bijv. L1, R2)."},
                         "length": {
                             "type": "string",
                             "enum": ["lang", "mid", "kort"],
@@ -50,7 +50,7 @@ def response_schema(candidate_keys: list[str], woorden: dict) -> dict:
                                            "(plaats, regio of land), "
                                            "afgeleid uit het bronmateriaal."},
                     },
-                    "required": ["candidate", "length",
+                    "required": ["onderwerp", "length",
                                  "angle", "location"],
                     "additionalProperties": False,
                 },
@@ -64,7 +64,7 @@ JsonCall = Callable[[str, str], object]
 
 
 def constants(cfg: dict) -> dict:
-    mix, woorden = cfg["length_mix"], cfg["woorden"]
+    mix = cfg["length_mix"]
     rng = lambda d: f"{d['min']}–{d['max']}"
     return {
         "scope_min": cfg["scope_items"]["min"],
@@ -72,9 +72,6 @@ def constants(cfg: dict) -> dict:
         "mix_lang": rng(mix["lang"]),
         "mix_mid": rng(mix["mid"]),
         "mix_kort": rng(mix["kort"]),
-        "woorden_lang": rng(woorden["lang"]),
-        "woorden_mid": rng(woorden["mid"]),
-        "woorden_kort": rng(woorden["kort"]),
         "body": rng(cfg["body_words"]),
     }
 
@@ -111,12 +108,12 @@ def story_blocks(keyed: list[tuple[str, Candidate]],
             ok_refs = [r for r in art.references if r.ok]
             ref_words = sum(r.words for r in ok_refs)
             ref_links = ", ".join(r.url for r in ok_refs) or "geen"
-            lines.append(f"- bron={row.bron} | published={pub or 'onbekend'}"
+            lines.append(f"- medium={row.bron} | bron_datum={pub or 'onbekend'}"
                          f" | bron_link={row.bron_link}"
                          f" | bron_titel={row.bron_titel} | bron_tekst={tekst}"
-                         f" | source_words={art.words}"
+                         f" | bron_woorden={art.words}"
                          f" | referentie_links={ref_links}"
-                         f" | referentie_words={ref_words}")
+                         f" | referentie_woorden={ref_words}")
         blocks.append("\n".join(lines))
     return "\n\n".join(blocks)
 
@@ -126,7 +123,7 @@ def build_prompt(outline_body: str, cfg: dict,
                  articles: dict[str, ArticleText],
                  published: dict[str, date | None]) -> str:
     subs = {**constants(cfg),
-            "shortlist": story_blocks(keyed, articles, published)}
+            "onderwerpen": story_blocks(keyed, articles, published)}
     return Template(outline_body).safe_substitute(subs)
 
 
@@ -141,9 +138,9 @@ def ground(payload: object, edition: date,
 
     resolved: list[tuple[dict, Candidate]] = []
     for slot in raw_slots:
-        cand = by_key.get(slot.get("candidate"))
+        cand = by_key.get(slot.get("onderwerp"))
         if cand is None:
-            return None, [f"unknown candidate {slot.get('candidate')!r}"]
+            return None, [f"unknown onderwerp {slot.get('onderwerp')!r}"]
         resolved.append((slot, cand))
 
     order = sorted(range(len(resolved)),

@@ -60,7 +60,7 @@ flowchart TD
 | F3 `score` | LLM | `f2` → `f3-scored.json` | Batched (~80 items/call, concurrent), schema-enforced output, prompt `prompts/score.md`. Unparseable batch → items left unscored and excluded (fail-closed: unscored never advances). |
 | F4 `select` | LLM | `f3` (+1/+2 only) → `f4-candidates.json` | Inputs `prompts/brief.md` + `prompts/select.md` + scored titles/summaries; output shape per PIPE-4. |
 | F5 `enrich` | code (+LLM) | `f4` → `f5-articles.json` | `tools/fetch-articles.py` refactored into the package; two-step fetch (requests, then headless browser). Re-source-or-drop per PIPE-5: the topic's sibling rows in `f4-candidates.json` are the only re-source; a topic with no full text is dropped and logged. Each full-text article's in-body links are classified by the model (EXT/INT/NAV/PROMO); EXT+INT links (denylist-filtered, capped) are followed as best-effort background `references` — never gating a topic's drop status. |
-| F6 `outline` | LLM | `f4` + `f5` (ok flags) + SPEC §5 → `f6-outline.json` | A quick pitch: produces the edition plan (story picks, length classes) from the **shortlist** — titles + RSS summaries, not the full texts. One plain call, no tools, no browsing; the writers (F7) get the texts. Code still assembles what it owns: `pos` and the lokaal front by ring-order sort , and `source_date`. |
+| F6 `outline` | LLM | `f4` + `f5` (ok flags) + SPEC §5 → `f6-outline.json` | A quick pitch: produces the edition plan (story picks, length classes) from the **onderwerpen** — titles + RSS summaries, not the full texts. One plain call, no tools, no browsing; the auteurs (F7) get the texts. Code still assembles what it owns: `pos` and the lokaal front by ring-order sort , and `source_date`. |
 | F7 `write` | LLM | `f6` → `f7-drafts.json` | One call per article (grounded on its F5 texts only); the rules (length guidance, no self-reference) are in the system prompt and not re-checked in code. `words` computed. |
 | F8 `review` | LLM | `f7` → `f8-reviewed.json` | Per article, copy-edited in isolation (draft text only — no source or reference text): Dutch grammar/spelling/phrasing and title, emitting a correction log for the PR. Output taken as-is, not validated in code. |
 | F9 `compose` | code (+LLM illustration) | `f8` → `editions/<date>/krant-A3boekje.pdf` + `edition.json` | Custom-illustration drawing, Typst render, weather baking, typeset checks, booklet imposition — all per §5. The only LLM step is the illustration; layout violations the reflow knob can't fix fail to the editorial gate. |
@@ -68,7 +68,96 @@ flowchart TD
 Fase contract: every fase is `python -m zonzijde <fase> --edition YYYY-MM-DD`;
 `run` chains them; `--from/--until` re-run a slice against existing artifacts.
 
-## 4. Data contracts
+## 4. Vocabulaire & data contracts
+
+### 4.1 Vocabulaire
+
+Two rules govern every string an LLM agent reads — prompt prose, role names, tags, and
+the field labels in the material blocks.
+
+- **V-1 — Dutch on the wire.** Everything an agent reads is Dutch. Everything only code
+  and logs see is English: artifact filenames, log keys, rule IDs. Where a name is both
+  (a `bron_titel=` label in a prompt), Dutch wins. Existing pydantic fields are
+  grandfathered; the rule binds prompt labels and anything added from here.
+- **V-2 — One word per concept.** No synonyms, not even to avoid repetition. A concept
+  with two names has one name and one retired name.
+
+Labels are snake_case and carry the prefix of the material class they belong to
+(`bron_`, `referentie_`). A label showing a list takes the plural (`referentie_links`);
+everything else is singular.
+
+**Roles.** The name in `pipeline.md` and the name in that fase's own `<rol>` block are
+the same word.
+
+| Fase | Rol | | Fase | Rol |
+|------|-----|-|------|-----|
+| F3 | nieuwsanalist | | F7 | auteur |
+| F4 | selectieredacteur | | F8 | eindredacteur |
+| F5 | referentieanalist | | F9 | illustrator |
+| F6 | hoofdredacteur | | | |
+
+`eindredacteur` is F8 and only F8.
+
+**Fases.** `pipeline.md` numbers F1–F9, matching each prompt's `fase:` header.
+
+| | code | werkwoord | kind | | | code | werkwoord | kind |
+|---|------|-----------|------|-|---|------|-----------|------|
+| F1 | `fetch` | verzamelen | code | | F6 | `outline` | plannen | LLM |
+| F2 | `filter` | filteren | code | | F7 | `write` | schrijven | LLM |
+| F3 | `score` | beoordelen | LLM | | F8 | `review` | redigeren | LLM |
+| F4 | `select` | selecteren | LLM | | F9 | `compose` | opmaken | code + LLM |
+| F5 | `enrich` | verrijken | code + LLM | | | | | |
+
+**Units in the stream.**
+
+| Begrip | Betekenis |
+|--------|-----------|
+| **item** | one feed entry: id, medium, titel, samenvatting |
+| **onderwerp** | a cluster of one or more items on the same story (F4's output) |
+| **onderwerptitel** | the short string naming that cluster — never the printed kop |
+| **key** | an onderwerp's handle: `L1`, `R2` |
+| **slot** | one place in the edition: onderwerp + lengte + invalshoek + locatie |
+| **schaal** | lokaal / regionaal / nationaal / internationaal. `scope` is the field name and the enum (L/R/N/I); prose says schaal |
+
+**Source material.** `bron` is the source article. `medium` is who published it.
+`bronmateriaal` is bronnen plus referenties together.
+
+| Label | Betekenis |
+|-------|-----------|
+| `medium` | the publisher — NOS, Gld, Gem Wijchen |
+| `bron_link` · `bron_titel` · `bron_samenvatting` | URL, published headline, the medium's own summary |
+| `bron_tekst` · `bron_woorden` · `bron_datum` | fetched body, its word count, publication date |
+| `referentie_link(s)` · `referentie_tekst` · `referentie_woorden` | background followed out of the bron |
+
+**The article.**
+
+| Begrip | Betekenis |
+|--------|-----------|
+| **concept** | what F7 produces, before F8 |
+| **artikellichaam** | the body text, without the kop |
+| **artikelkop**, short **kop** | the printed headline, written at F8 |
+| **artikel** | kop plus lichaam, after F8 |
+| **lengte** | `lang` / `mid` / `kort` |
+| **richtlijn** | the word range for that lengte — always carries its unit: `richtlijn 150–300 woorden` |
+| **invalshoek** | the editorial angle, one per slot, max 40 words |
+| **locatie (dateline)** | where the piece is anchored |
+
+**Tags.** Dutch, lowercase, singular. System prompt: `<krant>`, `<pijplijn>`,
+`<stijlgids>`. Every task prompt has the same four blocks in this order: `<rol>`,
+`<taak>`, `<regels>`, `<invoer>`. Inside `<invoer>`: `<items>` (F4), `<onderwerpen>`
+(F6), `<slot>` + `<bron>` + `<referentie>` (F7), `<concept>` (F8).
+
+**Prompt header.** `version:` (int), `fase:` (`F3` or `Meerdere`), `rol:`.
+
+**Retired.** bericht/nieuwsbericht → item · kandidaat → item or onderwerp · shortlist →
+onderwerpen · werktitel → onderwerp(titel) · scope in prose → schaal · bron as publisher
+→ medium · bronartikel → bron · opdracht → slot · source_words → bron_woorden ·
+achtergrond → referentie · artikeltekst → artikellichaam · titel as printed headline →
+artikelkop · beoordelaar/selecteur/schrijver → nieuwsanalist/selectieredacteur/auteur ·
+eindredacteur for F6 → hoofdredacteur · geschiktheid for the F3 score → richting van het
+nieuws · `<paper>`/`<pipeline>`/`<role>` → `<krant>`/`<pijplijn>`/`<rol>`.
+
+### 4.2 Data contracts
 
 Artifacts live in `editions/<date>/work/`, are pretty-printed JSON (stable key order —
 diffable in the PR), and validate against pydantic models in `zonzijde/contracts.py`.

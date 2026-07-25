@@ -31,7 +31,7 @@ IDs are permanent from v1.0 onwards. A removed ID is retired, never reused.
 
 ## States
 
-- **S11** — A topic groups one to four items and carries a werktitel; topics that reach the edition also eventually carry an *artikelkop*, an *artikellichaam*, and possibly an *illustratie*.
+- **S11** — An onderwerp groups one to four items and carries an onderwerptitel; onderwerpen that reach the edition also eventually carry an *artikelkop*, an *artikellichaam*, and possibly an *illustratie*.
 - **S12** — The edition under construction holds a growing set of placed articles across four pages.
 - **S13** — *(proto only)* Playback runs at one speed at a time: x1 (default), x4, x8, or x12.
 
@@ -77,11 +77,11 @@ IDs are permanent from v1.0 onwards. A removed ID is retired, never reused.
 
 | Stage | Fields |
 |---|---|
-| F1 | titel, samenvatting, bron, datum |
+| F1 | bron_titel, bron_samenvatting, medium, bron_datum |
 | F2 | unchanged |
 | F3 | + score |
-| F4 | + topic, werktitel |
-| F5 | + brontekst, referentielinks, referentietekst |
+| F4 | + onderwerp, onderwerptitel |
+| F5 | + bron_tekst, referentie_links, referentie_tekst |
 | F6 | + invalshoek, lengterichtlijn |
 | F7 | + draft artikellichaam |
 | F8 | + final artikellichaam, artikelkop |

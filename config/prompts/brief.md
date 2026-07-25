@@ -1,7 +1,7 @@
 ---
-versie: 6
+version: 6
+fase: Meerdere
 rol: krant omschrijving en visie.
-Fase: Meerdere
 notitie: versie 5 was just n het Engels, versie 6 in Nederlandsm
 ---
 

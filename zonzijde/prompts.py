@@ -20,7 +20,7 @@ def load_prompt(root: Path, name: str) -> Prompt:
     try:
         _, header, body = text.split("---", 2)
         meta = yaml.safe_load(header)
-        version = int(meta["version"] if "version" in meta else meta["versie"])
+        version = int(meta["version"])
     except (ValueError, KeyError, TypeError, yaml.YAMLError) as e:
         raise SystemExit(f"{path}: invalid version header: {e}")
     return Prompt(name=name, version=version, body=body.strip())
@@ -29,8 +29,8 @@ def load_prompt(root: Path, name: str) -> Prompt:
 def system_base(brief_body: str, pipeline_body: str,
                 stijlgids_body: str | None = None) -> str:
     parts = ["Je bent Claude, en werkt in de redactie van De Zonzijde.",
-             f"<paper>\n{brief_body}\n</paper>",
-             f"<pipeline>\n{pipeline_body}\n</pipeline>"]
+             f"<krant>\n{brief_body}\n</krant>",
+             f"<pijplijn>\n{pipeline_body}\n</pijplijn>"]
     if stijlgids_body is not None:
         parts.append(f"<stijlgids>\n{stijlgids_body}\n</stijlgids>")
     return "\n\n".join(parts)

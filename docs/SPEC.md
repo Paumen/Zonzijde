@@ -25,9 +25,9 @@ A funnel: each step narrows the stream. Normative behaviour per step; implementa
 | PIPE-1 | Fetch | Pull all configured feeds; a failing feed never fails the run — it is logged and skipped. |
 | PIPE-2 | Fixed filter | Remove exact duplicates by link *within the fetched batch* — the same article often arrives via multiple feeds. Repeats across editions are prevented by the candidate window (SRC-4), not by historical lookback. Strip blatantly negative items and promo via the maintained regex buckets (B1–B5). |
 | PIPE-3 | Score | An LLM scores each remaining item on the **direction** of the news. Scale and rules: `score.md`. |
-| PIPE-4 | Select | Positively scored items go to an LLM with the brief; output is a shortlist of topics per scope, unranked, one row per source article, columns: bron, scope, titel, samenvatting, link. Counts and grouping: `select.md`. |
+| PIPE-4 | Select | Positively scored items go to an LLM with the brief; output is the onderwerpen per scope, unranked, one row per source article, columns: medium, scope, bron_titel, bron_samenvatting, bron_link. Counts and grouping: `select.md`. |
 | PIPE-5 | Enrich | Fetch the full article text behind every selected link (two-step: plain fetch, then headless-browser render). A source row is sufficient when its title, summary, and fetched body together reach the word threshold (`config/edition.yaml` → `enrich.min_words`). |
-| PIPE-6 | Outline | With brief + edition spec + shortlist: pick the stories per scope in the §5 numbers, assign length class; the picked topic carries its own sources (from PIPE-4); identify which stories carry the longer pieces; consult SRC-3 reference sources. |
+| PIPE-6 | Outline | With brief + edition spec + onderwerpen: pick the stories per scope in the §5 numbers, assign length class; the picked topic carries its own sources (from PIPE-4); identify which stories carry the longer pieces; consult SRC-3 reference sources. |
 | PIPE-7 | Write | Produce full Dutch article texts per the outline. see `write.md` and `stijlgids.md`. |
 | PIPE-8 | Review | Copy-edit the drafts and finalise titles; see `review.md`, and `stijlgids`. |
 | PIPE-9 | Editorial & compose | Consolidate into the paper: cut/shorten, final ordering, overall balance and variety; typeset into the edition PDF satisfying §6; validated against LAY/EL rules before publication. |

@@ -5,6 +5,7 @@ import os
 import re
 import time
 from concurrent.futures import ThreadPoolExecutor
+from string import Template
 from typing import Callable
 
 import requests
@@ -75,12 +76,11 @@ Classify = Callable[[ArticleText], dict[int, str]]
 def make_classify(body: str, model: str, max_turns: int,
                   usage_sink: list | None = None) -> Classify:
     def classify(art: ArticleText) -> dict[int, str]:
-        lines = [body, "", f"Titel: {art.bron_titel}",
-                 f"Artikel-URL: {art.bron_link}", "Links:"]
+        lines = [f"bron_titel: {art.bron_titel}",
+                 f"bron_link: {art.bron_link}", "bron_links:"]
         for k, link in enumerate(art.links):
             lines.append(f"  [{k}] {link}")
-        prompt = "\n".join(lines) + (
-            "\n\nGeef voor elke hierboven getoonde linkindex een classificatie.")
+        prompt = Template(body).safe_substitute({"bron": "\n".join(lines)})
         payload = llm.agent_json(prompt, model=model, schema=CLASSIFY_SCHEMA,
                                  allowed_tools=[], max_turns=max_turns,
                                  usage_sink=usage_sink)
