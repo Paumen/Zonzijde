@@ -31,25 +31,25 @@ def response_schema(candidate_keys: list[str], woorden: dict) -> dict:
                             "type": "string", "enum": candidate_keys,
                             "description": "De key van het onderwerp voor dit "
                                            "slot (bijv. L1, R2)."},
-                        "length": {
+                        "lengte": {
                             "type": "string",
                             "enum": ["lang", "mid", "kort"],
                             "description": lengte_omschrijving},
-                        "angle": {
+                        "invalshoek": {
                             "type": "string",
                             "description": "De redactionele invalshoek om "
                                            "vanuit te schrijven; zie de "
                                            "voorbeelden van invalshoeken in "
                                            "de brief."},
-                        "location": {
+                        "locatie": {
                             "type": "string",
                             "description": "De locatie van de dateline waar "
                                            "het stuk aan verankerd is "
                                            "(plaats, regio of land), "
                                            "afgeleid uit het bronmateriaal."},
                     },
-                    "required": ["onderwerp", "length",
-                                 "angle", "location"],
+                    "required": ["onderwerp", "lengte",
+                                 "invalshoek", "locatie"],
                     "additionalProperties": False,
                 },
             },
@@ -152,9 +152,9 @@ def ground(payload: object, edition: date,
         dates = [published.get(sid) for sid in sids if published.get(sid)]
         slots.append({
             "pos": pos_of_index[i], "scope": cand.scope,
-            "topic": cand.topic, "length": slot.get("length"),
-            "angle": slot.get("angle"),
-            "source_ids": sids, "location": slot.get("location"),
+            "topic": cand.topic, "length": slot.get("lengte"),
+            "angle": slot.get("invalshoek"),
+            "source_ids": sids, "location": slot.get("locatie"),
             "source_date": max(dates) if dates else None,
         })
 

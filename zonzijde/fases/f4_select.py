@@ -22,10 +22,11 @@ RESPONSE_SCHEMA = {
                               "description": "De schaal waartoe dit onderwerp "
                                              "behoort: L (lokaal), R (regionaal), "
                                              "N (nationaal), I (internationaal)."},
-                    "topic": {"type": "string",
-                              "description": "De onderwerptitel: een korte "
-                                             "naam voor het gegroepeerde "
-                                             "verhaal, niet de artikelkop."},
+                    "onderwerptitel": {
+                        "type": "string",
+                        "description": "De onderwerptitel: een korte "
+                                       "naam voor het gegroepeerde "
+                                       "verhaal, niet de artikelkop."},
                     "items": {
                         "type": "array", "minItems": 1,
                         "items": {
@@ -41,7 +42,7 @@ RESPONSE_SCHEMA = {
                         },
                     },
                 },
-                "required": ["scope", "topic", "items"],
+                "required": ["scope", "onderwerptitel", "items"],
                 "additionalProperties": False,
             },
         },
@@ -79,7 +80,10 @@ def ground(payload: object, by_id: dict[str, ScoredItem]) -> tuple[list[Candidat
             rows = [{"id": row.get("id", ""), "bron": "", "bron_titel": "",
                      "samenvatting": "", "bron_link": ""}
                     for row in entry.get("items", [])]
-            cand = Candidate.model_validate({**entry, "items": rows})
+            cand = Candidate.model_validate({
+                "scope": entry.get("scope"),
+                "topic": entry.get("onderwerptitel"),
+                "items": rows})
         except (ValidationError, AttributeError, TypeError) as e:
             problems.append(f"invalid candidate entry: {e}")
             continue

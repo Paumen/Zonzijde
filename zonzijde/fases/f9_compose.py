@@ -18,22 +18,22 @@ from ..net import VERIFY
 ILLUSTRATE_SCHEMA = {
     "type": "object",
     "properties": {
-        "illustrations": {
+        "illustraties": {
             "type": "array",
             "minItems": 2, "maxItems": 2,
             "items": {
                 "type": "object",
                 "properties": {
-                    "subject": {"type": "string"},
+                    "voorstelling": {"type": "string"},
                     "pos": {"type": "integer"},
                     "svg": {"type": "string"},
                 },
-                "required": ["subject", "pos", "svg"],
+                "required": ["voorstelling", "pos", "svg"],
                 "additionalProperties": False,
             },
         },
     },
-    "required": ["illustrations"],
+    "required": ["illustraties"],
     "additionalProperties": False,
 }
 
@@ -220,13 +220,13 @@ def draw_illustrations(ctx: RunContext, articles: list[EditionArticle],
     except llm.LlmError as e:
         notes.append(f"illustrations failed: {e}")
         return []
-    if not isinstance(payload, dict) or not isinstance(payload.get("illustrations"), list):
+    if not isinstance(payload, dict) or not isinstance(payload.get("illustraties"), list):
         notes.append("illustrations failed: invalid response shape")
         return []
 
     results: list[tuple[str, int, str | None]] = []
     used: set[int] = set()
-    for i, item in enumerate(payload["illustrations"], start=1):
+    for i, item in enumerate(payload["illustraties"], start=1):
         if not isinstance(item, dict) or not isinstance(item.get("svg"), str):
             notes.append(f"illustration {i} failed: invalid response shape")
             continue
@@ -249,7 +249,7 @@ def draw_illustrations(ctx: RunContext, articles: list[EditionArticle],
             notes.append(f"illustration {i} drawn but left out of the "
                          "render: " + "; ".join(problems))
             continue
-        results.append((f"work/{fname}", pos, item.get("subject")))
+        results.append((f"work/{fname}", pos, item.get("voorstelling")))
     return results
 
 

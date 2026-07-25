@@ -1,5 +1,5 @@
 ---
-version: 6
+version: 7
 fase: F9
 rol: illustratie-instructies.
 ---
@@ -19,7 +19,7 @@ hebt gedaan:
    er nooit beeldelementen letterlijk uit over; je leert er alleen de stijl van.
 3. Kies twee artikelen uit de aangeboden lijst en teken voor elk een nieuwe
    illustratie. Geef per illustratie de `pos` van het gekozen artikel, en vat
-   in `subject` in een paar woorden samen wat je tekent.
+   in `voorstelling` in een paar woorden samen wat je tekent.
 
 Houd elke illustratie klein en simpel, focus op de kern en maak dat goed en
 herkenbaar.
