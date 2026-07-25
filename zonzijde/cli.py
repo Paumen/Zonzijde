@@ -4,7 +4,7 @@ import argparse
 from datetime import date
 from pathlib import Path
 
-from . import report
+from . import report, timing
 from .context import RunContext
 from .fases import f1_fetch, f2_filter, f3_score, f4_select, f5_enrich
 from .fases import f6_outline, f7_write, f8_review, f9_compose
@@ -58,7 +58,12 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def run_fase(name: str, ctx: RunContext) -> None:
-    FASES[name](ctx)
+    started = ctx.now()
+    t0 = timing.now_ms()
+    try:
+        FASES[name](ctx)
+    finally:
+        timing.record_fase(ctx.work_dir, name, started, timing.now_ms() - t0)
 
 
 def main(argv: list[str] | None = None) -> None:

@@ -164,6 +164,15 @@ diffable in the PR), and validate against pydantic models in `zonzijde/contracts
 Item identity: `id = sha1(canonical_link)[:12]`, assigned at F1 and carried through, so
 every printed article traces back to its feed items.
 
+### 4.3 Run timing
+
+`work/timeline.json` holds one entry per fase (`started_at`, `elapsed_ms`), rewritten
+per fase so a `--from/--until` slice updates only the fases it ran. Each fase log's
+`llm` block adds `span_ms` (fan-out measured end to end), `slowest_ms` (the tail call
+that sets the span) and `spans` (per-call `[start, end]` offsets relative to the fase's
+first call). `wall_ms` stays the *sum* of concurrent per-call durations and is not
+elapsed time; the report renders the two separately.
+
 ## 5. Compose: Typst typesetting, checks & booklet imposition
 
 **Engine choice: Typst, not a browser.** 

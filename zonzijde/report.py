@@ -2,11 +2,25 @@ from __future__ import annotations
 
 import json
 from collections import Counter
+from datetime import datetime
 
 from .context import RunContext
 from .contracts import (ArticleText, Candidate, EditionOutline, FeedItem,
                         RejectedItem, ReviewedArticle, ScoredItem,
                         load_artifact, load_model)
+
+
+FASE_LOGS = [
+    ("fetch", "F1 fetch", None),
+    ("filter", "F2 filter", None),
+    ("score", "F3 score", "f3-score-log.json"),
+    ("select", "F4 select", "f4-select-log.json"),
+    ("enrich", "F5 enrich", "f5-enrich-log.json"),
+    ("outline", "F6 outline", "f6-outline-log.json"),
+    ("write", "F7 write", "f7-write-log.json"),
+    ("review", "F8 review", "f8-review-log.json"),
+    ("compose", "F9 compose", "f9-compose-log.json"),
+]
 
 
 def _cell(value: object) -> str:
@@ -120,14 +134,79 @@ def _overview(work) -> list[str]:
     return out
 
 
+def _secs(ms: object) -> str:
+    return f"{ms / 1000:.1f}s" if isinstance(ms, (int, float)) else "—"
+
+
+def _fase_usage(work) -> dict[str, dict]:
+    out = {}
+    for key, _label, fn in FASE_LOGS:
+        if fn is None or not (work / fn).is_file():
+            continue
+        u = json.loads((work / fn).read_text(encoding="utf-8")).get("llm")
+        if u:
+            out[key] = u
+    return out
+
+
+def _timeline(work) -> list[str]:
+    path = work / "timeline.json"
+    if not path.is_file():
+        return []
+    try:
+        fases = json.loads(path.read_text(encoding="utf-8")).get("fases") or {}
+    except ValueError:
+        return []
+    usage = _fase_usage(work)
+
+    rows = []
+    gantt = []
+    total = 0
+    for key, label, _fn in FASE_LOGS:
+        entry = fases.get(key)
+        if not entry:
+            continue
+        elapsed = entry.get("elapsed_ms")
+        u = usage.get(key) or {}
+        if isinstance(elapsed, int):
+            total += elapsed
+        started = entry.get("started_at") or ""
+        try:
+            clock = datetime.fromisoformat(started)
+        except ValueError:
+            clock = None
+        rows.append([label, clock.strftime("%H:%M:%S") if clock else "—",
+                     _secs(elapsed), _secs(u.get("span_ms")),
+                     _secs(u.get("slowest_ms")), _secs(u.get("wall_ms")),
+                     u.get("calls") or "—"])
+        if clock and isinstance(elapsed, int):
+            gantt.append(f"    {label} :{clock.strftime('%Y-%m-%d %H:%M:%S')}, "
+                         f"{max(1, round(elapsed / 1000))}s")
+    if not rows:
+        return []
+    rows.append(["**total**", "", _secs(total), "", "", "", ""])
+
+    out = ["## Timeline", "",
+           "`elapsed` is measured wall-clock per fase; `Σ wall` sums the "
+           "per-call durations of calls that ran concurrently, so it is not "
+           "elapsed time. `span` is the LLM fan-out measured end to end and "
+           "`slowest` is the tail call that sets it.", "",
+           _table(["fase", "start", "elapsed", "LLM span", "slowest call",
+                   "Σ wall", "calls"], rows)]
+    if gantt:
+        out += ["", "```mermaid", "gantt",
+                "    dateFormat YYYY-MM-DD HH:mm:ss",
+                "    axisFormat %H:%M:%S",
+                "    section Fases", *gantt, "```"]
+    return out
+
+
 def _llm_usage(work) -> list[str]:
-    fases = [("F3 score", "f3-score-log.json"), ("F4 select", "f4-select-log.json"),
-             ("F5 enrich", "f5-enrich-log.json"), ("F6 outline", "f6-outline-log.json"),
-             ("F7 write", "f7-write-log.json"), ("F8 review", "f8-review-log.json"),
-             ("F9 compose", "f9-compose-log.json")]
     rows = []
     tot = Counter()
-    for label, fn in fases:
+    for _key, label, fn in FASE_LOGS:
+        if fn is None:
+            continue
         p = work / fn
         if not p.is_file():
             continue
@@ -137,7 +216,7 @@ def _llm_usage(work) -> list[str]:
             continue
         intok = (u["input_tokens"] + (u.get("cache_read_tokens") or 0)
                  + (u.get("cache_creation_tokens") or 0))
-        wall = f"{u['wall_ms'] / 1000:.1f}s" if u.get("wall_ms") else "—"
+        wall = _secs(u["wall_ms"]) if u.get("wall_ms") else "—"
         cost = f"${u['cost_usd']:.4f}" if u.get("cost_usd") is not None else "—"
         rows.append([label, d.get("model") or "—", d.get("effort") or "—",
                      u["calls"], u["turns"], f"{intok:,}",
@@ -158,7 +237,7 @@ def _llm_usage(work) -> list[str]:
                  f"${tot['cost_usd']:.4f}" if tot["cost_usd"] else "—"])
     return ["## LLM usage", "",
             _table(["fase", "model", "effort", "calls", "turns", "in tok",
-                    "out tok", "tools", "think chars", "wall", "cost"], rows)]
+                    "out tok", "tools", "think chars", "Σ wall", "cost"], rows)]
 
 
 def build(ctx: RunContext) -> str:
@@ -253,6 +332,9 @@ def build(ctx: RunContext) -> str:
                   _table(["medium", "items", "in", "error"],
                          [[f["bron"], f["entries"], f["kept"],
                            f["error"] or "—"] for f in feeds])]
+        timeline = _timeline(work)
+        if timeline:
+            parts += ["", *timeline]
         usage = _llm_usage(work)
         if usage:
             parts += ["", *usage]
