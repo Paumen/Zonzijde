@@ -215,6 +215,22 @@ model claude-haiku-4-5-20251001, prompt score.md v5
 | 9 | I | lang | Backlash tegen Premier League brengt gemeenschapsvoetbal terug | Spalding, Lincolnshire (VK) | 2026-07-22 |
 | 10 | I | kort | Eerste proefpersoon krijgt vaccin tegen ebola-variant | Oxford (VK) | 2026-07-25 |
 
+## Slot inputs (F5→F6)
+
+| pos | schaal | lengte | onderwerp | medium | samenvatting | bron_woorden | refs | referentie_woorden |
+|---|---|---|---|---|---|---|---|---|
+| 1 | L | kort | Willie Heij loopt zijn 66e Vierdaagse | nieuws.nl | 50 | 135 | 0 | 0 |
+| 2 | L | kort | Theatervoorstelling De Honingbij in kasteel Hernen | nieuws.nl | 46 | 245 | 0 | 0 |
+| 3 | L | mid | Zomerspeurtocht naar de verdwenen ijscoupes | nieuws.nl | 42 | 144 | 3 | 382 |
+| 4 | R | lang | Lochem bouwt twee nieuwe buitenzwembaden | Gld | 44 | 678 | 0 | 0 |
+| 5 | R | mid | Wandelen verbindt: wethouder en energiecoaches in Druten | Druten, Druten | 59 | 1344 | 1 | 34 |
+| 6 | N | mid | Voor het eerst een moeder als Queen Zomercarnaval | NOS J, NOS Binnen | 691 | 624 | 0 | 0 |
+| 7 | N | kort | Herinneringsbrief Donorregister voor 21-jarigen | Overheid | 42 | 376 | 0 | 0 |
+| 8 | I | mid | Bedreigde diersoorten herstellen na jarenlange bescherming | HumanProg, HumanProg, HumanProg | 218 | 397 | 2 (1 ok) | 514 |
+| 9 | I | lang | Backlash tegen Premier League brengt gemeenschapsvoetbal terug | Positive | 38 | 904 | 0 | 0 |
+| 10 | I | kort | Eerste proefpersoon krijgt vaccin tegen ebola-variant | NOS Buiten | 181 | 191 | 0 | 0 |
+|  |  |  | **totaal** |  | 1411 | 5038 | 6 (5 ok) | 930 |
+
 ## Articles (F7/8)
 
 | pos | artikelkop | woorden concept → artikel |

@@ -320,6 +320,39 @@ def build(ctx: RunContext) -> str:
                            s.location, s.source_date or "—"]
                           for s in outline.slots])]
 
+    if outline_path.is_file() and articles_path.is_file():
+        outline = load_model(outline_path, EditionOutline)
+        articles = {a.id: a for a in load_artifact(articles_path, ArticleText)}
+        rows = []
+        tot = Counter()
+        for s in outline.slots:
+            srcs = [articles[i] for i in s.source_ids if i in articles]
+            refs = [r for a in srcs for r in a.references]
+            sam = sum(len(a.samenvatting.split()) for a in srcs)
+            bron_words = sum(len(a.text.split()) for a in srcs)
+            ref_words = sum(r.words for r in refs)
+            ok_refs = sum(1 for r in refs if r.ok)
+            rows.append([s.pos, s.scope, s.length, s.topic,
+                         ", ".join(a.bron for a in srcs) or "—",
+                         sam, bron_words,
+                         len(refs) if len(refs) == ok_refs
+                         else f"{len(refs)} ({ok_refs} ok)",
+                         ref_words])
+            tot["samenvatting"] += sam
+            tot["bron_woorden"] += bron_words
+            tot["refs"] += len(refs)
+            tot["ok_refs"] += ok_refs
+            tot["referentie_woorden"] += ref_words
+        rows.append(["", "", "", "**totaal**", "", tot["samenvatting"],
+                     tot["bron_woorden"],
+                     tot["refs"] if tot["refs"] == tot["ok_refs"]
+                     else f"{tot['refs']} ({tot['ok_refs']} ok)",
+                     tot["referentie_woorden"]])
+        parts += ["", "## Slot inputs (F5→F6)", "",
+                  _table(["pos", "schaal", "lengte", "onderwerp", "medium",
+                          "samenvatting", "bron_woorden", "refs",
+                          "referentie_woorden"], rows)]
+
     if reviewed_path.is_file():
         reviewed = load_artifact(reviewed_path, ReviewedArticle)
         draft_words = {}
