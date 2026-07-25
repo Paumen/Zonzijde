@@ -1,5 +1,5 @@
 ---
-version: 8
+version: 9
 fase: F4
 rol: selectie-instructies.
 ---
@@ -14,7 +14,7 @@ Selecteer voor elk van de vier schalen de onderwerpen die het meest geschikt zij
 </taak>
 
 <regels>
-- Selecteer 7 onderwerpen elk voor lokaal (L) en regionaal (R), en 5 elk voor nationaal (N) en internationaal (I).
+- Selecteer $onderwerpen_L onderwerpen voor lokaal (L), $onderwerpen_R voor regionaal (R), $onderwerpen_N voor nationaal (N) en $onderwerpen_I voor internationaal (I).
 - Een onderwerp dat door meerdere bronnen wordt gedekt, behoudt ze allemaal.
 - Kies uitsluitend uit de items hieronder; verwijs naar elk item met zijn exacte id.
 </regels>

@@ -59,8 +59,11 @@ def item_line(item: ScoredItem) -> str:
             f" | bron_titel={item.title} | bron_samenvatting={summary}")
 
 
-def build_prompt(select_body: str, items: list[ScoredItem]) -> str:
-    subs = {"items": "\n".join(item_line(i) for i in items)}
+def build_prompt(select_body: str, items: list[ScoredItem],
+                 ed_cfg: dict) -> str:
+    counts = ed_cfg["onderwerpen"]
+    subs = {"items": "\n".join(item_line(i) for i in items),
+            **{f"onderwerpen_{s}": counts[s] for s in ("L", "R", "N", "I")}}
     return Template(select_body).safe_substitute(subs)
 
 
@@ -113,7 +116,7 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
         raise SystemExit("F4 select: no +1/+2 items to select from (PIPE-4)")
     by_id = {i.id: i for i in positive}
 
-    prompt = build_prompt(select.body, positive)
+    prompt = build_prompt(select.body, positive, ctx.edition_cfg)
     try:
         payload = call(prompt, system)
     except llm.LlmError as e:
@@ -139,5 +142,5 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
         json.dumps(log, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
     rows = sum(len(c.items) for c in candidates)
-    print(f"F4 select: {len(positive)} +1/+2 items → {len(candidates)} topics"
-          f" ({rows} rows)")
+    print(f"F4 select: {len(positive)} +1/+2 items → {len(candidates)} onderwerpen"
+          f" ({rows} bronnen)")
