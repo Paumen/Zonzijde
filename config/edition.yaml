@@ -5,11 +5,11 @@ window:
   days: 6
 
 fetch:
-  concurrency: 10
+  concurrency: 20
   timeout_s: 15
 
 enrich:
-  concurrency: 16
+  concurrency: 50
   timeout_s: 20
   min_words: 100
   browser: true
