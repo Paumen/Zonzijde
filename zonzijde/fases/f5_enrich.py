@@ -319,7 +319,7 @@ def run(ctx: RunContext, fetch: Fetch | None = None,
     (ctx.work_dir / "f5-enrich-log.json").write_text(
         json.dumps(log, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
-    print(f"F5 enrich: {log['rows']} source rows → {log['full_text']} full texts"
+    print(f"F5 enrich: {log['rows']} bronnen → {log['full_text']} full texts"
           f" (requests {methods['requests']}, playwright {methods['playwright']});"
-          f" {ref_ok}/{ref_selected} references; "
-          f"{len(dropped)} topic(s) dropped in {log['duration_s']}s")
+          f" {ref_ok}/{ref_selected} referenties; "
+          f"{len(dropped)} onderwerp(en) dropped in {log['duration_s']}s")

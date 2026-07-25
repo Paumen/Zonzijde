@@ -8,7 +8,7 @@ from pydantic import ValidationError
 
 from .. import llm, prompts
 from ..context import RunContext
-from ..contracts import Candidate, ScoredItem, load_artifact, save_artifact
+from ..contracts import RING, Candidate, ScoredItem, load_artifact, save_artifact
 
 RESPONSE_SCHEMA = {
     "type": "object",
@@ -18,7 +18,7 @@ RESPONSE_SCHEMA = {
             "items": {
                 "type": "object",
                 "properties": {
-                    "scope": {"type": "string", "enum": ["L", "R", "N", "I"],
+                    "scope": {"type": "string", "enum": RING,
                               "description": "De schaal waartoe dit onderwerp "
                                              "behoort: L (lokaal), R (regionaal), "
                                              "N (nationaal), I (internationaal)."},
@@ -59,8 +59,11 @@ def item_line(item: ScoredItem) -> str:
             f" | bron_titel={item.title} | bron_samenvatting={summary}")
 
 
-def build_prompt(select_body: str, items: list[ScoredItem]) -> str:
-    subs = {"items": "\n".join(item_line(i) for i in items)}
+def build_prompt(select_body: str, items: list[ScoredItem],
+                 ed_cfg: dict) -> str:
+    counts = ed_cfg["onderwerpen"]
+    subs = {"items": "\n".join(item_line(i) for i in items),
+            **{f"onderwerpen_{s}": counts[s] for s in RING}}
     return Template(select_body).safe_substitute(subs)
 
 
@@ -113,7 +116,7 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
         raise SystemExit("F4 select: no +1/+2 items to select from (PIPE-4)")
     by_id = {i.id: i for i in positive}
 
-    prompt = build_prompt(select.body, positive)
+    prompt = build_prompt(select.body, positive, ctx.edition_cfg)
     try:
         payload = call(prompt, system)
     except llm.LlmError as e:
@@ -122,7 +125,7 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
     if problems:
         raise SystemExit(f"F4 select: invalid selection: {problems}")
 
-    candidates.sort(key=lambda c: ["L", "R", "N", "I"].index(c.scope))
+    candidates.sort(key=lambda c: RING.index(c.scope))
     save_artifact(ctx.work_dir / "f4-candidates.json", candidates)
     log = {
         "model": cfg["model"], "effort": cfg.get("effort"),
@@ -139,5 +142,5 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
         json.dumps(log, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
     rows = sum(len(c.items) for c in candidates)
-    print(f"F4 select: {len(positive)} +1/+2 items → {len(candidates)} topics"
-          f" ({rows} rows)")
+    print(f"F4 select: {len(positive)} +1/+2 items → {len(candidates)} onderwerpen"
+          f" ({rows} bronnen)")

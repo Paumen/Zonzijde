@@ -12,6 +12,8 @@ from pydantic import BaseModel, Field
 _TRACKING_PREFIXES = ("utm_",)
 _TRACKING_KEYS = {"fbclid", "gclid"}
 
+RING = ["L", "R", "N", "I"]
+
 
 def canonical_link(url: str) -> str:
     parts = urlsplit(url.strip())

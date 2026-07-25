@@ -56,7 +56,7 @@ def _overview(work) -> list[str]:
     filtered = positive = rows = None
     if (work / "f2-filtered.json").is_file():
         filtered = len(load_artifact(work / "f2-filtered.json", FeedItem))
-        item.append(("in", "Candidates", filtered))
+        item.append(("in", "Items", filtered))
         if (work / "f2-rejected.json").is_file():
             reasons = Counter()
             for r in load_artifact(work / "f2-rejected.json", RejectedItem):
@@ -68,22 +68,22 @@ def _overview(work) -> list[str]:
         slog = json.loads((work / "f3-score-log.json").read_text(encoding="utf-8"))
         dist = slog["distribution"]
         positive = int(dist.get("1", 0)) + int(dist.get("2", 0))
-        item.append(("Candidates", "Positive (+1/+2)", positive))
-        item.append(("Candidates", "Negative (-1/-2)",
+        item.append(("Items", "Positive (+1/+2)", positive))
+        item.append(("Items", "Negative (-1/-2)",
                      int(dist.get("-1", 0)) + int(dist.get("-2", 0))))
-        item.append(("Candidates", "Unscored", len(slog.get("unscored_ids", []))))
-        item.append(("Candidates", "Score 0", int(dist.get("0", 0))))
+        item.append(("Items", "Unscored", len(slog.get("unscored_ids", []))))
+        item.append(("Items", "Score 0", int(dist.get("0", 0))))
     if positive and (work / "f4-candidates.json").is_file():
         rows = sum(len(c.items) for c in
                    load_artifact(work / "f4-candidates.json", Candidate))
-        item.append(("Positive (+1/+2)", "Selected rows", rows))
+        item.append(("Positive (+1/+2)", "Selected bronnen", rows))
         item.append(("Positive (+1/+2)", "Not selected", positive - rows))
     if rows and (work / "f5-enrich-log.json").is_file():
         ft = json.loads((work / "f5-enrich-log.json")
                         .read_text(encoding="utf-8")).get("full_text")
         if ft is not None:
-            item.append(("Selected rows", "Enriched", ft))
-            item.append(("Selected rows", "No full text", rows - ft))
+            item.append(("Selected bronnen", "Enriched", ft))
+            item.append(("Selected bronnen", "No full text", rows - ft))
 
     edition: list[tuple[str, str, int]] = []
     if (work / "f6-outline.json").is_file():
@@ -93,8 +93,8 @@ def _overview(work) -> list[str]:
             wf = len(json.loads((work / "f7-write-log.json")
                                 .read_text(encoding="utf-8")).get("failed_slots") or [])
             written = n_slots - wf
-            edition += [("Outline slots", "Written", written),
-                        ("Outline slots", "Write failed", wf)]
+            edition += [("Slots", "Written", written),
+                        ("Slots", "Write failed", wf)]
         if (work / "f8-review-log.json").is_file():
             rf = len(json.loads((work / "f8-review-log.json")
                                 .read_text(encoding="utf-8")).get("failed_slots") or [])
@@ -111,7 +111,7 @@ def _overview(work) -> list[str]:
                 "enriched (drop branches show why and what type):", ""]
         out += item_sankey + [""]
     if edition_sankey:
-        out += ["Edition — outline slots → written → reviewed:", ""]
+        out += ["Edition — slots → written → reviewed:", ""]
         out += edition_sankey + [""]
     return out
 
@@ -190,7 +190,7 @@ def build(ctx: RunContext) -> str:
         if items_path.is_file():
             filtered = load_artifact(items_path, FeedItem)
             rejected = load_artifact(rejected_path, RejectedItem)
-            parts += [f"- F2 filter: {kept} → {len(filtered)} candidates"
+            parts += [f"- F2 filter: {kept} → {len(filtered)} items"
                       f" ({len(rejected)} rejected)"]
         if score_log_path.is_file():
             scored = load_artifact(work / "f3-scored.json", ScoredItem)
@@ -203,14 +203,15 @@ def build(ctx: RunContext) -> str:
         if candidates_path.is_file():
             candidates = load_artifact(candidates_path, Candidate)
             rows = sum(len(c.items) for c in candidates)
-            parts += [f"- F4 select: {len(candidates)} topics ({rows} source rows)"]
+            parts += [f"- F4 select: {len(candidates)} onderwerpen"
+                      f" ({rows} bronnen)"]
         if enrich_log_path.is_file():
             elog = json.loads(enrich_log_path.read_text(encoding="utf-8"))
             m = elog["methods"]
-            parts += [f"- F5 enrich: {elog['rows']} source rows → "
+            parts += [f"- F5 enrich: {elog['rows']} bronnen → "
                       f"{elog['full_text']} full texts"
                       f" (requests {m['requests']}, playwright {m['playwright']})"
-                      + (f"; {len(elog['dropped_topics'])} topics dropped (F5)"
+                      + (f"; {len(elog['dropped_topics'])} onderwerpen dropped (F5)"
                          if elog["dropped_topics"] else "")]
         if outline_path.is_file():
             outline = load_model(outline_path, EditionOutline)
@@ -243,7 +244,7 @@ def build(ctx: RunContext) -> str:
                          f"violation(s)**" if open_v
                          else " — typeset checks clean")]
         parts += ["", "## Feeds", "",
-                  _table(["bron", "items", "in", "error"],
+                  _table(["medium", "items", "in", "error"],
                          [[f["bron"], f["entries"], f["kept"],
                            f["error"] or "—"] for f in feeds])]
         usage = _llm_usage(work)
@@ -277,8 +278,8 @@ def build(ctx: RunContext) -> str:
 
     if candidates_path.is_file():
         candidates = load_artifact(candidates_path, Candidate)
-        parts += ["", "## Selected topics (F4)", "",
-                  _table(["s", "topic", "bronnen"],
+        parts += ["", "## Selected onderwerpen (F4)", "",
+                  _table(["schaal", "onderwerp", "media"],
                          [[c.scope, c.topic,
                            ", ".join(r.bron for r in c.items)]
                           for c in candidates])]
@@ -299,21 +300,22 @@ def build(ctx: RunContext) -> str:
                 if a.ok:
                     status = "ok"
                 elif ok_rows == 0:
-                    status = "**dropped** — no sufficient row"
+                    status = "**dropped** — geen toereikende bron"
                 else:
                     status = "insufficient"
                 rows.append([c.scope, c.topic, a.bron,
                              len(a.samenvatting.split()), len(a.text.split()),
                              len(refs), ref_words, ref_links, status])
         parts += ["", "## Enrichment (F5)", "",
-                  _table(["s", "topic", "bron", "sum", "text",
-                          "refs", "ref words", "ref links", "status"], rows)]
+                  _table(["schaal", "onderwerp", "medium", "samenvatting",
+                          "bron_woorden", "refs", "referentie_woorden",
+                          "referentie_links", "status"], rows)]
 
     if outline_path.is_file():
         outline = load_model(outline_path, EditionOutline)
         parts += ["", "## Edition plan (F6)", "",
-                  _table(["pos", "s", "length", "topic",
-                          "locatie", "datum"],
+                  _table(["pos", "schaal", "lengte", "onderwerp",
+                          "locatie", "bron_datum"],
                          [[s.pos, s.scope, s.length, s.topic,
                            s.location, s.source_date or "—"]
                           for s in outline.slots])]
@@ -326,7 +328,7 @@ def build(ctx: RunContext) -> str:
             draft_words = {a["pos"]: a["words"]["draft"]
                           for a in rlog["articles"]}
         parts += ["", "## Articles (F7/8)", "",
-                  _table(["pos", "title", "words draft → reviewed"],
+                  _table(["pos", "artikelkop", "woorden concept → artikel"],
                          [[r.pos, r.title,
                            f"{draft_words.get(r.pos, '—')} → {r.words}"]
                           for r in reviewed])]
