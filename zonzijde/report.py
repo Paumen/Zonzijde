@@ -9,10 +9,14 @@ from .contracts import (ArticleText, Candidate, EditionOutline, FeedItem,
                         load_artifact, load_model)
 
 
+def _cell(value: object) -> str:
+    return str(value).replace("|", "\\|").replace("\n", "<br>")
+
+
 def _table(headers: list[str], rows: list[list]) -> str:
     lines = ["| " + " | ".join(headers) + " |",
              "|" + "|".join("---" for _ in headers) + "|"]
-    lines += ["| " + " | ".join(str(c) for c in row) + " |" for row in rows]
+    lines += ["| " + " | ".join(_cell(c) for c in row) + " |" for row in rows]
     return "\n".join(lines)
 
 
@@ -315,10 +319,43 @@ def build(ctx: RunContext) -> str:
         outline = load_model(outline_path, EditionOutline)
         parts += ["", "## Edition plan (F6)", "",
                   _table(["pos", "schaal", "lengte", "onderwerp",
-                          "locatie", "bron_datum"],
+                          "locatie", "bron_datum", "invalshoek"],
                          [[s.pos, s.scope, s.length, s.topic,
-                           s.location, s.source_date or "—"]
+                           s.location, s.source_date or "—", s.angle]
                           for s in outline.slots])]
+
+    if outline_path.is_file() and articles_path.is_file():
+        outline = load_model(outline_path, EditionOutline)
+        articles = {a.id: a for a in load_artifact(articles_path, ArticleText)}
+        rows = []
+        tot = Counter()
+        for s in outline.slots:
+            srcs = [articles[i] for i in s.source_ids if i in articles]
+            refs = [r for a in srcs for r in a.references]
+            sam = sum(len(a.samenvatting.split()) for a in srcs)
+            bron_words = sum(len(a.text.split()) for a in srcs)
+            ref_words = sum(r.words for r in refs)
+            ok_refs = sum(1 for r in refs if r.ok)
+            rows.append([s.pos, s.scope, s.length, s.topic,
+                         ", ".join(a.bron for a in srcs) or "—",
+                         sam, bron_words,
+                         len(refs) if len(refs) == ok_refs
+                         else f"{len(refs)} ({ok_refs} ok)",
+                         ref_words])
+            tot["samenvatting"] += sam
+            tot["bron_woorden"] += bron_words
+            tot["refs"] += len(refs)
+            tot["ok_refs"] += ok_refs
+            tot["referentie_woorden"] += ref_words
+        rows.append(["", "", "", "**totaal**", "", tot["samenvatting"],
+                     tot["bron_woorden"],
+                     tot["refs"] if tot["refs"] == tot["ok_refs"]
+                     else f"{tot['refs']} ({tot['ok_refs']} ok)",
+                     tot["referentie_woorden"]])
+        parts += ["", "## Slot inputs (F5→F6)", "",
+                  _table(["pos", "schaal", "lengte", "onderwerp", "medium",
+                          "samenvatting", "bron_woorden", "refs",
+                          "referentie_woorden"], rows)]
 
     if reviewed_path.is_file():
         reviewed = load_artifact(reviewed_path, ReviewedArticle)
@@ -327,11 +364,20 @@ def build(ctx: RunContext) -> str:
             rlog = json.loads(review_log_path.read_text(encoding="utf-8"))
             draft_words = {a["pos"]: a["words"]["draft"]
                           for a in rlog["articles"]}
+        models = {}
+        if write_log_path.is_file():
+            wlog = json.loads(write_log_path.read_text(encoding="utf-8"))
+            models = {s["pos"]: (s.get("model"), s.get("effort"))
+                      for s in wlog["slots"]}
+        rows = []
+        for r in reviewed:
+            model, effort = models.get(r.pos, (None, None))
+            rows.append([r.pos, r.title,
+                         f"{draft_words.get(r.pos, '—')} → {r.words}",
+                         model or "—", effort or "—"])
         parts += ["", "## Articles (F7/8)", "",
-                  _table(["pos", "artikelkop", "woorden concept → artikel"],
-                         [[r.pos, r.title,
-                           f"{draft_words.get(r.pos, '—')} → {r.words}"]
-                          for r in reviewed])]
+                  _table(["pos", "artikelkop", "woorden concept → artikel",
+                          "model (F7)", "effort"], rows)]
 
     if compose_log_path.is_file():
         clog = json.loads(compose_log_path.read_text(encoding="utf-8"))
