@@ -1,0 +1,114 @@
+{
+  "edition": "2026-07-26",
+  "slots": [
+    {
+      "pos": 1,
+      "scope": "L",
+      "topic": "Vierdaagse als beweegritueel voor Wijchen",
+      "length": "mid",
+      "angle": "Juxtapositie: op één Wijchense woensdag komen twee draden samen — duizenden voeten door de straten én Roze Woensdag die het dorp kleurt. Bewegen naast erbij-horen; licht landen, geen belering, warm-in-terughoudendheid.",
+      "source_ids": [
+        "d165a7e127ba"
+      ],
+      "location": "Wijchen",
+      "source_date": "2026-07-22"
+    },
+    {
+      "pos": 2,
+      "scope": "L",
+      "topic": "Wijchense Wereldwinkel uitFAIRkoop-kast",
+      "length": "kort",
+      "angle": "Ga-en-kijk / stille bekwaamheid: een nieuwe uitFAIRkoop-kast in de Wereldwinkel, 30% korting op fairtrade. Klein en concreet, zelf binnen te lopen; de makers krijgen een leefbaar bestaan. Mijd de folder-toon.",
+      "source_ids": [
+        "7b26e5b20c63"
+      ],
+      "location": "Wijchen",
+      "source_date": "2026-07-23"
+    },
+    {
+      "pos": 3,
+      "scope": "R",
+      "topic": "Papierfabriek Folding Boxboard lijkt gered",
+      "length": "mid",
+      "angle": "Herstel: een papierfabriek uit 1661, een maand geleden failliet, maakt een doorstart. Anker in de ouderdom en de nabije afgrond; houd het ingetogen — het akkoord is nog principe, geen triomf.",
+      "source_ids": [
+        "7ae6406bdc84"
+      ],
+      "location": "Eerbeek",
+      "source_date": "2026-07-25"
+    },
+    {
+      "pos": 4,
+      "scope": "R",
+      "topic": "100-jarige bevrijder Arnhem krijgt medaille",
+      "length": "lang",
+      "angle": "Verandermaker plus warme dankbaarheid: een klein Arnhems comité regelde stilletjes een tweede onderscheiding voor een 100-jarige Britse bevrijder — en reist heimelijk naar Engeland om het te zien. Het comité drijft de goede uitkomst, Arnold weet van niets.",
+      "source_ids": [
+        "82842f219de3"
+      ],
+      "location": "Arnhem",
+      "source_date": "2026-07-25"
+    },
+    {
+      "pos": 5,
+      "scope": "R",
+      "topic": "Vierdaagse voltooid: 42.137 wandelaars over finish",
+      "length": "kort",
+      "angle": "Uitgangscijfer, wrang-droog: de Vierdaagse hecht af — 42.137 uitlopers, en opvallend minder blaren dan vorig jaar. Laat de getallen de stille triomf dragen; kort, feitelijk, met een knipoog.",
+      "source_ids": [
+        "7471699184d5",
+        "766fc1c81bff"
+      ],
+      "location": "Nijmegen",
+      "source_date": "2026-07-25"
+    },
+    {
+      "pos": 6,
+      "scope": "N",
+      "topic": "Eerste moeder als Queen Zomercarnaval",
+      "length": "lang",
+      "angle": "Herstel van een droom via een verandermaker-instelling: een geschrapte regel ('geen moeders') liet Mireyna, moeder van twee, eindelijk Queen van het Zomercarnaval worden — en ze won. Een organisatie die met de tijd meebeweegt.",
+      "source_ids": [
+        "3ffe0dfd66be"
+      ],
+      "location": "Rotterdam",
+      "source_date": "2026-07-25"
+    },
+    {
+      "pos": 7,
+      "scope": "N",
+      "topic": "Ecologisch bermbeheer wordt de standaard",
+      "length": "mid",
+      "angle": "Vooruitgangsverhaal op een uitgangscijfer: ecologisch bermbeheer (Kleurkeur) wordt steeds vaker de norm; waar maar een deel wordt gemaaid, tweemaal zoveel wilde bijen. 'Maaien is doden' als de kering.",
+      "source_ids": [
+        "833164f87299"
+      ],
+      "location": "Nederland",
+      "source_date": "2026-07-22"
+    },
+    {
+      "pos": 8,
+      "scope": "I",
+      "topic": "Eerste vaccinproef tegen Bundibugyo-ebola",
+      "length": "mid",
+      "angle": "Oplossingsverhaal met erkennen-en-keren: in Oxford krijgt de eerste proefpersoon een vaccin tegen de Bundibugyo-ebola, terwijl een uitbraak in Congo slachtoffers maakt. Benoem de grimmige achtergrond, keer dan naar de hoop — 600.000 doses staan klaar.",
+      "source_ids": [
+        "9702f55fbd70"
+      ],
+      "location": "Oxford",
+      "source_date": "2026-07-25"
+    },
+    {
+      "pos": 9,
+      "scope": "I",
+      "topic": "Hawaiiaanse steltloper herstelt van bijna-uitsterven",
+      "length": "kort",
+      "angle": "Herstel op een uitgangscijfer: de Hawaiiaanse steltloper klom van zo'n 200 vogels in de jaren '40 naar 1.500, en gaat van 'ernstig bedreigd' naar 'bedreigd'. Laat de getallen het verhaal dragen.",
+      "source_ids": [
+        "935633142daf"
+      ],
+      "location": "Hawaï",
+      "source_date": "2026-07-23"
+    }
+  ]
+}

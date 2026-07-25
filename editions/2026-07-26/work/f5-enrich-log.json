@@ -1,0 +1,201 @@
+{
+  "model": "claude-haiku-4-5-20251001",
+  "rows": 26,
+  "full_text": 25,
+  "methods": {
+    "requests": 25,
+    "playwright": 0
+  },
+  "min_words": 100,
+  "references": {
+    "selected": 25,
+    "ok": 24
+  },
+  "topics": [
+    {
+      "scope": "L",
+      "topic": "Vierdaagse als beweegritueel voor Wijchen",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "L",
+      "topic": "Liek loopt Vierdaagse voor zieke dochter Bo",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "L",
+      "topic": "Nijmeegs gezin en Roze Woensdag",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "L",
+      "topic": "Blaren en wandelkwalen: Rode Kruis-tips",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "L",
+      "topic": "Marcel loopt Vierdaagse alleen",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "L",
+      "topic": "Wijchense Wereldwinkel uitFAIRkoop-kast",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "L",
+      "topic": "Gratis Happy Mind Moment voor vrouwen",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "R",
+      "topic": "Papierfabriek Folding Boxboard lijkt gered",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "R",
+      "topic": "100-jarige bevrijder Arnhem krijgt medaille",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "R",
+      "topic": "Vierdaagse voltooid: 42.137 wandelaars over finish",
+      "rows": 2,
+      "ok_rows": 2,
+      "dropped": false
+    },
+    {
+      "scope": "R",
+      "topic": "Aanzoek op de Vierdaagse",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "R",
+      "topic": "Lochem bouwt twee nieuwe buitenzwembaden",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "R",
+      "topic": "Vriendinnen uit Groesbeek: blaren en borrels",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "R",
+      "topic": "Drutense energiecoaches helpen buren besparen",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "N",
+      "topic": "Campagne helpt Nederlanders energie besparen",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "N",
+      "topic": "Eerste moeder als Queen Zomercarnaval",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "N",
+      "topic": "Amsterdam viert eerste WorldPride",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "N",
+      "topic": "Delftse halfgeleider kan zenuwstelsel draadloos aansturen",
+      "rows": 1,
+      "ok_rows": 0,
+      "dropped": true
+    },
+    {
+      "scope": "N",
+      "topic": "Ecologisch bermbeheer wordt de standaard",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "I",
+      "topic": "Kinderen in Gaza krijgen weer zwemles",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "I",
+      "topic": "Ecowins: steden, dieren en technologie",
+      "rows": 2,
+      "ok_rows": 2,
+      "dropped": false
+    },
+    {
+      "scope": "I",
+      "topic": "Eerste vaccinproef tegen Bundibugyo-ebola",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "I",
+      "topic": "Hawaiiaanse steltloper herstelt van bijna-uitsterven",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "I",
+      "topic": "Gemeenschapsclubs floreren dankzij backlash tegen Premier League",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    }
+  ],
+  "dropped_topics": [
+    "Delftse halfgeleider kan zenuwstelsel draadloos aansturen"
+  ],
+  "duration_s": 115.1,
+  "llm": {
+    "calls": 17,
+    "input_tokens": 290,
+    "output_tokens": 21726,
+    "cache_read_tokens": 508342,
+    "cache_creation_tokens": 97493,
+    "cost_usd": 0.3722,
+    "turns": 46,
+    "tool_uses": 17,
+    "thinking_chars": 38954,
+    "wall_ms": 306909,
+    "api_ms": 311434
+  }
+}

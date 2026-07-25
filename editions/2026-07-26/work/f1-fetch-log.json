@@ -1,0 +1,337 @@
+{
+  "fetched_at": "2026-07-25T16:38:42.571136+02:00",
+  "window_start": "2026-07-20T00:00:00+02:00",
+  "window_days": 6,
+  "feeds": [
+    {
+      "source": "gem_wijchen",
+      "bron": "Gem Wijchen",
+      "error": "",
+      "entries": 20,
+      "kept": 1,
+      "out_of_window": 19,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "nieuws_nl",
+      "bron": "nieuws.nl",
+      "error": "HTTPError: 503 Server Error: Service Unavailable for url: http://wijchen.nieuws.nl/sitemap/news.xml",
+      "entries": 0,
+      "kept": 0,
+      "out_of_window": 0,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "gld",
+      "bron": "Gld",
+      "error": "",
+      "entries": 50,
+      "kept": 50,
+      "out_of_window": 0,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "gld_rvn",
+      "bron": "Gld RvN",
+      "error": "",
+      "entries": 50,
+      "kept": 50,
+      "out_of_window": 0,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "rijksoverheid",
+      "bron": "Overheid",
+      "error": "",
+      "entries": 10,
+      "kept": 10,
+      "out_of_window": 0,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "nos_jeugd",
+      "bron": "NOS J",
+      "error": "",
+      "entries": 20,
+      "kept": 20,
+      "out_of_window": 0,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "nos_binnenland",
+      "bron": "NOS Binnen",
+      "error": "",
+      "entries": 20,
+      "kept": 20,
+      "out_of_window": 0,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "nos_buitenland",
+      "bron": "NOS Buiten",
+      "error": "",
+      "entries": 20,
+      "kept": 20,
+      "out_of_window": 0,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "nos_economie",
+      "bron": "NOS Econ",
+      "error": "",
+      "entries": 20,
+      "kept": 20,
+      "out_of_window": 0,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "nos_sport",
+      "bron": "NOS Sport",
+      "error": "",
+      "entries": 20,
+      "kept": 20,
+      "out_of_window": 0,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "nos_opmerkelijk",
+      "bron": "NOS Opm",
+      "error": "",
+      "entries": 20,
+      "kept": 1,
+      "out_of_window": 19,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "nos_cultuur",
+      "bron": "NOS Cultuur",
+      "error": "",
+      "entries": 20,
+      "kept": 3,
+      "out_of_window": 17,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "ftm",
+      "bron": "FTM",
+      "error": "",
+      "entries": 7,
+      "kept": 6,
+      "out_of_window": 1,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "ew",
+      "bron": "EW",
+      "error": "",
+      "entries": 10,
+      "kept": 10,
+      "out_of_window": 0,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "dw",
+      "bron": "DW",
+      "error": "",
+      "entries": 21,
+      "kept": 21,
+      "out_of_window": 0,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "dw_env",
+      "bron": "DW Env",
+      "error": "",
+      "entries": 20,
+      "kept": 4,
+      "out_of_window": 16,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "dw_science",
+      "bron": "DW Science",
+      "error": "",
+      "entries": 3,
+      "kept": 3,
+      "out_of_window": 0,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "positive_news",
+      "bron": "Positive",
+      "error": "",
+      "entries": 10,
+      "kept": 5,
+      "out_of_window": 5,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "wijwijchen",
+      "bron": "WijWijchen",
+      "error": "",
+      "entries": 20,
+      "kept": 2,
+      "out_of_window": 18,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "druten",
+      "bron": "Druten",
+      "error": "",
+      "entries": 20,
+      "kept": 4,
+      "out_of_window": 16,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "knmi",
+      "bron": "KNMI",
+      "error": "",
+      "entries": 5,
+      "kept": 0,
+      "out_of_window": 5,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "cbs_natuur_milieu",
+      "bron": "CBS n&m",
+      "error": "",
+      "entries": 50,
+      "kept": 1,
+      "out_of_window": 49,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "cbs_vrije_tijd_cultuur",
+      "bron": "CBS v&c",
+      "error": "",
+      "entries": 50,
+      "kept": 0,
+      "out_of_window": 50,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "natuurmonumenten",
+      "bron": "Natuurmon",
+      "error": "",
+      "entries": 30,
+      "kept": 12,
+      "out_of_window": 18,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "ivn",
+      "bron": "IVN",
+      "error": "",
+      "entries": 10,
+      "kept": 0,
+      "out_of_window": 10,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "maatschapwij",
+      "bron": "MaatschapWij",
+      "error": "",
+      "entries": 8,
+      "kept": 3,
+      "out_of_window": 5,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "bbc_future",
+      "bron": "BBC Future",
+      "error": "",
+      "entries": 10,
+      "kept": 7,
+      "out_of_window": 3,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "reasons_to_be_cheerful",
+      "bron": "RtbC",
+      "error": "",
+      "entries": 10,
+      "kept": 5,
+      "out_of_window": 5,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "fix_the_news",
+      "bron": "FixNews",
+      "error": "",
+      "entries": 20,
+      "kept": 3,
+      "out_of_window": 17,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "mongabay",
+      "bron": "Mongabay",
+      "error": "",
+      "entries": 32,
+      "kept": 32,
+      "out_of_window": 0,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "human_progress",
+      "bron": "HumanProg",
+      "error": "",
+      "entries": 10,
+      "kept": 10,
+      "out_of_window": 0,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "naturetoday",
+      "bron": "NatureToday",
+      "error": "",
+      "entries": 200,
+      "kept": 20,
+      "out_of_window": 180,
+      "no_link": 0,
+      "undated": 0
+    },
+    {
+      "source": "ark",
+      "bron": "ARK",
+      "error": "",
+      "entries": 10,
+      "kept": 0,
+      "out_of_window": 10,
+      "no_link": 0,
+      "undated": 0
+    }
+  ]
+}
