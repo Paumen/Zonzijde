@@ -1,0 +1,307 @@
+{
+  "model": "claude-haiku-4-5-20251001",
+  "rows": 37,
+  "full_text": 37,
+  "methods": {
+    "requests": 37,
+    "playwright": 0
+  },
+  "min_words": 100,
+  "references": {
+    "selected": 29,
+    "ok": 25
+  },
+  "topics": [
+    {
+      "scope": "L",
+      "topic": "Willie Heij loopt zijn 66e Vierdaagse",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "L",
+      "topic": "Wout Loeffen loopt Vierdaagse voor Huntington",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "L",
+      "topic": "Brons voor Laura Smulders op WK BMX",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "L",
+      "topic": "Theatervoorstelling De Honingbij in Hernen",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "L",
+      "topic": "Zomerspeurtocht verdwenen ijscoupes in Wijchen",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "L",
+      "topic": "Toezichthouders werken over gemeentegrenzen",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "L",
+      "topic": "Column: Samen in beweging",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "R",
+      "topic": "Vierdaagse 2026: 42.137 wandelaars over de finish",
+      "rows": 8,
+      "ok_rows": 8,
+      "dropped": false
+    },
+    {
+      "scope": "R",
+      "topic": "Papierfabriek Folding Boxboard gered van faillissement",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "R",
+      "topic": "100-jarige bevrijder Arnhem krijgt medaille",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "R",
+      "topic": "Herman van Veen koos jonge illustrator uit Hierden",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "R",
+      "topic": "Goud en brons voor Gelderse atleten op NK",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "R",
+      "topic": "Roze Woensdag in Nijmegen",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "R",
+      "topic": "Column: Elke stap telt (Druten)",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "N",
+      "topic": "Amsterdam viert WorldPride, grootste lhbti-evenement ooit",
+      "rows": 2,
+      "ok_rows": 2,
+      "dropped": false
+    },
+    {
+      "scope": "N",
+      "topic": "OM haalt recordbedrag op bij criminelen",
+      "rows": 2,
+      "ok_rows": 2,
+      "dropped": false
+    },
+    {
+      "scope": "N",
+      "topic": "Voor het eerst moeder als Queen Zomercarnaval Rotterdam",
+      "rows": 2,
+      "ok_rows": 2,
+      "dropped": false
+    },
+    {
+      "scope": "N",
+      "topic": "Treinen stilgezet om poezengezin te redden",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "N",
+      "topic": "Ecologisch bermbeheer wordt de standaard, goed voor insecten",
+      "rows": 3,
+      "ok_rows": 3,
+      "dropped": false
+    },
+    {
+      "scope": "I",
+      "topic": "Eerste ebolavaccin voor Bundibugyo-variant getest",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "I",
+      "topic": "Kinderen in Gaza krijgen weer zwemles in zee",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "I",
+      "topic": "Gebouw in Nederland toont oplossingen voor wereldproblemen",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "I",
+      "topic": "Community voetbalclubs brengen verbinding terug",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "I",
+      "topic": "Eco wins: steden, dieren en technologie helpen klimaat",
+      "rows": 2,
+      "ok_rows": 2,
+      "dropped": false
+    }
+  ],
+  "dropped_topics": [],
+  "duration_s": 102.8,
+  "llm": {
+    "calls": 26,
+    "input_tokens": 390,
+    "output_tokens": 40862,
+    "cache_read_tokens": 670219,
+    "cache_creation_tokens": 176856,
+    "cost_usd": 0.6559,
+    "turns": 64,
+    "tool_uses": 25,
+    "thinking_chars": 68791,
+    "wall_ms": 482380,
+    "api_ms": 483825,
+    "span_ms": 74268,
+    "slowest_ms": 74254,
+    "spans": [
+      [
+        0,
+        39695
+      ],
+      [
+        1,
+        38986
+      ],
+      [
+        1,
+        43254
+      ],
+      [
+        2,
+        43897
+      ],
+      [
+        3,
+        41517
+      ],
+      [
+        3,
+        46066
+      ],
+      [
+        3,
+        63671
+      ],
+      [
+        4,
+        42475
+      ],
+      [
+        4,
+        47075
+      ],
+      [
+        5,
+        43370
+      ],
+      [
+        5,
+        46923
+      ],
+      [
+        5,
+        48394
+      ],
+      [
+        6,
+        42890
+      ],
+      [
+        12,
+        39573
+      ],
+      [
+        12,
+        40607
+      ],
+      [
+        14,
+        74268
+      ],
+      [
+        16,
+        40293
+      ],
+      [
+        18,
+        41183
+      ],
+      [
+        18,
+        50118
+      ],
+      [
+        22,
+        46985
+      ],
+      [
+        23,
+        45126
+      ],
+      [
+        33,
+        53241
+      ],
+      [
+        37,
+        47541
+      ],
+      [
+        40,
+        46986
+      ],
+      [
+        65,
+        51962
+      ],
+      [
+        68,
+        43706
+      ]
+    ]
+  }
+}
