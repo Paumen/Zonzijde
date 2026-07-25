@@ -1,0 +1,129 @@
+{
+  "edition": "2026-07-26",
+  "slots": [
+    {
+      "pos": 1,
+      "scope": "L",
+      "topic": "Willie Heij loopt zijn 66e Vierdaagse",
+      "length": "kort",
+      "angle": "Menselijke synecdoche, warm-in-terughoudendheid: 83-jarige Wijchenaar loopt zijn 66e Vierdaagse, recordhouder onder actieve lopers. Niet de afstand telt maar de trouw — hij stapte terug naar 30 km om bij zijn wandelmaatje te blijven.",
+      "source_ids": [
+        "70f026667e52"
+      ],
+      "location": "Wijchen",
+      "source_date": "2026-07-21"
+    },
+    {
+      "pos": 2,
+      "scope": "L",
+      "topic": "Theatervoorstelling De Honingbij in kasteel Hernen",
+      "length": "kort",
+      "angle": "Ga-en-kijk, nieuwsgierig-opgewekt: op zomerse vrijdagen speelt en zingt Hanna'floor in kasteel Hernen een familievoorstelling over een broer en zus die, geleid door een honingbij, het bijengebied redden. De lezer kan er met (klein)kinderen heen lopen.",
+      "source_ids": [
+        "f5b44edfb67d"
+      ],
+      "location": "Hernen",
+      "source_date": "2026-07-25"
+    },
+    {
+      "pos": 3,
+      "scope": "L",
+      "topic": "Zomerspeurtocht naar de verdwenen ijscoupes",
+      "length": "mid",
+      "angle": "Ga-en-kijk met kleine absurditeit: de ijscoman is de ingrediënten van zijn coupes kwijt, verstopt in etalages door het centrum. Kinderen speuren de winkelstraat af — jongsten strepen onderdelen af, ouderen ontcijferen een geheime boodschap. Ondernemers doen mee.",
+      "source_ids": [
+        "2b5c0cd56f7f"
+      ],
+      "location": "Wijchen",
+      "source_date": "2026-07-20"
+    },
+    {
+      "pos": 4,
+      "scope": "R",
+      "topic": "Lochem bouwt twee nieuwe buitenzwembaden",
+      "length": "lang",
+      "angle": "Oplossings- en herstelverhaal: na jaren plannen gaat na de zomer de schop de grond in — twee vertrouwde buitenbaden in Gorssel en Almen volledig vernieuwd. Bewoners, die er zelf zwemmen, denken mee. Nog één zomer oud, dan nieuw.",
+      "source_ids": [
+        "30a8a3fad963"
+      ],
+      "location": "Gorssel",
+      "source_date": "2026-07-23"
+    },
+    {
+      "pos": 5,
+      "scope": "R",
+      "topic": "Wandelen verbindt: wethouder en energiecoaches in Druten",
+      "length": "mid",
+      "angle": "Stille bekwaamheid via een duo: vrijwillige energiecoaches Theo en Jos helpen inwoners achter elke voordeur — de één zoekt verbinding, de ander leest de woning technisch. Ze leveren niet alleen een lagere rekening maar vooral inzicht en vertrouwen.",
+      "source_ids": [
+        "14dbaea4ba19",
+        "195b7aff2e28"
+      ],
+      "location": "Druten",
+      "source_date": "2026-07-22"
+    },
+    {
+      "pos": 6,
+      "scope": "N",
+      "topic": "Voor het eerst een moeder als Queen Zomercarnaval",
+      "length": "mid",
+      "angle": "Verandermaker, erkennen-en-keren: een als achterhaald geschrapte regel maakt voor het eerst een moeder Queen van het Zomercarnaval. Mireyna liet haar levenslange droom los toen ze zoons kreeg — en won hem dit jaar alsnog. Inclusie zonder preek.",
+      "source_ids": [
+        "418611e1ddeb",
+        "3ffe0dfd66be"
+      ],
+      "location": "Rotterdam",
+      "source_date": "2026-07-25"
+    },
+    {
+      "pos": 7,
+      "scope": "N",
+      "topic": "Herinneringsbrief Donorregister voor 21-jarigen",
+      "length": "kort",
+      "angle": "Stille bekwaamheid, recht/neutraal: de overheid stuurt 21-jarigen met 'geen bezwaar' een herinneringsbrief, zodat een stille registratie een bewuste keuze wordt die nog bij hun wensen past. Een klein systeem dat ruimte laat aan de eigen beslissing.",
+      "source_ids": [
+        "17a7cfe81613"
+      ],
+      "location": "Den Haag",
+      "source_date": "2026-07-23"
+    },
+    {
+      "pos": 8,
+      "scope": "I",
+      "topic": "Bedreigde diersoorten herstellen na jarenlange bescherming",
+      "length": "mid",
+      "angle": "Vooruitgangsverhaal met uitgangscijfer, macro-uitzoom over drie continenten: soorten terug van de rand. De razorbaars van ~100 naar 36.000, de Hawaïaanse steltkluut van 200 naar 1.500, de Amami-houtsnip van 4.100 naar 17.000. Jarenlange bescherming loont.",
+      "source_ids": [
+        "e3f88bb42c10",
+        "935633142daf",
+        "a313f1d8c80b"
+      ],
+      "location": "Green River, Colorado-bekken (VS)",
+      "source_date": "2026-07-23"
+    },
+    {
+      "pos": 9,
+      "scope": "I",
+      "topic": "Backlash tegen Premier League brengt gemeenschapsvoetbal terug",
+      "length": "lang",
+      "angle": "Herstel en contra-intuïtief: terwijl Premier League-prijzen stijgen, keren duizenden fans terug naar dichtbij, goedkoop en menselijk non-league-voetbal. Real Bedford klom in vier jaar door de piramide en gaf de stad haar clubgevoel terug.",
+      "source_ids": [
+        "2345661fd098"
+      ],
+      "location": "Spalding, Lincolnshire (VK)",
+      "source_date": "2026-07-22"
+    },
+    {
+      "pos": 10,
+      "scope": "I",
+      "topic": "Eerste proefpersoon krijgt vaccin tegen ebola-variant",
+      "length": "kort",
+      "angle": "Oplossingsverhaal, feiten die het verdienen: in Oxford krijgt de eerste proefpersoon een experimenteel vaccin tegen de Bundibugyo-ebola — als eerste van vier kandidaten in de mensfase. 600.000 doses staan al klaar tegen de uitbraak in Congo.",
+      "source_ids": [
+        "9702f55fbd70"
+      ],
+      "location": "Oxford (VK)",
+      "source_date": "2026-07-25"
+    }
+  ]
+}

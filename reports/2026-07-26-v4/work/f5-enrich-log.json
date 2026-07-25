@@ -1,0 +1,201 @@
+{
+  "model": "claude-haiku-4-5-20251001",
+  "rows": 37,
+  "full_text": 36,
+  "methods": {
+    "requests": 36,
+    "playwright": 0
+  },
+  "min_words": 100,
+  "references": {
+    "selected": 29,
+    "ok": 24
+  },
+  "topics": [
+    {
+      "scope": "L",
+      "topic": "Vierdaagse trekt door Wijchen en Alverna",
+      "rows": 2,
+      "ok_rows": 2,
+      "dropped": false
+    },
+    {
+      "scope": "L",
+      "topic": "Willie Heij loopt zijn 66e Vierdaagse",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "L",
+      "topic": "Wout Loeffen loopt Vierdaagse voor Huntington",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "L",
+      "topic": "Theatervoorstelling De Honingbij in kasteel Hernen",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "L",
+      "topic": "Truckshow Wijchen trekt vrachtwagenliefhebbers",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "L",
+      "topic": "Brons voor Laura Smulders op WK BMX",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "L",
+      "topic": "Zomerspeurtocht naar de verdwenen ijscoupes",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "R",
+      "topic": "Vierdaagse: verhalen van lopers en finish",
+      "rows": 6,
+      "ok_rows": 6,
+      "dropped": false
+    },
+    {
+      "scope": "R",
+      "topic": "Gelderse atleten pakken medailles op NK atletiek",
+      "rows": 1,
+      "ok_rows": 0,
+      "dropped": true
+    },
+    {
+      "scope": "R",
+      "topic": "Lochem bouwt twee nieuwe buitenzwembaden",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "R",
+      "topic": "Maarten Oud sluit zestig jaar Veluwse Markt af",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "R",
+      "topic": "Koninklijke onderscheiding voor decorontwerper Roland de Groot",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "R",
+      "topic": "Wibren Jonkers wint prestigieuze orgelbaan",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "R",
+      "topic": "Wandelen verbindt: wethouder en energiecoaches in Druten",
+      "rows": 2,
+      "ok_rows": 2,
+      "dropped": false
+    },
+    {
+      "scope": "N",
+      "topic": "Amsterdam viert eerste WorldPride",
+      "rows": 2,
+      "ok_rows": 2,
+      "dropped": false
+    },
+    {
+      "scope": "N",
+      "topic": "Voor het eerst een moeder als Queen Zomercarnaval",
+      "rows": 2,
+      "ok_rows": 2,
+      "dropped": false
+    },
+    {
+      "scope": "N",
+      "topic": "42.137 wandelaars halen finish Nijmeegse Vierdaagse",
+      "rows": 2,
+      "ok_rows": 2,
+      "dropped": false
+    },
+    {
+      "scope": "N",
+      "topic": "Herinneringsbrief Donorregister voor 21-jarigen",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "N",
+      "topic": "Ecologisch bermbeheer wordt de standaard, goed voor insecten",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "I",
+      "topic": "Eerste proefpersoon krijgt vaccin tegen ebola-variant",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "I",
+      "topic": "Steden, dieren en technologie boeken klimaatwinst",
+      "rows": 2,
+      "ok_rows": 2,
+      "dropped": false
+    },
+    {
+      "scope": "I",
+      "topic": "Bedreigde diersoorten herstellen na jarenlange bescherming",
+      "rows": 3,
+      "ok_rows": 3,
+      "dropped": false
+    },
+    {
+      "scope": "I",
+      "topic": "Backlash tegen Premier League brengt gemeenschapsvoetbal terug",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    },
+    {
+      "scope": "I",
+      "topic": "Nederlands gebouw als plek van hoop en oplossingen",
+      "rows": 1,
+      "ok_rows": 1,
+      "dropped": false
+    }
+  ],
+  "dropped_topics": [
+    "Gelderse atleten pakken medailles op NK atletiek"
+  ],
+  "duration_s": 86.3,
+  "llm": {
+    "calls": 24,
+    "input_tokens": 290,
+    "output_tokens": 41146,
+    "cache_read_tokens": 480565,
+    "cache_creation_tokens": 131656,
+    "cost_usd": 0.5444,
+    "turns": 53,
+    "tool_uses": 24,
+    "thinking_chars": 63198,
+    "wall_ms": 495016,
+    "api_ms": 491617
+  }
+}
