@@ -13,7 +13,7 @@ from ..contracts import Candidate, ScoredItem, load_artifact, save_artifact
 RESPONSE_SCHEMA = {
     "type": "object",
     "properties": {
-        "kandidaten": {
+        "onderwerpen": {
             "type": "array",
             "items": {
                 "type": "object",
@@ -23,17 +23,16 @@ RESPONSE_SCHEMA = {
                                              "behoort: L (lokaal), R (regionaal), "
                                              "N (nationaal), I (internationaal)."},
                     "topic": {"type": "string",
-                              "description": "Een korte werktitel voor het "
-                                             "gegroepeerde verhaal — een "
-                                             "werknaam voor het stuk, niet "
-                                             "de gedrukte kop."},
+                              "description": "De onderwerptitel: een korte "
+                                             "naam voor het gegroepeerde "
+                                             "verhaal, niet de artikelkop."},
                     "items": {
                         "type": "array", "minItems": 1,
                         "items": {
                             "type": "object",
                             "properties": {
                                 "id": {"type": "string",
-                                       "description": "De id van een bronitem "
+                                       "description": "De id van een item "
                                                       "(uit de lijst) dat dit "
                                                       "onderwerp behandelt."},
                             },
@@ -47,7 +46,7 @@ RESPONSE_SCHEMA = {
             },
         },
     },
-    "required": ["kandidaten"],
+    "required": ["onderwerpen"],
     "additionalProperties": False,
 }
 
@@ -56,19 +55,19 @@ JsonCall = Callable[[str, str], object]
 
 def item_line(item: ScoredItem) -> str:
     summary = " ".join(item.summary.split())
-    return (f"- id={item.id} | bron={item.bron} | scope={','.join(item.scopes)}"
+    return (f"- id={item.id} | medium={item.bron} | scope={','.join(item.scopes)}"
             f" | bron_titel={item.title} | bron_samenvatting={summary}")
 
 
 def build_prompt(select_body: str, items: list[ScoredItem]) -> str:
-    subs = {"kandidaten": "\n".join(item_line(i) for i in items)}
+    subs = {"items": "\n".join(item_line(i) for i in items)}
     return Template(select_body).safe_substitute(subs)
 
 
 def ground(payload: object, by_id: dict[str, ScoredItem]) -> tuple[list[Candidate], list[str]]:
-    raw = payload.get("kandidaten") if isinstance(payload, dict) else None
+    raw = payload.get("onderwerpen") if isinstance(payload, dict) else None
     if not isinstance(raw, list):
-        return [], ["response is not an object with a kandidaten list"]
+        return [], ["response is not an object with an onderwerpen list"]
 
     candidates: list[Candidate] = []
     problems: list[str] = []

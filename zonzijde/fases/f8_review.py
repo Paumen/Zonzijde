@@ -44,13 +44,13 @@ JsonCall = Callable[[str, str], object]
 
 def build_prompt(review_body: str, draft: Draft, slot: OutlineSlot,
                  budget: dict) -> str:
-    draft_block = "\n".join([
+    concept_block = "\n".join([
         f"<concept slot={draft.pos} lengte={slot.length} "
-        f"richtlijn={budget['min']}–{budget['max']}>",
+        f"richtlijn=\"{budget['min']}–{budget['max']} woorden\">",
         draft.text,
         "</concept>",
     ])
-    return Template(review_body).safe_substitute({"draft": draft_block})
+    return Template(review_body).safe_substitute({"concept": concept_block})
 
 
 def ground(payload: object, draft: Draft) -> tuple[ReviewedArticle | None, list[str]]:

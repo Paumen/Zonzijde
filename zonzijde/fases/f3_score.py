@@ -4,6 +4,7 @@ import json
 import re
 from collections import Counter
 from concurrent.futures import ThreadPoolExecutor
+from string import Template
 from typing import Callable
 
 from .. import llm, prompts
@@ -58,7 +59,7 @@ def item_line(index: int, item: FeedItem) -> str:
 
 def build_batch_prompt(prompt_body: str, batch: list[FeedItem]) -> str:
     lines = [item_line(k + 1, item) for k, item in enumerate(batch)]
-    return prompt_body + "\n" + "\n".join(lines)
+    return Template(prompt_body).safe_substitute({"items": "\n".join(lines)})
 
 
 def parse_scores(payload: object, n: int) -> tuple[dict[int, int], list[str]]:

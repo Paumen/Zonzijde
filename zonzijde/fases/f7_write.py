@@ -18,12 +18,12 @@ RESPONSE_SCHEMA = {
     "properties": {
         "artikellichaam": {
             "type": "string",
-            "description": "De artikeltekst precies zoals hij onder de kop "
+            "description": "Het artikellichaam precies zoals het onder de kop "
                            "wordt afgedrukt, beginnend bij de eerste zin. "
-                           "Zet er geen kop, plaats- of datumregel boven "
-                           "(die worden apart bepaald/afgedrukt), en voeg "
-                           "geen opmerkingen toe over woordentelling of het "
-                           "schrijfproces — alleen de af te drukken tekst.",
+                           "Zet er geen artikelkop, plaats- of datumregel "
+                           "boven (die worden apart bepaald/afgedrukt), en "
+                           "voeg geen opmerkingen toe over woordentelling of "
+                           "het schrijfproces — alleen de af te drukken tekst.",
         },
     },
     "required": ["artikellichaam"],
@@ -42,21 +42,21 @@ def word_count(text: str) -> int:
 
 def build_material(slot: OutlineSlot, budget: dict,
                    sources: list[ArticleText]) -> str:
-    opdracht = "\n".join([
-        "<opdracht>",
-        f"- onderwerp (werktitel): {slot.topic}",
+    slot_block = "\n".join([
+        "<slot>",
+        f"- onderwerp: {slot.topic}",
         f"- invalshoek: {slot.angle}",
         f"- locatie (dateline): {slot.location}",
-        f"- lengte: {slot.length} — als richtlijn {budget['min']}–{budget['max']} "
-        ,
-        "</opdracht>",
+        f"- lengte: {slot.length} — richtlijn {budget['min']}–{budget['max']} "
+        "woorden; het verhaal bepaalt, niet het aantal",
+        "</slot>",
     ])
-    parts = [opdracht]
+    parts = [slot_block]
     for art in sources:
-        parts.append(f"<bron>\nbron_titel: {art.bron_titel}\nbron: {art.bron}\n\n"
+        parts.append(f"<bron>\nmedium: {art.bron}\nbron_titel: {art.bron_titel}\n\n"
                      f"bron_tekst:\n{art.text}\n</bron>")
     for ref in (r for art in sources for r in art.references if r.ok):
-        parts.append(f"<referentie>\nlink: {ref.url}\n\n"
+        parts.append(f"<referentie>\nreferentie_link: {ref.url}\n\n"
                      f"referentie_tekst:\n{ref.text}\n</referentie>")
     return "\n\n".join(parts)
 
