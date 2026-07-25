@@ -54,7 +54,7 @@ def make_call(cfg: dict, usage_sink: list | None = None) -> ScoreCall:
 
 def item_line(index: int, item: FeedItem) -> str:
     text = f"{item.title} — {item.summary}" if item.summary else item.title
-    return f"{index}. {_WS_RE.sub(' ', text)[:500]}"
+    return f"{index}. {_WS_RE.sub(' ', text)[:300]}"
 
 
 def build_batch_prompt(prompt_body: str, batch: list[FeedItem]) -> str:
@@ -99,7 +99,7 @@ def score_batch(prompt_body: str, batch: list[FeedItem],
 
 def run(ctx: RunContext, call: ScoreCall | None = None) -> None:
     cfg = ctx.llm_cfg("score")
-    batch_size = int(cfg.get("batch_size", 80))
+    batch_size = int(cfg.get("batch_size", 50))
     concurrency = int(ctx.fase_cfg("score")["concurrency"])
     prompt = prompts.load_prompt(ctx.root, "score")
     usage: list[dict] = []
