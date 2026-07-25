@@ -45,10 +45,10 @@ Fase names, in order: `fetch filter score select enrich outline write review com
 list of valid ones; it names the day the edition appears, which `cadence.weekday` in
 `config/edition.yaml` puts on a Sunday. The CLI only checks that it parses as a date.
 
-Artifacts land in `editions/<edition>/` (gitignored): `work/` holds each fase's output
-and its `*-log.json`, alongside `report.md`, `edition.json` and the composed PDF. A
-finished run is snapshotted by copying that directory under `reports/` by hand — no
-fase writes there, and nothing prunes it.
+Artifacts land in `editions/<edition>/`: `work/` holds each fase's output and its
+`*-log.json`, alongside `report.md`, `edition.json` and the composed PDF. Commit every
+run — `editions/` is tracked, so each edition stays in the history as it was produced.
+`reports/` holds the older hand-copied snapshots from before that.
 
 Every fase reads the fase before it from `work/`, so a resumed range needs the earlier
 artifacts already present. See `docs/ARCHITECTURE.md` for the fase contracts, and the

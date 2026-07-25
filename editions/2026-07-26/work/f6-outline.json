@@ -1,0 +1,129 @@
+{
+  "edition": "2026-07-26",
+  "slots": [
+    {
+      "pos": 1,
+      "scope": "L",
+      "topic": "Willie Heij loopt zijn 66e Vierdaagse",
+      "length": "kort",
+      "angle": "Stille bekwaamheid als menselijke synecdoche: 83 jaar, 66e keer, sinds 1958 — recordhouder onder de nog lopende wandelaars. Niet de prestatie centraal maar de vanzelfsprekende volharding, terwijl de stoet door Wijchen trekt. Warm-in-terughoudendheid.",
+      "source_ids": [
+        "70f026667e52"
+      ],
+      "location": "Wijchen",
+      "source_date": "2026-07-21"
+    },
+    {
+      "pos": 2,
+      "scope": "L",
+      "topic": "Zomerspeurtocht verdwenen ijscoupes in Wijchen",
+      "length": "kort",
+      "angle": "Ga-en-kijk, puur: de ijscoman is zijn ingrediënten kwijt en kinderen speuren de etalages van het centrum af. Een tastbare reden om de deur uit te gaan en mee te doen. Licht, nieuwsgierig, zonder de aardigheid dood te leggen.",
+      "source_ids": [
+        "2b5c0cd56f7f"
+      ],
+      "location": "Wijchen",
+      "source_date": "2026-07-20"
+    },
+    {
+      "pos": 3,
+      "scope": "R",
+      "topic": "Papierfabriek Folding Boxboard gered van faillissement",
+      "length": "kort",
+      "angle": "Herstel met erkennen-en-keren: een sector onder druk, een faillissement — en tóch een doorstart voor een bedrijf dat teruggaat tot 1661. Benoem de somberheid, keer dan naar de veiliggestelde toekomst. Recht, ingehouden, geen valse triomf.",
+      "source_ids": [
+        "7ae6406bdc84"
+      ],
+      "location": "Eerbeek",
+      "source_date": "2026-07-25"
+    },
+    {
+      "pos": 4,
+      "scope": "R",
+      "topic": "Herman van Veen koos jonge illustrator uit Hierden",
+      "length": "mid",
+      "angle": "Verandermaker en gegrepen kans: een negentienjarige student, een paar proefschetsen tussen de lessen door, en Herman van Veen kiest haar voor honderd uur illustraties bij 'Repelsteeltje'. Het talent en het lef dat de uitkomst aandreef. Warm.",
+      "source_ids": [
+        "850f83488a80"
+      ],
+      "location": "Hierden",
+      "source_date": "2026-07-25"
+    },
+    {
+      "pos": 5,
+      "scope": "R",
+      "topic": "100-jarige bevrijder Arnhem krijgt medaille",
+      "length": "kort",
+      "angle": "Laat herstel en erkenning: een 100-jarige bevrijder, vier maanden na zijn eerste terugkeer sinds 1945, krijgt een onderscheiding — het comité reist er stiekem voor naar Engeland. De verrassing draagt het stuk. Warm-in-terughoudendheid.",
+      "source_ids": [
+        "82842f219de3"
+      ],
+      "location": "Arnhem",
+      "source_date": "2026-07-25"
+    },
+    {
+      "pos": 6,
+      "scope": "N",
+      "topic": "Ecologisch bermbeheer wordt de standaard, goed voor insecten",
+      "length": "lang",
+      "angle": "Vooruitgangsverhaal met contra-intuïtieve kop: 'maaien is doden'. Uitgangscijfer — twee keer zoveel wilde bijen waar Kleurkeur de standaard wordt. De stille verbetering die niemand opmerkt; ruimte voor konijn en jakobskruiskruid als weefsel. Nieuwsgierig, gezaghebbend.",
+      "source_ids": [
+        "833164f87299",
+        "d1316955d21d",
+        "a40ca77e9d5c"
+      ],
+      "location": "Nederland",
+      "source_date": "2026-07-22"
+    },
+    {
+      "pos": 7,
+      "scope": "N",
+      "topic": "OM haalt recordbedrag op bij criminelen",
+      "length": "mid",
+      "angle": "Strikt op de OM-cijfers: 433 miljoen afgepakt, vierde jaar op rij stijging — misdaad mag niet lonen. Contra-intuïtief uitgangscijfer tegen het gevoel dat criminelen wegkomen. Gezaghebbend. Blijf weg van de nederzettingen-bron in dit cluster.",
+      "source_ids": [
+        "5f3d95d08af8",
+        "5f6a1849e2bc"
+      ],
+      "location": "Den Haag",
+      "source_date": "2026-07-25"
+    },
+    {
+      "pos": 8,
+      "scope": "N",
+      "topic": "Voor het eerst moeder als Queen Zomercarnaval Rotterdam",
+      "length": "mid",
+      "angle": "Verandermaker met erkennen-en-keren: een verouderde regel hield moeders uit de verkiezing, tot die geschrapt werd — en Mireyna's levenslange droom alsnog uitkwam en zij won. Opgewekt binnen de vangrails, in glitters en veren. Rotterdam kleurt.",
+      "source_ids": [
+        "3ffe0dfd66be",
+        "418611e1ddeb"
+      ],
+      "location": "Rotterdam",
+      "source_date": "2026-07-25"
+    },
+    {
+      "pos": 9,
+      "scope": "I",
+      "topic": "Eerste ebolavaccin voor Bundibugyo-variant getest",
+      "length": "mid",
+      "angle": "Oplossingsverhaal: eerste proefpersoon ingeënt tegen de Bundibugyo-variant waartegen nog geen vaccin bestaat, terwijl een uitbraak in Congo woedt. Probleem, interventie, en 600.000 doses al klaar voor inzet. Hoopvol maar nuchter, gezaghebbend.",
+      "source_ids": [
+        "9702f55fbd70"
+      ],
+      "location": "Oxford",
+      "source_date": "2026-07-25"
+    },
+    {
+      "pos": 10,
+      "scope": "I",
+      "topic": "Community voetbalclubs brengen verbinding terug",
+      "length": "mid",
+      "angle": "Herstel en verbinding op menselijke schaal: nu de Premier League onbetaalbaar wordt, keren fans terug naar het veld om de hoek. Een uit het niets opgebouwde club bracht 'het gevoel van gemeenschap terug in de stad'. Warm.",
+      "source_ids": [
+        "2345661fd098"
+      ],
+      "location": "Bedford",
+      "source_date": "2026-07-22"
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "nr": 4,
+  "illustrations": [
+    {
+      "file": "work/f9-illustration-1.svg",
+      "pos": 5,
+      "subject": "Een onderscheiding: medaille met lint en stralende ster"
+    },
+    {
+      "file": "work/f9-illustration-2.svg",
+      "pos": 6,
+      "subject": "Vlinder boven ongemaaide bermgrassen"
+    }
+  ],
+  "notes": [],
+  "recompiles": 0,
+  "attempts": [
+    []
+  ],
+  "violations": [],
+  "llm": {
+    "calls": 1,
+    "input_tokens": 4,
+    "output_tokens": 2151,
+    "cache_read_tokens": 28892,
+    "cache_creation_tokens": 43958,
+    "cost_usd": 0.5095,
+    "turns": 6,
+    "tool_uses": 5,
+    "thinking_chars": 0,
+    "wall_ms": 30098,
+    "api_ms": 31725,
+    "span_ms": 32685,
+    "slowest_ms": 32685,
+    "spans": [
+      [
+        0,
+        32685
+      ]
+    ]
+  }
+}
