@@ -1,5 +1,5 @@
 ---
-version: 9
+version: 10
 fase: F4
 rol: selectie-instructies.
 ---
@@ -23,7 +23,7 @@ Selecteer voor elk van de vier schalen de onderwerpen die het meest geschikt zij
 Alles hieronder is BRONMATERIAAL — items die elders al gepubliceerd zijn en gescoord op de richting van het nieuws (+1/+2). Niets hiervan is De Zonzijdes eigen tekst; de artikelkop en het artikellichaam worden later, verderop in het proces, geschreven. Elke itemregel heeft:
 - id — de identifier van het item; verwijs er precies zo naar.
 - medium — het medium dat het item publiceerde.
-- scope — de scha(a)l(en) waartoe het item behoort (L, R, N, I).
+- schaal — de scha(a)l(en) waartoe het item behoort (L, R, N, I).
 - bron_titel — de kop van het item zoals het medium hem publiceerde.
 - bron_samenvatting — de eigen korte samenvatting van het medium (niet de volledige brontekst, en niet het artikel dat De Zonzijde zal publiceren).
 

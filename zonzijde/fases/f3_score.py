@@ -18,31 +18,31 @@ ScoreCall = Callable[[str], object]
 RESPONSE_SCHEMA = {
     "type": "object",
     "properties": {
-        "scores": {
+        "beoordelingen": {
             "type": "array",
             "items": {
                 "type": "object",
                 "properties": {
-                    "i": {"type": "integer"},
+                    "nummer": {"type": "integer"},
                     "score": {"type": "integer", "minimum": -2, "maximum": 2},
                 },
-                "required": ["i", "score"],
+                "required": ["nummer", "score"],
                 "additionalProperties": False,
             },
         },
     },
-    "required": ["scores"],
+    "required": ["beoordelingen"],
     "additionalProperties": False,
 }
 
 
 def _unwrap_scores(payload: object) -> object:
-    if not (isinstance(payload, dict) and isinstance(payload.get("scores"), list)):
+    if not (isinstance(payload, dict) and isinstance(payload.get("beoordelingen"), list)):
         return payload
     out: dict = {}
-    for row in payload["scores"]:
-        if isinstance(row, dict) and "i" in row:
-            out[str(row["i"])] = row.get("score")
+    for row in payload["beoordelingen"]:
+        if isinstance(row, dict) and "nummer" in row:
+            out[str(row["nummer"])] = row.get("score")
     return out
 
 

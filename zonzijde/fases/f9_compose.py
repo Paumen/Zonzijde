@@ -25,10 +25,10 @@ ILLUSTRATE_SCHEMA = {
                 "type": "object",
                 "properties": {
                     "voorstelling": {"type": "string"},
-                    "pos": {"type": "integer"},
+                    "artikelnummer": {"type": "integer"},
                     "svg": {"type": "string"},
                 },
-                "required": ["voorstelling", "pos", "svg"],
+                "required": ["voorstelling", "artikelnummer", "svg"],
                 "additionalProperties": False,
             },
         },
@@ -231,7 +231,7 @@ def draw_illustrations(ctx: RunContext, articles: list[EditionArticle],
             notes.append(f"illustration {i} failed: invalid response shape")
             continue
         svg = item["svg"].strip()
-        pos = item.get("pos")
+        pos = item.get("artikelnummer")
         if pos not in candidates or pos in used:
             fallback = next((c for c in candidates if c not in used), None)
             if fallback is None:

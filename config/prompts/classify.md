@@ -1,5 +1,5 @@
 ---
-version: 4
+version: 5
 fase: F5
 rol: referentieclassificatie.
 ---
@@ -9,7 +9,7 @@ Je bent referentieanalist.
 
 <taak>
 Bepaal welke links uit een bron de moeite waard zijn om als referentie te volgen.
-Geef voor elke link het nummer (i) terug met precies één van vier categorieën,
+Geef voor elke link het nummer terug met precies één van vier categorieën,
 op basis van de link zelf plus bron_titel en bron_link:
 
 - EXT   externe pagina, gerelateerd aan deze bron (brondocument, organisatie,
@@ -29,7 +29,7 @@ op basis van de link zelf plus bron_titel en bron_link:
 Eén bron, met de links die erin voorkomen:
 - bron_titel — de kop zoals het medium hem publiceerde.
 - bron_link — de URL van de bron.
-- bron_links — de genummerde links uit de bron; het nummer voor de link is de i.
+- bron_links — de genummerde links uit de bron; het nummer staat voor de link.
 
 <bron>
 $bron

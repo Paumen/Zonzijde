@@ -1,5 +1,5 @@
 ---
-version: 4
+version: 5
 fase: F3
 rol: scoren.
 ---
@@ -23,7 +23,7 @@ Meet alleen de richting van het nieuws, niet de omvang of het bereik.
 </regels>
 
 <invoer>
-Elke regel is één item: het nummer (i) van het item, daarna bron_titel en bron_samenvatting. Geef voor elk nummer (i) een score terug.
+Elke regel is één item: het nummer van het item, daarna bron_titel en bron_samenvatting. Geef voor elk nummer een score terug.
 
 <items>
 $items

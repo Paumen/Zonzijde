@@ -27,10 +27,10 @@ def response_schema(candidate_keys: list[str], woorden: dict) -> dict:
                 "items": {
                     "type": "object",
                     "properties": {
-                        "onderwerp": {
+                        "sleutel": {
                             "type": "string", "enum": candidate_keys,
-                            "description": "De key van het onderwerp voor dit "
-                                           "slot (bijv. L1, R2)."},
+                            "description": "De sleutel van het onderwerp voor "
+                                           "dit slot (bijv. L1, R2)."},
                         "lengte": {
                             "type": "string",
                             "enum": ["lang", "mid", "kort"],
@@ -48,7 +48,7 @@ def response_schema(candidate_keys: list[str], woorden: dict) -> dict:
                                            "(plaats, regio of land), "
                                            "afgeleid uit het bronmateriaal."},
                     },
-                    "required": ["onderwerp", "lengte",
+                    "required": ["sleutel", "lengte",
                                  "invalshoek", "locatie"],
                     "additionalProperties": False,
                 },
@@ -136,9 +136,9 @@ def ground(payload: object, edition: date,
 
     resolved: list[tuple[dict, Candidate]] = []
     for slot in raw_slots:
-        cand = by_key.get(slot.get("onderwerp"))
+        cand = by_key.get(slot.get("sleutel"))
         if cand is None:
-            return None, [f"unknown onderwerp {slot.get('onderwerp')!r}"]
+            return None, [f"unknown onderwerp {slot.get('sleutel')!r}"]
         resolved.append((slot, cand))
 
     order = sorted(range(len(resolved)),

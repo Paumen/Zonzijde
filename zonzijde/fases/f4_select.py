@@ -18,10 +18,10 @@ RESPONSE_SCHEMA = {
             "items": {
                 "type": "object",
                 "properties": {
-                    "scope": {"type": "string", "enum": RING,
-                              "description": "De schaal waartoe dit onderwerp "
-                                             "behoort: L (lokaal), R (regionaal), "
-                                             "N (nationaal), I (internationaal)."},
+                    "schaal": {"type": "string", "enum": RING,
+                               "description": "De schaal waartoe dit onderwerp "
+                                              "behoort: L (lokaal), R (regionaal), "
+                                              "N (nationaal), I (internationaal)."},
                     "onderwerptitel": {
                         "type": "string",
                         "description": "De onderwerptitel: een korte "
@@ -29,20 +29,13 @@ RESPONSE_SCHEMA = {
                                        "verhaal, niet de artikelkop."},
                     "items": {
                         "type": "array", "minItems": 1,
-                        "items": {
-                            "type": "object",
-                            "properties": {
-                                "id": {"type": "string",
-                                       "description": "De id van een item "
-                                                      "(uit de lijst) dat dit "
-                                                      "onderwerp behandelt."},
-                            },
-                            "required": ["id"],
-                            "additionalProperties": False,
-                        },
+                        "items": {"type": "string",
+                                  "description": "De id van een item "
+                                                 "(uit de lijst) dat dit "
+                                                 "onderwerp behandelt."},
                     },
                 },
-                "required": ["scope", "onderwerptitel", "items"],
+                "required": ["schaal", "onderwerptitel", "items"],
                 "additionalProperties": False,
             },
         },
@@ -56,7 +49,7 @@ JsonCall = Callable[[str, str], object]
 
 def item_line(item: ScoredItem) -> str:
     summary = " ".join(item.summary.split())
-    return (f"- id={item.id} | medium={item.bron} | scope={','.join(item.scopes)}"
+    return (f"- id={item.id} | medium={item.bron} | schaal={','.join(item.scopes)}"
             f" | bron_titel={item.title} | bron_samenvatting={summary}")
 
 
@@ -77,11 +70,11 @@ def ground(payload: object, by_id: dict[str, ScoredItem]) -> tuple[list[Candidat
     problems: list[str] = []
     for entry in raw:
         try:
-            rows = [{"id": row.get("id", ""), "bron": "", "bron_titel": "",
+            rows = [{"id": item_id, "bron": "", "bron_titel": "",
                      "samenvatting": "", "bron_link": ""}
-                    for row in entry.get("items", [])]
+                    for item_id in entry.get("items", [])]
             cand = Candidate.model_validate({
-                "scope": entry.get("scope"),
+                "scope": entry.get("schaal"),
                 "topic": entry.get("onderwerptitel"),
                 "items": rows})
         except (ValidationError, AttributeError, TypeError) as e:
