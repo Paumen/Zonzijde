@@ -27,7 +27,7 @@ RESPONSE_SCHEMA = {
                         "description": "De onderwerptitel: een korte "
                                        "naam voor het gegroepeerde "
                                        "verhaal, niet de artikelkop."},
-                    "items": {
+                    "bronnen": {
                         "type": "array", "minItems": 1,
                         "items": {"type": "string",
                                   "description": "De id van een item "
@@ -35,7 +35,7 @@ RESPONSE_SCHEMA = {
                                                  "onderwerp behandelt."},
                     },
                 },
-                "required": ["schaal", "onderwerptitel", "items"],
+                "required": ["schaal", "onderwerptitel", "bronnen"],
                 "additionalProperties": False,
             },
         },
@@ -72,7 +72,7 @@ def ground(payload: object, by_id: dict[str, ScoredItem]) -> tuple[list[Candidat
         try:
             rows = [{"id": item_id, "bron": "", "bron_titel": "",
                      "samenvatting": "", "bron_link": ""}
-                    for item_id in entry.get("items", [])]
+                    for item_id in entry.get("bronnen", [])]
             cand = Candidate.model_validate({
                 "scope": entry.get("schaal"),
                 "topic": entry.get("onderwerptitel"),

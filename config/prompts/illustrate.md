@@ -1,5 +1,5 @@
 ---
-version: 7
+version: 8
 fase: F9
 rol: illustratie-instructies.
 ---
@@ -34,7 +34,7 @@ Stijl — handgetekend, en uitsluitend zo:
 - geen tekst, geen kaders, geen logo's
 
 Techniek, voor elk van de twee illustraties:
-- lever de tekening als één `<svg>`-element in het veld `svg`, met een `viewBox`
+- lever de tekening als één `<svg>`-element in het veld `tekening`, met een `viewBox`
   en een verhouding tussen ongeveer 4:3 en 1:1; hij wordt één kolom breed
   afgedrukt
 - alleen paden, lijnen en basisvormen; `stroke="#121212"`, `fill="none"` of

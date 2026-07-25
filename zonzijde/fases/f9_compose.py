@@ -26,9 +26,9 @@ ILLUSTRATE_SCHEMA = {
                 "properties": {
                     "voorstelling": {"type": "string"},
                     "artikelnummer": {"type": "integer"},
-                    "svg": {"type": "string"},
+                    "tekening": {"type": "string"},
                 },
-                "required": ["voorstelling", "artikelnummer", "svg"],
+                "required": ["voorstelling", "artikelnummer", "tekening"],
                 "additionalProperties": False,
             },
         },
@@ -227,10 +227,10 @@ def draw_illustrations(ctx: RunContext, articles: list[EditionArticle],
     results: list[tuple[str, int, str | None]] = []
     used: set[int] = set()
     for i, item in enumerate(payload["illustraties"], start=1):
-        if not isinstance(item, dict) or not isinstance(item.get("svg"), str):
+        if not isinstance(item, dict) or not isinstance(item.get("tekening"), str):
             notes.append(f"illustration {i} failed: invalid response shape")
             continue
-        svg = item["svg"].strip()
+        svg = item["tekening"].strip()
         pos = item.get("artikelnummer")
         if pos not in candidates or pos in used:
             fallback = next((c for c in candidates if c not in used), None)
