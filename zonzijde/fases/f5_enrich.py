@@ -7,6 +7,7 @@ import time
 from concurrent.futures import ThreadPoolExecutor
 from string import Template
 from typing import Callable
+from urllib.parse import parse_qs, urlsplit
 
 import requests
 import trafilatura
@@ -48,6 +49,9 @@ def extract(html: str, url: str) -> tuple[str, list[str]]:
 
 
 FOLLOW = {"EXT", "INT"}
+
+# ad/search-referral tracking; presence marks a link as commercial, not editorial
+TRACKING_KEYS = {"srsltid", "gclid", "fbclid", "msclkid", "ttclid", "yclid"}
 
 CLASSIFY_SCHEMA = {
     "type": "object",
@@ -93,6 +97,17 @@ def make_classify(body: str, model: str, max_turns: int,
     return classify
 
 
+def unfit_reference(url: str) -> bool:
+    parts = urlsplit(url)
+    if not parts.path.strip("/"):
+        return True
+    if TRACKING_KEYS & set(parse_qs(parts.query)):
+        return True
+    if any(k.startswith("utm_") for k in parse_qs(parts.query)):
+        return True
+    return False
+
+
 def select_references(art: ArticleText, cats: dict[int, str],
                       deny: list[str], cap: int) -> list[str]:
     picks: list[str] = []
@@ -100,6 +115,8 @@ def select_references(art: ArticleText, cats: dict[int, str],
         if cats.get(k) not in FOLLOW:
             continue
         if any(d in link for d in deny):
+            continue
+        if unfit_reference(link):
             continue
         picks.append(link)
         if len(picks) >= cap:
