@@ -1,5 +1,5 @@
 ---
-version: 6
+version: 8
 fase: F9
 rol: illustratie-instructies.
 ---
@@ -18,8 +18,8 @@ hebt gedaan:
    zonnebloem in de kop en het sluitlandschap. Ze tonen je de huisstijl. Neem
    er nooit beeldelementen letterlijk uit over; je leert er alleen de stijl van.
 3. Kies twee artikelen uit de aangeboden lijst en teken voor elk een nieuwe
-   illustratie. Geef per illustratie de `pos` van het gekozen artikel, en vat
-   in `subject` in een paar woorden samen wat je tekent.
+   illustratie. Geef per illustratie het `artikelnummer` van het gekozen artikel, en vat
+   in `voorstelling` in een paar woorden samen wat je tekent.
 
 Houd elke illustratie klein en simpel, focus op de kern en maak dat goed en
 herkenbaar.
@@ -34,7 +34,7 @@ Stijl — handgetekend, en uitsluitend zo:
 - geen tekst, geen kaders, geen logo's
 
 Techniek, voor elk van de twee illustraties:
-- lever de tekening als één `<svg>`-element in het veld `svg`, met een `viewBox`
+- lever de tekening als één `<svg>`-element in het veld `tekening`, met een `viewBox`
   en een verhouding tussen ongeveer 4:3 en 1:1; hij wordt één kolom breed
   afgedrukt
 - alleen paden, lijnen en basisvormen; `stroke="#121212"`, `fill="none"` of
@@ -45,7 +45,7 @@ Techniek, voor elk van de twee illustraties:
 Je krijgt twee blokken:
 - Huistekeningen — de twee vaste tekeningen, elk als een bestand om te bekijken
   en een bestand om te lezen.
-- Artikelen — de artikelen waaruit je mag kiezen: `pos` (het nummer van het
-  artikel in de editie), de schaal, de artikelkop en de eerste zinnen van het
-  artikellichaam.
+- Artikelen — de artikelen waaruit je mag kiezen: `artikelnummer` (het nummer
+  van het artikel in de editie), de schaal, de artikelkop en de eerste zinnen
+  van het artikellichaam.
 </invoer>

@@ -1,5 +1,5 @@
 ---
-version: 14
+version: 15
 fase: F6
 rol: volgende editie plannen.
 ---
@@ -26,13 +26,13 @@ Geef één slot per onderwerp dat je selecteert. De velden van een slot en hun t
 - Totale editie-inhoud ≈ $body woorden.
 - Ringvolgorde lokaal → regionaal → nationaal → internationaal.
 - Varieer thema's en categorieën door de editie heen — bijv. niet meer dan de helft van de verhalen over natuur of dieren.
-- Kies uitsluitend uit de onderwerpen hieronder; verwijs naar elk onderwerp met zijn key.
+- Kies uitsluitend uit de onderwerpen hieronder; verwijs naar elk onderwerp met zijn sleutel.
 </regels>
 
 <invoer>
 Alles hieronder is BRONMATERIAAL. Het artikellichaam wordt later, verderop in het proces, door de auteur geschreven; de artikelkop daarna door de eindredacteur.
 
-De onderwerpen zijn gegroepeerd per schaal. Elk onderwerp (## L1 — …) is een cluster van één of meer bronnen; L1 is de key waarmee je ernaar verwijst. Elke bronregel heeft:
+De onderwerpen zijn gegroepeerd per schaal. Elk onderwerp (## L1 — …) is een cluster van één of meer bronnen; L1 is de sleutel waarmee je ernaar verwijst. Elke bronregel heeft:
 - medium — het medium dat de bron publiceerde.
 - bron_datum — publicatiedatum bij het medium (of "onbekend").
 - bron_link — de URL van de bron.

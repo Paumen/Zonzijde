@@ -24,4 +24,5 @@ The original concept is archived at `docs/history/concept_ZZ.md`.
 - - Never create or edit tests without explicit PO approval. You must explain PO proposed test and why you think it's critical in plain English inline in chat before you can request approval.
 - Never edit prompt files without explicit approval PO. You must show PO exact current and proposed prompt instruction inline in chat before you can request approval. This includes what goes into system prompt, json schema and description, anything else injected to llm api or sdk agent.
 - When a fase fails, diagnose by replaying one failing item (its log holds `system` and every `prompt`) and reading the raw message stream — never by re-running the fase. Do not retry, raise a limit, or change anything until you can name the mechanism.
+- Never run or re-run a fase, a range of fases, or the whole pipeline without explicit PO approval — every run costs money and time. Ask first, every time, including after a change you believe fixes the failure.
 

@@ -27,29 +27,29 @@ def response_schema(candidate_keys: list[str], woorden: dict) -> dict:
                 "items": {
                     "type": "object",
                     "properties": {
-                        "onderwerp": {
+                        "sleutel": {
                             "type": "string", "enum": candidate_keys,
-                            "description": "De key van het onderwerp voor dit "
-                                           "slot (bijv. L1, R2)."},
-                        "length": {
+                            "description": "De sleutel van het onderwerp voor "
+                                           "dit slot (bijv. L1, R2)."},
+                        "lengte": {
                             "type": "string",
                             "enum": ["lang", "mid", "kort"],
                             "description": lengte_omschrijving},
-                        "angle": {
+                        "invalshoek": {
                             "type": "string",
                             "description": "De redactionele invalshoek om "
                                            "vanuit te schrijven; zie de "
                                            "voorbeelden van invalshoeken in "
                                            "de brief."},
-                        "location": {
+                        "locatie": {
                             "type": "string",
                             "description": "De locatie van de dateline waar "
                                            "het stuk aan verankerd is "
                                            "(plaats, regio of land), "
                                            "afgeleid uit het bronmateriaal."},
                     },
-                    "required": ["onderwerp", "length",
-                                 "angle", "location"],
+                    "required": ["sleutel", "lengte",
+                                 "invalshoek", "locatie"],
                     "additionalProperties": False,
                 },
             },
@@ -136,9 +136,9 @@ def ground(payload: object, edition: date,
 
     resolved: list[tuple[dict, Candidate]] = []
     for slot in raw_slots:
-        cand = by_key.get(slot.get("onderwerp"))
+        cand = by_key.get(slot.get("sleutel"))
         if cand is None:
-            return None, [f"unknown onderwerp {slot.get('onderwerp')!r}"]
+            return None, [f"unknown onderwerp {slot.get('sleutel')!r}"]
         resolved.append((slot, cand))
 
     order = sorted(range(len(resolved)),
@@ -152,9 +152,9 @@ def ground(payload: object, edition: date,
         dates = [published.get(sid) for sid in sids if published.get(sid)]
         slots.append({
             "pos": pos_of_index[i], "scope": cand.scope,
-            "topic": cand.topic, "length": slot.get("length"),
-            "angle": slot.get("angle"),
-            "source_ids": sids, "location": slot.get("location"),
+            "topic": cand.topic, "length": slot.get("lengte"),
+            "angle": slot.get("invalshoek"),
+            "source_ids": sids, "location": slot.get("locatie"),
             "source_date": max(dates) if dates else None,
         })
 
@@ -203,20 +203,6 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
 
     prompt = build_prompt(outline_prompt.body, ed_cfg, keyed, articles,
                           published)
-    try:
-        payload = call(prompt, system)
-    except llm.LlmError as e:
-        raise SystemExit(f"F6 outline: call failed: {e}")
-    outline, problems = ground(payload, ctx.edition, by_key, articles, published)
-    if problems:
-        raise SystemExit(f"F6 outline: unusable response: {problems}")
-
-    save_model(ctx.work_dir / "f6-outline.json", outline)
-    woorden = ed_cfg["woorden"]
-    planned = {
-        "min": sum(woorden[s.length]["min"] for s in outline.slots),
-        "max": sum(woorden[s.length]["max"] for s in outline.slots),
-    }
     log = {
         "model": cfg["model"], "effort": cfg.get("effort"),
         "prompt_versions": {"brief": brief.version,
@@ -224,14 +210,36 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
                             "outline": outline_prompt.version},
         "input_topics": {s: available[s] for s in RING},
         "dropped_topics": dropped,
-        "planned_words": planned,
         "system": system,
         "prompt": prompt,
         "schema": schema,
-        "llm": llm.summarize_usage(usage),
     }
-    (ctx.work_dir / "f6-outline-log.json").write_text(
-        json.dumps(log, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    log_path = ctx.work_dir / "f6-outline-log.json"
+
+    def write_log(**extra: object) -> None:
+        log_path.parent.mkdir(parents=True, exist_ok=True)
+        log_path.write_text(
+            json.dumps({**log, **extra, "llm": llm.summarize_usage(usage)},
+                       indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+
+    try:
+        payload = call(prompt, system)
+    except llm.LlmError as e:
+        write_log(error=str(e))
+        raise SystemExit(f"F6 outline: call failed: {e} — see {log_path.name}")
+    outline, problems = ground(payload, ctx.edition, by_key, articles, published)
+    if problems:
+        write_log(response=payload, problems=problems)
+        raise SystemExit(f"F6 outline: unusable response: {problems} "
+                         f"— see {log_path.name}")
+
+    save_model(ctx.work_dir / "f6-outline.json", outline)
+    woorden = ed_cfg["woorden"]
+    planned = {
+        "min": sum(woorden[s.length]["min"] for s in outline.slots),
+        "max": sum(woorden[s.length]["max"] for s in outline.slots),
+    }
+    write_log(planned_words=planned)
 
     mix = {cls: sum(1 for s in outline.slots if s.length == cls)
            for cls in ("lang", "mid", "kort")}

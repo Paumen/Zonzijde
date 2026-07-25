@@ -115,9 +115,9 @@ the same word.
 | **item** | one feed entry: id, medium, titel, samenvatting |
 | **onderwerp** | a cluster of one or more items on the same story (F4's output) |
 | **onderwerptitel** | the short string naming that cluster — never the printed kop |
-| **key** | an onderwerp's handle: `L1`, `R2` |
+| **sleutel** | an onderwerp's handle: `L1`, `R2` |
 | **slot** | one place in the edition: onderwerp + lengte + invalshoek + locatie |
-| **schaal** | lokaal / regionaal / nationaal / internationaal. `scope` is the field name and the enum (L/R/N/I); prose says schaal |
+| **schaal** | lokaal / regionaal / nationaal / internationaal. `schaal` is the field name and carries the enum (L/R/N/I) |
 
 **Source material.** `bron` is the source article. `medium` is who published it.
 `bronmateriaal` is bronnen plus referenties together.

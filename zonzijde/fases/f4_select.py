@@ -18,30 +18,24 @@ RESPONSE_SCHEMA = {
             "items": {
                 "type": "object",
                 "properties": {
-                    "scope": {"type": "string", "enum": RING,
-                              "description": "De schaal waartoe dit onderwerp "
-                                             "behoort: L (lokaal), R (regionaal), "
-                                             "N (nationaal), I (internationaal)."},
-                    "topic": {"type": "string",
-                              "description": "De onderwerptitel: een korte "
-                                             "naam voor het gegroepeerde "
-                                             "verhaal, niet de artikelkop."},
-                    "items": {
+                    "schaal": {"type": "string", "enum": RING,
+                               "description": "De schaal waartoe dit onderwerp "
+                                              "behoort: L (lokaal), R (regionaal), "
+                                              "N (nationaal), I (internationaal)."},
+                    "onderwerptitel": {
+                        "type": "string",
+                        "description": "De onderwerptitel: een korte "
+                                       "naam voor het gegroepeerde "
+                                       "verhaal, niet de artikelkop."},
+                    "bronnen": {
                         "type": "array", "minItems": 1,
-                        "items": {
-                            "type": "object",
-                            "properties": {
-                                "id": {"type": "string",
-                                       "description": "De id van een item "
-                                                      "(uit de lijst) dat dit "
-                                                      "onderwerp behandelt."},
-                            },
-                            "required": ["id"],
-                            "additionalProperties": False,
-                        },
+                        "items": {"type": "string",
+                                  "description": "De id van een item "
+                                                 "(uit de lijst) dat dit "
+                                                 "onderwerp behandelt."},
                     },
                 },
-                "required": ["scope", "topic", "items"],
+                "required": ["schaal", "onderwerptitel", "bronnen"],
                 "additionalProperties": False,
             },
         },
@@ -55,7 +49,7 @@ JsonCall = Callable[[str, str], object]
 
 def item_line(item: ScoredItem) -> str:
     summary = " ".join(item.summary.split())
-    return (f"- id={item.id} | medium={item.bron} | scope={','.join(item.scopes)}"
+    return (f"- id={item.id} | medium={item.bron} | schaal={','.join(item.scopes)}"
             f" | bron_titel={item.title} | bron_samenvatting={summary}")
 
 
@@ -76,10 +70,13 @@ def ground(payload: object, by_id: dict[str, ScoredItem]) -> tuple[list[Candidat
     problems: list[str] = []
     for entry in raw:
         try:
-            rows = [{"id": row.get("id", ""), "bron": "", "bron_titel": "",
+            rows = [{"id": item_id, "bron": "", "bron_titel": "",
                      "samenvatting": "", "bron_link": ""}
-                    for row in entry.get("items", [])]
-            cand = Candidate.model_validate({**entry, "items": rows})
+                    for item_id in entry.get("bronnen", [])]
+            cand = Candidate.model_validate({
+                "scope": entry.get("schaal"),
+                "topic": entry.get("onderwerptitel"),
+                "items": rows})
         except (ValidationError, AttributeError, TypeError) as e:
             problems.append(f"invalid candidate entry: {e}")
             continue
@@ -117,16 +114,6 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
     by_id = {i.id: i for i in positive}
 
     prompt = build_prompt(select.body, positive, ctx.edition_cfg)
-    try:
-        payload = call(prompt, system)
-    except llm.LlmError as e:
-        raise SystemExit(f"F4 select: call failed: {e}")
-    candidates, problems = ground(payload, by_id)
-    if problems:
-        raise SystemExit(f"F4 select: invalid selection: {problems}")
-
-    candidates.sort(key=lambda c: RING.index(c.scope))
-    save_artifact(ctx.work_dir / "f4-candidates.json", candidates)
     log = {
         "model": cfg["model"], "effort": cfg.get("effort"),
         "prompt_versions": {"brief": brief.version,
@@ -136,10 +123,29 @@ def run(ctx: RunContext, call: JsonCall | None = None) -> None:
         "system": system,
         "prompt": prompt,
         "schema": RESPONSE_SCHEMA,
-        "llm": llm.summarize_usage(usage),
     }
-    (ctx.work_dir / "f4-select-log.json").write_text(
-        json.dumps(log, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    log_path = ctx.work_dir / "f4-select-log.json"
+
+    def write_log(**extra: object) -> None:
+        log_path.parent.mkdir(parents=True, exist_ok=True)
+        log_path.write_text(
+            json.dumps({**log, **extra, "llm": llm.summarize_usage(usage)},
+                       indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+
+    try:
+        payload = call(prompt, system)
+    except llm.LlmError as e:
+        write_log(error=str(e))
+        raise SystemExit(f"F4 select: call failed: {e} — see {log_path.name}")
+    candidates, problems = ground(payload, by_id)
+    if problems:
+        write_log(response=payload, problems=problems)
+        raise SystemExit(f"F4 select: invalid selection: {problems} "
+                         f"— see {log_path.name}")
+
+    candidates.sort(key=lambda c: RING.index(c.scope))
+    save_artifact(ctx.work_dir / "f4-candidates.json", candidates)
+    write_log()
 
     rows = sum(len(c.items) for c in candidates)
     print(f"F4 select: {len(positive)} +1/+2 items → {len(candidates)} onderwerpen"

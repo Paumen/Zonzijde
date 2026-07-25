@@ -57,11 +57,11 @@ CLASSIFY_SCHEMA = {
             "items": {
                 "type": "object",
                 "properties": {
-                    "i": {"type": "integer"},
-                    "category": {"type": "string",
-                                 "enum": ["EXT", "INT", "NAV", "PROMO"]},
+                    "nummer": {"type": "integer"},
+                    "categorie": {"type": "string",
+                                  "enum": ["EXT", "INT", "NAV", "PROMO"]},
                 },
-                "required": ["i", "category"],
+                "required": ["nummer", "categorie"],
                 "additionalProperties": False,
             },
         },
@@ -87,8 +87,8 @@ def make_classify(body: str, model: str, max_turns: int,
         cats: dict[int, str] = {}
         rows = payload.get("links") if isinstance(payload, dict) else None
         for row in rows or []:
-            if isinstance(row, dict) and isinstance(row.get("i"), int):
-                cats[row["i"]] = row.get("category")
+            if isinstance(row, dict) and isinstance(row.get("nummer"), int):
+                cats[row["nummer"]] = row.get("categorie")
         return cats
     return classify
 
