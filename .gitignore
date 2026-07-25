@@ -1,7 +1,3 @@
 __pycache__/
 *.pyc
 *.egg-info/
-
-
-# transient per-run work dir; snapshots are committed under reports/
-editions/
