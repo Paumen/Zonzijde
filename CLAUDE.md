@@ -16,6 +16,44 @@ The deliverable is a print-ready PDF (A3 booklet imposition). For more see `brie
 
 The original concept is archived at `docs/history/concept_ZZ.md`.
 
+## Running the pipeline
+
+Requires Python ≥3.11 and Node. The frontier fases call the Agent SDK
+(`claude-agent-sdk`, a pyproject dependency), which spawns the `claude` CLI as a
+subprocess — so that binary has to be on `PATH` and authenticated separately:
+
+```
+npm install -g @anthropic-ai/claude-code
+python3 -m venv .venv
+.venv/bin/pip install -e ".[browser]"        # browser = the headless fallback F5 uses
+```
+
+Always invoke from the repo root — `RunContext` resolves `config/` and `editions/`
+relative to `--root`, which defaults to the current directory.
+
+```
+.venv/bin/python -m zonzijde run     --edition 2026-07-26                    # F1–F9
+.venv/bin/python -m zonzijde run     --edition 2026-07-26 --from score --until write
+.venv/bin/python -m zonzijde score   --edition 2026-07-26                    # one fase
+.venv/bin/python -m zonzijde report  --edition 2026-07-26                    # report only
+```
+
+Fase names, in order: `fetch filter score select enrich outline write review compose`.
+`--window-days` overrides `window.days`; `--root` points at another checkout.
+
+`--edition` is an ISO `YYYY-MM-DD` date and is the edition's identity — there is no
+list of valid ones; it names the day the edition appears, which `cadence.weekday` in
+`config/edition.yaml` puts on a Sunday. The CLI only checks that it parses as a date.
+
+Artifacts land in `editions/<edition>/` (gitignored): `work/` holds each fase's output
+and its `*-log.json`, alongside `report.md`, `edition.json` and the composed PDF. A
+finished run is snapshotted by copying that directory under `reports/` by hand — no
+fase writes there, and nothing prunes it.
+
+Every fase reads the fase before it from `work/`, so a resumed range needs the earlier
+artifacts already present. See `docs/ARCHITECTURE.md` for the fase contracts, and the
+approval rules below before invoking any of this.
+
 ## Conventions and hard rules
 
 - Specification, decision, instructions, etc. live in one place, remainder refers to it.

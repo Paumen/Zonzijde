@@ -5,3 +5,4 @@ __pycache__/
 
 # transient per-run work dir; snapshots are committed under reports/
 editions/
+.venv/

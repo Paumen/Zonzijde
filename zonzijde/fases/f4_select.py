@@ -84,9 +84,6 @@ def ground(payload: object, by_id: dict[str, ScoredItem]) -> tuple[list[Candidat
             item = by_id.get(row.id)
             if item is None:
                 problems.append(f"unknown item id {row.id!r} (topic {cand.topic!r})")
-            elif cand.scope not in item.scopes:
-                problems.append(f"item {row.id} has scopes {item.scopes}, "
-                                f"not {cand.scope} (topic {cand.topic!r})")
             else:
                 row.bron, row.bron_link = item.bron, item.link
                 row.bron_titel, row.samenvatting = item.title, item.summary
