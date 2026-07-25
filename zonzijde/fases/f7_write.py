@@ -48,7 +48,7 @@ def build_material(slot: OutlineSlot, budget: dict,
         f"- invalshoek: {slot.angle}",
         f"- locatie (dateline): {slot.location}",
         f"- lengte: {slot.length} — als richtlijn {budget['min']}–{budget['max']} "
-        "woorden; het verhaal bepaalt, niet het aantal",
+        ,
         "</opdracht>",
     ])
     parts = [opdracht]
