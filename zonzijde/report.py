@@ -319,14 +319,23 @@ def build(ctx: RunContext) -> str:
         outline = load_model(outline_path, EditionOutline)
         parts += ["", "## Edition plan (F6)", "",
                   _table(["pos", "schaal", "lengte", "onderwerp",
-                          "locatie", "bron_datum", "invalshoek"],
+                          "locatie", "bron_datum"],
                          [[s.pos, s.scope, s.length, s.topic,
-                           s.location, s.source_date or "—", s.angle]
+                           s.location, s.source_date or "—"]
                           for s in outline.slots])]
 
     if outline_path.is_file() and articles_path.is_file():
         outline = load_model(outline_path, EditionOutline)
         articles = {a.id: a for a in load_artifact(articles_path, ArticleText)}
+        koppen = {}
+        if reviewed_path.is_file():
+            koppen = {r.pos: r.title
+                      for r in load_artifact(reviewed_path, ReviewedArticle)}
+        models = {}
+        if write_log_path.is_file():
+            models = {s["pos"]: s.get("model")
+                      for s in json.loads(write_log_path
+                                          .read_text(encoding="utf-8"))["slots"]}
         rows = []
         tot = Counter()
         for s in outline.slots:
@@ -336,12 +345,13 @@ def build(ctx: RunContext) -> str:
             bron_words = sum(len(a.text.split()) for a in srcs)
             ref_words = sum(r.words for r in refs)
             ok_refs = sum(1 for r in refs if r.ok)
-            rows.append([s.pos, s.scope, s.length, s.topic,
+            rows.append([s.pos, s.scope, s.length,
+                         koppen.get(s.pos, "—"),
                          ", ".join(a.bron for a in srcs) or "—",
                          sam, bron_words,
                          len(refs) if len(refs) == ok_refs
                          else f"{len(refs)} ({ok_refs} ok)",
-                         ref_words])
+                         ref_words, models.get(s.pos) or "—", s.angle])
             tot["samenvatting"] += sam
             tot["bron_woorden"] += bron_words
             tot["refs"] += len(refs)
@@ -351,11 +361,12 @@ def build(ctx: RunContext) -> str:
                      tot["bron_woorden"],
                      tot["refs"] if tot["refs"] == tot["ok_refs"]
                      else f"{tot['refs']} ({tot['ok_refs']} ok)",
-                     tot["referentie_woorden"]])
+                     tot["referentie_woorden"], "", ""])
         parts += ["", "## Slot inputs (F5→F6)", "",
-                  _table(["pos", "schaal", "lengte", "onderwerp", "medium",
-                          "samenvatting", "bron_woorden", "refs",
-                          "referentie_woorden"], rows)]
+                  _table(["pos", "schaal", "lengte", "artikelkop",
+                          "medium", "samenvatting", "bron_woorden", "refs",
+                          "referentie_woorden", "model (F7)", "invalshoek"],
+                         rows)]
 
     if reviewed_path.is_file():
         reviewed = load_artifact(reviewed_path, ReviewedArticle)
