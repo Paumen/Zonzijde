@@ -9,10 +9,14 @@ from .contracts import (ArticleText, Candidate, EditionOutline, FeedItem,
                         load_artifact, load_model)
 
 
+def _cell(value: object) -> str:
+    return str(value).replace("|", "\\|").replace("\n", "<br>")
+
+
 def _table(headers: list[str], rows: list[list]) -> str:
     lines = ["| " + " | ".join(headers) + " |",
              "|" + "|".join("---" for _ in headers) + "|"]
-    lines += ["| " + " | ".join(str(c) for c in row) + " |" for row in rows]
+    lines += ["| " + " | ".join(_cell(c) for c in row) + " |" for row in rows]
     return "\n".join(lines)
 
 
@@ -315,9 +319,9 @@ def build(ctx: RunContext) -> str:
         outline = load_model(outline_path, EditionOutline)
         parts += ["", "## Edition plan (F6)", "",
                   _table(["pos", "schaal", "lengte", "onderwerp",
-                          "locatie", "bron_datum"],
+                          "locatie", "bron_datum", "invalshoek"],
                          [[s.pos, s.scope, s.length, s.topic,
-                           s.location, s.source_date or "—"]
+                           s.location, s.source_date or "—", s.angle]
                           for s in outline.slots])]
 
     if outline_path.is_file() and articles_path.is_file():
