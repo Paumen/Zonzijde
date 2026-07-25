@@ -3,6 +3,8 @@ from __future__ import annotations
 import json
 import re
 
+from . import timing
+
 
 class LlmError(RuntimeError):
     pass
@@ -26,7 +28,8 @@ def _strip_markup(value: object, names: tuple[str, ...]) -> object:
     return value
 
 
-def _record_usage(result: object, tool_uses: int, thinking_chars: int) -> dict:
+def _record_usage(result: object, tool_uses: int, thinking_chars: int,
+                  started_ms: int, ended_ms: int) -> dict:
     raw = getattr(result, "usage", None)
 
     def field(name: str) -> object:
@@ -49,6 +52,8 @@ def _record_usage(result: object, tool_uses: int, thinking_chars: int) -> dict:
         "api_ms": num(getattr(result, "duration_api_ms", None)),
         "tool_uses": tool_uses,
         "thinking_chars": thinking_chars,
+        "started_ms": started_ms,
+        "ended_ms": ended_ms,
     }
 
 
@@ -61,6 +66,10 @@ def summarize_usage(records: list[dict] | None) -> dict | None:
         return sum((r.get(name) or 0) for r in recs)
 
     costs = [r.get("cost_usd") for r in recs if isinstance(r.get("cost_usd"), (int, float))]
+    pairs = [(r["started_ms"], r["ended_ms"]) for r in recs
+             if isinstance(r.get("started_ms"), int)
+             and isinstance(r.get("ended_ms"), int)]
+    origin = min(s for s, _ in pairs) if pairs else 0
     return {
         "calls": len(recs),
         "input_tokens": total("input_tokens"),
@@ -73,6 +82,9 @@ def summarize_usage(records: list[dict] | None) -> dict | None:
         "thinking_chars": total("thinking_chars"),
         "wall_ms": total("wall_ms"),
         "api_ms": total("api_ms"),
+        "span_ms": (max(e for _, e in pairs) - origin) if pairs else None,
+        "slowest_ms": max((e - s for s, e in pairs), default=None),
+        "spans": [[s - origin, e - origin] for s, e in sorted(pairs)] or None,
     }
 
 
@@ -114,14 +126,17 @@ def agent_json(prompt: str, *, model: str, system: str | None = None,
                 result = message
         return result, tool_uses, thinking_chars
 
+    started_ms = timing.now_ms()
     try:
         result, tool_uses, thinking_chars = asyncio.run(run())
     except Exception as e:
         raise LlmError(f"agent call failed: {type(e).__name__}: {e}")
+    ended_ms = timing.now_ms()
     if result is None or getattr(result, "is_error", False):
         raise LlmError(f"agent session errored: {result!r:.500}")
     if usage_sink is not None:
-        usage_sink.append(_record_usage(result, tool_uses, thinking_chars))
+        usage_sink.append(_record_usage(result, tool_uses, thinking_chars,
+                                        started_ms, ended_ms))
     names = tuple((schema or {}).get("properties", {}))
     payload = getattr(result, "structured_output", None)
     if payload is None:
