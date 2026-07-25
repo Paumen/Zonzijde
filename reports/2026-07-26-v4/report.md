@@ -202,34 +202,34 @@ model claude-haiku-4-5-20251001, prompt score.md v5
 
 ## Edition plan (F6)
 
-| pos | schaal | lengte | onderwerp | locatie | bron_datum | invalshoek |
-|---|---|---|---|---|---|---|
-| 1 | L | kort | Willie Heij loopt zijn 66e Vierdaagse | Wijchen | 2026-07-21 | Menselijke synecdoche, warm-in-terughoudendheid: 83-jarige Wijchenaar loopt zijn 66e Vierdaagse, recordhouder onder actieve lopers. Niet de afstand telt maar de trouw — hij stapte terug naar 30 km om bij zijn wandelmaatje te blijven. |
-| 2 | L | kort | Theatervoorstelling De Honingbij in kasteel Hernen | Hernen | 2026-07-25 | Ga-en-kijk, nieuwsgierig-opgewekt: op zomerse vrijdagen speelt en zingt Hanna'floor in kasteel Hernen een familievoorstelling over een broer en zus die, geleid door een honingbij, het bijengebied redden. De lezer kan er met (klein)kinderen heen lopen. |
-| 3 | L | mid | Zomerspeurtocht naar de verdwenen ijscoupes | Wijchen | 2026-07-20 | Ga-en-kijk met kleine absurditeit: de ijscoman is de ingrediënten van zijn coupes kwijt, verstopt in etalages door het centrum. Kinderen speuren de winkelstraat af — jongsten strepen onderdelen af, ouderen ontcijferen een geheime boodschap. Ondernemers doen mee. |
-| 4 | R | lang | Lochem bouwt twee nieuwe buitenzwembaden | Gorssel | 2026-07-23 | Oplossings- en herstelverhaal: na jaren plannen gaat na de zomer de schop de grond in — twee vertrouwde buitenbaden in Gorssel en Almen volledig vernieuwd. Bewoners, die er zelf zwemmen, denken mee. Nog één zomer oud, dan nieuw. |
-| 5 | R | mid | Wandelen verbindt: wethouder en energiecoaches in Druten | Druten | 2026-07-22 | Stille bekwaamheid via een duo: vrijwillige energiecoaches Theo en Jos helpen inwoners achter elke voordeur — de één zoekt verbinding, de ander leest de woning technisch. Ze leveren niet alleen een lagere rekening maar vooral inzicht en vertrouwen. |
-| 6 | N | mid | Voor het eerst een moeder als Queen Zomercarnaval | Rotterdam | 2026-07-25 | Verandermaker, erkennen-en-keren: een als achterhaald geschrapte regel maakt voor het eerst een moeder Queen van het Zomercarnaval. Mireyna liet haar levenslange droom los toen ze zoons kreeg — en won hem dit jaar alsnog. Inclusie zonder preek. |
-| 7 | N | kort | Herinneringsbrief Donorregister voor 21-jarigen | Den Haag | 2026-07-23 | Stille bekwaamheid, recht/neutraal: de overheid stuurt 21-jarigen met 'geen bezwaar' een herinneringsbrief, zodat een stille registratie een bewuste keuze wordt die nog bij hun wensen past. Een klein systeem dat ruimte laat aan de eigen beslissing. |
-| 8 | I | mid | Bedreigde diersoorten herstellen na jarenlange bescherming | Green River, Colorado-bekken (VS) | 2026-07-23 | Vooruitgangsverhaal met uitgangscijfer, macro-uitzoom over drie continenten: soorten terug van de rand. De razorbaars van ~100 naar 36.000, de Hawaïaanse steltkluut van 200 naar 1.500, de Amami-houtsnip van 4.100 naar 17.000. Jarenlange bescherming loont. |
-| 9 | I | lang | Backlash tegen Premier League brengt gemeenschapsvoetbal terug | Spalding, Lincolnshire (VK) | 2026-07-22 | Herstel en contra-intuïtief: terwijl Premier League-prijzen stijgen, keren duizenden fans terug naar dichtbij, goedkoop en menselijk non-league-voetbal. Real Bedford klom in vier jaar door de piramide en gaf de stad haar clubgevoel terug. |
-| 10 | I | kort | Eerste proefpersoon krijgt vaccin tegen ebola-variant | Oxford (VK) | 2026-07-25 | Oplossingsverhaal, feiten die het verdienen: in Oxford krijgt de eerste proefpersoon een experimenteel vaccin tegen de Bundibugyo-ebola — als eerste van vier kandidaten in de mensfase. 600.000 doses staan al klaar tegen de uitbraak in Congo. |
+| pos | schaal | lengte | onderwerp | locatie | bron_datum |
+|---|---|---|---|---|---|
+| 1 | L | kort | Willie Heij loopt zijn 66e Vierdaagse | Wijchen | 2026-07-21 |
+| 2 | L | kort | Theatervoorstelling De Honingbij in kasteel Hernen | Hernen | 2026-07-25 |
+| 3 | L | mid | Zomerspeurtocht naar de verdwenen ijscoupes | Wijchen | 2026-07-20 |
+| 4 | R | lang | Lochem bouwt twee nieuwe buitenzwembaden | Gorssel | 2026-07-23 |
+| 5 | R | mid | Wandelen verbindt: wethouder en energiecoaches in Druten | Druten | 2026-07-22 |
+| 6 | N | mid | Voor het eerst een moeder als Queen Zomercarnaval | Rotterdam | 2026-07-25 |
+| 7 | N | kort | Herinneringsbrief Donorregister voor 21-jarigen | Den Haag | 2026-07-23 |
+| 8 | I | mid | Bedreigde diersoorten herstellen na jarenlange bescherming | Green River, Colorado-bekken (VS) | 2026-07-23 |
+| 9 | I | lang | Backlash tegen Premier League brengt gemeenschapsvoetbal terug | Spalding, Lincolnshire (VK) | 2026-07-22 |
+| 10 | I | kort | Eerste proefpersoon krijgt vaccin tegen ebola-variant | Oxford (VK) | 2026-07-25 |
 
 ## Slot inputs (F5→F6)
 
-| pos | schaal | lengte | onderwerp | medium | samenvatting | bron_woorden | refs | referentie_woorden |
-|---|---|---|---|---|---|---|---|---|
-| 1 | L | kort | Willie Heij loopt zijn 66e Vierdaagse | nieuws.nl | 50 | 135 | 0 | 0 |
-| 2 | L | kort | Theatervoorstelling De Honingbij in kasteel Hernen | nieuws.nl | 46 | 245 | 0 | 0 |
-| 3 | L | mid | Zomerspeurtocht naar de verdwenen ijscoupes | nieuws.nl | 42 | 144 | 3 | 382 |
-| 4 | R | lang | Lochem bouwt twee nieuwe buitenzwembaden | Gld | 44 | 678 | 0 | 0 |
-| 5 | R | mid | Wandelen verbindt: wethouder en energiecoaches in Druten | Druten, Druten | 59 | 1344 | 1 | 34 |
-| 6 | N | mid | Voor het eerst een moeder als Queen Zomercarnaval | NOS J, NOS Binnen | 691 | 624 | 0 | 0 |
-| 7 | N | kort | Herinneringsbrief Donorregister voor 21-jarigen | Overheid | 42 | 376 | 0 | 0 |
-| 8 | I | mid | Bedreigde diersoorten herstellen na jarenlange bescherming | HumanProg, HumanProg, HumanProg | 218 | 397 | 2 (1 ok) | 514 |
-| 9 | I | lang | Backlash tegen Premier League brengt gemeenschapsvoetbal terug | Positive | 38 | 904 | 0 | 0 |
-| 10 | I | kort | Eerste proefpersoon krijgt vaccin tegen ebola-variant | NOS Buiten | 181 | 191 | 0 | 0 |
-|  |  |  | **totaal** |  | 1411 | 5038 | 6 (5 ok) | 930 |
+| pos | schaal | lengte | artikelkop | medium | samenvatting | bron_woorden | refs | referentie_woorden | model (F7) | invalshoek |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 1 | L | kort | Willie Heij loopt al 66 jaar mee | nieuws.nl | 50 | 135 | 0 | 0 | claude-sonnet-5 | Menselijke synecdoche, warm-in-terughoudendheid: 83-jarige Wijchenaar loopt zijn 66e Vierdaagse, recordhouder onder actieve lopers. Niet de afstand telt maar de trouw — hij stapte terug naar 30 km om bij zijn wandelmaatje te blijven. |
+| 2 | L | kort | Ruziënde broer en zus redden de bijen | nieuws.nl | 46 | 245 | 0 | 0 | claude-opus-4-8 | Ga-en-kijk, nieuwsgierig-opgewekt: op zomerse vrijdagen speelt en zingt Hanna'floor in kasteel Hernen een familievoorstelling over een broer en zus die, geleid door een honingbij, het bijengebied redden. De lezer kan er met (klein)kinderen heen lopen. |
+| 3 | L | mid | Kinderen speuren naar verdwenen ijscoupes | nieuws.nl | 42 | 144 | 3 | 382 | claude-sonnet-5 | Ga-en-kijk met kleine absurditeit: de ijscoman is de ingrediënten van zijn coupes kwijt, verstopt in etalages door het centrum. Kinderen speuren de winkelstraat af — jongsten strepen onderdelen af, ouderen ontcijferen een geheime boodschap. Ondernemers doen mee. |
+| 4 | R | lang | Laatste zomer in oude baden Gorssel en Almen | Gld | 44 | 678 | 0 | 0 | claude-sonnet-5 | Oplossings- en herstelverhaal: na jaren plannen gaat na de zomer de schop de grond in — twee vertrouwde buitenbaden in Gorssel en Almen volledig vernieuwd. Bewoners, die er zelf zwemmen, denken mee. Nog één zomer oud, dan nieuw. |
+| 5 | R | mid | Eerst koffie, dan de meterkast | Druten, Druten | 59 | 1344 | 1 | 34 | claude-sonnet-5 | Stille bekwaamheid via een duo: vrijwillige energiecoaches Theo en Jos helpen inwoners achter elke voordeur — de één zoekt verbinding, de ander leest de woning technisch. Ze leveren niet alleen een lagere rekening maar vooral inzicht en vertrouwen. |
+| 6 | N | mid | Rotterdamse moeder eerste Queen van Zomercarnaval | NOS J, NOS Binnen | 691 | 624 | 0 | 0 | claude-sonnet-5 | Verandermaker, erkennen-en-keren: een als achterhaald geschrapte regel maakt voor het eerst een moeder Queen van het Zomercarnaval. Mireyna liet haar levenslange droom los toen ze zoons kreeg — en won hem dit jaar alsnog. Inclusie zonder preek. |
+| 7 | N | kort | Brief op 21e geeft donorkeuze een herkansing | Overheid | 42 | 376 | 0 | 0 | claude-sonnet-5 | Stille bekwaamheid, recht/neutraal: de overheid stuurt 21-jarigen met 'geen bezwaar' een herinneringsbrief, zodat een stille registratie een bewuste keuze wordt die nog bij hun wensen past. Een klein systeem dat ruimte laat aan de eigen beslissing. |
+| 8 | I | mid | Razorbaars, steltkluut en houtsnip klimmen terug | HumanProg, HumanProg, HumanProg | 218 | 397 | 2 (1 ok) | 514 | claude-sonnet-5 | Vooruitgangsverhaal met uitgangscijfer, macro-uitzoom over drie continenten: soorten terug van de rand. De razorbaars van ~100 naar 36.000, de Hawaïaanse steltkluut van 200 naar 1.500, de Amami-houtsnip van 4.100 naar 17.000. Jarenlange bescherming loont. |
+| 9 | I | lang | Terug naar het voetbal om de hoek | Positive | 38 | 904 | 0 | 0 | claude-sonnet-5 | Herstel en contra-intuïtief: terwijl Premier League-prijzen stijgen, keren duizenden fans terug naar dichtbij, goedkoop en menselijk non-league-voetbal. Real Bedford klom in vier jaar door de piramide en gaf de stad haar clubgevoel terug. |
+| 10 | I | kort | Eerste proefpersoon krijgt vaccin tegen nieuwe ebolavariant | NOS Buiten | 181 | 191 | 0 | 0 | claude-sonnet-5 | Oplossingsverhaal, feiten die het verdienen: in Oxford krijgt de eerste proefpersoon een experimenteel vaccin tegen de Bundibugyo-ebola — als eerste van vier kandidaten in de mensfase. 600.000 doses staan al klaar tegen de uitbraak in Congo. |
+|  |  |  | **totaal** |  | 1411 | 5038 | 6 (5 ok) | 930 |  |  |
 
 ## Articles (F7/8)
 
