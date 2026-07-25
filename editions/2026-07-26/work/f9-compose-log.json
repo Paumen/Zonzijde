@@ -4,12 +4,12 @@
     {
       "file": "work/f9-illustration-1.svg",
       "pos": 4,
-      "subject": "Onderscheidingsmedaille met lint"
+      "subject": "een medaille aan een lint"
     },
     {
       "file": "work/f9-illustration-2.svg",
       "pos": 7,
-      "subject": "Vlinder boven ongemaaide berm"
+      "subject": "een vlinder boven de ongemaaide berm"
     }
   ],
   "notes": [],
@@ -33,14 +33,14 @@
   "llm": {
     "calls": 1,
     "input_tokens": 4,
-    "output_tokens": 1953,
+    "output_tokens": 2552,
     "cache_read_tokens": 55558,
-    "cache_creation_tokens": 15072,
-    "cost_usd": 0.2289,
-    "turns": 6,
-    "tool_uses": 5,
+    "cache_creation_tokens": 19151,
+    "cost_usd": 0.2846,
+    "turns": 7,
+    "tool_uses": 6,
     "thinking_chars": 0,
-    "wall_ms": 32131,
-    "api_ms": 33741
+    "wall_ms": 32634,
+    "api_ms": 33362
   }
 }

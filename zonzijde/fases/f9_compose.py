@@ -346,12 +346,7 @@ def run(ctx: RunContext, illustrate_call: JsonCall | None = None) -> None:
             if changed:
                 recompiles += 1
                 continue
-        write_log()
-        raise SystemExit(
-            f"F9 compose: {len(violations)} typeset violation(s) after "
-            f"{recompiles} recompile(s) — see f9-compose-log.json. The "
-            "editorial gate resolves layout (SPEC §6): edit the article "
-            "texts or reflow, then re-run compose.")
+        break
 
     booklet = typeset.impose_booklet(pdf)
     (ctx.edition_dir / "krant-A3boekje.pdf").write_bytes(booklet)
@@ -361,3 +356,9 @@ def run(ctx: RunContext, illustrate_call: JsonCall | None = None) -> None:
           f"{len(illustrations)} illustration(s), "
           f"{typeset.TARGET_PAGES} pages, {recompiles} recompile(s) → "
           f"{ctx.edition_dir / 'krant-A3boekje.pdf'}")
+    if violations:
+        raise SystemExit(
+            f"F9 compose: {len(violations)} typeset violation(s) after "
+            f"{recompiles} recompile(s) — see f9-compose-log.json. The "
+            "editorial gate resolves layout (SPEC §6): edit the article "
+            "texts or reflow, then re-run compose.")
