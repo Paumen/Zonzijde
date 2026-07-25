@@ -179,6 +179,9 @@ def build(ctx: RunContext) -> str:
     reviewed_path = work / "f8-reviewed.json"
     compose_log_path = work / "f9-compose-log.json"
 
+    outline = (load_model(outline_path, EditionOutline)
+               if outline_path.is_file() else None)
+
     if log_path.is_file():
         log = json.loads(log_path.read_text(encoding="utf-8"))
         feeds = log["feeds"]
@@ -217,8 +220,7 @@ def build(ctx: RunContext) -> str:
                       f" (requests {m['requests']}, playwright {m['playwright']})"
                       + (f"; {len(elog['dropped_topics'])} onderwerpen dropped (F5)"
                          if elog["dropped_topics"] else "")]
-        if outline_path.is_file():
-            outline = load_model(outline_path, EditionOutline)
+        if outline is not None:
             olog = json.loads((work / "f6-outline-log.json")
                               .read_text(encoding="utf-8"))
             planned = olog["planned_words"]
@@ -315,8 +317,7 @@ def build(ctx: RunContext) -> str:
                           "bron_woorden", "refs", "referentie_woorden",
                           "referentie_links", "status"], rows)]
 
-    if outline_path.is_file():
-        outline = load_model(outline_path, EditionOutline)
+    if outline is not None:
         parts += ["", "## Edition plan (F6)", "",
                   _table(["pos", "schaal", "lengte", "onderwerp",
                           "locatie", "bron_datum"],
@@ -324,8 +325,7 @@ def build(ctx: RunContext) -> str:
                            s.location, s.source_date or "—"]
                           for s in outline.slots])]
 
-    if outline_path.is_file() and articles_path.is_file():
-        outline = load_model(outline_path, EditionOutline)
+    if outline is not None and articles_path.is_file():
         articles = {a.id: a for a in load_artifact(articles_path, ArticleText)}
         koppen = {}
         if reviewed_path.is_file():
