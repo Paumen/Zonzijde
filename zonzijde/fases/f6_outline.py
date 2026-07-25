@@ -9,10 +9,8 @@ from pydantic import ValidationError
 
 from .. import llm, prompts
 from ..context import RunContext
-from ..contracts import (ArticleText, Candidate, EditionOutline, ScoredItem,
-                         load_artifact, save_model)
-
-RING = ["L", "R", "N", "I"]
+from ..contracts import (RING, ArticleText, Candidate, EditionOutline,
+                         ScoredItem, load_artifact, save_model)
 
 
 def response_schema(candidate_keys: list[str], woorden: dict) -> dict:
