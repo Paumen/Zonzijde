@@ -387,6 +387,7 @@ def build(ctx: RunContext) -> dict:
             "screen_total_ms": sum(screens.values()),
             "pages": manifest.counts.get("pages"),
             "words_body": manifest.counts.get("words_body"),
+            "weather": manifest.weather.model_dump(mode="json"),
             "counts": {"entries": entries, "in_window": len(f1),
                        "filtered": len(filtered), "scored": len(score_of),
                        "positive": counts_in["select"],

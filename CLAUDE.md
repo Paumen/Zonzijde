@@ -60,6 +60,20 @@ Every fase reads the fase before it from `work/`, so a resumed range needs the e
 artifacts already present. See `docs/ARCHITECTURE.md` for the fase contracts, and the
 approval rules below before invoking any of this.
 
+## Watching a run
+
+`index.html` in the repo root replays `viz/viz-trace.json`
+(`docs/spec_visualization_automation.md`) with `viz/*.js` and `viz/viz.css` — no build
+step, but it fetches the trace, so it needs a server rather than `file://`:
+
+```
+python3 -m http.server 8000        # then open http://localhost:8000/
+```
+
+Mobile portrait. Everything on screen comes from the trace, the two SVGs in
+`assets/art/` and the fonts in `fonts/`. Two query parameters help while working on it:
+`?speed=` picks one of the playback speeds and `?t=` jumps to that second of the run.
+
 ## Conventions and hard rules
 
 - Specification, decision, instructions, etc. live in one place, remainder refers to it.
