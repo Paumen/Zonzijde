@@ -1,5 +1,5 @@
-import { Engine, Camera } from "./engine.js";
-import { bouwScene } from "./scene.js";
+import { Engine, Camera, Sprite } from "./engine.js";
+import { bouwKrant, PAGE_W, PAGE_H } from "./paper.js";
 
 const world = document.getElementById("world");
 const balk = document.getElementById("speeds");
@@ -23,9 +23,20 @@ await Promise.all(["assets/art/zonnebloem.svg", "assets/art/landschap.svg"].map(
 
 const vp = { w: window.innerWidth, h: window.innerHeight };
 const eng = new Engine();
-const cam = new Camera(0, 0, 200);
 
-bouwScene(trace, world, eng, cam, vp.h / vp.w);
+const krant = bouwKrant(trace, world);
+new Sprite(krant.el, 0, 0).apply();
+for (const el of world.querySelectorAll(".dof")) el.classList.remove("dof");
+for (const art of krant.artikelen.values()) {
+  art.werk.style.opacity = 0;
+  for (const w of art.kopWoorden) w.classList.add("op");
+  for (const w of art.woorden) w.classList.add("op");
+  if (art.illo) art.illo.classList.remove("onthul");
+}
+for (const p of krant.pages) p.el.classList.add("af");
+
+const cam = new Camera(0, krant.hoogte / 2,
+  Math.max(krant.breedte * 1.1, krant.hoogte * 1.06 * vp.w / vp.h));
 
 const params = new URLSearchParams(location.search);
 const totaal = trace.meta.screen_total_ms + 6000;

@@ -3,13 +3,6 @@
   --body-ink: #28281f;
   --muted: #6a6a6a;
   --hair: #c9c9c7;
-  --clip: #fffdf6;
-  --clip-edge: #e3d8c2;
-  --L: #c85a3a;
-  --R: #c9962b;
-  --N: #3f7d6e;
-  --I: #4a6fa5;
-  --schrap: #a83a2a;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -19,7 +12,6 @@ html { font-size: 10px; }
 body {
   height: 100%;
   overflow: hidden;
-  background: #d8ccb0;
   -webkit-user-select: none;
   user-select: none;
   -webkit-text-size-adjust: none;
@@ -30,15 +22,6 @@ body {
   inset: 0;
   overflow: hidden;
   touch-action: none;
-  background: radial-gradient(120% 80% at 50% 14%, #f1e9d8 0%, #e6dcc6 44%, #d3c6a7 100%);
-}
-
-#field::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  background: linear-gradient(180deg, rgba(60, 40, 20, .12) 0, transparent 16%, transparent 80%, rgba(60, 40, 20, .16) 100%);
 }
 
 #world {
@@ -55,151 +38,6 @@ body {
   left: 0;
   top: 0;
   transform-origin: 0 0;
-}
-
-.clip {
-  width: 66px;
-  height: 22px;
-  padding: 2.2px 3.4px;
-  overflow: hidden;
-  background: var(--clip);
-  border: .4px solid var(--clip-edge);
-  color: #2a251f;
-  box-shadow: .6px 1.2px 2.4px rgba(40, 25, 10, .16);
-  font-family: "Newsreader", Georgia, serif;
-}
-
-.clip .b {
-  margin-left: 4.6px;
-  font-family: "Archivo", system-ui, sans-serif;
-  font-size: 2.7px;
-  font-weight: 700;
-  letter-spacing: .09em;
-  text-transform: uppercase;
-  color: #a2937a;
-  line-height: 1.5;
-  white-space: nowrap;
-  overflow: hidden;
-}
-
-.clip .ttl {
-  font-size: 4.4px;
-  line-height: 1.16;
-  font-weight: 500;
-  max-height: 11px;
-  overflow: hidden;
-}
-
-.clip .sc {
-  position: absolute;
-  left: 2.4px;
-  top: 3.2px;
-  width: 2.6px;
-  height: 2.6px;
-  border-radius: 50%;
-  background: var(--sc, #999);
-}
-
-.clip mark {
-  background: none;
-  color: var(--schrap);
-  box-shadow: inset 0 -.6px 0 var(--schrap);
-}
-
-.clip.oud {
-  background: #e8dabb;
-  border-color: #d0bf95;
-  box-shadow: .4px .8px 1.6px rgba(40, 25, 10, .1);
-}
-
-.clip.oud2 { background: #e1d2ac; }
-.clip.oud3 { background: #eee2c6; }
-
-.clip.plus2 { box-shadow: 0 0 0 .5px rgba(200, 90, 58, .4), 1px 2px 3px rgba(40, 25, 10, .2); }
-.clip.min1, .clip.min2 { background: #f3eadf; }
-
-.cijfer {
-  position: absolute;
-  right: 2.4px;
-  top: 1.4px;
-  font-family: "Archivo", system-ui, sans-serif;
-  font-size: 5.6px;
-  font-weight: 700;
-  letter-spacing: -.03em;
-  color: var(--stamp, #6a6a6a);
-}
-
-.lens {
-  pointer-events: none;
-  background: linear-gradient(180deg, rgba(255, 249, 224, 0) 0, rgba(255, 250, 228, .9) 46%, rgba(255, 244, 205, .5) 54%, rgba(255, 249, 224, 0) 100%);
-  mix-blend-mode: soft-light;
-}
-
-.tag {
-  font-family: "Archivo", system-ui, sans-serif;
-  font-size: 3.5px;
-  font-weight: 700;
-  line-height: 1.26;
-  width: 84px;
-  padding: 1.2px 2.4px;
-  background: #efe4cc;
-  border: .4px solid #d8ccb8;
-  border-left: 1.6px solid var(--sc, #8a7f70);
-  color: #3a3428;
-  box-shadow: .4px 1px 2px rgba(40, 25, 10, .14);
-}
-
-.vel {
-  width: 76px;
-  background: #fbf7ea;
-  border: .4px solid #d8ccb8;
-  box-shadow: .6px 1.2px 2.4px rgba(40, 25, 10, .16);
-  padding: 2.6px 3px;
-  font-family: "Newsreader", Georgia, serif;
-  font-size: 2.4px;
-  line-height: 1.5;
-  color: #4a443a;
-  text-align: justify;
-  overflow: hidden;
-  hyphens: auto;
-}
-
-.vel span { visibility: hidden; }
-.vel span.op { visibility: visible; }
-
-.brief {
-  width: 78px;
-  padding: 2.6px 3.2px;
-  background: #fcf6e2;
-  border: .4px solid #ddd0ad;
-  box-shadow: .8px 1.4px 3px rgba(40, 25, 10, .2);
-  font-family: "Newsreader", Georgia, serif;
-  font-size: 2.7px;
-  line-height: 1.36;
-  font-style: italic;
-  color: #4a443a;
-}
-
-.brief b {
-  display: block;
-  font-family: "Archivo", system-ui, sans-serif;
-  font-style: normal;
-  font-size: 2.3px;
-  font-weight: 700;
-  letter-spacing: .09em;
-  text-transform: uppercase;
-  color: var(--sc, #8a7f70);
-  margin-bottom: .8px;
-}
-
-.caret {
-  width: .8px;
-  background: var(--ink);
-}
-
-.streepje {
-  background: rgba(168, 58, 42, .55);
-  height: .35px;
 }
 
 .krant { position: absolute; }
