@@ -59,10 +59,11 @@ def _sankey(flows: list[tuple[str, str, int]]) -> list[str]:
         f"{_sk(s)},{_sk(d)},{v}" for s, d, v in flows] + ["```"]
 
 
-def _overview(work) -> list[str]:
+def funnel_flows(work) -> tuple[list[tuple[str, str, int]],
+                                list[tuple[str, str, int]]]:
     fetch_path = work / "f1-fetch-log.json"
     if not fetch_path.is_file():
-        return []
+        return [], []
     feeds = json.loads(fetch_path.read_text(encoding="utf-8"))["feeds"]
     entries = sum(f["entries"] for f in feeds)
     kept = sum(f["kept"] for f in feeds)
@@ -118,7 +119,11 @@ def _overview(work) -> list[str]:
                                 .read_text(encoding="utf-8")).get("failed_slots") or [])
             edition += [("Written", "Reviewed", written - rf),
                         ("Written", "Review failed", rf)]
+    return item, edition
 
+
+def _overview(work) -> list[str]:
+    item, edition = funnel_flows(work)
     item_sankey = _sankey(item)
     edition_sankey = _sankey(edition)
     if not item_sankey and not edition_sankey:
@@ -138,7 +143,7 @@ def _secs(ms: object) -> str:
     return f"{ms / 1000:.1f}s" if isinstance(ms, (int, float)) else "—"
 
 
-def _fase_usage(work) -> dict[str, dict]:
+def fase_usage(work) -> dict[str, dict]:
     out = {}
     for key, _label, fn in FASE_LOGS:
         if fn is None or not (work / fn).is_file():
@@ -157,7 +162,7 @@ def _timeline(work) -> list[str]:
         fases = json.loads(path.read_text(encoding="utf-8")).get("fases") or {}
     except ValueError:
         return []
-    usage = _fase_usage(work)
+    usage = fase_usage(work)
 
     rows = []
     gantt = []

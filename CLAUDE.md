@@ -36,10 +36,16 @@ relative to `--root`, which defaults to the current directory.
 .venv/bin/python -m zonzijde run     --edition 2026-07-26 --from score --until write
 .venv/bin/python -m zonzijde score   --edition 2026-07-26                    # one fase
 .venv/bin/python -m zonzijde report  --edition 2026-07-26                    # report only
+.venv/bin/python -m zonzijde trace   --edition 2026-07-26                    # viz/viz-trace.json
 ```
 
 Fase names, in order: `fetch filter score select enrich outline write review compose`.
 `--window-days` overrides `window.days`; `--root` points at another checkout.
+
+`report` and `trace` are not fases: they only read `work/`, cost nothing, and are safe to
+re-run. `trace` derives `viz/viz-trace.json` for the visualization
+(`docs/spec_visualization_automation.md`) and is deterministic, so regenerating it and
+finding no diff confirms the committed copy matches the artifacts.
 
 `--edition` is an ISO `YYYY-MM-DD` date and is the edition's identity — there is no
 list of valid ones; it names the day the edition appears, which `cadence.weekday` in
