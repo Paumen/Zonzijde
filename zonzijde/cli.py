@@ -4,7 +4,7 @@ import argparse
 from datetime import date
 from pathlib import Path
 
-from . import report, timing
+from . import report, timing, trace
 from .context import RunContext
 from .fases import f1_fetch, f2_filter, f3_score, f4_select, f5_enrich
 from .fases import f6_outline, f7_write, f8_review, f9_compose
@@ -54,6 +54,7 @@ def build_parser() -> argparse.ArgumentParser:
     for name in FASE_NAMES:
         common(sub.add_parser(name, help=f"run fase {name} only"))
     common(sub.add_parser("report", help="regenerate the run report"))
+    common(sub.add_parser("trace", help="build the visualization trace"))
     return parser
 
 
@@ -73,6 +74,9 @@ def main(argv: list[str] | None = None) -> None:
 
     if args.command == "report":
         report.run(ctx)
+        return
+    if args.command == "trace":
+        trace.run(ctx)
         return
     if args.command != "run":
         run_fase(args.command, ctx)
