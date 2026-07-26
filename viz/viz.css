@@ -179,7 +179,7 @@ body {
 .w.vers { background: rgba(255, 233, 140, .8); }
 
 .illo { margin: .2rem 0 .24rem; break-inside: avoid; overflow: hidden; }
-.illo svg { width: 100%; height: auto; display: block; }
+.illo img { width: 100%; height: auto; display: block; }
 .illo.onthul { clip-path: inset(0 0 100% 0); }
 
 .weer { position: absolute; left: 0; right: 0; bottom: 0; break-inside: avoid; }
@@ -205,7 +205,7 @@ body {
 }
 
 .weer .dag.vandaag em { color: var(--ink); }
-.weer .dag .ic svg { width: .58rem; height: .58rem; display: block; margin: 0 auto .08rem; }
+.weer .dag .ic img { width: .58rem; height: .58rem; display: block; margin: 0 auto .08rem; }
 
 .weer .dag .t {
   font-family: "Fraunces", Georgia, serif;

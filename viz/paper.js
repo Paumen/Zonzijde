@@ -46,6 +46,19 @@ function weerIcoon(code) {
     'stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">' + s + '</svg>';
 }
 
+function svgAfbeelding(markup, cls) {
+  const i = document.createElement("img");
+  if (cls) i.className = cls;
+  i.alt = "";
+  const vb = /viewBox="([\d.\s-]+)"/.exec(markup);
+  if (vb) {
+    const [, , b, h] = vb[1].trim().split(/\s+/).map(Number);
+    if (b > 0 && h > 0) i.style.aspectRatio = `${b} / ${h}`;
+  }
+  i.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(markup);
+  return i;
+}
+
 function lcs(a, b) {
   const n = a.length, m = b.length;
   const dp = [new Uint16Array(m + 1)];
@@ -132,7 +145,7 @@ export function bouwKrant(trace, host) {
   for (const d of meta.weather.days) {
     const dg = el("div", "dag" + (d.label === "Vandaag" ? " vandaag" : ""), dagen);
     el("em", null, dg).textContent = d.label;
-    el("div", "ic", dg).innerHTML = weerIcoon(d.code);
+    el("div", "ic", dg).appendChild(svgAfbeelding(weerIcoon(d.code)));
     const t = el("div", "t", dg);
     t.textContent = Math.round(d.tmax) + "°";
     el("s", null, t).textContent = " " + Math.round(d.tmin) + "°";
@@ -181,7 +194,7 @@ export function bouwKrant(trace, host) {
     }
     if (slot.f9.illustratie) {
       const box = el("div", "illo onthul");
-      box.innerHTML = slot.f9.illustratie.svg;
+      box.appendChild(svgAfbeelding(slot.f9.illustratie.svg));
       blokken.push({ el: box, illo: slot.pos });
     }
     blokken.push({ el: bouwArtikel(slot, false), pos: slot.pos });
