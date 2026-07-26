@@ -1,10 +1,8 @@
 ## What this is
 
-De Zonzijde is a weekly, printable Dutch newspaper of genuinely good news for
-Gemeente Wijchen and outward (lokaal → regionaal → nationaal → internationaal).
-The deliverable is a print-ready PDF (A3 booklet imposition). For more see `brief.md`.
+De Zonzijde is a weekly, printable Dutch newspaper of genuinely good news. The deliverable is a print-ready PDF (A3 booklet imposition). For more see `brief.md`.
 
-**The two documents that govern all work here:**
+**The documents that govern all work here:**
 
 - `docs/SPEC.md` — the *what*: editorial and layout rules an edition must satisfy.
   
@@ -14,13 +12,11 @@ The deliverable is a print-ready PDF (A3 booklet imposition). For more see `brie
 
 - `config/prompts/brief.md` - explains the *why* vision, concept, concept of the paper.
 
-The original concept is archived at `docs/history/concept_ZZ.md`.
+- `docs/spec_visualization_automation.md` the spec for the visualization of a run.
 
 ## Running the pipeline
 
-Requires Python ≥3.11 and Node. The frontier fases call the Agent SDK
-(`claude-agent-sdk`, a pyproject dependency), which spawns the `claude` CLI as a
-subprocess — so that binary has to be on `PATH` and authenticated separately:
+Requires Python ≥3.11 and Node. The fases call the Agent SDK (`claude-agent-sdk`, a pyproject dependency), so that binary has to be on `PATH` and authenticated separately:
 
 ```
 npm install -g @anthropic-ai/claude-code
@@ -60,27 +56,17 @@ Every fase reads the fase before it from `work/`, so a resumed range needs the e
 artifacts already present. See `docs/ARCHITECTURE.md` for the fase contracts, and the
 approval rules below before invoking any of this.
 
-## Watching a run
-
-`index.html` in the repo root replays `viz/viz-trace.json`
-(`docs/spec_visualization_automation.md`) with `viz/*.js` and `viz/viz.css` — no build
-step, but it fetches the trace, so it needs a server rather than `file://`:
-
-```
-python3 -m http.server 8000        # then open http://localhost:8000/
-```
-
-Mobile portrait. Everything on screen comes from the trace, the two SVGs in
-`assets/art/` and the fonts in `fonts/`. Two query parameters help while working on it:
-`?speed=` picks one of the playback speeds and `?t=` jumps to that second of the run.
 
 ## Conventions and hard rules
 
 - Specification, decision, instructions, etc. live in one place, remainder refers to it.
-- Do NOT add comments and docstrings to code files. Except if absolutely necessary to prevent a frontier LLM agent making specific errors when editing the code in future.
+- Never add comments and docstrings to code files. Except if absolutely necessary to prevent a frontier LLM agent making specific errors when editing the code in future.
 - Never refer to or repeat specs or rules or decisions in code files.
-- - Never create or edit tests without explicit PO approval. You must explain PO proposed test and why you think it's critical in plain English inline in chat before you can request approval.
+- Never create or edit tests without explicit PO approval. You must explain PO proposed test and why you think it's critical in plain English inline in chat before you can request approval.
 - Never edit prompt files without explicit approval PO. You must show PO exact current and proposed prompt instruction inline in chat before you can request approval. This includes what goes into system prompt, json schema and description, anything else injected to llm api or sdk agent.
 - When a fase fails, diagnose by replaying one failing item (its log holds `system` and every `prompt`) and reading the raw message stream — never by re-running the fase. Do not retry, raise a limit, or change anything until you can name the mechanism.
+- Never increase max_turns without explicit approval.
 - Never run or re-run a fase, a range of fases, or the whole pipeline without explicit PO approval — every run costs money and time. Ask first, every time, including after a change you believe fixes the failure.
+- Never revive a deleted file unless explicitly asked.
+- Never read deleted files unless asked.
 
