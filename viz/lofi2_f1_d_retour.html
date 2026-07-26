@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="nl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>F1 &mdash; D &middot; retour (terug de lucht in)</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;background:#d8ccb0;
+  font:9px/1.25 Georgia,serif;-webkit-user-select:none;user-select:none}
+#f{position:fixed;inset:0;overflow:hidden;
+  background:radial-gradient(120% 90% at 50% -10%,#efe6d4,#e6dcc6 45%,#d8ccb0)}
+.c{position:absolute;left:0;top:0;width:78px;min-height:26px;padding:3px 4px;
+  background:#fffdf6;border:1px solid #d9cdb4;box-shadow:1px 2px 4px rgba(40,25,10,.20);
+  transform-origin:50% 50%;overflow:hidden;color:#2a251f;font-size:6.5px;line-height:1.15;
+  z-index:200}
+.c b{display:block;font-size:5px;letter-spacing:.05em;text-transform:uppercase;color:#a2937a}
+#hud{position:fixed;left:9px;bottom:9px;font:700 9px/1.5 monospace;color:#7a7060;opacity:.85}
+#hud i{font-style:normal;color:#a83a2a}
+button{position:fixed;right:9px;bottom:9px;font:700 9px monospace;padding:2px 6px;
+  background:rgba(247,240,220,.8);border:1px solid #7a7060;color:#4a4334}
+
+.c .dt{display:block;margin-top:1px;font:700 8px monospace;color:#8a7f70}
+.c.oud{background:#f6ece0;border-color:#c0a98a}
+.c.oud .dt{color:#a83a2a;font-size:12px;line-height:1.15}
+#lip{position:fixed;left:0;right:0;top:0;height:0;z-index:900;
+  border-bottom:1.5px dashed rgba(168,58,42,.45)}
+
+</style></head><body>
+<div id="f"></div><div id="hud"></div><button onclick="location.reload()">opnieuw</button>
+<script>
+const T=[["Gem Wijchen", "Column: Samen in beweging", "22 jul"], ["nieuws.nl", "Theatervoorstelling 'De Honingbij' in Hernen", "25 jul"], ["nieuws.nl", "Bijna 2000 verkeersboetes in Wijchen", "24 jul"], ["nieuws.nl", "Vrachtwagens kijken bij Truckshow Wijchen", "23 jul"], ["nieuws.nl", "Brons en dubbel gevoel voor Laura Smulders", "22 jul"], ["nieuws.nl", "Wijchen vandaag moeilijk bereikbaar", "22 jul"], ["nieuws.nl", "Dag van Wijchen begint vroeg", "21 jul"], ["nieuws.nl", "Willie Heij op weg voor zijn 66e Vierdaagse", "21 jul"], ["nieuws.nl", "Wout Loeffen loopt voor team Huntington", "21 jul"], ["nieuws.nl", "Toezichthouders kunnen over een grens gaan", "20 jul"], ["nieuws.nl", "Op zoek naar de verdwenen ijscoupes", "20 jul"], ["Gld", "AFTERMOVIE | Dit was de Nijmeegse Vierdaagse", "25 jul"], ["Gld", "Woningbrand in Doetinchem • overval bij fotozaak", "25 jul"], ["Gld", "Aanzienlijke brand bij woning in Doetinchem", "25 jul"], ["Gld", "Verdachte aangehouden na overval op fotozaak", "25 jul"], ["Gld", "EOD waarschuwt voor granaten door lage waterstand", "25 jul"], ["Gld", "Veel schade na kop-staartbotsing op A1", "25 jul"], ["Gld", "Man op snorfiets geschept door auto", "25 jul"], ["Gld", "Papierfabriek Folding Boxboard lijkt gered", "25 jul"], ["Gld", "Minderjarige jongen overleden na ongeval met buggy", "25 jul"], ["Gld", "Dit is er dit weekend te doen in Gelderland", "25 jul"], ["Gld", "Blauwalg en PFAS: hier kun je beter niet zwemmen", "25 jul"], ["Gld", "Kind met spoed naar ziekenhuis na buggy-ongeluk", "24 jul"], ["Gld", "Wesp veroorzaakt ravage op de weg", "24 jul"], ["Gld", "Fietser gewond na botsing met bus", "24 jul"], ["Gld", "Hardleerse bewoner moet 5000 euro betalen", "24 jul"], ["Gld", "NEC op dinsdag 4 augustus tegen Olympiakos Piraeus", "24 jul"], ["Gld", "Droogte legt scheepvaart op het Twentekanaal stil", "24 jul"], ["Gld", "Vuurwerk ontploft op balkon, bewoner gewond", "24 jul"], ["Gld", "Man schiet op agenten en raakt zelf zwaargewond", "24 jul"], ["Gld RvN", "Brandbrief: 'Stop boeren die grondwater oppompen'", "23 jul"], ["Gld RvN", "KIJK: Waal in Vlammen knalt alsnog boven Nijmegen", "22 jul"], ["Gld RvN", "Man overlijdt na schietincident in Nijmegen", "21 jul"], ["Overheid", "Vanaf 1 september vergoeding voor gedupeerden WIA", "24 jul"], ["NOS J", "Kinderen lopen mee in Pridewalk: 'Wees jezelf!'", "25 jul"], ["NOS J", "'Kakkerlakken'-protesten India: minister weg", "25 jul"], ["NOS J", "Nieuwswekker: Vuurbal + World Pride", "25 jul"], ["NOS J", "Speel de Jeugdjournaal Nieuwsquiz!", "25 jul"], ["NOS J", "België krijgt Nederlandse bondscoach", "24 jul"], ["NOS J", "Oeps: Bruidspaar wordt kletsnat tijdens fotoshoot", "24 jul"]];
+const N=100, DOOM=60, SURV=40, SPAWN=14, FL=3.0, FORK=.42;
+const W=innerWidth, H=innerHeight;
+const f=document.getElementById('f'), hud=document.getElementById('hud');
+let _s=20260726; const rnd=()=>((_s=(_s*1664525+1013904223)&0x7fffffff)/0x7fffffff);
+const eo=t=>1-Math.pow(1-t,3), ei=t=>t*t;
+
+const HEAP=[...Array(SURV)].map((_,k)=>{const t=k/SURV;return{
+  x:W*.5-39+(rnd()*2-1)*W*.30,
+  y:H*.87-t*H*.15+(rnd()*2-1)*13,
+  r:(rnd()*2-1)*25};});
+
+const fates=[...Array(DOOM).fill(0),...Array(SURV).fill(1)];
+for(let i=fates.length-1;i>0;i--){const j=(rnd()*(i+1))|0;[fates[i],fates[j]]=[fates[j],fates[i]];}
+const OLD=[...Array(N)].map(()=>`${8+((rnd()*12)|0)} jul`);
+
+let entered=0, landed=0, gone=0;
+const cards=fates.map((fate,i)=>{
+  const el=document.createElement('div'); el.className='c'; el.style.opacity=0;
+  f.appendChild(el);
+  const sx=8+rnd()*(W-94);
+  return {el,fate,i,sx,ex:sx+(rnd()-.5)*70,ey:H*.34+(rnd()-.5)*66,
+          r0:(rnd()-.5)*18,t0:.3+i*(SPAWN/N)+rnd()*.10,
+          u:0,forked:false,slot:-1,dead:false,extra:0};
+});
+
+const FRAGS=[];
+function frag(c,x,y,n){
+  for(let k=0;k<n;k++){
+    const el=document.createElement('div'); el.className='frag'; f.appendChild(el);
+    FRAGS.push({el,x:x+rnd()*40,y:y+rnd()*16,vx:(rnd()-.5)*90,vy:20+rnd()*70,
+                r:rnd()*360,vr:(rnd()-.5)*220,o:1});
+  }
+}
+
+const lip=document.createElement('div'); lip.id='lip'; document.body.appendChild(lip);
+
+
+function forkNow(c){
+  if(c.fate){
+    c.slot=landed++; const t=T[c.slot%T.length];
+    c.el.innerHTML=`<b>${t[0]}</b>${t[1]}<span class="dt">${t[2]}</span>`;
+    c.el.style.zIndex=500+c.slot;
+  }else{
+    c.el.classList.add('oud');
+    c.el.innerHTML=`<span class="dt">${OLD[c.i]}</span>`;
+  }
+}
+
+function pose(c,u){
+  let x,y,s=1,o=1,r=c.r0;
+  if(u<FORK){
+    const v=u/FORK;
+    x=c.sx+(c.ex-c.sx)*v; y=-46+(c.ey+46)*v; r=c.r0*(1+v);
+  }else{
+    const v=(u-FORK)/(1-FORK);
+    if(c.fate){
+      const e=eo(Math.min(1,v/.75)), h=HEAP[c.slot];
+      x=c.ex+(h.x-c.ex)*e; y=c.ey+(h.y-c.ey)*e; r=c.r0+(h.r-c.r0)*e;
+      
+    }else{
+      if(v<.30){ const w=v/.30, e=eo(w);
+      x=c.ex; y=c.ey+30*e; r=c.r0; }
+    else{ const w=(v-.30)/.70, e=ei(w);
+      x=c.ex+(c.sx-c.ex)*e; y=(c.ey+30)-(c.ey+30+70)*e;
+      r=c.r0-c.r0*2*e; o=w>.7?(1-w)/.3:1; }
+    }
+  }
+  c.el.style.transform=`translate(${x}px,${y}px) rotate(${r}deg) scale(${s})`;
+  c.el.style.opacity=o;
+  return true;
+}
+
+let last=performance.now();
+function frame(rt){
+  const dt=Math.min(.05,(rt-last)/1000); last=rt;
+  for(const c of cards){
+    if(c.dead) continue;
+    if(c.t0>0){ c.t0-=dt; if(c.t0>0) continue; entered++; }
+    c.u=Math.min(1,c.u+dt/FL);
+    if(!c.forked&&c.u>=FORK){ c.forked=true; forkNow(c); }
+    if(pose(c,c.u)===false) continue;
+    if(c.fate&&c.u>=1) c.el.style.zIndex=10+c.slot;
+    if(!c.fate&&c.u>=1){ c.dead=true; c.el.remove(); gone++; }
+  }
+  for(let k=FRAGS.length-1;k>=0;k--){
+    const g=FRAGS[k]; g.vy+=190*dt; g.x+=g.vx*dt; g.y+=g.vy*dt;
+    g.r+=g.vr*dt; g.o-=dt*.7;
+    if(g.o<=0||g.y>H+40){ g.el.remove(); FRAGS.splice(k,1); continue; }
+    g.el.style.transform=`translate(${g.x}px,${g.y}px) rotate(${g.r}deg)`;
+    g.el.style.opacity=g.o;
+  }
+  hud.innerHTML=`D &middot; retour (terug de lucht in)<br>binnen ${entered} &middot; blijft ${landed} &middot; <i>weg ${gone}</i>`;
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(t=>{last=t;frame(t)});
+</script></body></html>
