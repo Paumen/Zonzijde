@@ -85,10 +85,10 @@
 #let scheiding = block(above: 3.2mm, below: 3.4mm,
   line(length: 100%, stroke: 0.5pt + hair))
 
-#let gebalanceerd(n, gutter, lijn, body) = layout(size => {
+#let gebalanceerd(n, gutter, lijn, body, slack: 1) = layout(size => {
   let cw = (size.width - (n - 1) * gutter) / n
   let h = measure(block(width: cw, body)).height
-  let doel = calc.ceil(h.pt() / n / lijn.pt()) * lijn + lijn
+  let doel = calc.ceil(h.pt() / n / lijn.pt()) * lijn + slack * lijn
   block(height: doel, columns(n, gutter: gutter, body))
 })
 
@@ -103,7 +103,7 @@
     ])
     block(above: 1.6mm, below: 2.6mm,
       archivo(7.1pt, a.location + " · " + datum-kort(a.source_date)))
-    gebalanceerd(3, 6mm, 11.5pt, {
+    gebalanceerd(3, 6mm, 11.5pt, slack: if illus != none { 0 } else { 1 }, {
       paras(a.text, size: 10pt, spacing: 6.5pt)
       if illus != none {
         v(1fr)

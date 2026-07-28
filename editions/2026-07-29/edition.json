@@ -146,13 +146,13 @@
     "place": "Wijchen",
     "latitude": 51.8103,
     "longitude": 5.7256,
-    "fetched": "2026-07-28T19:36:29.758547+02:00",
+    "fetched": "2026-07-28T19:45:55.620825+02:00",
     "source": "open-meteo",
     "days": [
       {
         "date": "2026-07-28",
         "label": "Vandaag",
-        "tmax": 28.0,
+        "tmax": 28.6,
         "tmin": 13.1,
         "precip_prob": 0,
         "code": 3
@@ -160,18 +160,18 @@
       {
         "date": "2026-07-29",
         "label": "wo",
-        "tmax": 35.1,
-        "tmin": 19.8,
+        "tmax": 35.2,
+        "tmin": 19.7,
         "precip_prob": 0,
         "code": 3
       },
       {
         "date": "2026-07-30",
         "label": "do",
-        "tmax": 29.4,
-        "tmin": 21.3,
+        "tmax": 30.3,
+        "tmin": 21.6,
         "precip_prob": 31,
-        "code": 3
+        "code": 51
       },
       {
         "date": "2026-07-31",
@@ -219,7 +219,7 @@
     "pages": 4
   },
   "pipeline": {
-    "run": "2026-07-28T19:36:29.875946+02:00",
+    "run": "2026-07-28T19:45:55.737020+02:00",
     "prompt_versions": {
       "score": 5,
       "brief": 6,
