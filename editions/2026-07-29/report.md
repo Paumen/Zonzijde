@@ -107,8 +107,8 @@ Written,Reviewed,10
 | F6 outline | 18:37:48 | 164.2s | 163.7s | 163.7s | 160.9s | 1 |
 | F7 write | 18:40:45 | 132.3s | 131.8s | 131.8s | 581.6s | 10 |
 | F8 review | 18:43:15 | 87.5s | 86.9s | 86.9s | 353.6s | 10 |
-| F9 compose | 19:16:17 | 5.2s | — | — | — | — |
-| **total** |  | 686.7s |  |  |  |  |
+| F9 compose | 19:26:51 | 3.1s | — | — | — | — |
+| **total** |  | 684.6s |  |  |  |  |
 
 ```mermaid
 gantt
@@ -123,7 +123,7 @@ gantt
     F6 outline :2026-07-28 18:37:48, 164s
     F7 write :2026-07-28 18:40:45, 132s
     F8 review :2026-07-28 18:43:15, 88s
-    F9 compose :2026-07-28 19:16:17, 5s
+    F9 compose :2026-07-28 19:26:51, 3s
 ```
 
 ## LLM usage
@@ -277,6 +277,7 @@ model claude-haiku-4-5-20251001, prompt score.md v5
 ## Typeset & compose (F9)
 
 - illustration (EL-3): 'Een overhangende tak met vogels erop, boven een bloeiende plant in de berm' with the article at pos 8 — `work/f9-illustration-1.svg`
-- illustration (EL-3): 'Een wandelschoen die als bloempot dienstdoet, met planten die eruit opschieten' with the article at pos 4 — `work/f9-illustration-2.svg`
+- illustration (EL-3): 'Een wandelschoen die als bloempot dienstdoet, met planten die eruit opschieten' with the article at pos 1 — `work/f9-illustration-2.svg`
+- illustration (EL-3): 'Een honingbij die in een lus naar een bloem toe vliegt' with the article at pos 3 — `work/f9-illustration-3.svg`
 - 0 recompile(s)
 - all typeset checks passed

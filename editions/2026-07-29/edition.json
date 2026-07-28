@@ -146,7 +146,7 @@
     "place": "Wijchen",
     "latitude": 51.8103,
     "longitude": 5.7256,
-    "fetched": "2026-07-28T19:16:18.634520+02:00",
+    "fetched": "2026-07-28T19:26:52.589281+02:00",
     "source": "open-meteo",
     "days": [
       {
@@ -206,7 +206,11 @@
     },
     {
       "file": "work/f9-illustration-2.svg",
-      "pos": 4
+      "pos": 1
+    },
+    {
+      "file": "work/f9-illustration-3.svg",
+      "pos": 3
     }
   ],
   "pdf": "krant-A3boekje.pdf",
@@ -215,7 +219,7 @@
     "pages": 4
   },
   "pipeline": {
-    "run": "2026-07-28T19:16:18.812275+02:00",
+    "run": "2026-07-28T19:26:52.702175+02:00",
     "prompt_versions": {
       "score": 5,
       "brief": 6,

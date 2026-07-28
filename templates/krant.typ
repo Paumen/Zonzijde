@@ -92,7 +92,8 @@
   block(height: doel, columns(n, gutter: gutter, body))
 })
 
-#let hero(a) = place(top, scope: "parent", float: true, clearance: 4.5mm,
+#let hero(a, illus: none) = place(top, scope: "parent", float: true,
+  clearance: 4.5mm,
   block(width: 100%, {
     mark(kind: "article", pos: a.pos)
     block(below: 0pt, text(font: "Fraunces", weight: 640, size: 19pt,
@@ -102,7 +103,16 @@
     ])
     block(above: 1.6mm, below: 2.6mm,
       archivo(7.1pt, a.location + " · " + datum-kort(a.source_date)))
-    gebalanceerd(3, 6mm, 11.5pt, paras(a.text, size: 10pt, spacing: 6.5pt))
+    gebalanceerd(3, 6mm, 11.5pt, {
+      if illus != none {
+        block(width: 100%, above: 0pt, below: 2.4mm, {
+          mark(kind: "illustration", pos: a.pos)
+          image(illus, width: 100%)
+          mark(kind: "illustration-end", pos: a.pos)
+        })
+      }
+      paras(a.text, size: 10pt, spacing: 6.5pt)
+    })
     mark(kind: "article-end", pos: a.pos)
     v(3mm)
     line(length: 100%, stroke: 1.1pt + ink)
@@ -207,7 +217,10 @@
 #masthead
 
 #columns(3, gutter: 6mm)[
-  #hero(arts.at(0))
+  #let hero-illus = ed.illustrations.filter(i => i.pos == arts.at(0).pos)
+  #hero(arts.at(0), illus: if hero-illus.len() > 0 {
+    "/editions/" + ed.edition + "/" + hero-illus.at(0).file
+  } else { none })
   #let rest = arts.slice(1)
   #for scope in ("L", "R", "N", "I") {
     let sel = rest.filter(a => a.scope == scope)
