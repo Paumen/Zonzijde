@@ -43,6 +43,10 @@ def build_parser() -> argparse.ArgumentParser:
                        help="override the candidate window (SRC-4)")
         p.add_argument("--root", type=Path, default=Path.cwd(),
                        help="repo root (default: current directory)")
+        p.add_argument("--illustrations", type=Path, default=None,
+                       metavar="FILE",
+                       help="JSON with an 'illustraties' list to typeset "
+                            "instead of drawing new ones (EL-3)")
 
     run_p = sub.add_parser("run", help="chain the fases")
     common(run_p)
@@ -70,7 +74,8 @@ def run_fase(name: str, ctx: RunContext) -> None:
 def main(argv: list[str] | None = None) -> None:
     args = build_parser().parse_args(argv)
     ctx = RunContext(root=args.root, edition=args.edition,
-                     window_days=args.window_days)
+                     window_days=args.window_days,
+                     illustrations=args.illustrations)
 
     if args.command == "report":
         report.run(ctx)

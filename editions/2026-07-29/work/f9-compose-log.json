@@ -1,0 +1,27 @@
+{
+  "nr": 5,
+  "illustrations": [
+    {
+      "file": "work/f9-illustration-1.svg",
+      "pos": 8,
+      "subject": "Een overhangende tak met vogels erop, boven een bloeiende plant in de berm"
+    },
+    {
+      "file": "work/f9-illustration-2.svg",
+      "pos": 1,
+      "subject": "Een wandelschoen die als bloempot dienstdoet, met planten die eruit opschieten"
+    },
+    {
+      "file": "work/f9-illustration-3.svg",
+      "pos": 3,
+      "subject": "Een honingbij die in een lus naar een bloem toe vliegt"
+    }
+  ],
+  "notes": [],
+  "recompiles": 0,
+  "attempts": [
+    []
+  ],
+  "violations": [],
+  "llm": null
+}

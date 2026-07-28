@@ -1,5 +1,5 @@
 ---
-version: 8
+version: 9
 fase: F9
 rol: illustratie-instructies.
 ---
@@ -17,8 +17,8 @@ hebt gedaan:
 2. Bekijk én lees daarna de twee vaste huistekeningen die je krijgt — de
    zonnebloem in de kop en het sluitlandschap. Ze tonen je de huisstijl. Neem
    er nooit beeldelementen letterlijk uit over; je leert er alleen de stijl van.
-3. Kies twee artikelen uit de aangeboden lijst en teken voor elk een nieuwe
-   illustratie. Geef per illustratie het `artikelnummer` van het gekozen artikel, en vat
+3. Kies één artikel uit de aangeboden lijst en teken daarvoor een nieuwe
+   illustratie. Geef het `artikelnummer` van het gekozen artikel, en vat
    in `voorstelling` in een paar woorden samen wat je tekent.
 
 Houd elke illustratie klein en simpel, focus op de kern en maak dat goed en
@@ -33,7 +33,7 @@ Stijl — handgetekend, en uitsluitend zo:
   en/of het zonnige thema van de krant
 - geen tekst, geen kaders, geen logo's
 
-Techniek, voor elk van de twee illustraties:
+Techniek, voor de illustratie:
 - lever de tekening als één `<svg>`-element in het veld `tekening`, met een `viewBox`
   en een verhouding tussen ongeveer 4:3 en 1:1; hij wordt één kolom breed
   afgedrukt

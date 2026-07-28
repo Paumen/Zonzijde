@@ -14,9 +14,12 @@
   let p = d.split("-")
   (year: int(p.at(0)), month: int(p.at(1)), day: int(p.at(2)))
 }
+#let dagen = ("maandag", "dinsdag", "woensdag", "donderdag", "vrijdag",
+  "zaterdag", "zondag")
 #let datum-lang(d) = {
   let p = iso(d)
-  "zondag " + str(p.day) + " " + maanden.at(p.month - 1) + " " + str(p.year)
+  let dag = datetime(year: p.year, month: p.month, day: p.day).weekday()
+  dagen.at(dag - 1) + " " + str(p.day) + " " + maanden.at(p.month - 1) + " " + str(p.year)
 }
 #let datum-kort(d) = {
   let p = iso(d)
@@ -82,14 +85,15 @@
 #let scheiding = block(above: 3.2mm, below: 3.4mm,
   line(length: 100%, stroke: 0.5pt + hair))
 
-#let gebalanceerd(n, gutter, lijn, body) = layout(size => {
+#let gebalanceerd(n, gutter, lijn, body, slack: 1) = layout(size => {
   let cw = (size.width - (n - 1) * gutter) / n
   let h = measure(block(width: cw, body)).height
-  let doel = calc.ceil(h.pt() / n / lijn.pt()) * lijn + lijn
+  let doel = calc.ceil(h.pt() / n / lijn.pt()) * lijn + slack * lijn
   block(height: doel, columns(n, gutter: gutter, body))
 })
 
-#let hero(a) = place(top, scope: "parent", float: true, clearance: 4.5mm,
+#let hero(a, illus: none) = place(top, scope: "parent", float: true,
+  clearance: 4.5mm,
   block(width: 100%, {
     mark(kind: "article", pos: a.pos)
     block(below: 0pt, text(font: "Fraunces", weight: 640, size: 19pt,
@@ -99,7 +103,18 @@
     ])
     block(above: 1.6mm, below: 2.6mm,
       archivo(7.1pt, a.location + " · " + datum-kort(a.source_date)))
-    gebalanceerd(3, 6mm, 11.5pt, paras(a.text, size: 10pt, spacing: 6.5pt))
+    mark(kind: "hero-body", pos: a.pos)
+    gebalanceerd(3, 6mm, 11.5pt, slack: if illus != none { 0 } else { 1 }, {
+      paras(a.text, size: 10pt, spacing: 6.5pt)
+      if illus != none {
+        v(1fr)
+        block(width: 100%, above: 2.4mm, below: 0pt, {
+          mark(kind: "illustration", pos: a.pos)
+          image(illus, width: 100%)
+          mark(kind: "illustration-end", pos: a.pos)
+        })
+      }
+    })
     mark(kind: "article-end", pos: a.pos)
     v(3mm)
     line(length: 100%, stroke: 1.1pt + ink)
@@ -204,7 +219,10 @@
 #masthead
 
 #columns(3, gutter: 6mm)[
-  #hero(arts.at(0))
+  #let hero-illus = ed.illustrations.filter(i => i.pos == arts.at(0).pos)
+  #hero(arts.at(0), illus: if hero-illus.len() > 0 {
+    "/editions/" + ed.edition + "/" + hero-illus.at(0).file
+  } else { none })
   #let rest = arts.slice(1)
   #for scope in ("L", "R", "N", "I") {
     let sel = rest.filter(a => a.scope == scope)
@@ -213,12 +231,12 @@
     }
     for (i, a) in sel.enumerate() {
       if i > 0 { scheiding }
+      artikel(a)
       for illus in ed.illustrations {
         if illus.pos == a.pos {
           illustratie("/editions/" + ed.edition + "/" + illus.file, illus.pos)
         }
       }
-      artikel(a)
     }
     if scope == "L" {
       weer-strook(ed.weather)
