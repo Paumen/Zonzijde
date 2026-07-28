@@ -107,8 +107,8 @@ Written,Reviewed,10
 | F6 outline | 18:37:48 | 164.2s | 163.7s | 163.7s | 160.9s | 1 |
 | F7 write | 18:40:45 | 132.3s | 131.8s | 131.8s | 581.6s | 10 |
 | F8 review | 18:43:15 | 87.5s | 86.9s | 86.9s | 353.6s | 10 |
-| F9 compose | 19:45:54 | 3.1s | — | — | — | — |
-| **total** |  | 684.7s |  |  |  |  |
+| F9 compose | 19:48:14 | 3.4s | — | — | — | — |
+| **total** |  | 685.0s |  |  |  |  |
 
 ```mermaid
 gantt
@@ -123,7 +123,7 @@ gantt
     F6 outline :2026-07-28 18:37:48, 164s
     F7 write :2026-07-28 18:40:45, 132s
     F8 review :2026-07-28 18:43:15, 88s
-    F9 compose :2026-07-28 19:45:54, 3s
+    F9 compose :2026-07-28 19:48:14, 3s
 ```
 
 ## LLM usage
@@ -266,7 +266,7 @@ model claude-haiku-4-5-20251001, prompt score.md v5
 | 1 | Willie Heij loopt zijn 66e Vierdaagse | 453 → 450 | claude-sonnet-5 | high |
 | 2 | Smulders wint brons zonder finale te rijden | 283 → 282 | claude-sonnet-5 | high |
 | 3 | Broer en zus redden bedreigd Bijengebied | 192 → 192 | claude-sonnet-5 | high |
-| 4 | Duizend fuchsia's, elk met een eigen naam | 450 → 443 | claude-sonnet-5 | high |
+| 4 | Duizend fuchsia's, elk met een eigen naam | 450 → 424 | claude-sonnet-5 | high |
 | 5 | Eerbeek heeft zijn papierfabriek terug | 280 → 268 | claude-sonnet-5 | high |
 | 6 | Grootste zonsverduistering sinds 1999 boven Nederland | 218 → 219 | claude-sonnet-5 | high |
 | 7 | Nieuw rekenmodel ziet stikstofdoel Veluwe weer dichterbij | 266 → 264 | claude-sonnet-5 | high |
