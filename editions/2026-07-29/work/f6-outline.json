@@ -1,0 +1,134 @@
+{
+  "edition": "2026-07-29",
+  "slots": [
+    {
+      "pos": 1,
+      "scope": "L",
+      "topic": "Vierdaagse trekt door Wijchen",
+      "length": "lang",
+      "angle": "Maak de doorkomst door Wijchen tot gemeenschapsfeest, met Willie Heij (83, zijn 66e tocht, recordhouder onder de lopers) als menselijke synecdoche. Warm en terughoudend; de 42.137 uitlopers lopen op de achtergrond mee, niet in de kop.",
+      "source_ids": [
+        "ef39b5297860",
+        "70f026667e52",
+        "8a1774633b68",
+        "61b76007fc60",
+        "7471699184d5",
+        "d0c5f707de61",
+        "766fc1c81bff",
+        "7b720b1bb2cb",
+        "0e5fb0d8edc9",
+        "43b01b7cca74"
+      ],
+      "location": "Wijchen",
+      "source_date": "2026-07-25"
+    },
+    {
+      "pos": 2,
+      "scope": "L",
+      "topic": "Brons voor Laura Smulders op WK BMX",
+      "length": "mid",
+      "angle": "Erkennen-en-keren: benoem het dubbele gevoel na de geschrapte WK-finale, keer dan naar wat telt — brons voor de Wijchense Laura Smulders en een verstandig veiligheidsbesluit bij storm. Nuchter, warm.",
+      "source_ids": [
+        "b9cb3a16b6de"
+      ],
+      "location": "Wijchen",
+      "source_date": "2026-07-22"
+    },
+    {
+      "pos": 3,
+      "scope": "L",
+      "topic": "Theatervoorstelling De Honingbij in kasteel Hernen",
+      "length": "kort",
+      "angle": "Ga-en-kijk voor gezinnen: nodig uit naar kasteel Hernen, waar Hanna'floor met accordeon 'De Honingbij' speelt tijdens de Kids-Zomerweken. Opgewekt en nieuwsgierig; concreet genoeg om er zelf heen te lopen.",
+      "source_ids": [
+        "f5b44edfb67d"
+      ],
+      "location": "Hernen",
+      "source_date": "2026-07-25"
+    },
+    {
+      "pos": 4,
+      "scope": "R",
+      "topic": "Gert Jan en zijn duizend fuchsia's",
+      "length": "lang",
+      "angle": "Warm portret van Gert Jan (80) uit Hulshorst en zijn duizend fuchsia's, elke plant een naam en een herinnering. Verandermaker uit pure toewijding; warmte-in-terughoudendheid, laat de stiltes en de naam 'Lena Lankman' hun werk doen.",
+      "source_ids": [
+        "88165a52e21d"
+      ],
+      "location": "Hulshorst",
+      "source_date": "2026-07-28"
+    },
+    {
+      "pos": 5,
+      "scope": "R",
+      "topic": "Papierfabriek Eerbeek maakt doorstart",
+      "length": "mid",
+      "angle": "Herstelverhaal: papierfabriek Eerbeek maakt doorstart, 180 van de 220 banen behouden. Gezaghebbend en nuchter; benadruk de veerkracht en het 'samen sterk', zonder de eerdere onzekerheid te verzwijgen.",
+      "source_ids": [
+        "810cbb62bd11"
+      ],
+      "location": "Eerbeek",
+      "source_date": "2026-07-27"
+    },
+    {
+      "pos": 6,
+      "scope": "R",
+      "topic": "Sterrenwachten openen deuren voor zonsverduistering",
+      "length": "kort",
+      "angle": "Ga-en-kijk met tijdsklem: op 12 augustus verdwijnt bijna 90% van de zon; sterrenwachten in Lochem en Nijkerk openen hun deuren. Uitgangscijfer (vorige keer 1999, volgende pas 2081). Nieuwsgierig en uitnodigend.",
+      "source_ids": [
+        "e1dba6ed4970"
+      ],
+      "location": "Lochem",
+      "source_date": "2026-07-26"
+    },
+    {
+      "pos": 7,
+      "scope": "N",
+      "topic": "Stikstofdoelen 2035 in zicht",
+      "length": "mid",
+      "angle": "Vooruitgangsverhaal met uitgangscijfer: waar het RIVM twee jaar terug op 40% zat, komt het doel van 74% natuurgebieden onder de kritische grens in 2035 nu in zicht. Erkennen-en-keren, tegen het stikstof-doembeeld in.",
+      "source_ids": [
+        "47b433c95632"
+      ],
+      "location": "Veluwe",
+      "source_date": "2026-07-19"
+    },
+    {
+      "pos": 8,
+      "scope": "N",
+      "topic": "Spontaan ooibos langs de Waal bij Gelderse Poort",
+      "length": "mid",
+      "angle": "Stille bekwaamheid en geduld: langs de Waal in de Gelderse Poort mag 200 hectare ooibos vanzelf ontstaan. Laat de trage, onzichtbare groei — en de droogte die haar remt — spreken; niet forceren, laten gebeuren.",
+      "source_ids": [
+        "083acf5a57d8"
+      ],
+      "location": "Gelderse Poort",
+      "source_date": "2026-07-27"
+    },
+    {
+      "pos": 9,
+      "scope": "I",
+      "topic": "Gebouw in Nederland als plek van hoop en oplossingen",
+      "length": "mid",
+      "angle": "Oplossingsverhaal: in Rotterdam verrijst 'Shift Embassy', een gebouw dat werkende antwoorden op mondiale problemen toont — van machteloosheid naar hoop en handelen. Nieuwsgierig; houd het concreet en mijd holle beloftes.",
+      "source_ids": [
+        "0d7ce698768e"
+      ],
+      "location": "Rotterdam",
+      "source_date": "2026-07-21"
+    },
+    {
+      "pos": 10,
+      "scope": "I",
+      "topic": "Luipaarden herstellen in Zambia dankzij synthetische huiden",
+      "length": "kort",
+      "angle": "Verandermaker/oplossing: in West-Zambia daalt luipaardstroperij doordat ceremoniële gewaden nu synthetisch bont ('Heritage Furs') dragen, met koninklijke zegen. Subtiele juxtapositie van traditie en behoud; het uitgangscijfer (204–1.310 gespaarde luipaarden).",
+      "source_ids": [
+        "622104a1a6dd"
+      ],
+      "location": "West-Zambia",
+      "source_date": "2026-07-27"
+    }
+  ]
+}

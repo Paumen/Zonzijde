@@ -1,0 +1,42 @@
+{
+  "nr": 5,
+  "illustrations": [
+    {
+      "file": "work/f9-illustration-1.svg",
+      "pos": 6,
+      "subject": "Bijna verduisterde zon: maan schuift voor de zon, met een smalle lichtsikkel en stralenkrans"
+    },
+    {
+      "file": "work/f9-illustration-2.svg",
+      "pos": 4,
+      "subject": "Drie hangende fuchsiabloemen aan een tak: teruggekrulde kelkbladen, klokje en afhangende meeldraden"
+    }
+  ],
+  "notes": [],
+  "recompiles": 0,
+  "attempts": [
+    []
+  ],
+  "violations": [],
+  "llm": {
+    "calls": 1,
+    "input_tokens": 4,
+    "output_tokens": 3341,
+    "cache_read_tokens": 28852,
+    "cache_creation_tokens": 43919,
+    "cost_usd": 0.5387,
+    "turns": 6,
+    "tool_uses": 5,
+    "thinking_chars": 0,
+    "wall_ms": 44278,
+    "api_ms": 45968,
+    "span_ms": 47989,
+    "slowest_ms": 47989,
+    "spans": [
+      [
+        0,
+        47989
+      ]
+    ]
+  }
+}
