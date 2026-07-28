@@ -107,8 +107,8 @@ Written,Reviewed,10
 | F6 outline | 18:37:48 | 164.2s | 163.7s | 163.7s | 160.9s | 1 |
 | F7 write | 18:40:45 | 132.3s | 131.8s | 131.8s | 581.6s | 10 |
 | F8 review | 18:43:15 | 87.5s | 86.9s | 86.9s | 353.6s | 10 |
-| F9 compose | 18:45:06 | 51.9s | 48.0s | 48.0s | 44.3s | 1 |
-| **total** |  | 733.4s |  |  |  |  |
+| F9 compose | 19:16:17 | 5.2s | — | — | — | — |
+| **total** |  | 686.7s |  |  |  |  |
 
 ```mermaid
 gantt
@@ -123,7 +123,7 @@ gantt
     F6 outline :2026-07-28 18:37:48, 164s
     F7 write :2026-07-28 18:40:45, 132s
     F8 review :2026-07-28 18:43:15, 88s
-    F9 compose :2026-07-28 18:45:06, 52s
+    F9 compose :2026-07-28 19:16:17, 5s
 ```
 
 ## LLM usage
@@ -136,8 +136,7 @@ gantt
 | F6 outline | claude-opus-4-8 | medium | 1 | 2 | 52,525 | 11,169 | 1 | 0 | 160.9s | $0.8233 |
 | F7 write | claude-sonnet-5 | high | 10 | 20 | 404,518 | 43,872 | 10 | 0 | 581.6s | $2.0267 |
 | F8 review | claude-sonnet-5 | medium | 10 | 20 | 363,730 | 26,457 | 10 | 0 | 353.6s | $1.1530 |
-| F9 compose | — | — | 1 | 6 | 72,775 | 3,341 | 5 | 0 | 44.3s | $0.5387 |
-| **total** |  |  | 49 | 116 | 1,970,555 | 139,068 | 55 | 84,167 | 1786.4s | $5.5200 |
+| **total** |  |  | 48 | 110 | 1,897,780 | 135,727 | 50 | 84,167 | 1742.1s | $4.9813 |
 
 ## Rejected (F2)
 
@@ -277,7 +276,7 @@ model claude-haiku-4-5-20251001, prompt score.md v5
 
 ## Typeset & compose (F9)
 
-- illustration (EL-3): 'Bijna verduisterde zon: maan schuift voor de zon, met een smalle lichtsikkel en stralenkrans' with the article at pos 6 — `work/f9-illustration-1.svg`
-- illustration (EL-3): 'Drie hangende fuchsiabloemen aan een tak: teruggekrulde kelkbladen, klokje en afhangende meeldraden' with the article at pos 4 — `work/f9-illustration-2.svg`
+- illustration (EL-3): 'Een overhangende tak met vogels erop, boven een bloeiende plant in de berm' with the article at pos 8 — `work/f9-illustration-1.svg`
+- illustration (EL-3): 'Een wandelschoen die als bloempot dienstdoet, met planten die eruit opschieten' with the article at pos 4 — `work/f9-illustration-2.svg`
 - 0 recompile(s)
 - all typeset checks passed

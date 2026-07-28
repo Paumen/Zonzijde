@@ -14,9 +14,12 @@
   let p = d.split("-")
   (year: int(p.at(0)), month: int(p.at(1)), day: int(p.at(2)))
 }
+#let dagen = ("maandag", "dinsdag", "woensdag", "donderdag", "vrijdag",
+  "zaterdag", "zondag")
 #let datum-lang(d) = {
   let p = iso(d)
-  "zondag " + str(p.day) + " " + maanden.at(p.month - 1) + " " + str(p.year)
+  let dag = datetime(year: p.year, month: p.month, day: p.day).weekday()
+  dagen.at(dag - 1) + " " + str(p.day) + " " + maanden.at(p.month - 1) + " " + str(p.year)
 }
 #let datum-kort(d) = {
   let p = iso(d)

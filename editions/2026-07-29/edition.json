@@ -146,7 +146,7 @@
     "place": "Wijchen",
     "latitude": 51.8103,
     "longitude": 5.7256,
-    "fetched": "2026-07-28T18:45:07.435418+02:00",
+    "fetched": "2026-07-28T19:16:18.634520+02:00",
     "source": "open-meteo",
     "days": [
       {
@@ -202,7 +202,7 @@
   "illustrations": [
     {
       "file": "work/f9-illustration-1.svg",
-      "pos": 6
+      "pos": 8
     },
     {
       "file": "work/f9-illustration-2.svg",
@@ -215,7 +215,7 @@
     "pages": 4
   },
   "pipeline": {
-    "run": "2026-07-28T18:45:56.068669+02:00",
+    "run": "2026-07-28T19:16:18.812275+02:00",
     "prompt_versions": {
       "score": 5,
       "brief": 6,
