@@ -66,7 +66,7 @@ style rules live in `illustrate.md`. This section fixes only presence and placem
 |----|-------------|
 | EL-1 | Masthead with the sunflower, top of page 1. |
 | EL-2 | Weather strip after the lokaal news, typically landing on page 2 (Wijchen; today + 5 days; max/min temperature and precipitation chance; source Open-Meteo). |
-| EL-3 | One or two custom illustration per edition, drawn anew for that edition's article. Set with an article, preferably on page 2 or 3, usually regional or national; one column wide. |
+| EL-3 | At least one custom illustration per edition, drawn anew for that edition's articles; one by default. Set with an article, at the end of it; one column wide. Any scale and any page qualifies. |
 | EL-4 | The edition closes with the landscape at the bottom of the last page. |
 
 ## 6. Cadence, delivery & operations

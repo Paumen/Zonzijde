@@ -26,6 +26,7 @@ class RunContext:
     root: Path
     edition: date
     window_days: int | None = None
+    illustrations: Path | None = None
     _edition_cfg: dict = field(init=False, default_factory=dict)
 
     def __post_init__(self) -> None:

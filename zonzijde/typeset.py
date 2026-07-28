@@ -15,6 +15,7 @@ COL_W = (PAGE_W - 2 * MARGIN - (NCOLS - 1) * GUTTER) / NCOLS
 BODY_LINE = 11.0
 GAP_LIMIT = 3 * BODY_LINE + 3.0
 STUB_LINES = 3
+HEADLINE_BODY_LINES = 2
 TARGET_PAGES = 4
 MIN_FILL = 3.3
 WORDS_PER_LINE = 7
@@ -41,20 +42,30 @@ def compile_edition(root: Path, data_path: Path, *, fmt: str = "pdf"):
 
 def rasterize_svg(root: Path, svg_path: Path, out_path: Path,
                   width_pt: float = 360.0) -> None:
+    import shutil
+    import tempfile
+
     import typst
 
-    rel = "/" + svg_path.relative_to(root).as_posix()
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    doc = out_path.with_suffix(".raster.typ")
-    try:
+    with tempfile.TemporaryDirectory(dir=root) as tmp:
+        tmp_dir = Path(tmp)
+        try:
+            src = svg_path.relative_to(root)
+        except ValueError:
+            staged = tmp_dir / svg_path.name
+            shutil.copyfile(svg_path, staged)
+            src = staged.relative_to(root)
+        doc = tmp_dir / "raster.typ"
         doc.write_text(
             f'#set page(width: auto, height: auto, margin: 0pt)\n'
-            f'#image("{rel}", width: {width_pt}pt)\n', encoding="utf-8")
-        png = typst.compile(str(doc), root=str(root), format="png", ppi=144.0)
-    except Exception as e:
-        raise CompileError(str(e))
-    finally:
-        doc.unlink(missing_ok=True)
+            f'#image("/{src.as_posix()}", width: {width_pt}pt)\n',
+            encoding="utf-8")
+        try:
+            png = typst.compile(str(doc), root=str(root), format="png",
+                                ppi=144.0)
+        except Exception as e:
+            raise CompileError(str(e))
     out_path.write_bytes(png[0] if isinstance(png, list) else png)
 
 
@@ -179,9 +190,16 @@ class Layout:
             add_filler(m["page"], m["y"] - 2, PAGE_H)
         starts = {m["pos"]: m for m in by_kind.get("article", [])}
         ends = {m["pos"]: m for m in by_kind.get("article-end", [])}
+        hero_body = {m["pos"]: m for m in by_kind.get("hero-body", [])}
         if 1 in starts and 1 in ends and starts[1]["page"] == ends[1]["page"]:
-            add_filler(starts[1]["page"], starts[1]["y"] - 4,
-                       ends[1]["y"] + 14)
+            if 1 in hero_body:
+                add_filler(starts[1]["page"], starts[1]["y"] - 4,
+                           hero_body[1]["y"])
+                add_filler(ends[1]["page"], ends[1]["y"] - 2,
+                           ends[1]["y"] + 14)
+            else:
+                add_filler(starts[1]["page"], starts[1]["y"] - 4,
+                           ends[1]["y"] + 14)
         for start, end in zip(by_kind.get("illustration", []),
                               by_kind.get("illustration-end", [])):
             key = (start["page"], column_of(start["x"]))
@@ -221,6 +239,26 @@ def _occupied(layout: Layout, page: int, col: int) -> list[tuple[float, float]]:
         else:
             merged.append((y0, y1))
     return merged
+
+
+def advisories(pdf_bytes: bytes, marks: list[dict]) -> list[Violation]:
+    lines = extract_lines(pdf_bytes)
+    starts = sorted((m["page"], column_of(m["x"]), m["y"], m["pos"])
+                    for m in marks if m["kind"] == "article")
+    out: list[Violation] = []
+    for i, (page, col, y, pos) in enumerate(starts):
+        nxt = next((s[2] for s in starts[i + 1:]
+                    if s[0] == page and s[1] == col), None)
+        body = [l for l in lines
+                if l.page == page and l.col == col and l.body and l.y > y
+                and (nxt is None or l.y < nxt)]
+        if len(body) < HEADLINE_BODY_LINES:
+            out.append(Violation(
+                rule="LAY-6",
+                detail=f"headline followed by {len(body)} body line(s) in "
+                       "its column",
+                page=page, col=col, pos=pos))
+    return out
 
 
 def check(pdf_bytes: bytes, marks: list[dict]) -> list[Violation]:

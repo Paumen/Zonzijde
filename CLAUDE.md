@@ -48,8 +48,11 @@ re-run. `trace` derives `viz/viz-trace.json` for the visualization
 finding no diff confirms the committed copy matches the artifacts.
 
 `--edition` is an ISO `YYYY-MM-DD` date and is the edition's identity — there is no
-list of valid ones; it names the day the edition appears, which `cadence.weekday` in
-`config/edition.yaml` puts on a Sunday. The CLI only checks that it parses as a date.
+list of valid ones; it names the day the edition appears, which OPS-1 puts on a Sunday.
+The CLI only checks that it parses as a date, so an off-cadence edition is allowed.
+`--illustrations` points at a JSON file with an `illustraties` list (each entry an
+`artikelnummer` plus a `tekening` or a `bestand` path) and makes F9 typeset those
+instead of drawing new ones.
 
 Artifacts land in `editions/<edition>/`: `work/` holds each fase's output and its
 `*-log.json`, alongside `report.md`, `edition.json` and the composed PDF. Commit every

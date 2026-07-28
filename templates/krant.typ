@@ -103,6 +103,7 @@
     ])
     block(above: 1.6mm, below: 2.6mm,
       archivo(7.1pt, a.location + " · " + datum-kort(a.source_date)))
+    mark(kind: "hero-body", pos: a.pos)
     gebalanceerd(3, 6mm, 11.5pt, slack: if illus != none { 0 } else { 1 }, {
       paras(a.text, size: 10pt, spacing: 6.5pt)
       if illus != none {

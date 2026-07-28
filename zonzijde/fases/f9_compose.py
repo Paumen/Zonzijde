@@ -20,7 +20,7 @@ ILLUSTRATE_SCHEMA = {
     "properties": {
         "illustraties": {
             "type": "array",
-            "minItems": 2, "maxItems": 2,
+            "minItems": 1,
             "items": {
                 "type": "object",
                 "properties": {
@@ -158,8 +158,28 @@ def svg_problems(svg: str) -> list[str]:
 
 
 def illustration_candidates(articles: list[EditionArticle]) -> list[int]:
-    return [a.pos for a in articles if a.scope in ("R", "N")] \
-        or [a.pos for a in articles[1:]]
+    return [a.pos for a in articles]
+
+
+def supplied_illustrations(ctx: RunContext) -> JsonCall:
+    path = ctx.illustrations
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError) as e:
+        raise SystemExit(f"F9 compose: --illustrations {path}: {e}")
+    items = payload.get("illustraties") if isinstance(payload, dict) else None
+    if not isinstance(items, list) or not items:
+        raise SystemExit(
+            f"F9 compose: --illustrations {path}: expected a non-empty "
+            '"illustraties" list')
+    for item in items:
+        if isinstance(item, dict) and "bestand" in item and "tekening" not in item:
+            svg = ctx.root / item["bestand"]
+            try:
+                item["tekening"] = svg.read_text(encoding="utf-8").strip()
+            except OSError as e:
+                raise SystemExit(f"F9 compose: --illustrations {path}: {e}")
+    return lambda prompt: payload
 
 
 def rasterize_refs(ctx: RunContext,
@@ -287,13 +307,22 @@ def run(ctx: RunContext, illustrate_call: JsonCall | None = None) -> None:
 
     notes: list[str] = []
     usage: list[dict] = []
+    if illustrate_call is None and ctx.illustrations is not None:
+        illustrate_call = supplied_illustrations(ctx)
     illustrations = draw_illustrations(ctx, articles, illustrate_call, usage,
                                        notes)
 
     data_path = ctx.edition_dir / "edition.json"
+    previous = data_path.read_bytes() if data_path.is_file() else None
     attempts: list[list[dict]] = []
     recompiles = 0
     violations: list[typeset.Violation] = []
+
+    def rollback() -> None:
+        if previous is None:
+            data_path.unlink(missing_ok=True)
+        else:
+            data_path.write_bytes(previous)
 
     def manifest() -> EditionManifest:
         return EditionManifest(
@@ -306,9 +335,10 @@ def run(ctx: RunContext, illustrate_call: JsonCall | None = None) -> None:
             pipeline={"run": ctx.now().isoformat(),
                       "prompt_versions": collect_prompt_versions(ctx)})
 
-    def write_log() -> None:
+    def write_log(failed: bool = False) -> None:
         log = {
             "nr": nr,
+            "failed": failed,
             "illustrations": [{"file": f, "pos": p, "subject": s}
                               for f, p, s in illustrations],
             "notes": notes,
@@ -334,7 +364,8 @@ def run(ctx: RunContext, illustrate_call: JsonCall | None = None) -> None:
                              f"compile failed: {e}")
                 illustrations = []
                 continue
-            write_log()
+            rollback()
+            write_log(failed=True)
             raise SystemExit(f"F9 compose: Typst compile failed: {e}")
         attempts.append([v.to_dict() for v in violations])
         if not violations:
@@ -347,13 +378,18 @@ def run(ctx: RunContext, illustrate_call: JsonCall | None = None) -> None:
             if changed:
                 recompiles += 1
                 continue
-        write_log()
+        rollback()
+        write_log(failed=True)
         raise SystemExit(
             f"F9 compose: {len(violations)} typeset violation(s) after "
             f"{recompiles} recompile(s) — see f9-compose-log.json. The "
             "editorial gate resolves layout (SPEC §6): edit the article "
             "texts or reflow, then re-run compose.")
 
+    for advisory in typeset.advisories(pdf, marks):
+        notes.append(f"{advisory.rule}: {advisory.detail} "
+                     f"(page {advisory.page}, kolom {advisory.col}, "
+                     f"artikel {advisory.pos})")
     booklet = typeset.impose_booklet(pdf)
     (ctx.edition_dir / "krant-A3boekje.pdf").write_bytes(booklet)
     write_log()
