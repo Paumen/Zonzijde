@@ -104,14 +104,15 @@
     block(above: 1.6mm, below: 2.6mm,
       archivo(7.1pt, a.location + " · " + datum-kort(a.source_date)))
     gebalanceerd(3, 6mm, 11.5pt, {
+      paras(a.text, size: 10pt, spacing: 6.5pt)
       if illus != none {
-        block(width: 100%, above: 0pt, below: 2.4mm, {
+        v(1fr)
+        block(width: 100%, above: 2.4mm, below: 0pt, {
           mark(kind: "illustration", pos: a.pos)
           image(illus, width: 100%)
           mark(kind: "illustration-end", pos: a.pos)
         })
       }
-      paras(a.text, size: 10pt, spacing: 6.5pt)
     })
     mark(kind: "article-end", pos: a.pos)
     v(3mm)
@@ -229,12 +230,12 @@
     }
     for (i, a) in sel.enumerate() {
       if i > 0 { scheiding }
+      artikel(a)
       for illus in ed.illustrations {
         if illus.pos == a.pos {
           illustratie("/editions/" + ed.edition + "/" + illus.file, illus.pos)
         }
       }
-      artikel(a)
     }
     if scope == "L" {
       weer-strook(ed.weather)
